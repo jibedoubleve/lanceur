@@ -1,0 +1,27 @@
+﻿<UserControl
+    x:Class="Probel.Lanceur.Controls.HeaderComboBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:d="http://schemas.microsoft.com/expression/     blend/2008"
+    xmlns:local="clr-namespace:Probel.Lanceur.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="_self"
+    mc:Ignorable="d">
+    <StackPanel>
+        <Controls:MetroHeader>
+            <Controls:MetroHeader.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding ElementName=_self, Path=Header}" />
+                    </StackPanel>
+                </DataTemplate>
+            </Controls:MetroHeader.HeaderTemplate>
+            <ComboBox
+                x:Name="_comboBox"
+                DisplayMemberPath="{Binding ElementName=_self, Path=DisplayMemberPath}"
+                ItemsSource="{Binding ElementName=_self, Path=ItemsSource}"
+                SelectedItem="{Binding ElementName=_self, Path=SelectedItem}" />
+        </Controls:MetroHeader>
+    </StackPanel>
+</UserControl>

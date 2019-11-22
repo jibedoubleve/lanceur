@@ -1,0 +1,69 @@
+﻿<UserControl
+    x:Class="Probel.Lanceur.Views.EditSessionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Probel.Lanceur.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Thickness x:Key="DefaultBorder">5 5 5 5</Thickness>
+        <sys:Double x:Key="ButtonWidth">65</sys:Double>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <ComboBox
+            Margin="{StaticResource DefaultBorder}"
+            cal:Message.Attach="[Event SelectionChanged]=[Action RefreshShortcuts]"
+            DisplayMemberPath="Name"
+            ItemsSource="{Binding Sessions}"
+            SelectedItem="{Binding CurrentSession, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <DockPanel Grid.Row="1">
+            <Button
+                x:Name="DeleteName"
+                Width="{StaticResource ButtonWidth}"
+                Margin="{StaticResource DefaultBorder}"
+                Content="Delete"
+                DockPanel.Dock="Right"
+                Style="{DynamicResource SquareButtonStyle}" />
+            <Button
+                x:Name="UpdateName"
+                Width="{StaticResource ButtonWidth}"
+                Margin="{StaticResource DefaultBorder}"
+                Content="Update"
+                DockPanel.Dock="Right"
+                Style="{DynamicResource AccentedSquareButtonStyle}" />
+            <TextBox Margin="{StaticResource DefaultBorder}" Text="{Binding CurrentSession.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        </DockPanel>
+        <ScrollViewer Grid.Row="2">
+            <ItemsControl
+                x:Name="Shortcuts"
+                Margin="{StaticResource DefaultBorder}"
+                BorderBrush="{StaticResource AccentColorBrush}"
+                BorderThickness="1">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Label Content="{Binding Name}" />
+                            <Label Grid.Column="1" Content="{Binding FileName}" />
+                            <Label Grid.Column="2" Content="{Binding Arguments}" />
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
