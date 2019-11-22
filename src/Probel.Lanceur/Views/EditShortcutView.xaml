@@ -1,0 +1,117 @@
+﻿<UserControl
+    x:Class="Probel.Lanceur.Views.EditShortcutView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:conv="clr-namespace:Probel.Lanceur.Converters"
+    xmlns:core="clr-namespace:Probel.Lanceur.Core.Constants;assembly=Probel.Lanceur.Core"
+    xmlns:ctrl="clr-namespace:Probel.Lanceur.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    Height="Auto"
+    d:DesignWidth="450"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <sys:Double x:Key="iconSize">30</sys:Double>
+        <Thickness x:Key="DefaultBorder">5 5 5 5</Thickness>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <conv:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" />
+        <ObjectDataProvider
+            x:Key="RunAsDataProvider"
+            MethodName="GetValues"
+            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="core:RunAs" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider
+            x:Key="StartModeDataProvider"
+            MethodName="GetValues"
+            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="core:StartMode" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    <StackPanel>
+        <StackPanel.Resources>
+            <Style TargetType="ctrl:HeaderTextBox">
+                <Setter Property="Margin" Value="5" />
+            </Style>
+            <Style TargetType="ctrl:HeaderComboBox">
+                <Setter Property="Margin" Value="5" />
+            </Style>
+        </StackPanel.Resources>
+        <Controls:MetroHeader Margin="{StaticResource DefaultBorder}">
+            <Controls:MetroHeader.HeaderTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="Names" />
+                    </StackPanel>
+                </DataTemplate>
+            </Controls:MetroHeader.HeaderTemplate>
+            <DataGrid
+                x:Name="Names"
+                Height="80"
+                AutoGenerateColumns="False"
+                BorderThickness="1"
+                GridLinesVisibility="Horizontal"
+                HeadersVisibility="None"
+                ScrollViewer.VerticalScrollBarVisibility="Visible"
+                Style="{StaticResource AzureDataGrid}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="*" Binding="{Binding Name}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Controls:MetroHeader>
+        <DockPanel>
+            <iconPacks:PackIconMaterial
+                Width="{StaticResource iconSize}"
+                Height="{StaticResource iconSize}"
+                Margin="0,20,5,0"
+                VerticalAlignment="Center"
+                DockPanel.Dock="Right"
+                Kind="Target"
+                MouseMove="OnProcessFinderMouseMouve" />
+            <ctrl:HeaderTextBox Header="File Name" Text="{Binding Shortcut.FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        </DockPanel>
+        <ctrl:HeaderTextBox Header="Arguments" Text="{Binding Shortcut.Arguments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <ctrl:HeaderTextBox Header="Notes" Text="{Binding Shortcut.Notes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <ctrl:HeaderComboBox
+            Header="RunAs"
+            ItemsSource="{Binding Source={StaticResource RunAsDataProvider}}"
+            SelectedItem="{Binding Shortcut.RunAs, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <ctrl:HeaderComboBox
+            Header="StartMode"
+            ItemsSource="{Binding Source={StaticResource StartModeDataProvider}}"
+            SelectedItem="{Binding Shortcut.StartMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+            <StackPanel.Resources />
+            <Button
+                x:Name="CreateShortcut"
+                Width="120"
+                Margin="5,5,0,5"
+                Content="Create"
+                Style="{DynamicResource AccentedSquareButtonStyle}"
+                Visibility="{Binding IsCreation, Converter={StaticResource InvertBooleanToVisibilityConverter}}" />
+            <Button
+                x:Name="UpdateShortcut"
+                Width="120"
+                Margin="5,5,0,5"
+                Content="Save"
+                Style="{DynamicResource AccentedSquareButtonStyle}"
+                Visibility="{Binding IsCreation, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <Button
+                x:Name="DeleteShortcut"
+                Width="120"
+                Margin="10,5,5,5"
+                Content="Delete"
+                Style="{DynamicResource SquareButtonStyle}"
+                Visibility="{Binding IsCreation, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        </StackPanel>
+    </StackPanel>
+</UserControl>

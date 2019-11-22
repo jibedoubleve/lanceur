@@ -1,0 +1,107 @@
+﻿<UserControl
+    x:Class="Probel.Lanceur.Views.SettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:conv="clr-namespace:Probel.Lanceur.Converters"
+    xmlns:ctrl="clr-namespace:Probel.Lanceur.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="600"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <conv:OpacityToSliderConverter x:Key="OpacityToSliderConverter" />
+        <conv:MahAppsHotKeyToSettingsHotKey x:Key="MahAppsHotKeyToSettingsHotKey" />
+
+        <Thickness x:Key="DefaultBorder">5 5 5 5</Thickness>
+        <Thickness x:Key="ExpanderBorder">5 5</Thickness>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel>
+            <Expander
+                Margin="{StaticResource ExpanderBorder}"
+                Header="Window settings"
+                IsExpanded="True">
+                <StackPanel>
+                    <ctrl:HeaderSlider
+                        Margin="{StaticResource DefaultBorder}"
+                        Header="Opacity"
+                        Maximum="100"
+                        Minimum="0"
+                        TickFrequency="1"
+                        Unit="%"
+                        Value="{Binding AppSettings.WindowSection.Opacity, Converter={StaticResource OpacityToSliderConverter}, UpdateSourceTrigger=PropertyChanged}" />
+                    <Expander Header="Background Colour" IsExpanded="True">
+                        <StackPanel>
+                            <iconPacks:PackIconMaterial
+                                Width="40"
+                                Height="40"
+                                VerticalAlignment="Center"
+                                DockPanel.Dock="Right"
+                                Foreground="{Binding AppSettings.WindowSection.Colour, UpdateSourceTrigger=PropertyChanged}"
+                                Kind="Palette" />
+                            <ctrl:HeaderSlider
+                                Header="Red"
+                                Maximum="255"
+                                Minimum="0"
+                                TickFrequency="1"
+                                Value="{Binding AppSettings.WindowSection.ColourRed, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            <ctrl:HeaderSlider
+                                Header="Green"
+                                Maximum="255"
+                                Minimum="0"
+                                TickFrequency="1"
+                                Value="{Binding AppSettings.WindowSection.ColourGreen, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            <ctrl:HeaderSlider
+                                Header="Blue"
+                                Maximum="255"
+                                Minimum="0"
+                                TickFrequency="1"
+                                Value="{Binding AppSettings.WindowSection.ColourBlue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                            <ctrl:HeaderSlider
+                                Header="Alpha"
+                                Maximum="255"
+                                Minimum="0"
+                                TickFrequency="1"
+                                Value="{Binding AppSettings.WindowSection.ColourAlpha, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+            </Expander>
+            <Expander
+                Margin="{StaticResource ExpanderBorder}"
+                Header="General"
+                IsExpanded="True">
+                <StackPanel>
+                    <Controls:MetroHeader>
+                        <Controls:MetroHeader.HeaderTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="Shortcut" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </Controls:MetroHeader.HeaderTemplate>
+                        <Controls:HotKeyBox HotKey="{Binding AppSettings.HotKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource MahAppsHotKeyToSettingsHotKey}}" />
+                    </Controls:MetroHeader>
+                    <ctrl:HeaderComboBox
+                        DisplayMemberPath="Name"
+                        Header="Loaded Session"
+                        ItemsSource="{Binding Sessions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        SelectedItem="{Binding CurrentSession, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </StackPanel>
+            </Expander>
+            <Button
+                x:Name="ResetSettings"
+                Margin="{StaticResource DefaultBorder}"
+                Content="Reset Configuration"
+                Style="{DynamicResource SquareButtonStyle}" />
+            <Button
+                x:Name="SaveSettings"
+                Margin="{StaticResource DefaultBorder}"
+                Content="Save"
+                Style="{DynamicResource AccentedSquareButtonStyle}" />
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

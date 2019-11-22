@@ -1,0 +1,490 @@
+﻿[?]
+Filename="http://www.google.com/search?hl=en&q=$W$"
+GUID={9C9F8B24-5FC3-4095-83B4-4F5821237E26}
+StartMode=1
+UseCount=171
+[>]
+Filename="firefox"
+Params="$W$"
+GUID={98493976-419D-4D15-9053-552F827013C3}
+StartMode=1
+UseCount=2
+[acmd]
+Filename="C:\Program Files\ConEmu\ConEmu64.exe"
+Params="-run {Shells::cmd (Admin)}"
+GUID={500661FF-6E10-44EE-BDF2-3329217771A3}
+StartMode=1
+UseRunAs=-1
+[adc]
+Filename="C:\Program Files\Double Commander\doublecmd.exe"
+GUID={6D3252C7-7D68-4F7A-9414-8BB815052136}
+StartMode=1
+UseRunAs=-1
+UseCount=12
+[agenda,gcal]
+Filename="https://calendar.google.com/calendar/r/month/2018/7/1?tab=wc"
+GUID={D54D8CBE-AF84-43E4-82DA-18D5A4CDA3D1}
+StartMode=1
+[appdi,appsfolder]
+Filename="shell:appsfolder"
+GUID={288645AF-C219-43EC-8568-26DEA6C92CC2}
+StartMode=1
+[aps]
+Filename="C:\Program Files\ConEmu\ConEmu64.exe"
+Params="-run {Shells::PowerShell (Admin)}"
+GUID={93FC05E4-1E0A-4196-A31F-3C3B67754F77}
+StartMode=1
+UseCount=4
+[autorun]
+Filename="C:\Program Files\Autoruns\Autoruns64.exe"
+GUID={F413607C-F8EC-4457-B2F8-DF0F6E885976}
+StartMode=1
+[bash]
+Filename="ConEmu64.exe"
+Params="-run {Shell::bash}"
+GUID={0D321447-7F9B-429D-8164-323790129FC4}
+StartMode=1
+UseCount=2
+[bird]
+Filename="C:\Users\jibedoubleve\AppData\Local\Birdtray\birdtray.exe"
+GUID={8EFB4D5C-259B-4488-8564-D31FD18B42CA}
+StartMode=1
+UseCount=14
+[blend]
+Filename="C:\Program Files (x86)\Microsoft Visual Studio 12.0\Blend\Blend.exe"
+GUID={E41CB04A-04A0-4976-881F-5D640877E8A5}
+StartMode=1
+[cal]
+Filename="@calendar@"
+GUID={E657AFE2-702A-4C47-BDE5-9D9C4F5D5131}
+StartMode=1
+[chainsaw]
+Filename=""C:\Program Files\Chainsaw\bin\chainsaw.bat""
+GUID={745D846B-ACE5-4698-8EB5-B2A7B1D906BF}
+StartMode=1
+UseCount=3
+[cmd]
+Filename="C:\Program Files\ConEmu\ConEmu64.exe"
+Params="-run {Shells::cmd}"
+GUID={42E9634A-5FD7-4B94-B750-C77E9C69083F}
+StartMode=1
+UseCount=7
+[code]
+Filename="C:\Users\jibedoubleve\AppData\Local\Programs\Microsoft VS Code\Code.exe"
+GUID={E6C30AD1-E2F7-4F51-AB5F-B861A35D9C09}
+StartMode=1
+UseCount=134
+[color]
+Filename="C:\Program Files\colorpix\ColorPix.exe"
+GUID={80800CD7-C9AC-4991-AFF2-27B51D836A9A}
+StartMode=1
+[conj]
+Filename="http://leconjugueur.lefigaro.fr/conjugaison/verbe/$w$.html"
+GUID={F590AC55-CF23-420E-B06C-81BF3A0FF8C2}
+StartMode=1
+UseCount=4
+[dbb,dbbrowser]
+Filename="C:\Program Files\DB Browser for SQLite\DB Browser for SQLite.exe"
+GUID={EB82233B-D13F-49F1-8C16-C750B81A77AC}
+StartMode=1
+UseCount=3
+[dbg,debugview]
+Filename="C:\Program Files\DebugView\Dbgview.exe"
+GUID={F61DAA5D-1E4B-4FA8-885D-96ADF68CD56A}
+StartMode=1
+[dc]
+Filename="C:\Program Files\Double Commander\doublecmd.exe"
+Params="--no-splash --client --no-console"
+GUID={4B314C37-EC0F-4BEC-B5AC-8ADD5E7C4AD8}
+StartMode=1
+UseCount=219
+[def]
+Filename="http://www.larousse.fr/dictionnaires/francais/$i$"
+GUID={D039BB5D-C392-4DC8-80A2-8036F5BD7377}
+StartMode=1
+[dev]
+Filename="@MULTI@"
+Params="vs@code@dbeaver"
+GUID={398DB731-42EE-4564-A9D5-497B970CBA1D}
+StartMode=1
+[dgit]
+Filename="C:\Users\jibedoubleve\AppData\Local\GitHubDesktop\app-1.1.1\GitHubDesktop.exe"
+GUID={8C3143DE-053C-476A-835A-2C077E89F7A0}
+StartMode=1
+[digikam]
+Filename="C:\Program Files\digiKam\digikam.exe"
+GUID={C109EE00-8C91-431A-98B6-CBF4CCAD585D}
+StartMode=1
+UseCount=1
+[downloader]
+Filename="C:\Program Files (x86)\Youtube-DLG\youtube-dl-gui.exe"
+GUID={209631CF-3CAF-41E6-840B-FE8CC611D248}
+StartMode=1
+UseCount=6
+[drive]
+Filename="https://drive.google.com/drive/#"
+GUID={02B8FE7D-45E2-449D-B103-6092819EB52F}
+StartMode=1
+[edge]
+Filename="%windir%\explorer.exe"
+Params=" shell:Appsfolder\Microsoft.MicrosoftEdge_8wekyb3d8bbwe!MicrosoftEdge"
+GUID={14391110-6A0A-452C-9EC5-BA917693A393}
+StartMode=1
+UseCount=18
+[eid]
+Filename="C:\Program Files\Java\jre7\bin\javaw.exe"
+GUID={919A3BA3-B472-4E4D-ADF6-94813BAF4077}
+StartMode=1
+[enfr]
+Filename="http://www.wordreference.com/enfr/$I$"
+GUID={8695531D-8E6C-41AB-977C-1E6F13DA7D2C}
+StartMode=1
+UseCount=39
+[evernote,evn,€vn]
+Filename=""C:\Users\jibedoubleve\Documents\Shortcuts\Evernote - Shortcut.lnk""
+GUID={902F2230-CA09-4A8D-9C99-F5DA114A45DE}
+StartMode=1
+UseCount=215
+[everything,evt,€vt]
+Filename="C:\Program Files\Everything\Everything.exe"
+GUID={17F249EF-12F4-4D6C-9AF4-04E439774DEE}
+StartMode=1
+UseCount=10
+[excel,€xcel,exc,€xc]
+Filename="C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE"
+GUID={82A10FD3-962E-4CDD-9540-3172A13364AB}
+StartMode=1
+UseCount=2
+[fast]
+Filename="www.fast.com"
+GUID={D0BA8889-3687-45EE-B660-40252A796405}
+StartMode=1
+[ffx]
+Filename="C:\Program Files\Mozilla Firefox\firefox.exe"
+GUID={A7D3435B-0FD2-4AAE-A663-5F994DA257AD}
+StartMode=1
+UseCount=39
+[foobar]
+Filename="C:\Users\jibedoubleve\Documents\Shortcuts\foobar2000.lnk"
+GUID={80ECCB7B-D6AF-453E-BBF6-26E216AC2AC0}
+StartMode=1
+UseCount=4
+[franz]
+Filename="C:\Program Files (x86)\Franz\Franz.exe"
+GUID={ABADCA15-07F9-41B9-9D15-4029F6D70747}
+StartMode=1
+[fren]
+Filename="http://www.wordreference.com/fren/$W$"
+GUID={89DE683B-323A-48B8-8F3C-1F2B90FFC66D}
+StartMode=1
+UseCount=5
+[ftp,winscp]
+Filename="C:\Program Files (x86)\WinSCP\WinSCP.exe"
+GUID={34811552-17FB-47E7-B546-46A16678AB8B}
+StartMode=1
+UseCount=15
+[gif]
+Filename="C:\Program Files (x86)\ScreenToGif\ScreenToGif.exe"
+GUID={27B92BE6-40D3-4A5C-8D28-EA0CE8AC0B51}
+StartMode=1
+UseCount=2
+[git]
+Filename="C:\Users\jibedoubleve\AppData\Local\GitHubDesktop\app-1.5.1\GitHubDesktop.exe"
+GUID={FFC79B05-D793-4ECC-9881-173546B237A8}
+StartMode=1
+UseCount=3
+[github]
+Filename="https://github.com/"
+GUID={DEA34AA7-55A7-4B73-B549-F9B7077BA6BB}
+StartMode=1
+UseCount=21
+[gmail]
+Filename="https://mail.google.com/mail/ca/u/0/#inbox"
+GUID={B752F1FF-54EF-4CB7-8D1B-AC9B9D446481}
+StartMode=1
+UseCount=2
+[gohome]
+Filename="@SETPOS@"
+Params="-3,1019,250"
+Notes="Move SlickRun to the x,y coordinates in the Parameters field, with width z"
+GUID={392B8C51-F922-48E5-9719-CDB214B03344}
+StartMode=1
+[greenshot,gc]
+Filename="C:\Program Files\Greenshot\Greenshot.exe"
+GUID={51F934AF-61FF-4773-8DD6-7D56B6A77DCC}
+StartMode=1
+UseCount=32
+[guid]
+Filename=""C:\Program Files (x86)\Microsoft Visual Studio 11.0\Common7\Tools\guidgen.exe""
+GUID={2ADDD1CA-8A49-4FE3-B2DA-ADCF491ED4E5}
+StartMode=1
+[ichrome]
+Filename="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+Params="--incognito"
+GUID={F8443415-BA5A-4867-AF5F-F6BD03A1716F}
+StartMode=1
+[icons]
+Filename="C:\Program Files\mahapps\icons\MahApps.Metro.IconPacks.Browser.exe"
+GUID={4CD70156-0C98-49F8-965A-B137BC7216E8}
+StartMode=1
+UseCount=19
+[iffx]
+Filename="C:\Program Files\Mozilla Firefox\firefox.exe"
+Params="-private-window "
+GUID={C21B75C2-5C7E-4D50-85EB-B668C8C279F1}
+StartMode=1
+UseCount=173
+[ilspy]
+Filename="C:\Program Files\ILSpy\ILSpy.exe"
+GUID={286CFC65-7E84-4A6E-A06A-4C301D3EF801}
+StartMode=1
+[init]
+Filename="@MULTI@"
+Params="evn@bird"
+GUID={F8459A7D-02AE-4285-A458-911BC0F79CCB}
+StartMode=1
+[inno]
+Filename="C:\Program Files (x86)\Inno Setup 5\Compil32.exe"
+GUID={C754A665-9026-4AB8-BC12-593EF785D3F7}
+StartMode=1
+UseCount=1
+[keepass]
+Filename="C:\Program Files (x86)\KeePass Password Safe 2\KeePass.exe"
+GUID={5AEC4D2C-A50D-48DC-A9A3-FE7278BB567F}
+StartMode=1
+UseCount=99
+[logoff]
+Filename="cmd"
+Params="/K shutdown -l"
+GUID={735956A9-45D4-440D-AF13-2AEDA5E18391}
+StartMode=1
+UseCount=1
+[logreader,lr]
+Filename="C:\Program Files (x86)\Log Reader\Probel.JsonReader.Presentation.exe"
+GUID={C7D4AF80-C4B1-4227-8F6D-FBE1395CA02E}
+StartMode=1
+UseCount=19
+[lorem]
+Filename="https://www.lipsum.com/feed/html"
+GUID={D33510B2-FDAD-442A-9E0D-3EC140680A20}
+StartMode=1
+UseCount=6
+[mahapps]
+Filename="C:\Program Files\mahapps\net47\MahApps.Metro.Demo.exe"
+GUID={9A3F33E3-795D-4A00-B393-D891C6FB6D1B}
+StartMode=1
+UseCount=20
+[mail]
+Filename="C:\Users\jibedoubleve\AppData\Local\Programs\franz\Franz.exe"
+GUID={6D6B5291-C62B-41A7-BBA0-7E9B5273749F}
+StartMode=1
+[mbl,msbuildlog]
+Filename="C:\Users\jibedoubleve\AppData\Local\MSBuildStructuredLogViewer\app-2.0.64\StructuredLogViewer.exe"
+GUID={E913A72D-9B13-48F6-96E2-AF529FF6D0C2}
+StartMode=1
+[mspaint]
+Filename="C:\Windows\System32\mspaint.exe"
+GUID={558A1E57-0953-48AB-B8FF-87B497582DE0}
+StartMode=1
+[nas]
+Filename="https://192.168.0.2:5001/"
+GUID={5D6A18F5-D9B5-478A-9266-AE74BBE015CA}
+StartMode=1
+[ninite]
+Filename="https://ninite.com/"
+GUID={6F563F19-3D2B-432B-984E-62EE66DDC7AD}
+StartMode=1
+[npe]
+Filename=""C:\Program Files\npe\NuGetPackageExplorer.exe""
+GUID={0D75DB7D-27A8-44F5-8474-7782D25C6452}
+StartMode=1
+[npp]
+Filename="C:\Program Files (x86)\Notepad++\notepad++.exe"
+GUID={D11B9CBC-C609-45ED-9E33-3AE92CDCA901}
+StartMode=1
+UseCount=10
+[nuex]
+Filename="C:\Program Files\nuget_explorer\NuGetPackageExplorer.exe"
+GUID={2BE3865E-5EE8-4143-BDC3-4D8C1D577A09}
+StartMode=1
+UseCount=3
+[onedrive]
+Filename="https://onedrive.live.com/"
+GUID={EB0112EF-FC87-413E-8840-D018B2D194A6}
+StartMode=1
+UseCount=1
+[paint]
+Filename="C:\Windows\System32\mspaint.exe"
+GUID={89420C13-D461-47AA-AC29-EF9139FA5450}
+StartMode=1
+UseCount=1
+[pencil,ui]
+Filename="C:\Program Files\Pencil\Pencil.exe"
+GUID={AB4DFC7C-F4C1-467F-900E-16800B67786B}
+StartMode=1
+UseCount=4
+[postman]
+Filename="C:\Users\jibedoubleve\AppData\Local\Postman\app-7.1.1\Postman.exe"
+GUID={15323DAB-63CE-42D2-A8C5-E8F1D005DBE3}
+StartMode=1
+UseCount=16
+[probel]
+Filename="https://probel.xyz"
+GUID={B4CBD7EE-98C3-4191-819E-30B94B084BFD}
+StartMode=1
+UseCount=2
+[problem]
+Filename="C:\Windows\System32\psr.exe"
+GUID={39D6920A-CC87-4D15-9903-69AFBA5367AA}
+StartMode=1
+[procmon]
+Filename=""C:\Program Files\ProcessMonitor\Procmon.exe""
+GUID={231B2CE1-215F-47A5-AAD4-048F1A29D66C}
+StartMode=1
+UseCount=3
+[ps]
+Filename="C:\Program Files\ConEmu\ConEmu64.exe"
+Params="-run {Shells::PowerShell}"
+GUID={2EBBCAB4-C01B-4172-974F-7A79F9FA410D}
+StartMode=1
+UseCount=98
+[pse]
+Filename="C:\Program Files\ProcessExplorer\procexp64.exe"
+GUID={4CBA1926-B1D1-4736-8EE5-FE7E04F0C3AB}
+StartMode=1
+[putty]
+Filename=""C:\Program Files\PuTTY\putty.exe""
+GUID={46A4B29F-8AF4-46FC-997A-AA5B9E687E22}
+StartMode=1
+UseCount=6
+[regedit]
+Filename=""C:\Windows\regedit.exe""
+GUID={81CE98C9-56B0-479E-8657-751EF199D103}
+StartMode=1
+UseCount=1
+[roslyn]
+Filename="C:\Program Files\RoslynPad\RoslynPad.exe"
+GUID={0927014F-C22E-4020-9290-9D0AD8DF1A92}
+StartMode=1
+UseCount=56
+[sb]
+Filename="C:\Program Files\DB Browser for SQLite\DB Browser for SQLite.exe"
+GUID={DD7B6FC3-1946-446F-A5FC-E69D8BF750CB}
+StartMode=1
+[snipping]
+Filename="C:\Windows\System32\SnippingTool.exe"
+GUID={F96640C8-B653-40F6-B4FE-5D87AC4A2203}
+StartMode=1
+[spotify]
+Filename="C:\Users\jibedoubleve\AppData\Roaming\Spotify\Spotify.exe"
+GUID={5BB1AA25-CF27-4060-BE70-AF5923524278}
+StartMode=1
+UseCount=119
+[sql,dbeaver]
+Filename="C:\Program Files\DBeaver\dbeaver.exe"
+Path="C:\Program Files\DBeaver"
+Params="-nl en"
+GUID={46DD88DD-B2F6-4372-983E-2F2F015275B0}
+StartMode=1
+UseCount=131
+[steam]
+Filename="C:\Program Files (x86)\Steam\steam.exe"
+GUID={881179C1-C606-4615-884D-D8B3E4BB64EF}
+StartMode=1
+UseCount=7
+[stg,screen,s2g]
+Filename="C:\Program Files (x86)\ScreenToGif\ScreenToGif.exe"
+GUID={6F738B3F-52F0-4F19-9D03-C03A752A342D}
+StartMode=1
+[store]
+Filename="cmd.exe"
+Params="/c start microsoft-edge:https://developer.microsoft.com/fr-fr/dashboard/windows/overview"
+GUID={FF015DC1-9CA7-418E-93CC-5A44A9F3F0CD}
+StartMode=1
+[sync]
+Filename="C:\Program Files\DirSyncPro\DirSyncPro.exe"
+GUID={37012794-5953-42F9-BAEC-3FD6383CB92F}
+StartMode=1
+UseCount=2
+[teamviewer,tv]
+Filename="C:\Program Files (x86)\TeamViewer\TeamViewer.exe"
+GUID={1C560DE2-C8B1-409D-A311-3FE9B1EFA9DB}
+StartMode=1
+[terminal]
+Filename="C:\Program Files\WindowsApps\Microsoft.WindowsTerminal_0.6.2951.0_x64__8wekyb3d8bbwe\WindowsTerminal.exe"
+GUID={3E1EEB87-18F5-47FD-92C6-91AB985E7EFB}
+StartMode=1
+[text]
+Filename="C:\Program Files\NimbleText\NimbleText.exe"
+GUID={BD9DF8B4-6F87-43A2-90A0-D09C3FBEF82C}
+StartMode=1
+[thb,thunderbird]
+Filename="C:\Program Files (x86)\Mozilla Thunderbird\thunderbird.exe"
+GUID={EA7F2A34-417A-45C8-B49D-3919AA0CFFFB}
+StartMode=1
+UseCount=131
+[ts]
+Filename="C:\Program Files\TeamSpeak 3 Client\ts3client_win64.exe"
+GUID={48C18A62-7089-4C9F-B7EE-59C2A7DFF249}
+StartMode=1
+[ubiquiti]
+Filename="C:\Users\jibedoubleve\Ubiquiti UniFi\lib\ace.jar"
+Path="C:\Users\jibedoubleve\Ubiquiti UniFi"
+Params="ui"
+GUID={13D6A89E-E5B4-4701-A46D-5B034F8B039F}
+StartMode=1
+[uml]
+Filename="C:\Program Files\umlet\Umlet.exe"
+GUID={6D659098-9FA6-4376-AFE0-65A1F1953FCF}
+StartMode=1
+UseCount=5
+[virtual]
+Filename="C:\Program Files\Oracle\VirtualBox\VirtualBox.exe"
+GUID={7D494B4B-3018-4CB9-83C2-B05CFF068FBF}
+StartMode=1
+UseCount=2
+[vlc]
+Filename="C:\Program Files\VideoLAN\VLC\vlc.exe"
+GUID={A637C5A5-3629-457B-ACD7-7FB0CC9C0663}
+StartMode=1
+[vncviewer]
+Filename="C:\Program Files\VNC Viewer\VNC-Viewer-6.1.1-Windows-64bit.exe"
+GUID={C55B851C-FF32-4DD6-AA47-7105EE542138}
+StartMode=1
+[vs]
+Filename="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe"
+GUID={3A89954E-E967-4B09-AB24-33A8DB416049}
+StartMode=1
+UseCount=48
+[whatsapp]
+Filename="https://web.whatsapp.com/"
+GUID={8DACEED0-593F-4FB0-8532-47F9D6F246F7}
+StartMode=1
+UseCount=2
+[windirstat]
+Filename="C:\Program Files (x86)\WinDirStat\windirstat.exe"
+GUID={C075BE5C-8FDD-4F10-BBBD-01208A224E8D}
+StartMode=1
+UseCount=3
+[word]
+Filename="C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE"
+GUID={6C7D714E-DD6D-4BEC-AF35-8118CAE98171}
+StartMode=1
+UseCount=4
+[wp]
+Filename="www.probel.xyz/wp-admin/"
+GUID={8CE49236-16C8-4997-959F-07AA8050BDAE}
+StartMode=1
+[xml]
+Filename="C:\Program Files (x86)\LovettSoftware\XmlNotepad\XmlNotepad.exe"
+GUID={FE6032CF-D0AA-4430-BBB5-79C3344FE7AE}
+StartMode=1
+[xnview]
+Filename="C:\Program Files\XnViewMP\xnviewmp.exe"
+GUID={710280E1-8767-47C7-8566-31CB2F9754F1}
+StartMode=1
+[youtube]
+Filename="www.youtube.com"
+GUID={E3483763-8281-4736-8298-7A58401FF3FE}
+StartMode=1
+UseCount=1

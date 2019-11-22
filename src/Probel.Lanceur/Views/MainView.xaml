@@ -1,0 +1,47 @@
+﻿<Window
+    x:Class="Probel.Lanceur.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cal="http://www.caliburnproject.org"
+    xmlns:conv="clr-namespace:Probel.Lanceur.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="_self"
+    Title="Lanceur"
+    Width="300"
+    AllowsTransparency="True"
+    Closing="OnWindowClosing"
+    Cursor="Hand"
+    FocusManager.FocusedElement="{Binding ElementName=CommandText}"
+    Left="{Binding Left, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+    Loaded="OnWindowLoaded"
+    LocationChanged="OnWindowLocationChanged"
+    MouseDown="OnWindowMouseDown"
+    ResizeMode="NoResize"
+    SizeToContent="Height"
+    Top="{Binding Top, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+    Topmost="True"
+    WindowStyle="None"
+    mc:Ignorable="d" ShowInTaskbar="False">
+    <Window.Resources>
+        <conv:StringToColourBrushConverter x:Key="StringToColourBrushConverter" />
+    </Window.Resources>
+    <Window.Background>
+        <SolidColorBrush Opacity="{Binding Opacity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Color="{Binding Colour, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToColourBrushConverter}}" />
+    </Window.Background>
+    <StackPanel Margin="5">
+        <ComboBox
+            x:Name="ShortcutNameList"
+            cal:Message.Attach="[GotFocus]=[OnShow]"
+            Background="Transparent"
+            Focusable="True"
+            FontFamily="Tahomas"
+            FontSize="16"
+            FontWeight="Regular"
+            Foreground="#FFE6E6E6"
+            IsEditable="True"
+            KeyDown="OnKeyPressed"
+            Opacity="0.7"
+            SelectedItem="{Binding ShortcutName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+    </StackPanel>
+</Window>
