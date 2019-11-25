@@ -17,7 +17,7 @@ namespace Probel.Lanceur.UnitTest
         #region Methods
 
         [Fact]
-        public void Get_shortcuts_from_default_file_has_elements()
+        public void Get_aliases_from_default_file_has_elements()
         {
             var extractor = new SlickRunExtractor();
             var results = extractor.Extract(_path);
@@ -26,7 +26,7 @@ namespace Probel.Lanceur.UnitTest
         }
 
         [Fact]
-        public void Get_shortcuts_from_default_file_not_null()
+        public void Get_aliases_from_default_file_not_null()
         {
             var extractor = new SlickRunExtractor();
             var results = extractor.Extract(_path);

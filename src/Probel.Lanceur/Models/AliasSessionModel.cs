@@ -2,7 +2,7 @@
 
 namespace Probel.Lanceur.Models
 {
-    public class ShortcutSessionModel : PropertyChangedBase
+    public class AliasSessionModel : PropertyChangedBase
     {
         #region Fields
 

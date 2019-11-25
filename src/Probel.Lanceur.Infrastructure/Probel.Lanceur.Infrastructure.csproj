@@ -49,9 +49,9 @@
       <Link>Properties\Version.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DefaultShortcutService.cs" />
+    <Compile Include="Services\DefaultAliasService.cs" />
     <Compile Include="Services\JsonSettingsService.cs" />
-    <Compile Include="Services\KeywordService.cs" />
+    <Compile Include="Services\ReservedKeywordService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Probel.Lanceur.Core\Probel.Lanceur.Core.csproj">

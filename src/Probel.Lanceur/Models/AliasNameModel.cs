@@ -2,12 +2,12 @@
 
 namespace Probel.Lanceur.Models
 {
-    public class ShortcutNameModel : PropertyChangedBase
+    public class AliasNameModel : PropertyChangedBase
     {
         #region Fields
 
         private long _id;
-        private long _idShortcut;
+        private long _idAlias;
         private string _name;
 
         #endregion Fields
@@ -20,10 +20,10 @@ namespace Probel.Lanceur.Models
             set => Set(ref _id, value, nameof(Id));
         }
 
-        public long IdShortcut
+        public long IdAlias
         {
-            get => _idShortcut;
-            set => Set(ref _idShortcut, value, nameof(IdShortcut));
+            get => _idAlias;
+            set => Set(ref _idAlias, value, nameof(IdAlias));
         }
 
         public string Name

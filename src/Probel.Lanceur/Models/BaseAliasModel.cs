@@ -3,7 +3,7 @@ using Probel.Lanceur.Core.Constants;
 
 namespace Probel.Lanceur.Models
 {
-    public class BaseShortcutModel : PropertyChangedBase
+    public class BaseAliasModel : PropertyChangedBase
     {
         #region Fields
 

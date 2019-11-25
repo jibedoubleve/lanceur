@@ -9,7 +9,7 @@ namespace Probel.Lanceur.ViewModels
 
         private string _appVersion;
         private EditSessionViewModel _editSessionViewModel;
-        private ListShortcutViewModel _listShortcutViewModel;
+        private ListAliasViewModel _listAliasViewModel;
 
         private SettingsViewModel _setingsViewModel;
 
@@ -17,10 +17,10 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public SetupViewModel(ListShortcutViewModel listShortcutViewModel, SettingsViewModel settingsViewModel, EditSessionViewModel editSessionViewModel)
+        public SetupViewModel(ListAliasViewModel listAliasViewModel, SettingsViewModel settingsViewModel, EditSessionViewModel editSessionViewModel)
         {
             EditSessionViewModel = editSessionViewModel;
-            ListShortcutViewModel = listShortcutViewModel;
+            ListAliasViewModel = listAliasViewModel;
             SettingsViewModel = settingsViewModel;
 
             var v = Assembly.GetExecutingAssembly().GetName().Version;
@@ -43,10 +43,10 @@ namespace Probel.Lanceur.ViewModels
             set => Set(ref _editSessionViewModel, value, nameof(EditSessionViewModel));
         }
 
-        public ListShortcutViewModel ListShortcutViewModel
+        public ListAliasViewModel ListAliasViewModel
         {
-            get => _listShortcutViewModel;
-            set => Set(ref _listShortcutViewModel, value, nameof(ListShortcutViewModel));
+            get => _listAliasViewModel;
+            set => Set(ref _listAliasViewModel, value, nameof(ListAliasViewModel));
         }
 
         public SettingsViewModel SettingsViewModel

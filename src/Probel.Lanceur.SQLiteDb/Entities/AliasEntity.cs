@@ -2,7 +2,7 @@
 
 namespace Probel.Lanceur.SQLiteDb.Entities
 {
-    internal class ShortcutEntity : Entity
+    internal class AliasEntity : Entity
     {
         #region Properties
 

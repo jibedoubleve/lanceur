@@ -7,7 +7,7 @@ namespace Probel.Lanceur.Core.Services
     {
         #region Methods
 
-        IEnumerable<NamedShortcut> Extract(string fileName = null);
+        IEnumerable<NamedAlias> Extract(string fileName = null);
 
         #endregion Methods
     }

@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 
 namespace Probel.Lanceur.ViewModels
 {
-    public class EditShortcutViewModel : Screen
+    public class EditAliasViewModel : Screen
     {
         #region Fields
 
         private readonly IDatabaseService _databaseService;
         private bool _isCreation;
-        private ObservableCollection<ShortcutNameModel> _names;
-        private ShortcutModel _shortcut;
+        private ObservableCollection<AliasNameModel> _names;
+        private AliasModel _alias;
 
         #endregion Fields
 
         #region Constructors
 
-        public EditShortcutViewModel(IDatabaseService databaseService, ILogService log)
+        public EditAliasViewModel(IDatabaseService databaseService, ILogService log)
         {
             Log = log;
             _databaseService = databaseService;
@@ -30,7 +30,7 @@ namespace Probel.Lanceur.ViewModels
 
         #region Properties
 
-        private ListShortcutViewModel ParentVm => Parent as ListShortcutViewModel;
+        private ListAliasViewModel ParentVm => Parent as ListAliasViewModel;
 
         public bool IsCreation
         {
@@ -40,18 +40,18 @@ namespace Probel.Lanceur.ViewModels
 
         public ILogService Log { get; }
 
-        public ObservableCollection<ShortcutNameModel> Names
+        public ObservableCollection<AliasNameModel> Names
         {
             get => _names;
             set => Set(ref _names, value, nameof(Names));
         }
 
-        public ShortcutModel Shortcut
+        public AliasModel Alias
         {
-            get => _shortcut;
+            get => _alias;
             set
             {
-                if (Set(ref _shortcut, value, nameof(Shortcut)))
+                if (Set(ref _alias, value, nameof(Alias)))
                 {
                     IsCreation = value.Id > 0;
                     NotifyOfPropertyChange(nameof(IsCreation));
@@ -65,41 +65,41 @@ namespace Probel.Lanceur.ViewModels
 
         private void RefreshParentList()
         {
-            if (Parent is ListShortcutViewModel vm) { vm.RefreshData(); }
+            if (Parent is ListAliasViewModel vm) { vm.RefreshData(); }
         }
 
-        public bool CanDeleteShortcut() => _shortcut != null;
+        public bool CanDeleteAlias() => _alias != null;
 
-        public bool CanUpdateShortcut() => Shortcut != null;
+        public bool CanUpdateAlias() => Alias != null;
 
-        public void CreateShortcut()
+        public void CreateAlias()
         {
-            _databaseService.Create(Shortcut.AsEntity());
+            _databaseService.Create(Alias.AsEntity());
             RefreshParentList();
         }
 
-        public async Task DeleteShortcutAsync()
+        public async Task DeleteAliasAsync()
         {
-            if (await ParentVm.AskForDeletion(Shortcut.Name))
+            if (await ParentVm.AskForDeletion(Alias.Name))
             {
-                _databaseService.Delete(Shortcut.AsEntity());
+                _databaseService.Delete(Alias.AsEntity());
                 RefreshParentList();
             }
         }
 
-        public void RefreshData(ShortcutModel model = null)
+        public void RefreshData(AliasModel model = null)
         {
-            if (model != null) { Shortcut = model; }
-            if (Shortcut != null)
+            if (model != null) { Alias = model; }
+            if (Alias != null)
             {
-                var names = _databaseService.GetNamesOf(Shortcut.AsEntity());
-                Names = new ObservableCollection<ShortcutNameModel>(names.AsModel());
+                var names = _databaseService.GetNamesOf(Alias.AsEntity());
+                Names = new ObservableCollection<AliasNameModel>(names.AsModel());
             }
         }
 
-        public void UpdateShortcut()
+        public void UpdateAlias()
         {
-            _databaseService.Update(Shortcut.AsEntity());
+            _databaseService.Update(Alias.AsEntity());
             _databaseService.Update(Names.AsEntity());
         }
 

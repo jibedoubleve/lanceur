@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Probel.Lanceur.Core.Services
 {
-    public interface IShortcutService
+    public interface IAliasService
     {
         #region Methods
 
         void Execute(string param);
-        IEnumerable<string> GetShortcutsNames(long sessionId);
+        IEnumerable<string> GetAliasNames(long sessionId);
 
         #endregion Methods
     }

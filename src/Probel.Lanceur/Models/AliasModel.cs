@@ -1,6 +1,6 @@
 ﻿namespace Probel.Lanceur.Models
 {
-    public class ShortcutModel : BaseShortcutModel
+    public class AliasModel : BaseAliasModel
     {
         #region Fields
 

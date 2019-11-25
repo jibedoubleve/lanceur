@@ -1,6 +1,6 @@
 ﻿namespace Probel.Lanceur.Core.Entities
 {
-    public class ShortcutSession
+    public class AliasSession
     {
         #region Properties
 

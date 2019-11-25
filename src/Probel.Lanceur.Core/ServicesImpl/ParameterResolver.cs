@@ -29,7 +29,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         private string Resolve(string cmdline, string parameters) => _handler.Handle(cmdline, parameters);
 
-        public Shortcut Resolve(Shortcut cmd, string parameters)
+        public Alias Resolve(Alias cmd, string parameters)
         {
             var result = cmd.Clone();
             result.FileName = Resolve(cmd.FileName, parameters);

@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Probel.Lanceur.Views.EditShortcutView"
+    x:Class="Probel.Lanceur.Views.EditAliasView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
@@ -77,36 +77,36 @@
                 DockPanel.Dock="Right"
                 Kind="Target"
                 MouseMove="OnProcessFinderMouseMouve" />
-            <ctrl:HeaderTextBox Header="File Name" Text="{Binding Shortcut.FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            <ctrl:HeaderTextBox Header="File Name" Text="{Binding Alias.FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
         </DockPanel>
-        <ctrl:HeaderTextBox Header="Arguments" Text="{Binding Shortcut.Arguments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-        <ctrl:HeaderTextBox Header="Notes" Text="{Binding Shortcut.Notes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <ctrl:HeaderTextBox Header="Arguments" Text="{Binding Alias.Arguments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <ctrl:HeaderTextBox Header="Notes" Text="{Binding Alias.Notes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
         <ctrl:HeaderComboBox
             Header="RunAs"
             ItemsSource="{Binding Source={StaticResource RunAsDataProvider}}"
-            SelectedItem="{Binding Shortcut.RunAs, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            SelectedItem="{Binding Alias.RunAs, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
         <ctrl:HeaderComboBox
             Header="StartMode"
             ItemsSource="{Binding Source={StaticResource StartModeDataProvider}}"
-            SelectedItem="{Binding Shortcut.StartMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            SelectedItem="{Binding Alias.StartMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
             <StackPanel.Resources />
             <Button
-                x:Name="CreateShortcut"
+                x:Name="CreateAlias"
                 Width="120"
                 Margin="5,5,0,5"
                 Content="Create"
                 Style="{DynamicResource AccentedSquareButtonStyle}"
                 Visibility="{Binding IsCreation, Converter={StaticResource InvertBooleanToVisibilityConverter}}" />
             <Button
-                x:Name="UpdateShortcut"
+                x:Name="UpdateAlias"
                 Width="120"
                 Margin="5,5,0,5"
                 Content="Save"
                 Style="{DynamicResource AccentedSquareButtonStyle}"
                 Visibility="{Binding IsCreation, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button
-                x:Name="DeleteShortcut"
+                x:Name="DeleteAlias"
                 Width="120"
                 Margin="10,5,5,5"
                 Content="Delete"

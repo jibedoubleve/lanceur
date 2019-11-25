@@ -6,7 +6,7 @@ namespace Probel.Lanceur.Core.Services
     {
         #region Methods
 
-        Shortcut Resolve(Shortcut cmd, string parameters);
+        Alias Resolve(Alias cmd, string parameters);
 
         Cmdline Split(string cmdline);
 

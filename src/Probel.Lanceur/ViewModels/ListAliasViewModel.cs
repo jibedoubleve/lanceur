@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Probel.Lanceur.ViewModels
 {
-    public class ListShortcutViewModel : Conductor<IScreen>.Collection.OneActive
+    public class ListAliasViewModel : Conductor<IScreen>.Collection.OneActive
     {
         #region Fields
 
@@ -19,40 +19,40 @@ namespace Probel.Lanceur.ViewModels
 
         private readonly ILogService _log;
         private readonly ISettingsService _settingService;
-        private ShortcutModel _selectedShortcut;
-        private ObservableCollection<ShortcutModel> _shortcuts;
+        private AliasModel _selectedAlias;
+        private ObservableCollection<AliasModel> aliases;
         public AppSettings _appSettings;
 
         #endregion Fields
 
         #region Constructors
 
-        public ListShortcutViewModel(IDatabaseService databaseService, IDialogCoordinator dialog, EditShortcutViewModel editShortcutViewModel, ILogService log, ISettingsService settingService)
+        public ListAliasViewModel(IDatabaseService databaseService, IDialogCoordinator dialog, EditAliasViewModel editaliasViewModel, ILogService log, ISettingsService settingService)
         {
             _settingService = settingService;
             _appSettings = settingService.Get();
             _log = log;
             _dialog = dialog;
             _databaseService = databaseService;
-            EditShortcutViewModel = editShortcutViewModel;
+            EditAliasViewModel = editaliasViewModel;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public EditShortcutViewModel EditShortcutViewModel { get; }
+        public EditAliasViewModel EditAliasViewModel { get; }
 
-        public ShortcutModel SelectedShortcut
+        public AliasModel SelectedAlias
         {
-            get => _selectedShortcut;
-            set => Set(ref _selectedShortcut, value, nameof(SelectedShortcut));
+            get => _selectedAlias;
+            set => Set(ref _selectedAlias, value, nameof(SelectedAlias));
         }
 
-        public ObservableCollection<ShortcutModel> Shortcuts
+        public ObservableCollection<AliasModel> Aliases
         {
-            get => _shortcuts;
-            set => Set(ref _shortcuts, value, nameof(Shortcuts));
+            get => aliases;
+            set => Set(ref aliases, value, nameof(Aliases));
         }
 
         #endregion Properties
@@ -61,10 +61,10 @@ namespace Probel.Lanceur.ViewModels
 
         public void ActivateDetail(object view)
         {
-            if (view is ShortcutModel model)
+            if (view is AliasModel model)
             {
-                EditShortcutViewModel.RefreshData(model);
-                ActivateItem(EditShortcutViewModel);
+                EditAliasViewModel.RefreshData(model);
+                ActivateItem(EditAliasViewModel);
             }
         }
 
@@ -79,7 +79,7 @@ namespace Probel.Lanceur.ViewModels
             var result = MessageDialogResult.Negative;
             try
             {
-                result = await _dialog.ShowMessageAsync(this, "QUESTION", $"Do you want to delte the shortcut '{name}'?", MessageDialogStyle.AffirmativeAndNegative, opt);
+                result = await _dialog.ShowMessageAsync(this, "QUESTION", $"Do you want to delte the alias '{name}'?", MessageDialogStyle.AffirmativeAndNegative, opt);
             }
             catch (Exception ex) { _log.Debug(ex); }
 
@@ -88,17 +88,17 @@ namespace Probel.Lanceur.ViewModels
 
         public void CreateKeyword()
         {
-            EditShortcutViewModel.Shortcut = new ShortcutModel();
-            EditShortcutViewModel.Names = new ObservableCollection<ShortcutNameModel>();
-            ActivateItem(EditShortcutViewModel);
+            EditAliasViewModel.Alias = new AliasModel();
+            EditAliasViewModel.Names = new ObservableCollection<AliasNameModel>();
+            ActivateItem(EditAliasViewModel);
         }
 
         public void RefreshData()
         {
             _appSettings = _settingService.Get();
-            var sc = _databaseService.GetShortcuts(_appSettings.SessionId).AsModel();
-            Shortcuts = new ObservableCollection<ShortcutModel>(sc);
-            DeactivateItem(EditShortcutViewModel, true);
+            var sc = _databaseService.GetAliases(_appSettings.SessionId).AsModel();
+            Aliases = new ObservableCollection<AliasModel>(sc);
+            DeactivateItem(EditAliasViewModel, true);
         }
 
         #endregion Methods

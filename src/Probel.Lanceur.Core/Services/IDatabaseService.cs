@@ -9,33 +9,33 @@ namespace Probel.Lanceur.Core.Services
 
         void Clear();
 
-        void Create(Shortcut shortcut);
+        void Create(Alias alias);
 
-        void Delete(Shortcut shortcut);
+        void Delete(Alias alias);
 
-        IEnumerable<ShortcutName> GetNamesOf(Shortcut shortcut);
+        IEnumerable<AliasName> GetNamesOf(Alias alias);
 
-        IEnumerable<ShortcutSession> GetSessions();
+        IEnumerable<AliasSession> GetSessions();
 
-        Shortcut GetShortcut(string name);
+        Alias GetAlias(string name);
 
-        IEnumerable<string> GetShortcutNames(long sessionId);
+        IEnumerable<string> GetAliasNames(long sessionId);
 
-        IEnumerable<Shortcut> GetShortcuts(long sessionId);
+        IEnumerable<Alias> GetAliases(long sessionId);
 
-        void SetUsage(Shortcut shortcut);
+        void SetUsage(Alias alias);
 
-        void SetUsage(long idShortcut);
+        void SetUsage(long idAlias);
 
-        void Update(Shortcut shortcut);
+        void Update(Alias alias);
 
-        void Update(IEnumerable<ShortcutName> names);
+        void Update(IEnumerable<AliasName> names);
 
-        ShortcutSession GetSession(long sessionId);
+        AliasSession GetSession(long sessionId);
         
-        void Update(ShortcutSession session);
+        void Update(AliasSession session);
         
-        void Delete(ShortcutSession session);
+        void Delete(AliasSession session);
 
         #endregion Methods
     }

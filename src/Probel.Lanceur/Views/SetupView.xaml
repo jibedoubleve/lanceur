@@ -19,7 +19,7 @@
         <Controls:MetroAnimatedTabControl SelectionChanged="OnTabControlSelectionChanged">
             <TabItem x:Name="_tabKeywords" Header="Keywords">
                 <Grid>
-                    <ContentControl x:Name="ListShortcutViewModel" />
+                    <ContentControl x:Name="ListAliasViewModel" />
                 </Grid>
             </TabItem>
             <TabItem x:Name="_tabSettings" Header="Settings">

@@ -1,21 +1,21 @@
 /******************************************************************************
  * Drop all previous tables and data
  ******************************************************************************/
-drop table if exists shortcut_session;
-drop table if exists shortcut;
-drop table if exists shortcut_name;
-drop table if exists shortcut_usage;
+drop table if exists alias_session;
+drop table if exists alias;
+drop table if exists alias_name;
+drop table if exists alias_usage;
 
 /******************************************************************************
  * Build the tables
  ******************************************************************************/
-create table shortcut_session (
+create table alias_session (
     id    integer primary key,
     name  text,
     notes text
 );
 
-create table shortcut (
+create table alias (
     id         integer primary key,
     arguments  text,
     file_name  text,
@@ -23,25 +23,25 @@ create table shortcut (
     run_as     text,
     start_mode text,
     id_session integer,
-    foreign key(id_session) references shortcut_session
+    foreign key(id_session) references alias_session
 );
   
-create table shortcut_name (
+create table alias_name (
     id          integer primary key,
-    id_shortcut integer,
+    id_alias integer,
     name        text,
-    foreign key(id_shortcut) references shortcut
+    foreign key(id_alias) references alias
 );
 
-create table shortcut_usage (
+create table alias_usage (
     id           integer primary key,
-    id_shortcut integer,
+    id_alias integer,
     time_stamp   timestamp default current_timestamp  ,
-    foreign key(id_shortcut) references shortcut
+    foreign key(id_alias) references alias
 );
 
 /******************************************************************************
  * Fill with default data
  ******************************************************************************/
- insert into shortcut_session (id, name, notes) values (1, 'home', 'session when you''re at home');
- insert into shortcut_session (id, name, notes) values (2, 'work', 'session when you''re at work');
+ insert into alias_session (id, name, notes) values (1, 'home', 'session when you''re at home');
+ insert into alias_session (id, name, notes) values (2, 'work', 'session when you''re at work');

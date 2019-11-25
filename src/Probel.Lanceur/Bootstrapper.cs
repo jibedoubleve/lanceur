@@ -35,7 +35,7 @@ namespace Probel.Lanceur
 
         private void ConfigureInternalCommands()
         {
-            var ss = _container.Resolve<IKeywordService>();
+            var ss = _container.Resolve<IReservedKeywordService>();
             var importer = _container.Resolve<ISlickRunImporterService>();
             var db = _container.Resolve<IDatabaseService>();
             var windowManager = _container.Resolve<IWindowManager>();
@@ -61,10 +61,10 @@ namespace Probel.Lanceur
             _container.RegisterInstance(typeof(IDialogCoordinator), DialogCoordinator.Instance);
 
             _container.RegisterType<IClipboardService, ClipboardService>();
-            _container.RegisterType<IShortcutService, DefaultShortcutService>();
+            _container.RegisterType<IAliasService, DefaultAliasService>();
             _container.RegisterType<ICommandRunner, CommandRunner>();
             _container.RegisterType<IParameterResolver, ParameterResolver>();
-            _container.RegisterType<IKeywordService, KeywordService>();
+            _container.RegisterType<IReservedKeywordService, ReservedKeywordService>();
 
             _container.RegisterType<IDatabaseService, SQLiteDatabaseService>();
             _container.RegisterType<ISlickRunImporterService, SQLiteSlickRunImporterService>();

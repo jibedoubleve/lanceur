@@ -1,24 +1,21 @@
-﻿using Probel.Lanceur.Core.Entities;
-using Probel.Lanceur.Core.Services;
+﻿using Probel.Lanceur.Core.Services;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Probel.Lanceur.Infrastructure.Services
 {
-    public class DefaultShortcutService : IShortcutService
+    public class DefaultAliasService : IAliasService
     {
-        public ILogService _log { get; }
         #region Fields
 
+        private readonly ICommandRunner _cmdRunner;
         private readonly IDatabaseService _databaseService;
         private readonly IParameterResolver _resolver;
-        private readonly ICommandRunner _cmdRunner;
 
         #endregion Fields
 
         #region Constructors
 
-        public DefaultShortcutService(IDatabaseService databaseService, IParameterResolver argumentHandler, ICommandRunner runner, ILogService log)
+        public DefaultAliasService(IDatabaseService databaseService, IParameterResolver argumentHandler, ICommandRunner runner, ILogService log)
         {
             _log = log;
             _databaseService = databaseService;
@@ -28,12 +25,18 @@ namespace Probel.Lanceur.Infrastructure.Services
 
         #endregion Constructors
 
+        #region Properties
+
+        public ILogService _log { get; }
+
+        #endregion Properties
+
         #region Methods
 
         public void Execute(string cmdline)
         {
             var splited = _resolver.Split(cmdline);
-            var cmd = _databaseService.GetShortcut(splited.Command);
+            var cmd = _databaseService.GetAlias(splited.Command);
 
             cmd = _resolver.Resolve(cmd, splited.Parameters);
 
@@ -42,7 +45,7 @@ namespace Probel.Lanceur.Infrastructure.Services
             _cmdRunner.Run(cmd);
         }
 
-        public IEnumerable<string> GetShortcutsNames(long sessionId) => _databaseService.GetShortcutNames(sessionId);
+        public IEnumerable<string> GetAliasNames(long sessionId) => _databaseService.GetAliasNames(sessionId);
 
         #endregion Methods
     }

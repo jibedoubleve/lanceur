@@ -18,8 +18,8 @@ namespace Probel.Lanceur.Helpers
 
         private void EntityToModel(IMapperConfigurationExpression e)
         {
-            e.CreateMap<Shortcut, ShortcutModel>();
-            e.CreateMap<ShortcutName, ShortcutNameModel>();
+            e.CreateMap<Alias, AliasModel>();
+            e.CreateMap<AliasName, AliasNameModel>();
 
             //Settings
             e.CreateMap<AppSettings, AppSettingsModel>();
@@ -29,21 +29,21 @@ namespace Probel.Lanceur.Helpers
                 .ForMember(src => src.ColourBlue, opt => opt.Ignore());
             e.CreateMap<PositionSettings, PositionSettingsModel>();
             e.CreateMap<HotKeySettings, HotKeySettingsModel>();
-            e.CreateMap<ShortcutSession, ShortcutSessionModel>();
-            e.CreateMap<ShortcutSession, ShortcutSessionModel>();
+            e.CreateMap<AliasSession, AliasSessionModel>();
+            e.CreateMap<AliasSession, AliasSessionModel>();
         }
 
         private void ModelToEntity(IMapperConfigurationExpression e)
         {
-            e.CreateMap<ShortcutModel, Shortcut>();
-            e.CreateMap<ShortcutNameModel, ShortcutName>();
+            e.CreateMap<AliasModel, Alias>();
+            e.CreateMap<AliasNameModel, AliasName>();
 
             //Settings
             e.CreateMap<AppSettingsModel, AppSettings>();
             e.CreateMap<WindowSettingsModel, WindowSettings>();
             e.CreateMap<PositionSettingsModel, PositionSettings>();
             e.CreateMap<HotKeySettingsModel, HotKeySettings>();
-            e.CreateMap<ShortcutSessionModel, ShortcutSession>();
+            e.CreateMap<AliasSessionModel, AliasSession>();
         }
 
         public IMapper GetMapper()

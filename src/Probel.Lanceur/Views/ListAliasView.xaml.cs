@@ -3,13 +3,13 @@
 namespace Probel.Lanceur.Views
 {
     /// <summary>
-    /// Interaction logic for ListShortcuts.xaml
+    /// Interaction logic for ListAliasView.xaml
     /// </summary>
-    public partial class ListShortcutView : UserControl
+    public partial class ListAliasView : UserControl
     {
         #region Constructors
 
-        public ListShortcutView()
+        public ListAliasView()
         {
             InitializeComponent();
         }

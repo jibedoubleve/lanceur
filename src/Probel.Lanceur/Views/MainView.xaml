@@ -18,11 +18,12 @@
     LocationChanged="OnWindowLocationChanged"
     MouseDown="OnWindowMouseDown"
     ResizeMode="NoResize"
+    ShowInTaskbar="False"
     SizeToContent="Height"
     Top="{Binding Top, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
     Topmost="True"
     WindowStyle="None"
-    mc:Ignorable="d" ShowInTaskbar="False">
+    mc:Ignorable="d">
     <Window.Resources>
         <conv:StringToColourBrushConverter x:Key="StringToColourBrushConverter" />
     </Window.Resources>
@@ -31,7 +32,7 @@
     </Window.Background>
     <StackPanel Margin="5">
         <ComboBox
-            x:Name="ShortcutNameList"
+            x:Name="AliasNameList"
             cal:Message.Attach="[GotFocus]=[OnShow]"
             Background="Transparent"
             Focusable="True"
@@ -42,6 +43,6 @@
             IsEditable="True"
             KeyDown="OnKeyPressed"
             Opacity="0.7"
-            SelectedItem="{Binding ShortcutName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            SelectedItem="{Binding AliasName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
     </StackPanel>
 </Window>

@@ -1,12 +1,12 @@
 ﻿namespace Probel.Lanceur.Core.Entities
 {
-    public static class ShortcutExtension
+    public static class AliasExtension
     {
         #region Methods
 
-        public static Shortcut Clone(this Shortcut src)
+        public static Alias Clone(this Alias src)
         {
-            var ret = new Shortcut()
+            var ret = new Alias()
             {
                 Arguments = src.Arguments,
                 FileName = src.FileName,
@@ -23,7 +23,7 @@
         #endregion Methods
     }
 
-    public class Shortcut : BaseShortcut
+    public class Alias : BaseAlias
     {
         #region Properties
 
@@ -34,9 +34,9 @@
 
         #region Methods
 
-        public static Shortcut Empty(string name) => new Shortcut() { Name = name.ToUpper(), IsExecutable = false };
+        public static Alias Empty(string name) => new Alias() { Name = name.ToUpper(), IsExecutable = false };
 
-        public static implicit operator Shortcut(string name) => new Shortcut() { FileName = name };
+        public static implicit operator Alias(string name) => new Alias() { FileName = name };
 
         #endregion Methods
     }

@@ -2,7 +2,7 @@
 
 namespace Probel.Lanceur.Core.Entities
 {
-    public abstract class BaseShortcut
+    public abstract class BaseAlias
     {
         #region Properties
 

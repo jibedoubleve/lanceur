@@ -58,7 +58,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
             else { return RunAs.CurrentUser; }
         }
 
-        private NamedShortcut BuildEntry(string item)
+        private NamedAlias BuildEntry(string item)
         {
             var lines = item.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -66,7 +66,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
             var dico = GetDictionary(lines);
 
-            return new NamedShortcut()
+            return new NamedAlias()
             {
                 Names = name.Split(','),
                 FileName = dico.ContainsKey("filename") ? dico["filename"] : string.Empty,
@@ -82,11 +82,11 @@ namespace Probel.Lanceur.Core.ServicesImpl
             return txt.Split(separator, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        public IEnumerable<NamedShortcut> Extract(string fileName = null)
+        public IEnumerable<NamedAlias> Extract(string fileName = null)
         {
             fileName = Environment.ExpandEnvironmentVariables(fileName ?? DefaultFileName);
             var txt = File.ReadAllText(fileName);
-            var result = new List<NamedShortcut>();
+            var result = new List<NamedAlias>();
 
             foreach (var item in SplitedEntries(txt))
             {

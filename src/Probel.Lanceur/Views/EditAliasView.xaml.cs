@@ -9,13 +9,13 @@ using System.Windows.Input;
 namespace Probel.Lanceur.Views
 {
     /// <summary>
-    /// Interaction logic for EditShortcutView.xaml
+    /// Interaction logic for EditAliasView.xaml
     /// </summary>
-    public partial class EditShortcutView : UserControl
+    public partial class EditAliasView : UserControl
     {
         #region Constructors
 
-        public EditShortcutView()
+        public EditAliasView()
         {
             InitializeComponent();
         }
@@ -24,7 +24,7 @@ namespace Probel.Lanceur.Views
 
         #region Properties
 
-        private EditShortcutViewModel ViewModel => DataContext as EditShortcutViewModel;
+        private EditAliasViewModel ViewModel => DataContext as EditAliasViewModel;
 
         #endregion Properties
 
@@ -35,7 +35,7 @@ namespace Probel.Lanceur.Views
             try
             {
                 var ps = ProcessHelper.GetExecutablePath();
-                ViewModel.Shortcut.FileName = ps.FileName;
+                ViewModel.Alias.FileName = ps.FileName;
             }
             catch (Exception ex) { ViewModel.Log.Warning($"Error occured while trying to find process under mouse.", ex); }
         }

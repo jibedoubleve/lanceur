@@ -120,7 +120,7 @@
     <Compile Include="Models\Settings\AppSettingsModel.cs" />
     <Compile Include="Models\Settings\PositionSettingsModel.cs" />
     <Compile Include="Models\Settings\HotKeySettingsModel.cs" />
-    <Compile Include="Models\ShortcutNameModel.cs" />
+    <Compile Include="Models\AliasNameModel.cs" />
     <Compile Include="Models\Settings\WindowSettingsModel.cs" />
     <Compile Include="Helpers\_AutoMapperConfigurator.cs" />
     <Compile Include="Bootstrapper.cs" />
@@ -133,28 +133,28 @@
     <Compile Include="Converters\StringToColourBrushConverter.cs" />
     <Compile Include="Converters\StringToEnumConverter.cs" />
     <Compile Include="Helpers\ScreenRuler.cs" />
-    <Compile Include="Models\BaseShortcutModel.cs" />
+    <Compile Include="Models\BaseAliasModel.cs" />
     <Compile Include="Helpers\MapperExtension.cs" />
-    <Compile Include="Models\ShortcutModel.cs" />
-    <Compile Include="Models\ShortcutSessionModel.cs" />
+    <Compile Include="Models\AliasModel.cs" />
+    <Compile Include="Models\AliasSessionModel.cs" />
     <Compile Include="Services\ClipboardService.cs" />
     <Compile Include="Services\Notifications.cs" />
     <Compile Include="Services\SessionQueries.cs" />
     <Compile Include="Services\SettingsService.cs" />
     <Compile Include="ViewModels\EditSessionViewModel.cs" />
-    <Compile Include="ViewModels\EditShortcutViewModel.cs" />
-    <Compile Include="ViewModels\ListShortcutViewModel.cs" />
+    <Compile Include="ViewModels\EditAliasViewModel.cs" />
+    <Compile Include="ViewModels\ListAliasViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\SetupViewModel.cs" />
     <Compile Include="Views\EditSessionView.xaml.cs">
       <DependentUpon>EditSessionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\EditShortcutView.xaml.cs">
-      <DependentUpon>EditShortcutView.xaml</DependentUpon>
+    <Compile Include="Views\EditAliasView.xaml.cs">
+      <DependentUpon>EditAliasView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ListShortcutView.xaml.cs">
-      <DependentUpon>ListShortcutView.xaml</DependentUpon>
+    <Compile Include="Views\ListAliasView.xaml.cs">
+      <DependentUpon>ListAliasView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -219,11 +219,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\EditShortcutView.xaml">
+    <Page Include="Views\EditAliasView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ListShortcutView.xaml">
+    <Page Include="Views\ListAliasView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

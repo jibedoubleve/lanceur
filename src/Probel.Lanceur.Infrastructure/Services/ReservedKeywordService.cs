@@ -5,18 +5,20 @@ using System.Collections.Generic;
 
 namespace Probel.Lanceur.Infrastructure.Services
 {
-    public class KeywordService : IKeywordService
+    public class ReservedKeywordService : IReservedKeywordService
     {
         #region Fields
 
         private static readonly Dictionary<string, Action<string>> _reservedKeywords = new Dictionary<string, Action<string>>();
         private static ILogService _log;
 
+        private IList<string> _keywords = null;
+
         #endregion Fields
 
         #region Constructors
 
-        static KeywordService()
+        static ReservedKeywordService()
         {
             foreach (var keyword in Enum.GetValues(typeof(Keywords)))
             {
@@ -25,7 +27,7 @@ namespace Probel.Lanceur.Infrastructure.Services
             }
         }
 
-        public KeywordService(ILogService log)
+        public ReservedKeywordService(ILogService log)
         {
             _log = log;
         }
@@ -50,6 +52,17 @@ namespace Probel.Lanceur.Infrastructure.Services
                 var action = _reservedKeywords[name];
                 action(arg);
             }
+        }
+
+        public IEnumerable<string> GetReservedKeywords()
+        {
+            if (_keywords == null)
+            {
+                _keywords = new List<string>();
+                var names = Enum.GetNames(typeof(Keywords));
+                foreach (var name in names) { _keywords.Add(name.ToLower()); }
+            }
+            return _keywords;
         }
 
         public bool IsReserved(string name) => _reservedKeywords.ContainsKey(name);

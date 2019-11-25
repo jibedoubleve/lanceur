@@ -6,7 +6,7 @@ namespace Probel.Lanceur.Core.Services
     {
         #region Methods
 
-        void Run(Shortcut shortcut);
+        void Run(Alias alias);
 
         #endregion Methods
     }
