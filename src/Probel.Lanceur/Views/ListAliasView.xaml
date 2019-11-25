@@ -29,7 +29,7 @@
             <ListBox
                 cal:Message.Attach="[Event SelectionChanged]=[Action ActivateDetail($this.SelectedItem)]"
                 DisplayMemberPath="Name"
-                ItemsSource="{Binding Alias}"
+                ItemsSource="{Binding Aliases}"
                 SelectedItem="{Binding SelectedAlias}" />
             <Button
                 x:Name="CreateKeyword"

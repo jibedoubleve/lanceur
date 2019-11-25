@@ -4,7 +4,7 @@
     {
         #region Constructors
 
-        public ArgumentHandler(string wildcard) => Wildcard = wildcard.ToLower();
+        public ArgumentHandler(string wildcard) => Wildcard = wildcard.ToUpper();
 
         #endregion Constructors
 
@@ -13,22 +13,26 @@
         protected ArgumentHandler Next { get; private set; }
         protected string Wildcard { get; }
 
-        protected bool HasWildCard(string txt) => txt.ToUpper() == Wildcard.ToUpper();
-
         #endregion Properties
 
         #region Methods
 
         protected abstract string DoHandle(string cmdline, string parameters);
 
-        public string Handle(string cmdline, string parameters)
-        {
-            var result = (HasWildCard(cmdline))
-                ? DoHandle(cmdline.ToLower(), parameters)
-                : cmdline;
+        protected bool HasWildCard(string txt) => txt.ToUpper().Contains(Wildcard);
 
-            if (Next != null) { return Next.DoHandle(result, parameters); }
-            else { return result; }
+        public string Handle(string text, string parameters)
+        {
+            if (string.IsNullOrWhiteSpace(text)) { return parameters; }
+            else
+            {
+                var result = (HasWildCard(text))
+                    ? DoHandle(text.ToLower(), parameters)
+                    : text;
+
+                if (Next != null) { return Next.DoHandle(result, parameters); }
+                else { return result; }
+            }
         }
 
         public ArgumentHandler SetNext(ArgumentHandler handler)

@@ -27,7 +27,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         #region Methods
 
-        private string Resolve(string cmdline, string parameters) => _handler.Handle(cmdline, parameters);
+        private string Resolve(string text, string parameters) => _handler.Handle(text, parameters);
 
         public Alias Resolve(Alias cmd, string parameters)
         {
