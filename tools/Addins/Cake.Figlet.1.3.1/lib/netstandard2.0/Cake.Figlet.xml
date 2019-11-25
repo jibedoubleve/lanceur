@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cake.Figlet</name>
+    </assembly>
+    <members>
+        <member name="T:Cake.Figlet.FigletAliases">
+            <summary>
+            Figlet aliases.
+            </summary>
+        </member>
+        <member name="M:Cake.Figlet.FigletAliases.Figlet(Cake.Core.ICakeContext,System.String)">
+            <summary>
+            Returns ASCII art for the specified text using the default font.
+            </summary>
+            <example>
+            <code>
+            Setup(ctx =&gt; {
+               Information(Figlet("Cake.Figlet"));
+            });
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="text">The text to render as ASCII Art.</param>
+            <returns>A string containing the ASCII art.</returns>
+        </member>
+        <member name="M:Cake.Figlet.FigletAliases.Figlet(Cake.Core.ICakeContext,System.String,Cake.Core.IO.FilePath)">
+            <summary>
+            Returns ASCII art for the specified text using
+            a custom figlet font file.
+            </summary>
+            <example>
+            <code>
+            Setup(ctx =&gt; {
+                var fontFile = File("mini.flf");
+                Information(Figlet("Cake.Figlet", fontFile));
+            });
+            </code>
+            </example>
+            <param name="context">The context.</param>
+            <param name="text">The text to render as ASCII Art.</param>
+            <param name="fontFile">The Figlet font format file.</param>
+            <returns>A string containing the ASCII art.</returns>
+        </member>
+    </members>
+</doc>
