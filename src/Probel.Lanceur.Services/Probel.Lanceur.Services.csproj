@@ -7,8 +7,8 @@
     <ProjectGuid>{C6784CD2-3152-4F9B-87EB-F0BDAB2710B6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Probel.Lanceur.Infrastructure</RootNamespace>
-    <AssemblyName>Probel.Lanceur.Infrastructure</AssemblyName>
+    <RootNamespace>Probel.Lanceur.Services</RootNamespace>
+    <AssemblyName>Probel.Lanceur.Services</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -34,9 +34,16 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.6.8\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,10 +55,11 @@
     <Compile Include="..\Version.cs">
       <Link>Properties\Version.cs</Link>
     </Compile>
+    <Compile Include="NLogLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DefaultAliasService.cs" />
-    <Compile Include="Services\JsonSettingsService.cs" />
-    <Compile Include="Services\ReservedKeywordService.cs" />
+    <Compile Include="DefaultAliasService.cs" />
+    <Compile Include="JsonSettingsService.cs" />
+    <Compile Include="ReservedKeywordService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Probel.Lanceur.Core\Probel.Lanceur.Core.csproj">
@@ -61,6 +69,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

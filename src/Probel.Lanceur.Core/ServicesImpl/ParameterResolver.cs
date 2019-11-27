@@ -1,7 +1,7 @@
 ﻿using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.ServicesImpl.ArgumentHandlers;
-using System.Text.RegularExpressions;
 
 namespace Probel.Lanceur.Core.ServicesImpl
 {
@@ -34,8 +34,8 @@ namespace Probel.Lanceur.Core.ServicesImpl
         {
             var result = cmd.Clone();
 
-            cmd.FileName = Regex.Replace(cmd.FileName, @"\$[a-zA-Z]\$", m => m.ToString().ToUpper());
-            cmd.Arguments = Regex.Replace(cmd.Arguments, @"\$[a-zA-Z]\$", m => m.ToString().ToUpper());
+            cmd.FileName = cmd.FileName.ToNormalisedParameter();
+            cmd.Arguments = cmd.Arguments.ToNormalisedParameter();
 
             result.FileName = Resolve(cmd.FileName, parameters);
             result.Arguments = Resolve(cmd.Arguments, parameters);

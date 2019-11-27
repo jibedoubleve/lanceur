@@ -146,7 +146,6 @@
     <Compile Include="Services\ClipboardService.cs" />
     <Compile Include="Services\Notifications.cs" />
     <Compile Include="Services\SessionQueries.cs" />
-    <Compile Include="Services\SettingsService.cs" />
     <Compile Include="ViewModels\EditSessionViewModel.cs" />
     <Compile Include="ViewModels\EditAliasViewModel.cs" />
     <Compile Include="ViewModels\ListAliasViewModel.cs" />
@@ -259,9 +258,9 @@
       <Project>{76716e34-6464-45e0-bcc6-21203ab79fd1}</Project>
       <Name>Probel.Lanceur.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Probel.Lanceur.Infrastructure\Probel.Lanceur.Infrastructure.csproj">
+    <ProjectReference Include="..\Probel.Lanceur.Services\Probel.Lanceur.Services.csproj">
       <Project>{c6784cd2-3152-4f9b-87eb-f0bdab2710b6}</Project>
-      <Name>Probel.Lanceur.Infrastructure</Name>
+      <Name>Probel.Lanceur.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Probel.Lanceur.SQLiteDb\Probel.Lanceur.SQLiteDb.csproj">
       <Project>{f19b7525-245c-464d-bed2-7675c5bf9462}</Project>

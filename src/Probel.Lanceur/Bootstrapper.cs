@@ -5,7 +5,6 @@ using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.ServicesImpl;
 using Probel.Lanceur.Helpers;
-using Probel.Lanceur.Infrastructure.Services;
 using Probel.Lanceur.Services;
 using Probel.Lanceur.SQLiteDb.Services;
 using Probel.Lanceur.ViewModels;
@@ -70,7 +69,8 @@ namespace Probel.Lanceur
             _container.RegisterType<ISlickRunImporterService, SQLiteSlickRunImporterService>();
             _container.RegisterType<ISlickRunExtractor, SlickRunExtractor>();
             _container.RegisterType<ISettingsService, JsonSettingsService>();
-            _container.RegisterType<ILogService, TraceLogger>();
+            //_container.RegisterType<ILogService, TraceLogger>();
+            _container.RegisterType<ILogService, NLogLogger>();
             _container.RegisterType<IScreenRuler, ScreenRuler>();
             _container.RegisterType<IReservedKeywordService, ReservedKeywordService>();
 
@@ -91,6 +91,7 @@ namespace Probel.Lanceur
         protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             MessageBox.Show(e.Exception.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            _container.Resolve<ILogService>().Fatal($"Unexpected crash occured: {e.Exception.Message}", e.Exception);
             base.OnUnhandledException(sender, e);
         }
         #endregion Methods

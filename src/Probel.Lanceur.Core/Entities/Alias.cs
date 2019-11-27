@@ -34,7 +34,12 @@
 
         #region Methods
 
-        public static Alias Empty(string name) => new Alias() { Name = name.ToUpper(), IsExecutable = false };
+        public static Alias Empty(string name) => new Alias()
+        {
+            FileName = "__RESERVED_KEYWORD__",
+            Name = name.ToUpper(),
+            IsExecutable = false
+        };
 
         public static implicit operator Alias(string name) => new Alias() { FileName = name };
 

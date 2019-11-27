@@ -3,7 +3,7 @@ using Probel.Lanceur.Core.Services;
 using System;
 using System.Collections.Generic;
 
-namespace Probel.Lanceur.Infrastructure.Services
+namespace Probel.Lanceur.Services
 {
     public class ReservedKeywordService : IReservedKeywordService
     {
@@ -23,7 +23,7 @@ namespace Probel.Lanceur.Infrastructure.Services
             foreach (var keyword in Enum.GetValues(typeof(Keywords)))
             {
                 var key = keyword.ToString().ToUpper();
-                _reservedKeywords.Add(key, arg => _log.Debug($"Action for {key}"));
+                _reservedKeywords.Add(key, arg => _log.Trace($"Action for {key}"));
             }
         }
 

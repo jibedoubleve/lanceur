@@ -48,6 +48,7 @@
     <Compile Include="Helpers\ConverterHelper.cs" />
     <Compile Include="Helpers\IScreenRuler.cs" />
     <Compile Include="Helpers\Coordinate.cs" />
+    <Compile Include="Helpers\ParameterHelper.cs" />
     <Compile Include="Helpers\ProcessHelper.cs" />
     <Compile Include="Helpers\PsInfo.cs" />
     <Compile Include="Entities\NamedAlias.cs" />

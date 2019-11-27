@@ -1,7 +1,7 @@
 ﻿using Probel.Lanceur.Core.Services;
 using System.Collections.Generic;
 
-namespace Probel.Lanceur.Infrastructure.Services
+namespace Probel.Lanceur.Services
 {
     public class DefaultAliasService : IAliasService
     {
@@ -40,7 +40,7 @@ namespace Probel.Lanceur.Infrastructure.Services
 
             cmd = _resolver.Resolve(cmd, splited.Parameters);
 
-            _log.Debug($"Executing '{cmd.Name}' [{cmd.FileName}] with args '{cmd.Arguments}'");
+            _log.Trace($"Executing '{cmd.Name}' [{cmd.FileName}] with args '{cmd.Arguments}'");
 
             _cmdRunner.Run(cmd);
         }

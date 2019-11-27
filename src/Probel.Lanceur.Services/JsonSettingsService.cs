@@ -5,7 +5,7 @@ using System;
 using System.Configuration;
 using System.IO;
 
-namespace Probel.Lanceur.Infrastructure.Services
+namespace Probel.Lanceur.Services
 {
     public class JsonSettingsService : ISettingsService
     {
