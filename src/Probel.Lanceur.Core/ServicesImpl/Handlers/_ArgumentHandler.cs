@@ -27,7 +27,7 @@
             else
             {
                 var result = (HasWildCard(text))
-                    ? DoHandle(text.ToLower(), parameters)
+                    ? DoHandle(text, parameters)
                     : text;
 
                 if (Next != null) { return Next.DoHandle(result, parameters); }

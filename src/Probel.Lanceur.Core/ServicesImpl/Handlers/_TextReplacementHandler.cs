@@ -28,7 +28,7 @@ namespace Probel.Lanceur.Core.ServicesImpl.Handlers
             foreach (var item in Replacements) { sb = sb.Replace(item.Key, item.Value); }
             var normalised = sb.ToString();
             
-            cmdline = cmdline.ToLower().Trim().Replace(Wildcard, normalised);
+            cmdline = cmdline.Trim().Replace(Wildcard, normalised);
             return cmdline;
         }
 
