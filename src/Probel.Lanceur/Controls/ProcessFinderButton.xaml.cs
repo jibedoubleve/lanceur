@@ -161,7 +161,6 @@ namespace Probel.Lanceur.Controls
             var ps = ProcessHelper.GetExecutablePath();
             ProcessName = ps.FileName;
 
-            //Keyboard.Focus(null);
             ReleaseMouseCapture();
             Cursor = null;
         }

@@ -51,7 +51,11 @@ namespace Probel.Lanceur.Views
 
         private void OnLostFocus(object sender, RoutedEventArgs e) => Visibility = Visibility.Collapsed;
 
-        private void OnShowWindow(object sender, HotkeyEventArgs e) => ShowWindow();
+        private void OnShowWindow(object sender, HotkeyEventArgs e)
+        {
+            ShowWindow();
+            e.Handled = true;
+        }
 
         private void OnWindowClosing(object sender, CancelEventArgs e) => ViewModel.SaveSettings();
 
