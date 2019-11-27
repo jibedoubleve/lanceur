@@ -1,0 +1,22 @@
+﻿<UserControl
+    x:Class="Probel.Lanceur.Controls.ProcessFinderButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <StackPanel>
+        <Button
+            x:Name="btnStartWindowsSearch"
+            Background="Transparent"
+            BorderThickness="0"
+            Style="{DynamicResource DefaultButton}">
+            <iconPacks:PackIconModern
+                x:Name="_iconCrossHair"
+                Width="20"
+                Height="20"
+                Kind="Crosshair" />
+        </Button>
+    </StackPanel>
+</UserControl>

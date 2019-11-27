@@ -69,15 +69,16 @@
             </DataGrid>
         </Controls:MetroHeader>
         <DockPanel>
-            <iconPacks:PackIconMaterial
-                Width="{StaticResource iconSize}"
-                Height="{StaticResource iconSize}"
+            <ctrl:ProcessFinderButton
                 Margin="0,20,5,0"
+                HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 DockPanel.Dock="Right"
-                Kind="Target"
-                MouseMove="OnProcessFinderMouseMouve" />
-            <ctrl:HeaderTextBox Header="File Name" Text="{Binding Alias.FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                ProcessName="{Binding ElementName=_processTextBlock, Path=Text, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" />
+            <ctrl:HeaderTextBox
+                x:Name="_processTextBlock"
+                Header="File Name"
+                Text="{Binding Alias.FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
         </DockPanel>
         <ctrl:HeaderTextBox Header="Arguments" Text="{Binding Alias.Arguments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
         <ctrl:HeaderTextBox Header="Notes" Text="{Binding Alias.Notes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
