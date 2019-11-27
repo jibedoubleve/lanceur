@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace Probel.Lanceur.Core.ServicesImpl.Handlers
+namespace Probel.Lanceur.Core.ServicesImpl.ArgumentHandlers
 {
     public class TextReplacementHandler : ArgumentHandler
     {

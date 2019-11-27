@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Probel.Lanceur.Core.ServicesImpl.Handlers
+namespace Probel.Lanceur.Core.ServicesImpl.ArgumentHandlers
 {
     public class WebHandler : TextReplacementHandler
     {

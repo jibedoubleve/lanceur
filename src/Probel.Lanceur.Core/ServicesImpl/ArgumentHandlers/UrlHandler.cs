@@ -1,4 +1,4 @@
-﻿namespace Probel.Lanceur.Core.ServicesImpl.Handlers
+﻿namespace Probel.Lanceur.Core.ServicesImpl.ArgumentHandlers
 {
     public class UrlHandler : TextReplacementHandler
     {

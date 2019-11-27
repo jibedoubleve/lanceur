@@ -1,7 +1,7 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
 
-namespace Probel.Lanceur.Core.ServicesImpl.Handlers
+namespace Probel.Lanceur.Core.ServicesImpl.ArgumentHandlers
 {
     public class ClipboardHandler : ArgumentHandler
     {
