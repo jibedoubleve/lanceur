@@ -42,7 +42,7 @@ namespace Probel.Lanceur
 
             ss.Bind(Keywords.Quit, arg => Application.Current.Shutdown());
             ss.Bind(Keywords.Import, arg => importer.Import());
-            ss.Bind(Keywords.Setup, arg => windowManager.ShowWindow(_container.Resolve<SetupViewModel>()));
+            ss.Bind(Keywords.Setup, arg => windowManager.ShowDialog(_container.Resolve<SetupViewModel>()));
             ss.Bind(Keywords.Corner, arg => eManager.PublishOnUIThread(Notifications.CornerCommand));
             //---
             ss.Bind(Keywords.Clear, arg => db.Clear());
