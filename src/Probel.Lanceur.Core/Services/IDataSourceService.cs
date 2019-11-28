@@ -9,7 +9,7 @@ namespace Probel.Lanceur.Core.Services
 
         void Clear();
 
-        void Create(Alias alias);
+        void Create(Alias alias, IEnumerable<string> names = null);
 
         void Delete(Alias alias);
 
@@ -32,9 +32,9 @@ namespace Probel.Lanceur.Core.Services
         void Update(IEnumerable<AliasName> names);
 
         AliasSession GetSession(long sessionId);
-        
+
         void Update(AliasSession session);
-        
+
         void Delete(AliasSession session);
 
         #endregion Methods

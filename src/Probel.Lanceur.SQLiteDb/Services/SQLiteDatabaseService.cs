@@ -49,7 +49,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
             }
         }
 
-        public void Create(Alias s)
+        public void Create(Alias s, IEnumerable<string> names = null)
         {
             var sql = @"
                 insert into alias (
@@ -68,11 +68,20 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     @idSession
                 );
                 select last_insert_rowid() from alias;";
-            var sql2 = @"insert into alias(id_alias, name) values(@idAlias, @name)";
+            var sql2 = @"insert into alias_name(id_alias, name) values(@idAlias, @name)";
             using (var c = BuildConnectionString())
             {
                 var lastId = c.Query<long>(sql, new { s.Arguments, s.FileName, s.Notes, s.RunAs, s.StartMode, s.IdSession }).FirstOrDefault();
-                c.Execute(sql2, new { s.Name, IdAlias = lastId });
+
+                if (names == null && string.IsNullOrEmpty(s.Name)) { throw new NotSupportedException($"Cannot create a new alias without name."); }
+                else if (names == null) { c.Execute(sql2, new { s.Name, IdAlias = lastId }); }
+                else
+                {
+                    foreach (var name in names)
+                    {
+                        c.Execute(sql2, new { name, IdAlias = lastId });
+                    }
+                }
             }
         }
 
