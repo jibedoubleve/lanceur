@@ -12,7 +12,7 @@ namespace Probel.Lanceur.ViewModels
     {
         #region Fields
 
-        private readonly IDatabaseService _databaseService;
+        private readonly IDataSourceService _databaseService;
 
         private readonly ISettingsService _settingsService;
 
@@ -25,7 +25,7 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public SettingsViewModel(ISettingsService settingsService, IDatabaseService databaseService)
+        public SettingsViewModel(ISettingsService settingsService, IDataSourceService databaseService)
         {
             _databaseService = databaseService;
             _settingsService = settingsService;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Probel.Lanceur.Core.Services
 {
-    public interface IDatabaseService
+    public interface IDataSourceService
     {
         #region Methods
 

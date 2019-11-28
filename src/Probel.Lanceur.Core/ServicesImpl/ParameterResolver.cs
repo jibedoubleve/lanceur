@@ -34,11 +34,8 @@ namespace Probel.Lanceur.Core.ServicesImpl
         {
             var result = cmd.Clone();
 
-            cmd.FileName = cmd.FileName.ToNormalisedParameter();
-            cmd.Arguments = cmd.Arguments.ToNormalisedParameter();
-
-            result.FileName = Resolve(cmd.FileName, parameters);
-            result.Arguments = Resolve(cmd.Arguments, parameters);
+            result.FileName = Resolve(cmd.FileName.ToNormalisedParameter(), parameters);
+            result.Arguments = Resolve(cmd.Arguments.ToNormalisedParameter(), parameters);
 
             return result;
         }

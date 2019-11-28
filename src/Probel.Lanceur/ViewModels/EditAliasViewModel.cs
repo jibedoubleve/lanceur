@@ -11,7 +11,7 @@ namespace Probel.Lanceur.ViewModels
     {
         #region Fields
 
-        private readonly IDatabaseService _databaseService;
+        private readonly IDataSourceService _databaseService;
         private bool _isCreation;
         private ObservableCollection<AliasNameModel> _names;
         private AliasModel _alias;
@@ -20,7 +20,7 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public EditAliasViewModel(IDatabaseService databaseService, ILogService log)
+        public EditAliasViewModel(IDataSourceService databaseService, ILogService log)
         {
             Log = log;
             _databaseService = databaseService;

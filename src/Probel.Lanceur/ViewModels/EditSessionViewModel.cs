@@ -12,7 +12,7 @@ namespace Probel.Lanceur.ViewModels
     {
         #region Fields
 
-        private readonly IDatabaseService _databaseService;
+        private readonly IDataSourceService _databaseService;
         private AliasSessionModel _currentSession;
         private ObservableCollection<AliasSessionModel> _sessions;
 
@@ -22,7 +22,7 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public EditSessionViewModel(IDatabaseService databaseService, ISettingsService settingsService)
+        public EditSessionViewModel(IDataSourceService databaseService, ISettingsService settingsService)
         {
             _settingsService = settingsService;
             _databaseService = databaseService;

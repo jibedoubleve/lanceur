@@ -23,14 +23,11 @@ namespace Probel.Lanceur.Services
             foreach (var keyword in Enum.GetValues(typeof(Keywords)))
             {
                 var key = keyword.ToString().ToUpper();
-                _reservedKeywords.Add(key, arg => _log.Trace($"Action for {key}"));
+                _reservedKeywords.Add(key, arg => _log.Trace($"Unbinded action for {key}"));
             }
         }
 
-        public ReservedKeywordService(ILogService log)
-        {
-            _log = log;
-        }
+        public ReservedKeywordService(ILogService log) => _log = log;
 
         #endregion Constructors
 

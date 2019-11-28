@@ -8,14 +8,14 @@ namespace Probel.Lanceur.Services
         #region Fields
 
         private readonly ICommandRunner _cmdRunner;
-        private readonly IDatabaseService _databaseService;
+        private readonly IDataSourceService _databaseService;
         private readonly IParameterResolver _resolver;
 
         #endregion Fields
 
         #region Constructors
 
-        public DefaultAliasService(IDatabaseService databaseService, IParameterResolver argumentHandler, ICommandRunner runner, ILogService log)
+        public DefaultAliasService(IDataSourceService databaseService, IParameterResolver argumentHandler, ICommandRunner runner, ILogService log)
         {
             _log = log;
             _databaseService = databaseService;

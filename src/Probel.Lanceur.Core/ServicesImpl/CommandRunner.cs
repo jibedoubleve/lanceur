@@ -10,7 +10,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
     {
         #region Fields
 
-        private readonly IDatabaseService _databaseService;
+        private readonly IDataSourceService _databaseService;
 
         private readonly IReservedKeywordService _keywordService;
 
@@ -18,7 +18,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         #region Constructors
 
-        public CommandRunner(IReservedKeywordService keywordService, IDatabaseService databaseService)
+        public CommandRunner(IReservedKeywordService keywordService, IDataSourceService databaseService)
         {
             _databaseService = databaseService;
             _keywordService = keywordService;

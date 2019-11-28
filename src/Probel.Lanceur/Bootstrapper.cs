@@ -36,7 +36,7 @@ namespace Probel.Lanceur
         {
             var ss = _container.Resolve<IReservedKeywordService>();
             var importer = _container.Resolve<ISlickRunImporterService>();
-            var db = _container.Resolve<IDatabaseService>();
+            var db = _container.Resolve<IDataSourceService>();
             var windowManager = _container.Resolve<IWindowManager>();
             var eManager = _container.Resolve<IEventAggregator>();
 
@@ -65,7 +65,7 @@ namespace Probel.Lanceur
             _container.RegisterType<IParameterResolver, ParameterResolver>();
             _container.RegisterType<IReservedKeywordService, ReservedKeywordService>();
 
-            _container.RegisterType<IDatabaseService, SQLiteDatabaseService>();
+            _container.RegisterType<IDataSourceService, SQLiteDatabaseService>();
             _container.RegisterType<ISlickRunImporterService, SQLiteSlickRunImporterService>();
             _container.RegisterType<ISlickRunExtractor, SlickRunExtractor>();
             _container.RegisterType<ISettingsService, JsonSettingsService>();
@@ -90,7 +90,7 @@ namespace Probel.Lanceur
 
         protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(e.Exception.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Unexpected crash occured: {e.Exception.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             _container.Resolve<ILogService>().Fatal($"Unexpected crash occured: {e.Exception.Message}", e.Exception);
             base.OnUnhandledException(sender, e);
         }

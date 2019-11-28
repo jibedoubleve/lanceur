@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Probel.Lanceur.SQLiteDb.Services
 {
-    public class SQLiteDatabaseService : IDatabaseService
+    public class SQLiteDatabaseService : IDataSourceService
     {
         #region Fields
 

@@ -29,7 +29,7 @@ namespace Probel.Lanceur.Services
 
         public AppSettings Get()
         {
-            AppSettings file = new AppSettings();
+            var file = new AppSettings();
 
             if (File.Exists(_file))
             {

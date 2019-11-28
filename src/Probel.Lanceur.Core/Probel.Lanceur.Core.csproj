@@ -80,7 +80,7 @@
     <Compile Include="Services\ICommandRunner.cs" />
     <Compile Include="Services\IReservedKeywordService.cs" />
     <Compile Include="Services\IParameterResolver.cs" />
-    <Compile Include="Services\IDatabaseService.cs" />
+    <Compile Include="Services\IDataSourceService.cs" />
     <Compile Include="Services\IClipboardService.cs" />
     <Compile Include="Services\IAliasService.cs" />
     <Compile Include="Services\ISlickRunImporterService.cs" />
