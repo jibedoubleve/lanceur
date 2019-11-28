@@ -12,17 +12,17 @@ namespace Probel.Lanceur.ViewModels
     {
         #region Fields
 
-        private readonly IDatabaseService _databaseService;
-        private ShortcutSessionModel _currentSession;
-        private ObservableCollection<ShortcutSessionModel> _sessions;
+        private readonly IDataSourceService _databaseService;
+        private AliasSessionModel _currentSession;
+        private ObservableCollection<AliasSessionModel> _sessions;
 
-        private ObservableCollection<ShortcutModel> _shortcuts;
+        private ObservableCollection<AliasModel> _aliases;
 
         #endregion Fields
 
         #region Constructors
 
-        public EditSessionViewModel(IDatabaseService databaseService, ISettingsService settingsService)
+        public EditSessionViewModel(IDataSourceService databaseService, ISettingsService settingsService)
         {
             _settingsService = settingsService;
             _databaseService = databaseService;
@@ -34,22 +34,22 @@ namespace Probel.Lanceur.ViewModels
 
         public ISettingsService _settingsService { get; }
 
-        public ShortcutSessionModel CurrentSession
+        public AliasSessionModel CurrentSession
         {
             get => _currentSession;
             set => Set(ref _currentSession, value, nameof(CurrentSession));
         }
 
-        public ObservableCollection<ShortcutSessionModel> Sessions
+        public ObservableCollection<AliasSessionModel> Sessions
         {
             get => _sessions;
             set => Set(ref _sessions, value, nameof(Sessions));
         }
 
-        public ObservableCollection<ShortcutModel> Shortcuts
+        public ObservableCollection<AliasModel> Aliases
         {
-            get => _shortcuts;
-            set => Set(ref _shortcuts, value, nameof(Shortcuts));
+            get => _aliases;
+            set => Set(ref _aliases, value, nameof(Aliases));
         }
 
         #endregion Properties
@@ -62,19 +62,19 @@ namespace Probel.Lanceur.ViewModels
         {
             var stg = _settingsService.Get();
             var sessions = _databaseService.GetSessions().AsModel();
-            Sessions = new ObservableCollection<ShortcutSessionModel>(sessions);
+            Sessions = new ObservableCollection<AliasSessionModel>(sessions);
             CurrentSession = Sessions.GetSession(stg.SessionId);
 
-            RefreshShortcuts();
+            RefreshAliases();
         }
 
-        public void RefreshShortcuts()
+        public void RefreshAliases()
         {
             if (CurrentSession != null)
             {
                 var sessionId = CurrentSession.Id;
-                var shortcuts = _databaseService.GetShortcuts(sessionId).AsModel();
-                Shortcuts = new ObservableCollection<ShortcutModel>(shortcuts);
+                var aliases = _databaseService.GetAliases(sessionId).AsModel();
+                Aliases = new ObservableCollection<AliasModel>(aliases);
             }
         }
 

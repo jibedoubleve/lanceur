@@ -6,7 +6,7 @@ namespace Probel.Lanceur.SQLiteDb.Entities
     {
         #region Properties
 
-        public long IdShortcut { get; set; }
+        public long IdAlias { get; set; }
         public DateTime Timestamp { get; set; }
 
         #endregion Properties

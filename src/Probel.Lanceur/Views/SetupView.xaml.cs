@@ -31,7 +31,7 @@ namespace Probel.Lanceur.Views
             if (e.AddedItems.Count > 0)
             {
                 var tab = e.AddedItems[0];
-                if (tab == _tabKeywords) { ViewModel.ListShortcutViewModel.RefreshData(); }
+                if (tab == _tabKeywords) { ViewModel.ListAliasViewModel.RefreshData(); }
                 else if (tab == _tabSettings) { ViewModel.SettingsViewModel.RefreshData(); }
                 else if (tab == _tabSessions) { ViewModel.EditSessionViewModel.RefreshData(); }
             }

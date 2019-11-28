@@ -9,12 +9,12 @@ using System.Linq;
 
 namespace Probel.Lanceur.SQLiteDb.Services
 {
-    public class SQLiteDatabaseService : IDatabaseService
+    public class SQLiteDatabaseService : IDataSourceService
     {
         #region Fields
 
         private readonly string _connectionString;
-        private readonly IKeywordService _keywordService;
+        private readonly IReservedKeywordService _keywordService;
         private readonly ILogService _log;
         private readonly IReservedKeywordService _reservedKeywordService;
 
@@ -22,7 +22,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         #region Constructors
 
-        public SQLiteDatabaseService(IKeywordService keywordService, ILogService log, IReservedKeywordService reservedKeywordService)
+        public SQLiteDatabaseService(IReservedKeywordService keywordService, ILogService log, IReservedKeywordService reservedKeywordService)
         {
             _reservedKeywordService = reservedKeywordService;
             _log = log;
@@ -41,18 +41,18 @@ namespace Probel.Lanceur.SQLiteDb.Services
             using (var c = BuildConnectionString())
             {
                 var sql = @"
-                    delete from shortcut;
-                    delete from shortcut_name;
-                    delete from shortcut_usage;
-                    delete from shortcut_session where name = 'SlickRun';";
+                    delete from alias;
+                    delete from alias_name;
+                    delete from alias_usage;
+                    delete from alias_session where name = 'SlickRun';";
                 c.Execute(sql);
             }
         }
 
-        public void Create(Shortcut s)
+        public void Create(Alias s)
         {
             var sql = @"
-                insert into shortcut (
+                insert into alias (
                     arguments,
                     file_name,
                     notes,
@@ -67,91 +67,91 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     @startMode,
                     @idSession
                 );
-                select last_insert_rowid() from shortcut;";
-            var sql2 = @"insert into shortcut_name(id_shortcut, name) values(@idShortcut, @name)";
+                select last_insert_rowid() from alias;";
+            var sql2 = @"insert into alias(id_alias, name) values(@idAlias, @name)";
             using (var c = BuildConnectionString())
             {
                 var lastId = c.Query<long>(sql, new { s.Arguments, s.FileName, s.Notes, s.RunAs, s.StartMode, s.IdSession }).FirstOrDefault();
-                c.Execute(sql2, new { s.Name, IdShortcut = lastId });
+                c.Execute(sql2, new { s.Name, IdAlias = lastId });
             }
         }
 
-        public void Delete(Shortcut shortcut)
+        public void Delete(Alias alias)
         {
-            var sql = @"delete from shortcut_name where id_shortcut = @id";
-            var sql2 = @"delete from shortcut where id = @id";
+            var sql = @"delete from alias_name where id_alias = @id";
+            var sql2 = @"delete from alias where id = @id";
             using (var c = BuildConnectionString())
             {
-                c.Execute(sql, new { shortcut.Id });
-                c.Execute(sql2, new { shortcut.Id });
+                c.Execute(sql, new { alias.Id });
+                c.Execute(sql2, new { alias.Id });
             }
         }
 
-        public void Delete(ShortcutSession session)
+        public void Delete(AliasSession session)
         {
             using (var c = BuildConnectionString())
             {
                 var queries = new string[]
                 {
-                    @"delete from shortcut_session where id = @id",
-                    @"delete from shortcut where id_session = @id"
+                    @"delete from alias_session where id = @id",
+                    @"delete from alias where id_session = @id"
                 };
                 foreach (var sql in queries) { c.Execute(sql, new { session.Id }); }
 
             }
         }
 
-        public IEnumerable<ShortcutName> GetNamesOf(Shortcut shortcut)
+        public IEnumerable<AliasName> GetNamesOf(Alias alias)
         {
             using (var c = BuildConnectionString())
             {
                 var sql = @"
                     select id          as Id
                          , name        as Name
-                         , id_shortcut as IdShortcut
-                    from shortcut_name
-                    where id_shortcut = @idShortcut";
-                var result = c.Query<ShortcutName>(sql, new { IdShortcut = shortcut.Id });
+                         , id_alias as IdAlias
+                    from alias_name
+                    where id_alias = @idAlias";
+                var result = c.Query<AliasName>(sql, new { IdAlias = alias.Id });
                 return result;
             }
         }
 
-        public ShortcutSession GetSession(long sessionId)
+        public AliasSession GetSession(long sessionId)
         {
             var sql = @"
                 select id    as id
                      , name  as name
                      , notes as notes
-                from shortcut_session
+                from alias_session
                 where id = @sessionId";
             using (var c = BuildConnectionString())
             {
                 try
                 {
-                    var result = c.Query<ShortcutSession>(sql, new { sessionId }).Single();
+                    var result = c.Query<AliasSession>(sql, new { sessionId }).Single();
                     return result;
                 }
                 catch (InvalidOperationException ex) { throw new InvalidOperationException($"There's no session with ID '{sessionId}'", ex); }
             }
         }
 
-        public IEnumerable<ShortcutSession> GetSessions()
+        public IEnumerable<AliasSession> GetSessions()
         {
             var sql = @"
                 select id    as id
                      , name  as name
                      , notes as notes
-                from shortcut_session ";
+                from alias_session ";
             using (var c = BuildConnectionString())
             {
-                var result = c.Query<ShortcutSession>(sql);
+                var result = c.Query<AliasSession>(sql);
                 return result.OrderBy(e => e.Name);
             }
         }
 
-        public Shortcut GetShortcut(string name)
+        public Alias GetAlias(string name)
         {
-            if (_keywordService.IsReserved(name)) { return Shortcut.Empty(name); }
+            if (_keywordService.IsReserved(name)) { return Alias.Empty(name); }
 
             var sql = @"
                 select n.Name       as Name
@@ -161,24 +161,24 @@ namespace Probel.Lanceur.SQLiteDb.Services
                      , s.notes      as Notes
                      , s.run_as     as RunAs
                      , s.start_mode as StartMode
-                from shortcut s
-                inner join shortcut_name n on s.id = n.id_shortcut
+                from alias s
+                inner join alias_name n on s.id = n.id_alias
                 where n.name = @name";
 
             using (var c = BuildConnectionString())
             {
-                var result = c.Query<Shortcut>(sql, new { name })
+                var result = c.Query<Alias>(sql, new { name })
                               .FirstOrDefault();
-                return result ?? Shortcut.Empty(name);
+                return result ?? Alias.Empty(name);
             }
         }
 
-        public IEnumerable<string> GetShortcutNames(long sessionId)
+        public IEnumerable<string> GetAliasNames(long sessionId)
         {
             var sql = @"
                 select sn.Name as Name
-                from shortcut_name sn
-                inner join shortcut s on s.id = sn.id_shortcut
+                from alias_name sn
+                inner join alias s on s.id = sn.id_alias
                 where s.id_session = @sessionId
                 order by name";
 
@@ -193,7 +193,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
             }
         }
 
-        public IEnumerable<Shortcut> GetShortcuts(long sessionId)
+        public IEnumerable<Alias> GetAliases(long sessionId)
         {
             var sql = @"
                 select n.Name       as Name
@@ -203,33 +203,33 @@ namespace Probel.Lanceur.SQLiteDb.Services
                      , s.notes      as Notes
                      , s.run_as     as RunAs
                      , s.start_mode as StartMode
-                from shortcut s
-                inner join shortcut_name n on s.id = n.id_shortcut
+                from alias s
+                inner join alias_name n on s.id = n.id_alias
                 where s.id_session = @sessionId
                 order by n.name      ";
 
             using (var c = BuildConnectionString())
             {
-                var result = c.Query<Shortcut>(sql, new { sessionId });
-                return result ?? new List<Shortcut>();
+                var result = c.Query<Alias>(sql, new { sessionId });
+                return result ?? new List<Alias>();
             }
         }
 
-        public void SetUsage(Shortcut shortcut) => SetUsage(shortcut.Id);
+        public void SetUsage(Alias alias) => SetUsage(alias.Id);
 
-        public void SetUsage(long idShortcut)
+        public void SetUsage(long idAlias)
         {
             using (var c = BuildConnectionString())
             {
-                var sql = @"insert into shortcut_usage (id_shortcut, time_stamp) values (@idShortcut, @now)";
-                c.Execute(sql, new { idShortcut, now = DateTime.Now });
+                var sql = @"insert into alias_usage (id_alias, time_stamp) values (@idAlias, @now)";
+                c.Execute(sql, new { idAlias, now = DateTime.Now });
             }
         }
 
-        public void Update(Shortcut shortcut)
+        public void Update(Alias alias)
         {
             var sql = @"
-                update shortcut
+                update alias
                 set
                     arguments  = @arguments,
                     file_name  = @fileName,
@@ -238,43 +238,43 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     start_mode = @startMode
                 where id = @id;";
             var sql2 = @"
-                update shortcut_name
+                update alias_name
                 set
                     name = @name
-                where id_shortcut = @id";
+                where id_alias = @id";
             using (var c = BuildConnectionString())
             {
-                c.Execute(sql, new { shortcut.Arguments, shortcut.FileName, shortcut.Notes, shortcut.RunAs, shortcut.StartMode, shortcut.Id });
-                c.Execute(sql2, new { shortcut.Name, shortcut.Id });
+                c.Execute(sql, new { alias.Arguments, alias.FileName, alias.Notes, alias.RunAs, alias.StartMode, alias.Id });
+                c.Execute(sql2, new { alias.Name, alias.Id });
             }
         }
 
-        public void Update(IEnumerable<ShortcutName> names)
+        public void Update(IEnumerable<AliasName> names)
         {
             using (var c = BuildConnectionString())
             {
-                var sqlInsert = @"insert into shortcut_name (name, shortcut_id) values (@name, @shortcutId)";
-                var sqlUpdate = @"update shortcut_name set name = @name where id = @id";
+                var sqlInsert = @"insert into alias_name (name, alias_id) values (@name, @aliasId)";
+                var sqlUpdate = @"update alias_name set name = @name where id = @id";
                 foreach (var name in names)
                 {
                     if (name.Id == 0)
                     {
-                        _log.Debug($"Insert new. id_shortcut: {name.IdShortcut} - name: {name.Name} - id: {name.Id}");
-                        c.Execute(sqlInsert, new { name.Name, name.IdShortcut });
+                        _log.Debug($"Insert new. id_alias: {name.IdAlias} - name: {name.Name} - id: {name.Id}");
+                        c.Execute(sqlInsert, new { name.Name, name.IdAlias });
                     }
                     else
                     {
-                        _log.Debug($"Update. id_shortcut: {name.IdShortcut} - name: {name.Name} - id: {name.Id}");
+                        _log.Debug($"Update. id_alias: {name.IdAlias} - name: {name.Name} - id: {name.Id}");
                         c.Execute(sqlUpdate, new { name.Name, name.Id });
                     }
                 }
             }
         }
 
-        public void Update(ShortcutSession session)
+        public void Update(AliasSession session)
         {
             var sql = @"
-                update shortcut_session
+                update alias_session
                 set
                     name  = @name,
                     notes = @notes

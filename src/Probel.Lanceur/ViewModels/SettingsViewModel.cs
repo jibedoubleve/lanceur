@@ -12,20 +12,20 @@ namespace Probel.Lanceur.ViewModels
     {
         #region Fields
 
-        private readonly IDatabaseService _databaseService;
+        private readonly IDataSourceService _databaseService;
 
         private readonly ISettingsService _settingsService;
 
         private AppSettingsModel _appSettings;
 
-        private ShortcutSessionModel _currentSession;
-        private ObservableCollection<ShortcutSessionModel> _sessons;
+        private AliasSessionModel _currentSession;
+        private ObservableCollection<AliasSessionModel> _sessons;
 
         #endregion Fields
 
         #region Constructors
 
-        public SettingsViewModel(ISettingsService settingsService, IDatabaseService databaseService)
+        public SettingsViewModel(ISettingsService settingsService, IDataSourceService databaseService)
         {
             _databaseService = databaseService;
             _settingsService = settingsService;
@@ -41,13 +41,13 @@ namespace Probel.Lanceur.ViewModels
             set => Set(ref _appSettings, value, nameof(AppSettings));
         }
 
-        public ShortcutSessionModel CurrentSession
+        public AliasSessionModel CurrentSession
         {
             get => _currentSession;
             set => Set(ref _currentSession, value, nameof(CurrentSession));
         }
 
-        public ObservableCollection<ShortcutSessionModel> Sessions
+        public ObservableCollection<AliasSessionModel> Sessions
         {
             get => _sessons;
             set => Set(ref _sessons, value, nameof(Sessions));
@@ -63,7 +63,7 @@ namespace Probel.Lanceur.ViewModels
             AppSettings = appSettings;
 
             var sessions = _databaseService.GetSessions().AsModel();
-            Sessions = new ObservableCollection<ShortcutSessionModel>(sessions);
+            Sessions = new ObservableCollection<AliasSessionModel>(sessions);
 
             var curSession = sessions.GetSession(appSettings.SessionId);
             CurrentSession = curSession;

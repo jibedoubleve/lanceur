@@ -79,7 +79,7 @@
                         <Controls:MetroHeader.HeaderTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <TextBlock Text="Shortcut" />
+                                    <TextBlock Text="Alias" />
                                 </StackPanel>
                             </DataTemplate>
                         </Controls:MetroHeader.HeaderTemplate>

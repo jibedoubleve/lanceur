@@ -10,15 +10,15 @@ namespace Probel.Lanceur.Core.ServicesImpl
     {
         #region Fields
 
-        private readonly IDatabaseService _databaseService;
+        private readonly IDataSourceService _databaseService;
 
-        private readonly IKeywordService _keywordService;
+        private readonly IReservedKeywordService _keywordService;
 
         #endregion Fields
 
         #region Constructors
 
-        public CommandRunner(IKeywordService keywordService, IDatabaseService databaseService)
+        public CommandRunner(IReservedKeywordService keywordService, IDataSourceService databaseService)
         {
             _databaseService = databaseService;
             _keywordService = keywordService;
@@ -28,7 +28,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         #region Methods
 
-        private ProcessStartInfo GetProcessStartInfo(Shortcut s)
+        private ProcessStartInfo GetProcessStartInfo(Alias s)
         {
             var psInfo = new ProcessStartInfo()
             {
@@ -40,16 +40,16 @@ namespace Probel.Lanceur.Core.ServicesImpl
             return psInfo;
         }
 
-        public void Run(Shortcut shortcut)
+        public void Run(Alias alias)
         {
-            if (shortcut.IsExecutable)
+            if (alias.IsExecutable)
             {
-                var pInfo = GetProcessStartInfo(shortcut);
+                var pInfo = GetProcessStartInfo(alias);
                 var ps = new Process { StartInfo = pInfo };
                 ps.Start();
-                _databaseService.SetUsage(shortcut);
+                _databaseService.SetUsage(alias);
             }
-            else { _keywordService.ExecuteActionFor(shortcut.Name, shortcut.Arguments); }
+            else { _keywordService.ExecuteActionFor(alias.Name, alias.Arguments); }
         }
 
         #endregion Methods

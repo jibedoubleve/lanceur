@@ -1,6 +1,7 @@
 ﻿using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Core.ServicesImpl.Handlers;
+using Probel.Lanceur.Core.ServicesImpl.ArgumentHandlers;
 
 namespace Probel.Lanceur.Core.ServicesImpl
 {
@@ -27,13 +28,15 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         #region Methods
 
-        private string Resolve(string cmdline, string parameters) => _handler.Handle(cmdline, parameters);
+        private string Resolve(string text, string parameters) => _handler.Handle(text, parameters);
 
-        public Shortcut Resolve(Shortcut cmd, string parameters)
+        public Alias Resolve(Alias cmd, string parameters)
         {
             var result = cmd.Clone();
-            result.FileName = Resolve(cmd.FileName, parameters);
-            result.Arguments = Resolve(cmd.Arguments, parameters);
+
+            result.FileName = Resolve(cmd.FileName.ToNormalisedParameter(), parameters);
+            result.Arguments = Resolve(cmd.Arguments.ToNormalisedParameter(), parameters);
+
             return result;
         }
 

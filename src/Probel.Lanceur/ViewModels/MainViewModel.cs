@@ -14,26 +14,26 @@ namespace Probel.Lanceur.ViewModels
 
         private readonly IScreenRuler _screenRuler;
         private readonly ISettingsService _settingsService;
-        private readonly IShortcutService _shortcutService;
+        private readonly IAliasService _aliasService;
         private AppSettings _appSettings;
         private string _colour;
         private double _left;
         private double _opacity;
-        private ObservableCollection<string> _shortcutNameList;
+        private ObservableCollection<string> _aliasNameList;
         private double _top;
-        private string shortcutName;
+        private string _aliasName;
 
         #endregion Fields
 
         #region Constructors
 
-        public MainViewModel(IShortcutService shortcutService, ISettingsService settings, IEventAggregator ea, IScreenRuler screenRuler, ILogService logService)
+        public MainViewModel(IAliasService aliasService, ISettingsService settings, IEventAggregator ea, IScreenRuler screenRuler, ILogService logService)
         {
             LogService = logService;
             ea.Subscribe(this);
             _screenRuler = screenRuler;
             _settingsService = settings;
-            _shortcutService = shortcutService;
+            _aliasService = aliasService;
         }
 
         #endregion Constructors
@@ -70,16 +70,16 @@ namespace Probel.Lanceur.ViewModels
             set => Set(ref _opacity, value, nameof(Opacity));
         }
 
-        public string ShortcutName
+        public string AliasName
         {
-            get => shortcutName;
-            set => Set(ref shortcutName, value, nameof(ShortcutName));
+            get => _aliasName;
+            set => Set(ref _aliasName, value, nameof(AliasName));
         }
 
-        public ObservableCollection<string> ShortcutNameList
+        public ObservableCollection<string> AliasNameList
         {
-            get => _shortcutNameList;
-            set => Set(ref _shortcutNameList, value, nameof(ShortcutNameList));
+            get => _aliasNameList;
+            set => Set(ref _aliasNameList, value, nameof(AliasNameList));
         }
 
         public double Top
@@ -92,7 +92,7 @@ namespace Probel.Lanceur.ViewModels
 
         #region Methods
 
-        public void ExecuteText(string cmdLine) => _shortcutService.Execute(cmdLine);
+        public void ExecuteText(string cmdLine) => _aliasService.Execute(cmdLine);
 
         public void Handle(string message)
         {
@@ -115,17 +115,17 @@ namespace Probel.Lanceur.ViewModels
             Opacity = s.Opacity;
         }
 
-        public void LoadShortcuts()
+        public void LoadAliases()
         {
-            var l = _shortcutService.GetShortcutsNames(AppSettings.SessionId);
-            ShortcutNameList = new ObservableCollection<string>(l);
+            var l = _aliasService.GetAliasNames(AppSettings.SessionId);
+            AliasNameList = new ObservableCollection<string>(l);
         }
 
         public void OnShow()
         {
             AppSettings = _settingsService.Get();
-            var n = _shortcutService.GetShortcutsNames(AppSettings.SessionId);
-            ShortcutNameList = new ObservableCollection<string>(n);
+            var n = _aliasService.GetAliasNames(AppSettings.SessionId);
+            AliasNameList = new ObservableCollection<string>(n);
         }
 
         public void SaveSettings()

@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
         <ComboBox
             Margin="{StaticResource DefaultBorder}"
-            cal:Message.Attach="[Event SelectionChanged]=[Action RefreshShortcuts]"
+            cal:Message.Attach="[Event SelectionChanged]=[Action RefreshAliases]"
             DisplayMemberPath="Name"
             ItemsSource="{Binding Sessions}"
             SelectedItem="{Binding CurrentSession, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
@@ -45,7 +45,7 @@
         </DockPanel>
         <ScrollViewer Grid.Row="2">
             <ItemsControl
-                x:Name="Shortcuts"
+                x:Name="Aliases"
                 Margin="{StaticResource DefaultBorder}"
                 BorderBrush="{StaticResource AccentColorBrush}"
                 BorderThickness="1">

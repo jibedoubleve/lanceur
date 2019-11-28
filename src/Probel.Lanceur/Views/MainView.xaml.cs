@@ -35,7 +35,7 @@ namespace Probel.Lanceur.Views
 
         private void HideControl()
         {
-            ShortcutNameList.Text = string.Empty;
+            AliasNameList.Text = string.Empty;
             _self.Visibility = Visibility.Collapsed;
         }
 
@@ -43,7 +43,7 @@ namespace Probel.Lanceur.Views
         {
             if (e.Key == Key.Enter)
             {
-                ViewModel?.ExecuteText(ShortcutNameList.Text);
+                ViewModel?.ExecuteText(AliasNameList.Text);
                 HideControl();
             }
             else if (e.Key == Key.Escape) { HideControl(); }
@@ -51,7 +51,11 @@ namespace Probel.Lanceur.Views
 
         private void OnLostFocus(object sender, RoutedEventArgs e) => Visibility = Visibility.Collapsed;
 
-        private void OnShowWindow(object sender, HotkeyEventArgs e) => ShowWindow();
+        private void OnShowWindow(object sender, HotkeyEventArgs e)
+        {
+            ShowWindow();
+            e.Handled = true;
+        }
 
         private void OnWindowClosing(object sender, CancelEventArgs e) => ViewModel.SaveSettings();
 
@@ -95,13 +99,18 @@ namespace Probel.Lanceur.Views
         private void ShowWindow()
         {
             ViewModel.LoadSettings();
-            ViewModel.LoadShortcuts();
+            ViewModel.LoadAliases();
 
             Visibility = Visibility.Visible;
-            ShortcutNameList.Focus();
+            AliasNameList.Focus();
 
             //https://stackoverflow.com/questions/3109080/focus-on-textbox-when-usercontrol-change-visibility
-            Dispatcher.BeginInvoke((Action)delegate { Keyboard.Focus(ShortcutNameList); });
+            Dispatcher.BeginInvoke((Action)delegate { Keyboard.Focus(AliasNameList); });
+
+            Activate();
+            Topmost = true;
+            Topmost = false;
+            Focus();
         }
 
         #endregion Methods

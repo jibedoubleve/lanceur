@@ -21,31 +21,31 @@ namespace Probel.Lanceur.Helpers
 
         private static IEnumerable<TModel> AsModel<TEntity, TModel>(this IEnumerable<TEntity> src) => Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(src);
 
-        public static IEnumerable<ShortcutName> AsEntity(this IEnumerable<ShortcutNameModel> src) => AsEntity<ShortcutNameModel, ShortcutName>(src);
+        public static IEnumerable<AliasName> AsEntity(this IEnumerable<AliasNameModel> src) => AsEntity<AliasNameModel, AliasName>(src);
 
-        public static Shortcut AsEntity(this ShortcutModel src) => Mapper.Map<ShortcutModel, Shortcut>(src);
+        public static Alias AsEntity(this AliasModel src) => Mapper.Map<AliasModel, Alias>(src);
 
         public static AppSettings AsEntity(this AppSettingsModel src) => Mapper.Map<AppSettingsModel, AppSettings>(src);
 
-        public static IEnumerable<Shortcut> AsEntity(this IEnumerable<ShortcutModel> src) => AsEntity<ShortcutModel, Shortcut>(src);
+        public static IEnumerable<Alias> AsEntity(this IEnumerable<AliasModel> src) => AsEntity<AliasModel, Alias>(src);
 
         public static IEnumerable<AppSettings> AsEntity(this IEnumerable<AppSettingsModel> src) => AsEntity<AppSettingsModel, AppSettings>(src);
 
-        public static ShortcutSession AsEntity(this ShortcutSessionModel src) => Mapper.Map<ShortcutSessionModel, ShortcutSession>(src);
+        public static AliasSession AsEntity(this AliasSessionModel src) => Mapper.Map<AliasSessionModel, AliasSession>(src);
 
         public static AppSettingsModel AsModel(this AppSettings src) => Mapper.Map<AppSettings, AppSettingsModel>(src);
 
-        public static IEnumerable<ShortcutSessionModel> AsModel(this IEnumerable<ShortcutSession> src) => AsModel<ShortcutSession, ShortcutSessionModel>(src);
+        public static IEnumerable<AliasSessionModel> AsModel(this IEnumerable<AliasSession> src) => AsModel<AliasSession, AliasSessionModel>(src);
 
-        public static ShortcutSessionModel AsModel(this ShortcutSession src) => Mapper.Map<ShortcutSession, ShortcutSessionModel>(src);
+        public static AliasSessionModel AsModel(this AliasSession src) => Mapper.Map<AliasSession, AliasSessionModel>(src);
 
-        public static ShortcutModel AsModel(this Shortcut src) => Mapper.Map<Shortcut, ShortcutModel>(src);
+        public static AliasModel AsModel(this Alias src) => Mapper.Map<Alias, AliasModel>(src);
 
-        public static ShortcutNameModel AsModel(this ShortcutName src) => Mapper.Map<ShortcutName, ShortcutNameModel>(src);
+        public static AliasNameModel AsModel(this AliasName src) => Mapper.Map<AliasName, AliasNameModel>(src);
 
-        public static IEnumerable<ShortcutNameModel> AsModel(this IEnumerable<ShortcutName> src) => AsModel<ShortcutName, ShortcutNameModel>(src);
+        public static IEnumerable<AliasNameModel> AsModel(this IEnumerable<AliasName> src) => AsModel<AliasName, AliasNameModel>(src);
 
-        public static IEnumerable<ShortcutModel> AsModel(this IEnumerable<Shortcut> src) => AsModel<Shortcut, ShortcutModel>(src);
+        public static IEnumerable<AliasModel> AsModel(this IEnumerable<Alias> src) => AsModel<Alias, AliasModel>(src);
 
         public static IEnumerable<AppSettingsModel> AsModel(this IEnumerable<AppSettings> src) => AsModel<AppSettings, AppSettingsModel>(src);
 

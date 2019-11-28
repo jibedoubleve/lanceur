@@ -5,7 +5,6 @@ using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.ServicesImpl;
 using Probel.Lanceur.Helpers;
-using Probel.Lanceur.Infrastructure.Services;
 using Probel.Lanceur.Services;
 using Probel.Lanceur.SQLiteDb.Services;
 using Probel.Lanceur.ViewModels;
@@ -35,15 +34,15 @@ namespace Probel.Lanceur
 
         private void ConfigureInternalCommands()
         {
-            var ss = _container.Resolve<IKeywordService>();
+            var ss = _container.Resolve<IReservedKeywordService>();
             var importer = _container.Resolve<ISlickRunImporterService>();
-            var db = _container.Resolve<IDatabaseService>();
+            var db = _container.Resolve<IDataSourceService>();
             var windowManager = _container.Resolve<IWindowManager>();
             var eManager = _container.Resolve<IEventAggregator>();
 
             ss.Bind(Keywords.Quit, arg => Application.Current.Shutdown());
             ss.Bind(Keywords.Import, arg => importer.Import());
-            ss.Bind(Keywords.Setup, arg => windowManager.ShowWindow(_container.Resolve<SetupViewModel>()));
+            ss.Bind(Keywords.Setup, arg => windowManager.ShowDialog(_container.Resolve<SetupViewModel>()));
             ss.Bind(Keywords.Corner, arg => eManager.PublishOnUIThread(Notifications.CornerCommand));
             //---
             ss.Bind(Keywords.Clear, arg => db.Clear());
@@ -61,16 +60,17 @@ namespace Probel.Lanceur
             _container.RegisterInstance(typeof(IDialogCoordinator), DialogCoordinator.Instance);
 
             _container.RegisterType<IClipboardService, ClipboardService>();
-            _container.RegisterType<IShortcutService, DefaultShortcutService>();
+            _container.RegisterType<IAliasService, DefaultAliasService>();
             _container.RegisterType<ICommandRunner, CommandRunner>();
             _container.RegisterType<IParameterResolver, ParameterResolver>();
-            _container.RegisterType<IKeywordService, KeywordService>();
+            _container.RegisterType<IReservedKeywordService, ReservedKeywordService>();
 
-            _container.RegisterType<IDatabaseService, SQLiteDatabaseService>();
+            _container.RegisterType<IDataSourceService, SQLiteDatabaseService>();
             _container.RegisterType<ISlickRunImporterService, SQLiteSlickRunImporterService>();
             _container.RegisterType<ISlickRunExtractor, SlickRunExtractor>();
             _container.RegisterType<ISettingsService, JsonSettingsService>();
-            _container.RegisterType<ILogService, TraceLogger>();
+            //_container.RegisterType<ILogService, TraceLogger>();
+            _container.RegisterType<ILogService, NLogLogger>();
             _container.RegisterType<IScreenRuler, ScreenRuler>();
             _container.RegisterType<IReservedKeywordService, ReservedKeywordService>();
 
@@ -90,7 +90,8 @@ namespace Probel.Lanceur
 
         protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(e.Exception.ToString(), "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show($"Unexpected crash occured: {e.Exception.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            _container.Resolve<ILogService>().Fatal($"Unexpected crash occured: {e.Exception.Message}", e.Exception);
             base.OnUnhandledException(sender, e);
         }
         #endregion Methods

@@ -56,8 +56,8 @@
     <Compile Include="EmbeddedResourceManager.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\SessionEntity.cs" />
-    <Compile Include="Entities\ShortcutEntity.cs" />
-    <Compile Include="Entities\ShortcutNameEntity.cs" />
+    <Compile Include="Entities\AliasEntity.cs" />
+    <Compile Include="Entities\AliasNameEntity.cs" />
     <Compile Include="Entities\UsageEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConnectionStringManager.cs" />
