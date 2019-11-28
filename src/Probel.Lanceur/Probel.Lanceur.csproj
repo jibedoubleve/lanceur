@@ -109,6 +109,14 @@
     <Compile Include="..\Version.cs">
       <Link>Properties\Version.cs</Link>
     </Compile>
+    <Compile Include="Actions\BaseUiAction.cs" />
+    <Compile Include="Actions\ClearAction.cs" />
+    <Compile Include="Actions\CornerAction.cs" />
+    <Compile Include="Actions\EchoAction.cs" />
+    <Compile Include="Actions\ImportAction.cs" />
+    <Compile Include="Actions\IUiAction.cs" />
+    <Compile Include="Actions\QuitAction.cs" />
+    <Compile Include="Actions\SetupAction.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -125,6 +133,7 @@
     <Compile Include="Converters\InvertBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\MahAppsHotKeyToSettingsHotKey.cs" />
     <Compile Include="Converters\OpacityToSliderConverter.cs" />
+    <Compile Include="Helpers\DeactivateHotKey.cs" />
     <Compile Include="Helpers\MahappsHelper.cs" />
     <Compile Include="Models\Settings\AppSettingsModel.cs" />
     <Compile Include="Models\Settings\PositionSettingsModel.cs" />

@@ -8,8 +8,9 @@
     Title="Settings"
     Width="850"
     Height="638"
-    ResizeMode="NoResize"    
-    mc:Ignorable="d" Icon="/Probel.Lanceur;component/Assets/appIcon.ico">
+    Icon="/Probel.Lanceur;component/Assets/appIcon.ico"
+    ResizeMode="NoResize"
+    mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />

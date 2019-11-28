@@ -27,6 +27,8 @@ namespace Probel.Lanceur.ViewModels
             AppVersion = $"v.{v.Major}.{v.Minor}.{v.Build}";
         }
 
+        public static bool IsBusy { get; internal set; }
+
         #endregion Constructors
 
         #region Properties
