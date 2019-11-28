@@ -32,6 +32,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: startup; Description: "Automatically start on login"; GroupDescription: "{cm:AdditionalIcons}"
 
 [Files]
 Source: "{#BinDirectory}{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
@@ -41,6 +42,7 @@ Source: "{#BinDirectory}*"; DestDir: "{app}"; Flags: ignoreversion recursesubdir
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{userstartup}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: startup
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
