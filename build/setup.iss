@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Probel Lanceur"
-#define MyAppVersion "0.2.1"
+#define MyAppVersion "0.2.2"
 #define MyAppPublisher "Probel"
 #define MyAppURL "http://www.probel.xyz/"
 #define MyAppExeName "Probel.Lanceur.exe"

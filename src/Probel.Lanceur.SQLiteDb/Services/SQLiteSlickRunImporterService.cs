@@ -51,7 +51,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
             foreach (var name in names)
             {
                 c.Execute(sql, new { id, name = name.Trim('"', ' ') });
-                _log.Debug($"New name: '{name}'");
+                _log.Trace($"New name: '{name}'");
             }
         }
 
