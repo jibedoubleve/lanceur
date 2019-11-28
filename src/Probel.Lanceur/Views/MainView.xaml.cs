@@ -106,6 +106,11 @@ namespace Probel.Lanceur.Views
 
             //https://stackoverflow.com/questions/3109080/focus-on-textbox-when-usercontrol-change-visibility
             Dispatcher.BeginInvoke((Action)delegate { Keyboard.Focus(AliasNameList); });
+
+            Activate();
+            Topmost = true;
+            Topmost = false;
+            Focus();
         }
 
         #endregion Methods

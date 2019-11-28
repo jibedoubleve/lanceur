@@ -21,7 +21,6 @@
     ShowInTaskbar="False"
     SizeToContent="Height"
     Top="{Binding Top, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-    Topmost="True"
     WindowStyle="None"
     mc:Ignorable="d">
     <Window.Resources>
