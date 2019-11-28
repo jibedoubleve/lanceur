@@ -53,8 +53,11 @@ namespace Probel.Lanceur.Views
 
         private void OnShowWindow(object sender, HotkeyEventArgs e)
         {
-            ShowWindow();
-            e.Handled = true;
+            if (!SetupViewModel.IsBusy)
+            {
+                ShowWindow();
+                e.Handled = true;
+            }
         }
 
         private void OnWindowClosing(object sender, CancelEventArgs e) => ViewModel.SaveSettings();

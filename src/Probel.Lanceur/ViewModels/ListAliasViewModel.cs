@@ -88,7 +88,8 @@ namespace Probel.Lanceur.ViewModels
 
         public void CreateKeyword()
         {
-            EditAliasViewModel.Alias = new AliasModel();
+            EditAliasViewModel.Alias = new AliasModel() { IdSession = _appSettings.SessionId };
+
             EditAliasViewModel.Names = new ObservableCollection<AliasNameModel>();
             ActivateItem(EditAliasViewModel);
         }

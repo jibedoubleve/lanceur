@@ -74,7 +74,7 @@ namespace Probel.Lanceur.ViewModels
 
         public void CreateAlias()
         {
-            _databaseService.Create(Alias.AsEntity());
+            _databaseService.Create(Alias.AsEntity(), Names.AsNames());
             RefreshParentList();
         }
 

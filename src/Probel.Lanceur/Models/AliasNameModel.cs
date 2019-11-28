@@ -1,7 +1,23 @@
 ﻿using Caliburn.Micro;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Probel.Lanceur.Models
 {
+    public static class AliasNameModelExtension
+    {
+        #region Methods
+
+        public static IEnumerable<string> AsNames(this IEnumerable<AliasNameModel> src)
+        {
+            var result = (from i in src
+                          select i.Name).ToList();
+            return result;
+        }
+
+        #endregion Methods
+    }
+
     public class AliasNameModel : PropertyChangedBase
     {
         #region Fields
