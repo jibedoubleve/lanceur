@@ -68,6 +68,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     @idSession
                 );
                 select last_insert_rowid() from alias;";
+                
             var sql2 = @"insert into alias_name(id_alias, name) values(@idAlias, @name)";
             using (var c = BuildConnectionString())
             {
