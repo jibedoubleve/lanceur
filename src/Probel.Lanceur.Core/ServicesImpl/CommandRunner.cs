@@ -1,8 +1,8 @@
-﻿using Probel.Lanceur.Core.Helpers;
+﻿using Probel.Lanceur.Core.Constants;
 using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
 using System.Diagnostics;
-using Probel.Lanceur.Core.Constants;
 
 namespace Probel.Lanceur.Core.ServicesImpl
 {
@@ -11,15 +11,16 @@ namespace Probel.Lanceur.Core.ServicesImpl
         #region Fields
 
         private readonly IDataSourceService _databaseService;
-
         private readonly IReservedKeywordService _keywordService;
+        private readonly ILogService _log;
 
         #endregion Fields
 
         #region Constructors
 
-        public CommandRunner(IReservedKeywordService keywordService, IDataSourceService databaseService)
+        public CommandRunner(IReservedKeywordService keywordService, IDataSourceService databaseService, ILogService logService)
         {
+            _log = logService;
             _databaseService = databaseService;
             _keywordService = keywordService;
         }
@@ -28,15 +29,17 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         #region Methods
 
-        private ProcessStartInfo GetProcessStartInfo(Alias s)
+        private ProcessStartInfo GetProcessStartInfo(Alias alias)
         {
+            _log.Debug($"Executing '{alias.FileName}' with args '{alias.Arguments}'");
+
             var psInfo = new ProcessStartInfo()
             {
-                Arguments = s.Arguments,
-                WindowStyle = s.StartMode.AsWindowsStyle(),
-                FileName = s.FileName,
+                Arguments = alias.Arguments,
+                WindowStyle = alias.StartMode.AsWindowsStyle(),
+                FileName = alias.FileName,
             };
-            if (s.RunAs == RunAs.Admin) { psInfo.Verb = "runas"; }
+            if (alias.RunAs == RunAs.Admin) { psInfo.Verb = "runas"; }
             return psInfo;
         }
 

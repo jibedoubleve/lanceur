@@ -4,6 +4,7 @@ using Probel.Lanceur.Actions;
 using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.ServicesImpl;
+using Probel.Lanceur.Core.ServicesImpl.MacroManagement;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Services;
 using Probel.Lanceur.SQLiteDb.Services;
@@ -63,6 +64,7 @@ namespace Probel.Lanceur
             _container.RegisterType<ILogService, NLogLogger>();
             _container.RegisterType<IScreenRuler, ScreenRuler>();
             _container.RegisterType<IReservedKeywordService, ReservedKeywordService>();
+            _container.RegisterType<IMacroService, MacroService>();
 
             _container.RegisterType<MainViewModel>();
             _container.RegisterType<SetupViewModel>();

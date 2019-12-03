@@ -9,14 +9,16 @@ namespace Probel.Lanceur.Services
 
         private readonly ICommandRunner _cmdRunner;
         private readonly IDataSourceService _databaseService;
+        private readonly IMacroService _macroService;
         private readonly IParameterResolver _resolver;
 
         #endregion Fields
 
         #region Constructors
 
-        public DefaultAliasService(IDataSourceService databaseService, IParameterResolver argumentHandler, ICommandRunner runner, ILogService log)
+        public DefaultAliasService(IDataSourceService databaseService, IParameterResolver argumentHandler, ICommandRunner runner, ILogService log, IMacroService macroService)
         {
+            _macroService = macroService;
             _log = log;
             _databaseService = databaseService;
             _resolver = argumentHandler;
@@ -36,13 +38,16 @@ namespace Probel.Lanceur.Services
         public void Execute(string cmdline)
         {
             var splited = _resolver.Split(cmdline);
+
             var cmd = _databaseService.GetAlias(splited.Command);
 
             cmd = _resolver.Resolve(cmd, splited.Parameters);
 
-            _log.Trace($"Executing '{cmd.Name}' [{cmd.FileName}] with args '{cmd.Arguments}'");
-
-            _cmdRunner.Run(cmd);
+            if (_macroService.Has(cmd.FileName))
+            {
+                _macroService.With(_cmdRunner, this).Handle(cmd);
+            }
+            else { _cmdRunner.Run(cmd); }
         }
 
         public IEnumerable<string> GetAliasNames(long sessionId) => _databaseService.GetAliasNames(sessionId);

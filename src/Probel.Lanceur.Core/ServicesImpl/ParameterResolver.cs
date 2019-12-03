@@ -1,4 +1,5 @@
-﻿using Probel.Lanceur.Core.Entities;
+﻿using Probel.Lanceur.Core.Constants;
+using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.ServicesImpl.ArgumentHandlers;
@@ -35,7 +36,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
             var result = cmd.Clone();
 
             result.FileName = Resolve(cmd.FileName.ToNormalisedParameter(), parameters);
-            result.Arguments = Resolve(cmd.Arguments.ToNormalisedParameter(), parameters);
+            result.Arguments = Resolve(cmd.Arguments.ToNormalisedParameter(), parameters);            
 
             return result;
         }
