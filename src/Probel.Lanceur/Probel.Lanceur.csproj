@@ -106,6 +106,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Actions\ActionManager.cs" />
     <Compile Include="Actions\BaseUiAction.cs" />
     <Compile Include="Actions\ClearAction.cs" />
     <Compile Include="Actions\CornerAction.cs" />
@@ -114,6 +115,8 @@
     <Compile Include="Actions\IUiAction.cs" />
     <Compile Include="Actions\QuitAction.cs" />
     <Compile Include="Actions\SetupAction.cs" />
+    <Compile Include="Actions\UiActionAttribute.cs" />
+    <Compile Include="Actions\VersionAction.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

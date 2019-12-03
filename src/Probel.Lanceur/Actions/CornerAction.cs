@@ -4,28 +4,24 @@ using Unity;
 
 namespace Probel.Lanceur.Actions
 {
+    [UiAction]
     public class CornerAction : BaseUiAction
     {
         #region Fields
 
-        private readonly IEventAggregator _eventManager;
+        private IEventAggregator _eventManager;
 
         #endregion Fields
 
-        #region Constructors
+        #region Methods
 
-        public CornerAction(IUnityContainer container) : base(container)
+        protected override void Configure()
         {
             _eventManager = Container.Resolve<IEventAggregator>();
         }
 
-        #endregion Constructors
-
-        #region Methods
-
         public override void Execute(string arg) => _eventManager.PublishOnUIThread(Notifications.CornerCommand);
 
-
-#endregion Methods
+        #endregion Methods
     }
 }

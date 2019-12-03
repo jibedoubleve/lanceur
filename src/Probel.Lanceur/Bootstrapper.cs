@@ -1,7 +1,6 @@
 ﻿using Caliburn.Micro;
 using MahApps.Metro.Controls.Dialogs;
 using Probel.Lanceur.Actions;
-using Probel.Lanceur.Core.Constants;
 using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.ServicesImpl;
@@ -11,6 +10,8 @@ using Probel.Lanceur.SQLiteDb.Services;
 using Probel.Lanceur.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
 using Unity;
@@ -37,13 +38,16 @@ namespace Probel.Lanceur
         {
             var ss = _container.Resolve<IReservedKeywordService>();
 
-            ss.Bind(Keywords.Quit, arg => new QuitAction(_container).Execute(arg));
-            ss.Bind(Keywords.Import, arg => new ImportAction(_container).Execute(arg));
-            ss.Bind(Keywords.Setup, arg => new SetupAction(_container).Execute(arg));
-            ss.Bind(Keywords.Corner, arg => new CornerAction(_container).Execute(arg));
-            //---
-            ss.Bind(Keywords.Clear, arg => new ClearAction(_container).Execute(arg));
-            ss.Bind(Keywords.Echo, arg => new EchoAction(_container).Execute(arg)); ;
+            var actionManager = new ActionManager(ss, _container);
+            actionManager.Bind();
+
+            //ss.Bind(Keywords.Quit, arg => new QuitAction(_container).Execute(arg));
+            //ss.Bind(Keywords.Import, arg => new ImportAction(_container).Execute(arg));
+            //ss.Bind(Keywords.Setup, arg => new SetupAction(_container).Execute(arg));
+            //ss.Bind(Keywords.Corner, arg => new CornerAction(_container).Execute(arg));
+            ////---
+            //ss.Bind(Keywords.Clear, arg => new ClearAction(_container).Execute(arg));
+            //ss.Bind(Keywords.Echo, arg => new EchoAction(_container).Execute(arg));
         }
 
         protected override void BuildUp(object instance) => _container.BuildUp(instance);
@@ -91,6 +95,7 @@ namespace Probel.Lanceur
             _container.Resolve<ILogService>().Fatal($"Unexpected crash occured: {e.Exception.Message}", e.Exception);
             base.OnUnhandledException(sender, e);
         }
+
         #endregion Methods
     }
 }

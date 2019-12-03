@@ -3,26 +3,27 @@ using Unity;
 
 namespace Probel.Lanceur.Actions
 {
+    [UiAction]
     public class ImportAction : BaseUiAction
     {
         #region Fields
 
-        private ISlickRunImporterService importer;
+        private ISlickRunImporterService _importer;
 
         #endregion Fields
 
         #region Constructors
 
-        public ImportAction(IUnityContainer container) : base(container)
+        protected override void Configure()
         {
-            importer = Container.Resolve<ISlickRunImporterService>();
+            _importer = Container.Resolve<ISlickRunImporterService>();
         }
 
         #endregion Constructors
 
         #region Methods
 
-        public override void Execute(string arg) => importer.Import();
+        public override void Execute(string arg) => _importer.Import();
 
         #endregion Methods
     }

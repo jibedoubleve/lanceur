@@ -1,17 +1,5 @@
 ﻿namespace Probel.Lanceur.Core.Constants
 {
-    public enum RunAs
-    {
-        Admin,
-        CurrentUser,
-    }
-
-    public enum StartMode
-    {
-        Default,
-        Maximised,
-        Minimised,
-    }
     public enum Keywords
     {
         Add,
@@ -25,5 +13,19 @@
         Import,
         Clear,
         Echo,
+        Version,
+    }
+
+    public enum RunAs
+    {
+        Admin,
+        CurrentUser,
+    }
+
+    public enum StartMode
+    {
+        Default,
+        Maximised,
+        Minimised,
     }
 }

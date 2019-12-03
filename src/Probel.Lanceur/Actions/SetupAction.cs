@@ -5,16 +5,9 @@ using Unity;
 
 namespace Probel.Lanceur.Actions
 {
+    [UiAction]
     public class SetupAction : BaseUiAction
     {
-        #region Constructors
-
-        public SetupAction(IUnityContainer container) : base(container)
-        {
-        }
-
-        #endregion Constructors
-
         #region Methods
 
         public override void Execute(string arg)

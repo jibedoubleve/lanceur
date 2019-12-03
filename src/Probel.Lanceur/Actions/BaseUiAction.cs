@@ -5,27 +5,27 @@ namespace Probel.Lanceur.Actions
 {
     public abstract class BaseUiAction : IUiAction
     {
-        #region Fields
+        #region Properties
 
-        protected IWindowManager WindowManager { get; }
-        protected IUnityContainer Container { get; }
+        protected IUnityContainer Container { get; private set; }
+        protected IWindowManager WindowManager { get; private set; }
 
-        #endregion Fields
-
-        #region Constructors
-
-        public BaseUiAction(IUnityContainer container)
-        {
-            Container = container;
-
-            WindowManager = Container.Resolve<IWindowManager>();
-        }
-
-        #endregion Constructors
+        #endregion Properties
 
         #region Methods
 
+        protected virtual void Configure()
+        {
+        }
+
         public abstract void Execute(string arg);
+
+        public BaseUiAction With(IUnityContainer container)
+        {
+            Container = container;
+            WindowManager = Container.Resolve<IWindowManager>();
+            return this;
+        }
 
         #endregion Methods
     }
