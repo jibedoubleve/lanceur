@@ -10,8 +10,6 @@ using Probel.Lanceur.SQLiteDb.Services;
 using Probel.Lanceur.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Threading;
 using Unity;
@@ -38,16 +36,7 @@ namespace Probel.Lanceur
         {
             var ss = _container.Resolve<IReservedKeywordService>();
 
-            var actionManager = new ActionManager(ss, _container);
-            actionManager.Bind();
-
-            //ss.Bind(Keywords.Quit, arg => new QuitAction(_container).Execute(arg));
-            //ss.Bind(Keywords.Import, arg => new ImportAction(_container).Execute(arg));
-            //ss.Bind(Keywords.Setup, arg => new SetupAction(_container).Execute(arg));
-            //ss.Bind(Keywords.Corner, arg => new CornerAction(_container).Execute(arg));
-            ////---
-            //ss.Bind(Keywords.Clear, arg => new ClearAction(_container).Execute(arg));
-            //ss.Bind(Keywords.Echo, arg => new EchoAction(_container).Execute(arg));
+            new ActionManager(ss, _container).Bind();
         }
 
         protected override void BuildUp(object instance) => _container.BuildUp(instance);

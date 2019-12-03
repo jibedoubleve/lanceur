@@ -31,6 +31,7 @@ GitVersion gitVersion = GitVersion(new GitVersionSettings
 { 
     OutputType = GitVersionOutput.Json,
     UpdateAssemblyInfo  = true,
+    UpdateAssemblyInfoFilePath  = "./src/Version.cs",
 });
 var branchName = gitVersion.BranchName;
 

@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Version.cs">
+      <Link>Properties\Version.cs</Link>
+    </Compile>
     <Compile Include="Constants\Wildcards.cs" />
     <Compile Include="Helpers\ConverterHelper.cs" />
     <Compile Include="Helpers\IScreenRuler.cs" />
