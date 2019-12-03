@@ -21,16 +21,17 @@ var verbosity = Argument("verbosity", Verbosity.Minimal);
 ///////////////////////////////////////////////////////////////////////////////
 // PREPARATION
 ///////////////////////////////////////////////////////////////////////////////
-var latestInstallationPath = VSWhereLatest(new VSWhereLatestSettings { IncludePrerelease = true });
-var msBuildPath            = latestInstallationPath.Combine("./MSBuild/Current/Bin");
-var msBuildPathExe         = msBuildPath.CombineWithFilePath("./MSBuild.exe");
 
 //Files
 var solution   = "./src/Probel.Lanceur.sln";
-var publishDir = "/Release/project-lanceur/inno";
+var publishDir = "./Publish/";
 var inno_setup = "./build/setup.iss";
 
-GitVersion gitVersion = GitVersion(new GitVersionSettings { OutputType = GitVersionOutput.Json });
+GitVersion gitVersion = GitVersion(new GitVersionSettings 
+{ 
+    OutputType = GitVersionOutput.Json,
+    UpdateAssemblyInfo  = true,
+});
 var branchName = gitVersion.BranchName;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -45,9 +46,15 @@ Setup(ctx =>
     
     Information(Figlet($"Probel   {repoName}"));
 
-    Information("Branch                 : {0}", branchName);
     Information("Configuration          : {0}", configuration);
-    Information("MSBuildPath            : {0}", msBuildPath);
+    Information("Branch                 : {0}", branchName);
+    Information("Informational      Version: {0}", gitVersion.InformationalVersion);
+    Information("SemVer             Version: {0}", gitVersion.SemVer);
+    Information("AssemblySemVer     Version: {0}", gitVersion.AssemblySemVer);
+    Information("AssemblySemFileVer Version: {0}", gitVersion.AssemblySemFileVer);
+    Information("MajorMinorPatch    Version: {0}", gitVersion.MajorMinorPatch);
+    Information("NuGet              Version: {0}", gitVersion.NuGetVersion);  
+    Information("Configuration             : {0}", configuration);
 });
 ///////////////////////////////////////////////////////////////////////////////
 // TASKS
@@ -60,26 +67,27 @@ Task("Clean")
                             .Concat(GetDirectories("./**/Publish"));
         DeleteDirectories(dirToDelete, new DeleteDirectorySettings{ Recursive = true, Force = true});
     });
+
 Task("Build")
     .Does(() => 
     {    
         var msBuildSettings = new MSBuildSettings {
             Verbosity = verbosity
-            , ToolPath = msBuildPathExe
             , Configuration = configuration
         };
 
         MSBuild(solution, msBuildSettings
-            // .SetMaxCpuCount(0)
             .WithProperty("Description", "A simple launcher.")
         );
         
     });
+
 Task("Inno-Setup")
     .Does(()=>
     {
-        InnoSetup(inno_setup);
+        InnoSetup(inno_setup, new InnoSetupSettings { OutputDirectory = publishDir });
     });
+
 Task("Unit-Test")      
     .Does(() =>
     {
@@ -87,14 +95,16 @@ Task("Unit-Test")
         GetFiles("./src/Tests/Probel.Lanceur.UnitTest/bin/**/*UnitTest*.dll")
         );
     });
+
 Task("Versioning")
     .Does(()=>
     {
         StartPowershellFile("./build/update-versions.ps1", args => args.Append("version", branchName));
     });
+
 Task("Default")
     .IsDependentOn("Clean")
-    .IsDependentOn("Versioning")
+    // .IsDependentOn("Versioning")
     .IsDependentOn("Build")
     .IsDependentOn("Unit-Test")
     .IsDependentOn("Inno-Setup");

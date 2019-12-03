@@ -28,6 +28,9 @@ using System.Windows;
 
 //[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
+[assembly: AssemblyVersion("0.2.2.1")]
+[assembly: AssemblyFileVersion("0.2.2.0")]
+[assembly: AssemblyInformationalVersion("0.2.2-V0-2-2.1+2.Branch.V0.2.2.Sha.fb89aa05a3a01500235be8b33217f2f166f877cf")]
 [assembly: ThemeInfo(
     ResourceDictionaryLocation.None, //where theme specific resource dictionaries are located
                                      //(used if a resource is not found in the page,
