@@ -1,11 +1,14 @@
 ﻿using Caliburn.Micro;
 using MahApps.Metro.Controls.Dialogs;
+using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Entities.Settings;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Probel.Lanceur.ViewModels
@@ -58,7 +61,18 @@ namespace Probel.Lanceur.ViewModels
         #endregion Properties
 
         #region Methods
-
+        public void Search(object c)
+        {
+            var criterion = c.ToString();
+            if (string.IsNullOrWhiteSpace(criterion)) { Aliases = new ObservableCollection<AliasModel>(_bufferAlias); }
+            else
+            {
+                var tmp = (from a in _bufferAlias
+                           where a.Name.ToLower().Contains(criterion)
+                           select a);
+                Aliases = new ObservableCollection<AliasModel>(tmp);
+            }
+        }
         public void ActivateDetail(object view)
         {
             if (view is AliasModel model)
@@ -97,11 +111,11 @@ namespace Probel.Lanceur.ViewModels
         public void RefreshData()
         {
             _appSettings = _settingService.Get();
-            var sc = _databaseService.GetAliases(_appSettings.SessionId).AsModel();
-            Aliases = new ObservableCollection<AliasModel>(sc);
+            _bufferAlias = _databaseService.GetAliases(_appSettings.SessionId).AsModel();
+            Aliases = new ObservableCollection<AliasModel>(_bufferAlias);
             DeactivateItem(EditAliasViewModel, true);
         }
-
+        private IEnumerable<AliasModel> _bufferAlias;
         #endregion Methods
     }
 }

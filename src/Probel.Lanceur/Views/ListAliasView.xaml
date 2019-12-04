@@ -7,7 +7,9 @@
     xmlns:cal="http://www.caliburnproject.org"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:h="clr-namespace:Probel.Lanceur.Helpers"
+    xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ret="clr-namespace:Probel.Lanceur.Helpers"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -16,17 +18,26 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150" />
+            <ColumnDefinition Width="250" />
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="5*" />
         </Grid.ColumnDefinitions>
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
+            <TextBox
+                Name="_tbSearch"
+                Margin="{StaticResource ControlMargin}"
+                Controls:TextBoxHelper.Watermark="Enter to execute the search..."
+                KeyDown="OnSearchKeyDown"
+                Style="{DynamicResource SearchMetroTextBox}" />
+
             <ListBox
+                Grid.Row="1"
                 cal:Message.Attach="[Event SelectionChanged]=[Action ActivateDetail($this.SelectedItem)]"
                 DisplayMemberPath="Name"
                 ItemsSource="{Binding Aliases}"
@@ -34,7 +45,7 @@
                 SelectedItem="{Binding SelectedAlias}" />
             <Button
                 x:Name="CreateKeyword"
-                Grid.Row="1"
+                Grid.Row="2"
                 Margin="5"
                 Content="New Keyword"
                 Style="{DynamicResource AccentedSquareButtonStyle}" />
