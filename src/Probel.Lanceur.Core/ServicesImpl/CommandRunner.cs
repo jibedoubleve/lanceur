@@ -38,6 +38,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
                 Arguments = alias.Arguments,
                 WindowStyle = alias.StartMode.AsWindowsStyle(),
                 FileName = alias.FileName,
+                WorkingDirectory = alias.WorkingDirectory,
             };
             if (alias.RunAs == RunAs.Admin) { psInfo.Verb = "runas"; }
             return psInfo;

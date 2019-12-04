@@ -16,6 +16,7 @@
                 Notes = src.Notes,
                 RunAs = src.RunAs,
                 StartMode = src.StartMode,
+                WorkingDirectory = src.WorkingDirectory,
             };
             return ret;
         }
