@@ -35,7 +35,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         #region Methods
 
-        private long GetIdSession(SQLiteConnection c, string sessionName)
+        private long InsertSession(SQLiteConnection c, string sessionName)
         {
             var sql = @"
                     insert into alias_session (name, notes) values(@sessionName,'Imported from SlickRun');
@@ -55,7 +55,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
             }
         }
 
-        public void Import(string sessionName = null, string fileName = null)
+        public long Import(string sessionName = null, string fileName = null)
         {
             var n = DateTime.Now;
 
@@ -63,7 +63,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
             using (var c = new SQLiteConnection(_connectionString))
             {
-                var idSession = GetIdSession(c, sessionName);
+                var idSession = InsertSession(c, sessionName);
                 var aliases = _extractor.Extract(fileName);
                 var sql = @"
                     insert into alias (
@@ -92,6 +92,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     InsertNames(c, id[0], s.Names);
                 }
                 _log.Debug($"All {aliases.Count()} keyword(s) imported!");
+                return idSession;
             }
         }
 

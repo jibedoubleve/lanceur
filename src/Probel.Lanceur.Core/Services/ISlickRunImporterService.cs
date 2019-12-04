@@ -4,7 +4,7 @@
     {
         #region Methods
 
-        void Import(string sessionName = null, string fileName = null);
+        long Import(string sessionName = null, string fileName = null);
 
         #endregion Methods
     }
