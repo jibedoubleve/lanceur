@@ -247,7 +247,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     file_name   = @fileName,
                     notes       = @notes,
                     run_as      = @runAs,
-                    start_mode  = @startMode
+                    start_mode  = @startMode,
                     working_dir = @WorkingDirectory
                 where id = @id;";
             var sql2 = @"
