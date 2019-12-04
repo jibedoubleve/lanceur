@@ -5,6 +5,7 @@ using Probel.Lanceur.Models;
 using Probel.Lanceur.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 
 namespace Probel.Lanceur.ViewModels
 {
@@ -56,7 +57,20 @@ namespace Probel.Lanceur.ViewModels
 
         #region Methods
 
-        public void DeleteName() => _databaseService.Delete(CurrentSession.AsEntity());
+        public void DeleteName()
+        {
+            if (CurrentSession != null)
+            {
+                _databaseService.Delete(CurrentSession.AsEntity());
+
+                var toDel = (from s in Sessions
+                            where s.Id == CurrentSession.Id
+                            select s).SingleOrDefault();
+
+                if (toDel != null) { Sessions.Remove(toDel); }
+            }
+
+        }
 
         public void RefreshData()
         {
