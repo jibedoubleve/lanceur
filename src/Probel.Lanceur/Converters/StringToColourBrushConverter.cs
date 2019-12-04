@@ -10,7 +10,7 @@ namespace Probel.Lanceur.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is string str) { return ColorConverter.ConvertFromString(str); }
-            else { return new BrushConverter().ConvertFrom("#FF1E1E1"); }
+            else { return ColorConverter.ConvertFromString("#FF1E1E1E"); }
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => throw new NotImplementedException();
     }

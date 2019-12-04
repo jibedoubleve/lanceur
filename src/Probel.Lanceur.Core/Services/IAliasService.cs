@@ -1,5 +1,4 @@
-﻿using Probel.Lanceur.Core.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Probel.Lanceur.Core.Services
 {
@@ -8,6 +7,7 @@ namespace Probel.Lanceur.Core.Services
         #region Methods
 
         void Execute(string param);
+
         IEnumerable<string> GetAliasNames(long sessionId);
 
         #endregion Methods

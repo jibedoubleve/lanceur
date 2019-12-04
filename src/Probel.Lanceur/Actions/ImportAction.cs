@@ -1,4 +1,8 @@
 ﻿using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.ViewModels;
+using System;
+using System.Threading.Tasks;
+using System.Windows;
 using Unity;
 
 namespace Probel.Lanceur.Actions
@@ -37,13 +41,27 @@ namespace Probel.Lanceur.Actions
 
         #region Methods
 
-        public override void Execute(string arg)
+        public override async void Execute(string arg)
         {
-            var sessionId = Importer.Import();
+            var vm = Container.Resolve<ImportViewModel>();
+            WindowManager.ShowWindow(vm);
+
+            EventHandler<ImportUpdatedEventArg> update = (sender, e) =>
+            {
+                Application.Current.Dispatcher.Invoke(() => vm.Update(e.Progress, e.Output));
+            };
+
+            Importer.ImportUpdated += update;
+
+            var sessionId = await Task.Run(() => Importer.Import());
+
             //Now update the settings
             var s = SettingsService.Get();
             s.SessionId = sessionId;
             SettingsService.Save(s);
+
+            Importer.ImportUpdated -= update;
+            vm.TryClose();
         }
 
         #endregion Methods

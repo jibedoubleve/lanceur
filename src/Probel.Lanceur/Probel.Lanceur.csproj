@@ -163,6 +163,7 @@
     <Compile Include="Services\SessionQueries.cs" />
     <Compile Include="ViewModels\EditSessionViewModel.cs" />
     <Compile Include="ViewModels\EditAliasViewModel.cs" />
+    <Compile Include="ViewModels\ImportViewModel.cs" />
     <Compile Include="ViewModels\ListAliasViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
@@ -172,6 +173,9 @@
     </Compile>
     <Compile Include="Views\EditAliasView.xaml.cs">
       <DependentUpon>EditAliasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ImportView.xaml.cs">
+      <DependentUpon>ImportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ListAliasView.xaml.cs">
       <DependentUpon>ListAliasView.xaml</DependentUpon>
@@ -248,6 +252,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EditAliasView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ImportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
