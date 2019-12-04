@@ -73,6 +73,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
                 Arguments = dico.ContainsKey("params") ? dico["params"] : string.Empty,
                 Notes = dico.ContainsKey("notes") ? dico["notes"] : string.Empty,
                 RunAs = GetRunAs(dico),
+                WorkingDirectory = dico.ContainsKey("path") ? dico["path"] : string.Empty,
             };
         }
 

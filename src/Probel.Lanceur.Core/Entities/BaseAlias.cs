@@ -20,6 +20,8 @@ namespace Probel.Lanceur.Core.Entities
 
         public StartMode StartMode { get; set; }
 
+        public string WorkingDirectory { get; set; }
+
         #endregion Properties
     }
 }

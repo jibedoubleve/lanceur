@@ -16,13 +16,14 @@ create table alias_session (
 );
 
 create table alias (
-    id         integer primary key,
-    arguments  text,
-    file_name  text,
-    notes      text,
-    run_as     text,
-    start_mode text,
-    id_session integer,
+    id          integer primary key,
+    arguments   text,
+    file_name   text,
+    notes       text,
+    run_as      text,
+    start_mode  text,
+    working_dir text,
+    id_session  integer,
     foreign key(id_session) references alias_session
 );
   

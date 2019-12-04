@@ -72,6 +72,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                         notes,
                         run_as,
                         start_mode,
+                        working_dir,
                         id_session
                     ) values (
                         @Arguments,
@@ -79,13 +80,14 @@ namespace Probel.Lanceur.SQLiteDb.Services
                         @Notes,
                         @RunAs,
                         @StartMode,
+                        @WorkingDirectory,
                         @idSession
                     );
                     select last_insert_rowid() from alias;";
 
                 foreach (var s in aliases)
                 {
-                    var id = c.Query<long>(sql, new { Arguments = s.Arguments.Trim('"', ' '), FileName = s.FileName.Trim('"', ' '), s.Notes, s.RunAs, s.StartMode, idSession }).ToList();
+                    var id = c.Query<long>(sql, new { Arguments = s.Arguments.Trim('"', ' '), FileName = s.FileName.Trim('"', ' '), s.Notes, s.RunAs, s.StartMode, s.WorkingDirectory, idSession }).ToList();
 
                     InsertNames(c, id[0], s.Names);
                 }

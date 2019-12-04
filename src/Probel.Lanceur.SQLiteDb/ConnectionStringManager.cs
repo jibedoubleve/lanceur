@@ -19,6 +19,10 @@ namespace Probel.Lanceur.SQLiteDb
         static ConnectionStringManager()
         {
             var path = ConfigurationManager.AppSettings["dbPath"];
+            var db = ConfigurationManager.AppSettings["dbName"];
+
+            path = Path.Combine(path, db);
+
             _dbPath = Environment.ExpandEnvironmentVariables(path);
         }
 
@@ -28,7 +32,8 @@ namespace Probel.Lanceur.SQLiteDb
             {
                 if (!FileExist())
                 {
-                    resource.CopyTo("Probel.Lanceur.SQLiteDb.Assets.settings.db", _dbPath);
+                    var db = ConfigurationManager.AppSettings["dbName"];
+                    resource.CopyTo($"Probel.Lanceur.SQLiteDb.Assets.{db}", _dbPath);
                 }
                 _connectionString = string.Format(CSTRING_PATTERN, _dbPath);
             }

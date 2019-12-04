@@ -65,7 +65,7 @@
     <Compile Include="Services\SQLiteSlickRunImporterService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Assets\settings.db" />
+    <EmbeddedResource Include="Assets\data.db" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

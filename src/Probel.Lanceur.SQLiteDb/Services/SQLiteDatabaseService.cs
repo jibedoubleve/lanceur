@@ -164,13 +164,14 @@ namespace Probel.Lanceur.SQLiteDb.Services
             if (_keywordService.IsReserved(name)) { return Alias.Empty(name); }
 
             var sql = @"
-                select n.Name       as Name
-                     , s.id         as Id
-                     , s.arguments  as Arguments
-                     , s.file_name  as FileName
-                     , s.notes      as Notes
-                     , s.run_as     as RunAs
-                     , s.start_mode as StartMode
+                select n.Name        as Name
+                     , s.id          as Id
+                     , s.arguments   as Arguments
+                     , s.file_name   as FileName
+                     , s.notes       as Notes
+                     , s.run_as      as RunAs
+                     , s.start_mode  as StartMode
+                     , s.working_dir as WorkingDirectory
                 from alias s
                 inner join alias_name n on s.id = n.id_alias
                 where n.name = @name";
@@ -213,6 +214,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                      , s.notes      as Notes
                      , s.run_as     as RunAs
                      , s.start_mode as StartMode
+                     , s.working_dir as WorkingDirectory
                 from alias s
                 inner join alias_name n on s.id = n.id_alias
                 where s.id_session = @sessionId
@@ -241,11 +243,12 @@ namespace Probel.Lanceur.SQLiteDb.Services
             var sql = @"
                 update alias
                 set
-                    arguments  = @arguments,
-                    file_name  = @fileName,
-                    notes      = @notes,
-                    run_as     = @runAs,
-                    start_mode = @startMode
+                    arguments   = @arguments,
+                    file_name   = @fileName,
+                    notes       = @notes,
+                    run_as      = @runAs,
+                    start_mode  = @startMode
+                    working_dir = @WorkingDirectory
                 where id = @id;";
             var sql2 = @"
                 update alias_name
@@ -254,7 +257,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 where id_alias = @id";
             using (var c = BuildConnectionString())
             {
-                c.Execute(sql, new { alias.Arguments, alias.FileName, alias.Notes, alias.RunAs, alias.StartMode, alias.Id });
+                c.Execute(sql, new { alias.Arguments, alias.FileName, alias.Notes, alias.RunAs, alias.StartMode, alias.Id, alias.WorkingDirectory });
                 c.Execute(sql2, new { alias.Name, alias.Id });
             }
         }

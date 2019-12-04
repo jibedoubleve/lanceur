@@ -81,7 +81,6 @@
                 Text="{Binding Alias.FileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
         </DockPanel>
         <ctrl:HeaderTextBox Header="Arguments" Text="{Binding Alias.Arguments, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-        <ctrl:HeaderTextBox Header="Notes" Text="{Binding Alias.Notes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
         <ctrl:HeaderComboBox
             Header="RunAs"
             ItemsSource="{Binding Source={StaticResource RunAsDataProvider}}"
@@ -90,6 +89,8 @@
             Header="StartMode"
             ItemsSource="{Binding Source={StaticResource StartModeDataProvider}}"
             SelectedItem="{Binding Alias.StartMode, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <ctrl:HeaderTextBox Header="Working directory" Text="{Binding Alias.WorkingDirectory, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        <ctrl:HeaderTextBox Header="Notes" Text="{Binding Alias.Notes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
             <StackPanel.Resources />
             <Button
