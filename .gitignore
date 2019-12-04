@@ -330,4 +330,4 @@ ASALocalRun/
 .mfractor/
 
 # GitVersion handle Versioning
-Version.cs
+src/Version.cs

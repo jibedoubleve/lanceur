@@ -69,6 +69,13 @@ Task("Clean")
         DeleteDirectories(dirToDelete, new DeleteDirectorySettings{ Recursive = true, Force = true});
     });
 
+
+Task("Restore")
+    .Does(() =>
+{
+    NuGetRestore(solution);
+});
+
 Task("Build")
     .Does(() => 
     {    
@@ -105,6 +112,7 @@ Task("Versioning")
 
 Task("Default")
     .IsDependentOn("Clean")
+    .IsDependentOn("Restore")
     // .IsDependentOn("Versioning")
     .IsDependentOn("Build")
     .IsDependentOn("Unit-Test")
