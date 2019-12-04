@@ -12,18 +12,22 @@ namespace Probel.Lanceur.Actions
 
         #endregion Fields
 
-        #region Constructors
+        #region Properties
 
-        protected override void Configure()
+        private ISlickRunImporterService Importer
         {
-            _importer = Container.Resolve<ISlickRunImporterService>();
+            get
+            {
+                if (_importer == null) { _importer = Container.Resolve<ISlickRunImporterService>(); }
+                return _importer;
+            }
         }
 
-        #endregion Constructors
+        #endregion Properties
 
         #region Methods
 
-        public override void Execute(string arg) => _importer.Import();
+        public override void Execute(string arg) => Importer.Import();
 
         #endregion Methods
     }
