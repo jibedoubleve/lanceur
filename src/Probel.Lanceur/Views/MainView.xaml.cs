@@ -37,6 +37,7 @@ namespace Probel.Lanceur.Views
         {
             AliasNameList.Text = string.Empty;
             _self.Visibility = Visibility.Collapsed;
+            ViewModel.SaveSettings();
         }
 
         private void OnKeyPressed(object sender, KeyEventArgs e)
@@ -49,7 +50,7 @@ namespace Probel.Lanceur.Views
             else if (e.Key == Key.Escape) { HideControl(); }
         }
 
-        private void OnLostFocus(object sender, RoutedEventArgs e) => Visibility = Visibility.Collapsed;
+        protected override void OnDeactivated(EventArgs e) => HideControl();
 
         private void OnShowWindow(object sender, HotkeyEventArgs e)
         {
