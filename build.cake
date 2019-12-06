@@ -25,7 +25,7 @@ var verbosity = Argument("verbosity", Verbosity.Minimal);
 //Files
 var solution   = "./src/Probel.Lanceur.sln";
 var publishDir = "./Publish/";
-var inno_setup = "./build/setup.iss";
+var inno_setup = "./setup.iss";
 
 GitVersion gitVersion = GitVersion(new GitVersionSettings 
 { 
@@ -34,6 +34,7 @@ GitVersion gitVersion = GitVersion(new GitVersionSettings
     UpdateAssemblyInfoFilePath  = "./src/Version.cs",
 });
 var branchName = gitVersion.BranchName;
+var binDirectory = $"./src/Probel.Lanceur/bin/{configuration}/";
 
 ///////////////////////////////////////////////////////////////////////////////
 // SETUP / TEARDOWN
@@ -47,8 +48,8 @@ Setup(ctx =>
     
     Information(Figlet($"Probel   {repoName}"));
 
-    Information("Configuration          : {0}", configuration);
-    Information("Branch                 : {0}", branchName);
+    Information("Configuration             : {0}", configuration);
+    Information("Branch                    : {0}", branchName);
     Information("Informational      Version: {0}", gitVersion.InformationalVersion);
     Information("SemVer             Version: {0}", gitVersion.SemVer);
     Information("AssemblySemVer     Version: {0}", gitVersion.AssemblySemVer);
@@ -61,24 +62,21 @@ Setup(ctx =>
 // TASKS
 ///////////////////////////////////////////////////////////////////////////////
 Task("Clean")
-    .Does(()=> 
-    {
+    .Does(()=> {
         var dirToDelete = GetDirectories("./**/obj")
                             .Concat(GetDirectories("./**/bin"))
                             .Concat(GetDirectories("./**/Publish"));
         DeleteDirectories(dirToDelete, new DeleteDirectorySettings{ Recursive = true, Force = true});
-    });
+});
 
 
 Task("Restore")
-    .Does(() =>
-{
-    NuGetRestore(solution);
+    .Does(() => {
+        NuGetRestore(solution);
 });
 
 Task("Build")
-    .Does(() => 
-    {    
+    .Does(() => {    
         var msBuildSettings = new MSBuildSettings {
             Verbosity = verbosity
             , Configuration = configuration
@@ -88,34 +86,46 @@ Task("Build")
             .WithProperty("Description", "A simple launcher.")
         );
         
-    });
-
-Task("Inno-Setup")
-    .Does(()=>
-    {
-        InnoSetup(inno_setup, new InnoSetupSettings { OutputDirectory = publishDir });
-    });
+});
 
 Task("Unit-Test")      
-    .Does(() =>
-    {
+    .Does(() => {
         XUnit2(
-        GetFiles("./src/Tests/Probel.Lanceur.UnitTest/bin/**/*UnitTest*.dll")
+            GetFiles("./src/Tests/Probel.Lanceur.UnitTest/bin/**/*UnitTest*.dll")
         );
-    });
+});
 
-Task("Versioning")
-    .Does(()=>
-    {
-        StartPowershellFile("./build/update-versions.ps1", args => args.Append("version", branchName));
-    });
+Task("Zip")
+    .Does(()=> {
+        var zipName = publishDir + "/lanceur." + gitVersion.SemVer + ".bin.zip";
+        Information("Path   : {0}: ", zipName);
+        Information("Bin dir: {0}", binDirectory);
+
+        EnsureDirectoryExists(Directory(publishDir));
+        Zip(binDirectory, zipName);
+    
+});  
+
+Task("Inno-Setup")
+    .Does(() => {
+        var path = binDirectory.Replace("/", "\\").TrimStart('.').TrimStart('\\');
+        Information("Path: {0}: ", path);
+
+        InnoSetup(inno_setup, new InnoSetupSettings { 
+            OutputDirectory = publishDir,
+            Defines = new Dictionary<string, string> {
+                 { "MyAppVersion", gitVersion.SemVer },
+                 { "BinDirectory", path }
+            }
+        });
+});
 
 Task("Default")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
-    // .IsDependentOn("Versioning")
     .IsDependentOn("Build")
     .IsDependentOn("Unit-Test")
+    .IsDependentOn("Zip")
     .IsDependentOn("Inno-Setup");
 
 RunTarget(target);
