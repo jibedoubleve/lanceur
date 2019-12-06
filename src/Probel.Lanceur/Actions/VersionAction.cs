@@ -10,7 +10,9 @@ namespace Probel.Lanceur.Actions
     {
         #region Methods
 
-        public override void Execute(string arg)
+        protected override void Configure() { }
+
+        protected override void DoExecute(string arg)
         {
             var asm = Assembly.GetExecutingAssembly();
             var version = asm.GetName().Version.ToString();

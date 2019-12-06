@@ -7,7 +7,9 @@ namespace Probel.Lanceur.Actions
     {
         #region Methods
 
-        public override void Execute(string arg) => Application.Current.Shutdown();
+        protected override void Configure() { }
+
+        protected override void DoExecute(string arg) => Application.Current.Shutdown();
 
         #endregion Methods
     }

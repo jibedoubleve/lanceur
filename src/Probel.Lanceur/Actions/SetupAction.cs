@@ -10,7 +10,9 @@ namespace Probel.Lanceur.Actions
     {
         #region Methods
 
-        public override void Execute(string arg)
+        protected override void Configure() { }
+
+        protected override void DoExecute(string arg)
         {
             using (DeactivateHotKey.During())
             {

@@ -20,7 +20,7 @@ namespace Probel.Lanceur.Actions
             _eventManager = Container.Resolve<IEventAggregator>();
         }
 
-        public override void Execute(string arg) => _eventManager.PublishOnUIThread(Notifications.CornerCommand);
+        protected override void DoExecute(string arg) => _eventManager.PublishOnUIThread(Notifications.CornerCommand);
 
         #endregion Methods
     }

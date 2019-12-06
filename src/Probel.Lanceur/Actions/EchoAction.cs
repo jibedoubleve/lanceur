@@ -7,7 +7,9 @@ namespace Probel.Lanceur.Actions
     {
         #region Methods
 
-        public override void Execute(string arg) => MessageBox.Show(arg, "Easter Egg", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+        protected override void Configure() { }
+
+        protected override void DoExecute(string arg) => MessageBox.Show(arg, "Easter Egg", MessageBoxButton.OK, MessageBoxImage.Exclamation);
 
         #endregion Methods
     }

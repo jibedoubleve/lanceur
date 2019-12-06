@@ -21,7 +21,7 @@ namespace Probel.Lanceur.Actions
             _db = Container.Resolve<IDataSourceService>();
         }
 
-        public override void Execute(string arg)
+        protected override void DoExecute(string arg)
         {
             var nl = Environment.NewLine;
             var result = MessageBox.Show($"Do you want to erase all data from database?{nl}This action cannot be undone!", "QUESTION", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);

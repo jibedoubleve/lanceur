@@ -41,7 +41,9 @@ namespace Probel.Lanceur.Actions
 
         #region Methods
 
-        public override async void Execute(string arg)
+        protected override void Configure() { }
+
+        protected override async void DoExecute(string arg)
         {
             var vm = Container.Resolve<ImportViewModel>();
             WindowManager.ShowWindow(vm);
