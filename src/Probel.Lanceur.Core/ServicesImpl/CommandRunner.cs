@@ -49,8 +49,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
             if (alias.IsExecutable)
             {
                 var pInfo = GetProcessStartInfo(alias);
-                var ps = new Process { StartInfo = pInfo };
-                ps.Start();
+                using (var ps = new Process { StartInfo = pInfo }) { ps.Start(); }
                 _databaseService.SetUsage(alias);
             }
             else { _keywordService.ExecuteActionFor(alias.Name, alias.Arguments); }
