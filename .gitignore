@@ -332,3 +332,5 @@ ASALocalRun/
 # GitVersion handle Versioning
 src/Version.cs
 tools/packages.config
+
+.vscode/
