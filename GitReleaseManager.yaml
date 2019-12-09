@@ -21,6 +21,7 @@ issue-labels-exclude:
 - question
 - wontfix
 - duplicate
+- documentation
 issue-labels-alias:
     - name:    Documentation
       header:  Documentation
