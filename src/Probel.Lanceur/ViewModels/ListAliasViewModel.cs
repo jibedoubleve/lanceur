@@ -93,10 +93,8 @@ namespace Probel.Lanceur.ViewModels
         {
             EditAliasViewModel.Alias = new AliasModel() { IdSession = _appSettings.SessionId };
             EditAliasViewModel.Names = new ObservableCollection<AliasNameModel>();
-            if (string.IsNullOrEmpty(name) == false)
-            {
-                EditAliasViewModel.Names.Add(new AliasNameModel() { Name = name ?? string.Empty });
-            }
+
+            if (string.IsNullOrEmpty(name) == false) { EditAliasViewModel.Names.Add(name); }
 
             ActivateItem(EditAliasViewModel);
         }
