@@ -21,6 +21,13 @@
             return ret;
         }
 
+        public static void Normalise(this Alias src)
+        {
+            var t = new char[] { '"' };
+            src.Arguments = src.Arguments?.Trim(t);
+            src.FileName = src.FileName?.Trim(t);
+        }
+
         #endregion Methods
     }
 
