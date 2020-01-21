@@ -162,7 +162,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         public Alias GetAlias(string name)
         {
-            if (_keywordService.IsReserved(name)) { return Alias.Empty(name); }
+            if (_keywordService.IsReserved(name)) { return Alias.Reserved(name); }
 
             var sql = @"
                 select n.Name        as Name

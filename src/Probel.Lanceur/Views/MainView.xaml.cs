@@ -44,8 +44,11 @@ namespace Probel.Lanceur.Views
         {
             if (e.Key == Key.Enter)
             {
-                ViewModel?.ExecuteText(AliasNameList.Text);
-                HideControl();
+                if (ViewModel?.ExecuteText(AliasNameList.Text) ?? false)
+                {
+                    HideControl();
+                }
+                else { ViewModel.IsOnError = true; }
             }
             else if (e.Key == Key.Escape) { HideControl(); }
         }
@@ -56,6 +59,7 @@ namespace Probel.Lanceur.Views
         {
             if (!SetupViewModel.IsBusy)
             {
+                ViewModel.IsOnError = false;
                 ShowWindow();
                 e.Handled = true;
             }

@@ -41,10 +41,16 @@
         #endregion Properties
 
         #region Methods
+        public static Alias Reserved(string name) => new Alias
+        {
+            FileName = "__RESERVED_KEYWORD__",
+            Name = name.ToUpper(),
+            IsExecutable = false
+        };
 
         public static Alias Empty(string name) => new Alias()
         {
-            FileName = "__RESERVED_KEYWORD__",
+            FileName = string.Empty,
             Name = name.ToUpper(),
             IsExecutable = false
         };

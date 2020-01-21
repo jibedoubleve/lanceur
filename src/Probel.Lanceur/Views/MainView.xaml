@@ -5,6 +5,7 @@
     xmlns:cal="http://www.caliburnproject.org"
     xmlns:conv="clr-namespace:Probel.Lanceur.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="_self"
     Title="Lanceur"
@@ -24,12 +25,18 @@
     WindowStyle="None"
     mc:Ignorable="d">
     <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <conv:StringToColourBrushConverter x:Key="StringToColourBrushConverter" />
     </Window.Resources>
     <Window.Background>
         <SolidColorBrush Opacity="{Binding Opacity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Color="{Binding Colour, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToColourBrushConverter}}" />
     </Window.Background>
-    <StackPanel Margin="5">
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
         <ComboBox
             x:Name="AliasNameList"
             cal:Message.Attach="[GotFocus]=[OnShow]"
@@ -43,5 +50,12 @@
             KeyDown="OnKeyPressed"
             Opacity="0.7"
             SelectedItem="{Binding AliasName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-    </StackPanel>
+        <iconPacks:PackIconModern
+            Grid.Column="1"
+            Margin="5,0,0,0"
+            VerticalAlignment="Center"
+            Foreground="Orange"
+            Kind="Warning"
+            Visibility="{Binding IsOnError, Converter={StaticResource BooleanToVisibilityConverter}}" />
+    </Grid>
 </Window>
