@@ -18,7 +18,7 @@ namespace Probel.Lanceur.ViewModels
         private string _aliasName;
         private ObservableCollection<string> _aliasNameList;
         private AppSettings _appSettings;
-        private string _colour;
+        private readonly string _colour;
         private double _left;
         private double _opacity;
         private double _top;
@@ -64,8 +64,13 @@ namespace Probel.Lanceur.ViewModels
 
         public string Colour
         {
+#if DEBUG
+            get => "Crimson";
+            set { }
+#else
             get => _colour;
             set => Set(ref _colour, value, nameof(Colour));
+#endif
         }
 
         public double Left
