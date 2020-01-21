@@ -66,6 +66,10 @@ namespace Probel.Lanceur
             _container.RegisterType<IReservedKeywordService, ReservedKeywordService>();
             _container.RegisterType<IMacroService, MacroService>();
 
+            //UI
+            _container.RegisterType<IUserNotifyer, UserNotifyer>();
+
+            //Views
             _container.RegisterType<MainViewModel>();
             _container.RegisterType<SetupViewModel>();
             _container.RegisterType<EditSessionViewModel>();

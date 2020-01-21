@@ -13,7 +13,6 @@ namespace Probel.Lanceur.ViewModels
         #region Fields
 
         private readonly IAliasService _aliasService;
-        private readonly string _colour;
         private readonly IScreenRuler _screenRuler;
         private readonly ISettingsService _settingsService;
         private string _aliasName;
@@ -32,6 +31,7 @@ namespace Probel.Lanceur.ViewModels
         {
             LogService = logService;
             ea.Subscribe(this);
+
             _screenRuler = screenRuler;
             _settingsService = settings;
             _aliasService = aliasService;
