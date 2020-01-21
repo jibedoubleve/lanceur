@@ -12,9 +12,9 @@ namespace Probel.Lanceur.ViewModels
         #region Fields
 
         private readonly IDataSourceService _databaseService;
+        private AliasModel _alias;
         private bool _isCreation;
         private ObservableCollection<AliasNameModel> _names;
-        private AliasModel _alias;
 
         #endregion Fields
 
@@ -32,6 +32,19 @@ namespace Probel.Lanceur.ViewModels
 
         private ListAliasViewModel ParentVm => Parent as ListAliasViewModel;
 
+        public AliasModel Alias
+        {
+            get => _alias;
+            set
+            {
+                if (Set(ref _alias, value, nameof(Alias)))
+                {
+                    IsCreation = value.Id > 0;
+                    NotifyOfPropertyChange(nameof(IsCreation));
+                }
+            }
+        }
+
         public bool IsCreation
         {
             get => _isCreation;
@@ -44,19 +57,6 @@ namespace Probel.Lanceur.ViewModels
         {
             get => _names;
             set => Set(ref _names, value, nameof(Names));
-        }
-
-        public AliasModel Alias
-        {
-            get => _alias;
-            set
-            {
-                if (Set(ref _alias, value, nameof(Alias)))
-                {
-                    IsCreation = value.Id > 0;
-                    NotifyOfPropertyChange(nameof(IsCreation));
-                }
-            }
         }
 
         #endregion Properties

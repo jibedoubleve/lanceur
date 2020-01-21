@@ -8,7 +8,7 @@ namespace Probel.Lanceur.Actions
 
         void Execute(string arg);
 
-        BaseUiAction With(IUnityContainer container);
+        IUiAction With(IUnityContainer container);
 
         #endregion Methods
     }

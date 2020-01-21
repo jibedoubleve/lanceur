@@ -126,6 +126,7 @@
       <Link>Properties\Version.cs</Link>
     </Compile>
     <Compile Include="Actions\ActionManager.cs" />
+    <Compile Include="Actions\AddAction.cs" />
     <Compile Include="Actions\BaseUiAction.cs" />
     <Compile Include="Actions\ClearAction.cs" />
     <Compile Include="Actions\CornerAction.cs" />

@@ -11,6 +11,7 @@ namespace Probel.Lanceur.ViewModels
         private EditSessionViewModel _editSessionViewModel;
         private ListAliasViewModel _listAliasViewModel;
 
+        private int _selectedTab;
         private SettingsViewModel _setingsViewModel;
 
         #endregion Fields
@@ -27,11 +28,11 @@ namespace Probel.Lanceur.ViewModels
             AppVersion = $"v.{v.Major}.{v.Minor}.{v.Build}";
         }
 
-        public static bool IsBusy { get; internal set; }
-
         #endregion Constructors
 
         #region Properties
+
+        public static bool IsBusy { get; internal set; }
 
         public string AppVersion
         {
@@ -49,6 +50,12 @@ namespace Probel.Lanceur.ViewModels
         {
             get => _listAliasViewModel;
             set => Set(ref _listAliasViewModel, value, nameof(ListAliasViewModel));
+        }
+
+        public int SelectedTab
+        {
+            get => _selectedTab;
+            set => Set(ref _selectedTab, value, nameof(SelectedTab));
         }
 
         public SettingsViewModel SettingsViewModel

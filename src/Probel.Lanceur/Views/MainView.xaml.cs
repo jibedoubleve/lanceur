@@ -73,8 +73,7 @@ namespace Probel.Lanceur.Views
             }
             catch (HotkeyAlreadyRegisteredException)
             {
-                var nl = Environment.NewLine;
-                var msg = $"NHotkey: key already binded!{nl}Default binding is 'SHIFT+WINDOWS+R'";
+                var msg = $"NHotkey: key already binded!{Environment.NewLine}Default binding is 'SHIFT+WINDOWS+R'";
                 ViewModel.LogService.Warning(msg);
                 MessageBox.Show(msg, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
 
