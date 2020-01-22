@@ -128,12 +128,10 @@ Task("Release-GitHub")
 
         var stg = new GitReleaseManagerCreateSettings 
         {
-            Milestone         = "V" + gitVersion.MajorMinorPatch,
-            Prerelease        = false,
+            Milestone         = "V" + gitVersion.MajorMinorPatch,            
+            Name              = gitVersion.SemVer,
+            Prerelease        = gitVersion.SemVer.Contains("alpha"),
             Assets            = publishDir + "/lanceur." + gitVersion.SemVer + ".bin.zip," + publishDir + "/lanceur." + gitVersion.SemVer + ".setup.exe",
-            TargetCommitish   = "master",
-            // TargetDirectory   = "c:/repo",
-            LogFilePath       = "c:/temp/grm.log"
         };
 
         GitReleaseManagerCreate(token, owner, "Lanceur", stg);  
