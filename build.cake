@@ -5,6 +5,7 @@
 #tool vswhere
 #tool GitVersion.CommandLine
 #tool xunit.runner.console
+#tool gitreleasemanager
 
 #addin Cake.Figlet
 #addin Cake.Powershell
@@ -56,7 +57,6 @@ Setup(ctx =>
     Information("AssemblySemFileVer Version: {0}", gitVersion.AssemblySemFileVer);
     Information("MajorMinorPatch    Version: {0}", gitVersion.MajorMinorPatch);
     Information("NuGet              Version: {0}", gitVersion.NuGetVersion);  
-    Information("Configuration             : {0}", configuration);
 });
 ///////////////////////////////////////////////////////////////////////////////
 // TASKS
@@ -78,8 +78,8 @@ Task("Restore")
 Task("Build")
     .Does(() => {    
         var msBuildSettings = new MSBuildSettings {
-            Verbosity = verbosity
-            , Configuration = configuration
+            Verbosity = verbosity,
+            Configuration = configuration
         };
 
         MSBuild(solution, msBuildSettings
@@ -120,6 +120,25 @@ Task("Inno-Setup")
         });
 });
 
+Task("Release-GitHub")
+    .Does(()=>{
+        //https://stackoverflow.com/questions/42761777/hide-services-passwords-in-cake-build
+        var token = EnvironmentVariable("CAKE_GITHUB_TOKEN");
+        var owner = EnvironmentVariable("CAKE_GITHUB_USERNAME");
+
+        var stg = new GitReleaseManagerCreateSettings 
+        {
+            Milestone         = "V" + gitVersion.MajorMinorPatch,
+            Prerelease        = false,
+            Assets            = publishDir + "/lanceur." + gitVersion.SemVer + ".bin.zip," + publishDir + "/lanceur." + gitVersion.SemVer + ".setup.exe",
+            TargetCommitish   = "master",
+            // TargetDirectory   = "c:/repo",
+            LogFilePath       = "c:/temp/grm.log"
+        };
+
+        GitReleaseManagerCreate(token, owner, "Lanceur", stg);  
+    });
+
 Task("Default")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
@@ -127,5 +146,9 @@ Task("Default")
     .IsDependentOn("Unit-Test")
     .IsDependentOn("Zip")
     .IsDependentOn("Inno-Setup");
+
+Task("Release")    
+    .IsDependentOn("Default")
+    .IsDependentOn("Release-GitHub");
 
 RunTarget(target);

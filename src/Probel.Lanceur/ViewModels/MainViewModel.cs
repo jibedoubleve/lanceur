@@ -18,6 +18,7 @@ namespace Probel.Lanceur.ViewModels
         private string _aliasName;
         private ObservableCollection<string> _aliasNameList;
         private AppSettings _appSettings;
+        private string _colour;
         private bool _isOnError;
         private double _left;
         private double _opacity;
