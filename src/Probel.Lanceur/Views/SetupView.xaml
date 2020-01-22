@@ -16,7 +16,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Controls:MetroAnimatedTabControl SelectionChanged="OnTabControlSelectionChanged">
+        <Controls:MetroAnimatedTabControl SelectedIndex="{Binding SelectedTab, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="OnTabControlSelectionChanged">
             <TabItem x:Name="_tabKeywords" Header="Keywords">
                 <Grid>
                     <ContentControl x:Name="ListAliasViewModel" />

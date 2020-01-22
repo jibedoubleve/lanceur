@@ -49,5 +49,14 @@ namespace Probel.Lanceur.Models
         }
 
         #endregion Properties
+
+        #region Methods
+        /// <summary>
+        /// An alias, it is basicly a name
+        /// </summary>
+        /// <param name="name">The name of the alias</param>
+        public static implicit operator AliasNameModel(string name) => new AliasNameModel() { Name = name };
+
+        #endregion Methods
     }
 }

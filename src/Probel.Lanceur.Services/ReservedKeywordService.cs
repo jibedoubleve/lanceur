@@ -42,9 +42,15 @@ namespace Probel.Lanceur.Services
             }
         }
 
+        /// <summary>
+        /// Executed the action attached to the binding.
+        /// In a words, it handle reserved keywords.
+        /// </summary>
+        /// <param name="name">The name of the reserved keyword</param>
+        /// <param name="arg">The arguments attached to the keyword</param>
         public void ExecuteActionFor(string name, string arg)
         {
-            if (_reservedKeywords.ContainsKey(name))
+            if (IsReserved(name))
             {
                 var action = _reservedKeywords[name];
                 action(arg);

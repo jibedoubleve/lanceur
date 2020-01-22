@@ -6,7 +6,14 @@ namespace Probel.Lanceur.Core.Services
     {
         #region Methods
 
-        void Execute(string param);
+        /// <summary>
+        /// Executes the command line.
+        /// </summary>
+        /// <param name="cmdline">The command line to execute. 
+        /// That's the alias and the arguments (which are NOT 
+        /// mandatory)</param>
+        /// <returns><c>True</c> if execution succeeded. Otherwise <c>False</c></returns>
+        bool Execute(string param);
 
         IEnumerable<string> GetAliasNames(long sessionId);
 

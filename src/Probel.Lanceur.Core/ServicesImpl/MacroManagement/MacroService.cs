@@ -11,8 +11,8 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
         #region Fields
 
         private readonly ILogService _log;
-        private ICommandRunner _cmdrunner;
         private IAliasService _aliasService;
+        private ICommandRunner _cmdrunner;
 
         #endregion Fields
 
@@ -31,7 +31,7 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
         {
             var types = from t in Assembly.GetAssembly(typeof(IMacroAction)).GetTypes()
                         where t.GetCustomAttribute<MacroAttribute>() != null
-                        && t.GetCustomAttribute<MacroAttribute>().Name == cmd.FileName.ToUpper()
+                           && t.GetCustomAttribute<MacroAttribute>().Name == cmd.FileName.ToUpper()
                         select t;
 
             foreach (var type in types)
@@ -44,6 +44,7 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
         }
 
         public bool Has(string name) => Macros.Has(name);
+
         public IMacroService With(ICommandRunner cmdrunner, IAliasService aliasService)
         {
             _cmdrunner = cmdrunner;

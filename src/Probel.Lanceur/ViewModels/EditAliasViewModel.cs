@@ -2,6 +2,7 @@
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Models;
+using Probel.Lanceur.Services;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -12,17 +13,19 @@ namespace Probel.Lanceur.ViewModels
         #region Fields
 
         private readonly IDataSourceService _databaseService;
+        private readonly IUserNotifyer _userNotifyer;
+        private AliasModel _alias;
         private bool _isCreation;
         private ObservableCollection<AliasNameModel> _names;
-        private AliasModel _alias;
 
         #endregion Fields
 
         #region Constructors
 
-        public EditAliasViewModel(IDataSourceService databaseService, ILogService log)
+        public EditAliasViewModel(IDataSourceService databaseService, ILogService log, IUserNotifyer userNotifyer)
         {
             Log = log;
+            _userNotifyer = userNotifyer;
             _databaseService = databaseService;
         }
 
@@ -31,6 +34,19 @@ namespace Probel.Lanceur.ViewModels
         #region Properties
 
         private ListAliasViewModel ParentVm => Parent as ListAliasViewModel;
+
+        public AliasModel Alias
+        {
+            get => _alias;
+            set
+            {
+                if (Set(ref _alias, value, nameof(Alias)))
+                {
+                    IsCreation = value.Id > 0;
+                    NotifyOfPropertyChange(nameof(IsCreation));
+                }
+            }
+        }
 
         public bool IsCreation
         {
@@ -44,19 +60,6 @@ namespace Probel.Lanceur.ViewModels
         {
             get => _names;
             set => Set(ref _names, value, nameof(Names));
-        }
-
-        public AliasModel Alias
-        {
-            get => _alias;
-            set
-            {
-                if (Set(ref _alias, value, nameof(Alias)))
-                {
-                    IsCreation = value.Id > 0;
-                    NotifyOfPropertyChange(nameof(IsCreation));
-                }
-            }
         }
 
         #endregion Properties
@@ -76,10 +79,11 @@ namespace Probel.Lanceur.ViewModels
         {
             _databaseService.Create(Alias.AsEntity(), Names.AsNames());
             RefreshParentList();
+            _userNotifyer.NotifyInfo("Alias created!");
         }
 
         public async Task DeleteAliasAsync()
-        {
+        {            
             if (await ParentVm.AskForDeletion(Alias.Name))
             {
                 _databaseService.Delete(Alias.AsEntity());
@@ -101,6 +105,7 @@ namespace Probel.Lanceur.ViewModels
         {
             _databaseService.Update(Alias.AsEntity());
             _databaseService.Update(Names.AsEntity());
+            _userNotifyer.NotifyInfo("Alias updated!");
         }
 
         #endregion Methods

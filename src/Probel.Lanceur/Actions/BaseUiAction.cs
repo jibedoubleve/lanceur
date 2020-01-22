@@ -34,7 +34,7 @@ namespace Probel.Lanceur.Actions
             DoExecute(arg);
         }
 
-        public BaseUiAction With(IUnityContainer container)
+        public IUiAction With(IUnityContainer container)
         {
             Container = container;
             WindowManager = Container.Resolve<IWindowManager>();

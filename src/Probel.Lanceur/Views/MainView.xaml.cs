@@ -44,8 +44,11 @@ namespace Probel.Lanceur.Views
         {
             if (e.Key == Key.Enter)
             {
-                ViewModel?.ExecuteText(AliasNameList.Text);
-                HideControl();
+                if (ViewModel?.ExecuteText(AliasNameList.Text) ?? false)
+                {
+                    HideControl();
+                }
+                else { ViewModel.IsOnError = true; }
             }
             else if (e.Key == Key.Escape) { HideControl(); }
         }
@@ -56,6 +59,7 @@ namespace Probel.Lanceur.Views
         {
             if (!SetupViewModel.IsBusy)
             {
+                ViewModel.IsOnError = false;
                 ShowWindow();
                 e.Handled = true;
             }
@@ -73,7 +77,13 @@ namespace Probel.Lanceur.Views
             }
             catch (HotkeyAlreadyRegisteredException)
             {
-                ViewModel.LogService.Warning("NHotkey: key already binded!");
+                var msg = $"NHotkey: key already binded!{Environment.NewLine}Default binding is 'SHIFT+WINDOWS+R'";
+                ViewModel.LogService.Warning(msg);
+                MessageBox.Show(msg, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+                var key = Key.R;
+                var mod = ModifierKeys.Shift | ModifierKeys.Windows;
+                HotkeyManager.Current.AddOrReplace("OnShowWindow", key, mod, OnShowWindow);
             }
 
             ShowWindow();

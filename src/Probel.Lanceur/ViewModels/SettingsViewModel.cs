@@ -13,9 +13,8 @@ namespace Probel.Lanceur.ViewModels
         #region Fields
 
         private readonly IDataSourceService _databaseService;
-
         private readonly ISettingsService _settingsService;
-
+        private readonly IUserNotifyer _userNotifyer;
         private AppSettingsModel _appSettings;
 
         private AliasSessionModel _currentSession;
@@ -25,8 +24,9 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public SettingsViewModel(ISettingsService settingsService, IDataSourceService databaseService)
+        public SettingsViewModel(ISettingsService settingsService, IDataSourceService databaseService, IUserNotifyer userNotifyer)
         {
+            _userNotifyer = userNotifyer;
             _databaseService = databaseService;
             _settingsService = settingsService;
         }
@@ -81,6 +81,7 @@ namespace Probel.Lanceur.ViewModels
         {
             AppSettings.SessionId = CurrentSession?.Id ?? 1;
             _settingsService.Save(AppSettings.AsEntity());
+            _userNotifyer.NotifyInfo("Settings has been saved.");
         }
 
         #endregion Methods

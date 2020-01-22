@@ -12,7 +12,7 @@ namespace Probel.Lanceur.Models
         private long _id;
         private bool _isExecutable;
         private string _notes;
-        private RunAs _runAs;
+        private RunAs _runAs = RunAs.CurrentUser;
         private StartMode _startMode;
 
         #endregion Fields

@@ -51,6 +51,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         public void Create(Alias s, IEnumerable<string> names = null)
         {
+            s.Normalise();
             var sql = @"
                 insert into alias (
                     arguments,
@@ -68,7 +69,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     @idSession
                 );
                 select last_insert_rowid() from alias;";
-                
+
             var sql2 = @"insert into alias_name(id_alias, name) values(@idAlias, @name)";
             using (var c = BuildConnectionString())
             {
@@ -161,7 +162,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         public Alias GetAlias(string name)
         {
-            if (_keywordService.IsReserved(name)) { return Alias.Empty(name); }
+            if (_keywordService.IsReserved(name)) { return Alias.Reserved(name); }
 
             var sql = @"
                 select n.Name        as Name
@@ -240,6 +241,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         public void Update(Alias alias)
         {
+            alias.Normalise();
             var sql = @"
                 update alias
                 set

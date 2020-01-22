@@ -19,6 +19,7 @@ namespace Probel.Lanceur.ViewModels
         private ObservableCollection<string> _aliasNameList;
         private AppSettings _appSettings;
         private string _colour;
+        private bool _isOnError;
         private double _left;
         private double _opacity;
         private double _top;
@@ -31,6 +32,7 @@ namespace Probel.Lanceur.ViewModels
         {
             LogService = logService;
             ea.Subscribe(this);
+
             _screenRuler = screenRuler;
             _settingsService = settings;
             _aliasService = aliasService;
@@ -64,14 +66,25 @@ namespace Probel.Lanceur.ViewModels
 
         public string Colour
         {
+#if DEBUG
+            get => "Crimson";
+            set { }
+#else
             get => _colour;
             set => Set(ref _colour, value, nameof(Colour));
+#endif
+        }
+
+        public bool IsOnError
+        {
+            get => _isOnError;
+            set => Set(ref _isOnError, value);
         }
 
         public double Left
         {
             get => _left;
-            set => Set(ref _left, value, nameof(Left));
+            set => Set(ref _left, value);
         }
 
         public ILogService LogService { get; }
@@ -79,31 +92,35 @@ namespace Probel.Lanceur.ViewModels
         public double Opacity
         {
             get => _opacity;
-            set => Set(ref _opacity, value, nameof(Opacity));
+            set => Set(ref _opacity, value);
         }
 
         public double Top
         {
             get => _top;
-            set => Set(ref _top, value, nameof(Top));
+            set => Set(ref _top, value);
         }
 
         #endregion Properties
 
         #region Methods
 
-        public void ExecuteText(string cmdLine)
+        /// <summary>
+        /// Executes the alias and returns <c>True</c> if execution was a success.
+        /// Otherwise returns <c>False</c>
+        /// </summary>
+        /// <param name="cmdLine">The command line (the alias & the arguments) to be executed.</param>
+        /// <returns><c>True</c> on success; otherwise <c>False</c></returns>
+        public bool ExecuteText(string cmdLine)
         {
-            try
-            {
-                _aliasService.Execute(cmdLine);
-            }
+            try { return _aliasService.Execute(cmdLine); }
             catch (Exception ex)
             {
                 /* I swallow the error as this crash should'nt crash the application
                  * I log and continue without any other warning.
                  */
                 LogService.Warning($"An error occured while trying to execute the alias '{cmdLine}'", ex);
+                return false;
             }
         }
 

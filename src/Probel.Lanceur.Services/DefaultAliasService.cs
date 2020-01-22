@@ -35,10 +35,13 @@ namespace Probel.Lanceur.Services
 
         #region Methods
 
-        public void Execute(string cmdline)
+        /// <summary>
+        /// Executes the command line.
+        /// </summary>
+        /// <param name="cmdline">The command line to execute. That's the alias and the arguments (which are not mandatory)</param>
+        public bool Execute(string cmdline)
         {
             var splited = _resolver.Split(cmdline);
-
             var cmd = _databaseService.GetAlias(splited.Command);
 
             cmd = _resolver.Resolve(cmd, splited.Parameters);
@@ -46,8 +49,9 @@ namespace Probel.Lanceur.Services
             if (_macroService.Has(cmd.FileName))
             {
                 _macroService.With(_cmdRunner, this).Handle(cmd);
+                return true;
             }
-            else { _cmdRunner.Run(cmd); }
+            else { return _cmdRunner.Run(cmd); }
         }
 
         public IEnumerable<string> GetAliasNames(long sessionId) => _databaseService.GetAliasNames(sessionId);
