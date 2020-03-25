@@ -16,6 +16,12 @@ namespace Probel.Lanceur.Actions
     /// </summary>
     public sealed class UiActionAttribute : Attribute
     {
+        /* TODO: (issue #58) 
+         * Refactor this, the use of 'Keywords' should not be mandatory as
+         * we can list on runtime the keywods defined in the namespace 
+         * 'Probel.Lanceur.Action'
+         */
+
         #region Constructors
 
         public UiActionAttribute(string action)
