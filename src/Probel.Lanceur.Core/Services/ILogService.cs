@@ -12,6 +12,10 @@ namespace Probel.Lanceur.Core.Services
 
         void Fatal(string message, Exception ex = null);
 
+        void Error(string message, Exception ex = null);
+
+        void Info(string message);
+
         void Trace(string message);
 
         void Warning(string message, Exception ex = null);

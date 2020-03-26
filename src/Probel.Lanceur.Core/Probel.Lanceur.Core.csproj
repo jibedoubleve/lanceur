@@ -91,6 +91,7 @@
     <Compile Include="Services\IClipboardService.cs" />
     <Compile Include="Services\IAliasService.cs" />
     <Compile Include="Services\ISlickRunImporterService.cs" />
+    <Compile Include="Services\IUpdateService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

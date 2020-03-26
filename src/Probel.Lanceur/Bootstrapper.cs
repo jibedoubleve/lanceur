@@ -65,6 +65,7 @@ namespace Probel.Lanceur
             _container.RegisterType<IScreenRuler, ScreenRuler>();
             _container.RegisterType<IReservedKeywordService, ReservedKeywordService>();
             _container.RegisterType<IMacroService, MacroService>();
+            _container.RegisterType<IUpdateService, SQLiteUpdateService>();
 
             //UI
             _container.RegisterType<IUserNotifyer, UserNotifyer>();
@@ -82,7 +83,13 @@ namespace Probel.Lanceur
 
         protected override object GetInstance(Type service, string key) => _container.Resolve(service, key);
 
-        protected override void OnStartup(object sender, StartupEventArgs e) => DisplayRootViewFor<MainViewModel>();
+        protected override void OnStartup(object sender, StartupEventArgs e)
+        {
+            var u =_container.Resolve<IUpdateService>();
+            u.DoNeedUpdate();
+
+            DisplayRootViewFor<MainViewModel>();
+        }
 
         protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {

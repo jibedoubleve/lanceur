@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
 namespace Probel.Lanceur.SQLiteDb
 {
-    public class EmbeddedResourceManager
+    internal class EmbeddedResourceManager
     {
         #region Fields
 
@@ -50,6 +52,14 @@ namespace Probel.Lanceur.SQLiteDb
                     OnResource(text);
                 }
             }
+        }
+
+        public IEnumerable<string> ListResources(string pattern)
+        {
+            var result = (from s in ExecutingAssembly.GetManifestResourceNames()
+                          where s.Contains(pattern)
+                          select s);
+            return result;
         }
 
         #endregion Methods
