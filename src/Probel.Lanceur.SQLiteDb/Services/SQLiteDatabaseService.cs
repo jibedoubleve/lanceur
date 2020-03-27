@@ -34,11 +34,11 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         #region Methods
 
-        private DbConnection BuildConnectionString() => new SQLiteConnection(_connectionString);
+        private DbConnection BuildConnection() => new SQLiteConnection(_connectionString);
 
         public void Clear()
         {
-            using (var c = BuildConnectionString())
+            using (var c = BuildConnection())
             {
                 var sql = @"
                     delete from alias;
@@ -71,7 +71,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 select last_insert_rowid() from alias;";
 
             var sql2 = @"insert into alias_name(id_alias, name) values(@idAlias, @name)";
-            using (var c = BuildConnectionString())
+            using (var c = BuildConnection())
             {
                 var lastId = c.Query<long>(sql, new { s.Arguments, s.FileName, s.Notes, s.RunAs, s.StartMode, s.IdSession }).FirstOrDefault();
 
@@ -91,7 +91,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
         {
             var sql = @"delete from alias_name where id_alias = @id";
             var sql2 = @"delete from alias where id = @id";
-            using (var c = BuildConnectionString())
+            using (var c = BuildConnection())
             {
                 c.Execute(sql, new { alias.Id });
                 c.Execute(sql2, new { alias.Id });
@@ -100,7 +100,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         public void Delete(AliasSession session)
         {
-            using (var c = BuildConnectionString())
+            using (var c = BuildConnection())
             {
                 var queries = new string[]
                 {
@@ -114,7 +114,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         public IEnumerable<AliasName> GetNamesOf(Alias alias)
         {
-            using (var c = BuildConnectionString())
+            using (var c = BuildConnection())
             {
                 var sql = @"
                     select id          as Id
@@ -135,7 +135,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                      , notes as notes
                 from alias_session
                 where id = @sessionId";
-            using (var c = BuildConnectionString())
+            using (var c = BuildConnection())
             {
                 try
                 {
@@ -153,7 +153,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                      , name  as name
                      , notes as notes
                 from alias_session ";
-            using (var c = BuildConnectionString())
+            using (var c = BuildConnection())
             {
                 var result = c.Query<AliasSession>(sql);
                 return result.OrderBy(e => e.Name);
@@ -177,7 +177,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 inner join alias_name n on s.id = n.id_alias
                 where n.name = @name";
 
-            using (var c = BuildConnectionString())
+            using (var c = BuildConnection())
             {
                 var result = c.Query<Alias>(sql, new { name })
                               .FirstOrDefault();
@@ -194,7 +194,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 where s.id_session = @sessionId
                 order by name";
 
-            using (var c = BuildConnectionString())
+            using (var c = BuildConnection())
             {
                 var result = c.Query<string>(sql, new { sessionId }).ToList();
 
@@ -221,7 +221,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 where s.id_session = @sessionId
                 order by n.name      ";
 
-            using (var c = BuildConnectionString())
+            using (var c = BuildConnection())
             {
                 var result = c.Query<Alias>(sql, new { sessionId });
                 return result ?? new List<Alias>();
@@ -232,7 +232,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         public void SetUsage(long idAlias)
         {
-            using (var c = BuildConnectionString())
+            using (var c = BuildConnection())
             {
                 var sql = @"insert into alias_usage (id_alias, time_stamp) values (@idAlias, @now)";
                 c.Execute(sql, new { idAlias, now = DateTime.Now });
@@ -257,7 +257,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 set
                     name = @name
                 where id_alias = @id";
-            using (var c = BuildConnectionString())
+            using (var c = BuildConnection())
             {
                 c.Execute(sql, new { alias.Arguments, alias.FileName, alias.Notes, alias.RunAs, alias.StartMode, alias.Id, alias.WorkingDirectory });
                 c.Execute(sql2, new { alias.Name, alias.Id });
@@ -266,16 +266,16 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         public void Update(IEnumerable<AliasName> names)
         {
-            using (var c = BuildConnectionString())
+            using (var c = BuildConnection())
             {
-                var sqlInsert = @"insert into alias_name (name, alias_id) values (@name, @aliasId)";
+                var sqlInsert = @"insert into alias_name (name, id_alias) values (@name, @aliasId)";
                 var sqlUpdate = @"update alias_name set name = @name where id = @id";
                 foreach (var name in names)
                 {
                     if (name.Id == 0)
                     {
                         _log.Debug($"Insert new. id_alias: {name.IdAlias} - name: {name.Name} - id: {name.Id}");
-                        c.Execute(sqlInsert, new { name.Name, name.IdAlias });
+                        c.Execute(sqlInsert, new { name = name.Name, aliasId = name.IdAlias });
                     }
                     else
                     {
@@ -294,7 +294,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     name  = @name,
                     notes = @notes
                 where id = @id";
-            using (var c = BuildConnectionString())
+            using (var c = BuildConnection())
             {
                 c.Execute(sql, new { session.Id, session.Name, session.Notes });
             }

@@ -64,6 +64,8 @@
     <Compile Include="ConnectionStringManager.cs" />
     <Compile Include="Services\SQLiteDatabaseService.cs" />
     <Compile Include="Services\SQLiteSlickRunImporterService.cs" />
+    <Compile Include="Services\SQLiteUpdateService.cs" />
+    <Compile Include="Services\UpdateManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\data.db" />
@@ -75,7 +77,11 @@
       <Name>Probel.Lanceur.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\sql\scripts\update-0.1.sql">
+      <Link>Assets\Scripts\update-0.1.sql</Link>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

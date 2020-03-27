@@ -20,14 +20,6 @@ namespace Probel.Lanceur.Actions
 
         #region Methods
 
-        private void DoConfigure()
-        {
-            if (_isConfigured == false) { Configure(); }
-        }
-
-        protected abstract void Configure();
-
-        protected abstract void DoExecute(string arg);
         public void Execute(string arg)
         {
             Configure();
@@ -40,6 +32,10 @@ namespace Probel.Lanceur.Actions
             WindowManager = Container.Resolve<IWindowManager>();
             return this;
         }
+
+        protected abstract void Configure();
+
+        protected abstract void DoExecute(string arg);
 
         #endregion Methods
     }

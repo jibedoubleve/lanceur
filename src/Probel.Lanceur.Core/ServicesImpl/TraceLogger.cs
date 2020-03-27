@@ -28,6 +28,20 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         #region Methods
 
+        public void Debug(string message) => WriteLine(Level.Debug, message);
+
+        public void Debug(Exception ex) => Debug(ex.ToString());
+
+        public void Error(string message, Exception ex = null) => WriteLine(Level.Warning, message, ex);
+
+        public void Fatal(string message, Exception ex = null) => WriteLine(Level.Warning, message, ex);
+
+        public void Info(string message) => WriteLine(Level.Info, message);
+
+        public void Trace(string message) => WriteLine(Level.Trace, message);
+
+        public void Warning(string message, Exception ex = null) => WriteLine(Level.Warning, message, ex);
+
         private void WriteLine(Level level, string message, Exception ex = null)
         {
             var msg = string.Format(TEMPLATE, level.ToString().ToUpper(), message);
@@ -37,16 +51,6 @@ namespace Probel.Lanceur.Core.ServicesImpl
             }
             OutputTrace.WriteLine(msg);
         }
-
-        public void Debug(string message) => WriteLine(Level.Debug, message);
-
-        public void Debug(Exception ex) => Debug(ex.ToString());
-
-        public void Fatal(string message, Exception ex = null) => WriteLine(Level.Warning, message, ex);
-
-        public void Trace(string message) => WriteLine(Level.Trace, message);
-
-        public void Warning(string message, Exception ex = null) => WriteLine(Level.Warning, message, ex);
 
         #endregion Methods
     }

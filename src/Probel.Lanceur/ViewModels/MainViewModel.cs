@@ -116,7 +116,7 @@ namespace Probel.Lanceur.ViewModels
             try { return _aliasService.Execute(cmdLine); }
             catch (Exception ex)
             {
-                /* I swallow the error as this crash should'nt crash the application
+                /* I swallow the error as this crash shouldn't crash the application
                  * I log and continue without any other warning.
                  */
                 LogService.Warning($"An error occured while trying to execute the alias '{cmdLine}'", ex);

@@ -1,5 +1,4 @@
-﻿using Probel.Lanceur.Core.Constants;
-using Probel.Lanceur.Core.Services;
+﻿using Probel.Lanceur.Core.Services;
 using System;
 using System.Collections.Generic;
 
@@ -10,6 +9,7 @@ namespace Probel.Lanceur.Services
         #region Fields
 
         private static readonly Dictionary<string, Action<string>> _reservedKeywords = new Dictionary<string, Action<string>>();
+        private readonly IKeywordLoader _keywordLoader;
         private static ILogService _log;
 
         private IList<string> _keywords = null;
@@ -18,27 +18,26 @@ namespace Probel.Lanceur.Services
 
         #region Constructors
 
-        static ReservedKeywordService()
+        public ReservedKeywordService(ILogService log, IKeywordLoader keywordLoader)
         {
-            foreach (var keyword in Enum.GetValues(typeof(Keywords)))
-            {
-                var key = keyword.ToString().ToUpper();
-                _reservedKeywords.Add(key, arg => _log.Trace($"Unbinded action for {key}"));
-            }
+            _keywordLoader = keywordLoader;
+           _log = log;
         }
-
-        public ReservedKeywordService(ILogService log) => _log = log;
 
         #endregion Constructors
 
         #region Methods
 
-        public void Bind(Keywords cmd, Action<string> bindedAction)
+        public void Bind(string keyword, Action<string> bindedAction)
         {
-            var c = cmd.ToString().ToUpper();
+            var c = keyword.ToUpper();
             if (_reservedKeywords.ContainsKey(c))
             {
                 _reservedKeywords[c] = bindedAction;
+            }
+            else if(_keywordLoader.Contains(keyword))
+            {
+                _reservedKeywords.Add(c, bindedAction);
             }
         }
 
@@ -57,16 +56,7 @@ namespace Probel.Lanceur.Services
             }
         }
 
-        public IEnumerable<string> GetReservedKeywords()
-        {
-            if (_keywords == null)
-            {
-                _keywords = new List<string>();
-                var names = Enum.GetNames(typeof(Keywords));
-                foreach (var name in names) { _keywords.Add(name.ToLower()); }
-            }
-            return _keywords;
-        }
+        public IEnumerable<string> GetReservedKeywords() => _keywordLoader.GetDefinedKeywords();
 
         public bool IsReserved(string name) => _reservedKeywords.ContainsKey(name);
 
