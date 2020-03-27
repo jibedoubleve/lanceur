@@ -124,8 +124,8 @@ Task("Inno-Setup")
 Task("Release-GitHub")
     .Does(()=>{
         //https://stackoverflow.com/questions/42761777/hide-services-passwords-in-cake-build
-        var token = EnvironmentVariable("CAKE_GITHUB_TOKEN");
-        var owner = EnvironmentVariable("CAKE_GITHUB_USERNAME");
+        var token = EnvironmentVariable("CAKE_PUBLUC_GITHUB_TOKEN");
+        var owner = EnvironmentVariable("CAKE_PUBLUC_GITHUB_USERNAME");
 
         var stg = new GitReleaseManagerCreateSettings 
         {
