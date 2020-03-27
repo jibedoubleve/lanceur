@@ -79,7 +79,8 @@ Task("Build")
     .Does(() => {    
         var msBuildSettings = new MSBuildSettings {
             Verbosity = verbosity,
-            Configuration = configuration
+            Configuration = configuration,
+            PlatformTarget = PlatformTarget.x64
         };
 
         MSBuild(solution, msBuildSettings

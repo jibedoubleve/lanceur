@@ -86,7 +86,7 @@ namespace Probel.Lanceur
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-            var u =_container.Resolve<IUpdateService>();
+            var u = _container.Resolve<IUpdateService>();
             u.DoNeedUpdate();
 
             DisplayRootViewFor<MainViewModel>();
@@ -96,6 +96,7 @@ namespace Probel.Lanceur
         {
             MessageBox.Show($"Unexpected crash occured: {e.Exception.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             _container.Resolve<ILogService>().Fatal($"Unexpected crash occured: {e.Exception.Message}", e.Exception);
+            e.Handled = true;
             base.OnUnhandledException(sender, e);
         }
 
