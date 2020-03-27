@@ -83,7 +83,7 @@ namespace Probel.Lanceur.ViewModels
         }
 
         public async Task DeleteAliasAsync()
-        {            
+        {
             if (await ParentVm.AskForDeletion(Alias.Name))
             {
                 _databaseService.Delete(Alias.AsEntity());
@@ -104,6 +104,8 @@ namespace Probel.Lanceur.ViewModels
         public void UpdateAlias()
         {
             _databaseService.Update(Alias.AsEntity());
+
+            foreach (var name in Names) { name.IdAlias = Alias.Id; }
             _databaseService.Update(Names.AsEntity());
             _userNotifyer.NotifyInfo("Alias updated!");
         }

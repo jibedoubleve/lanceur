@@ -268,14 +268,14 @@ namespace Probel.Lanceur.SQLiteDb.Services
         {
             using (var c = BuildConnection())
             {
-                var sqlInsert = @"insert into alias_name (name, alias_id) values (@name, @aliasId)";
+                var sqlInsert = @"insert into alias_name (name, id_alias) values (@name, @aliasId)";
                 var sqlUpdate = @"update alias_name set name = @name where id = @id";
                 foreach (var name in names)
                 {
                     if (name.Id == 0)
                     {
                         _log.Debug($"Insert new. id_alias: {name.IdAlias} - name: {name.Name} - id: {name.Id}");
-                        c.Execute(sqlInsert, new { name.Name, name.IdAlias });
+                        c.Execute(sqlInsert, new { name = name.Name, aliasId = name.IdAlias });
                     }
                     else
                     {
