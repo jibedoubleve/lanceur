@@ -2,9 +2,17 @@
 
 namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
 {
-    internal class MacroAttribute : Attribute
+    /// <summary>
+    /// A macro if a list of alias to be run sequentially.
+    /// </summary>
+    internal sealed class MacroAttribute : Attribute
     {
+        #region Fields
+
         private readonly string _name;
+
+        #endregion Fields
+
         #region Constructors
 
         public MacroAttribute(string name)

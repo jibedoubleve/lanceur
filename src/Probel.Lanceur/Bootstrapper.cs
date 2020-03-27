@@ -66,6 +66,7 @@ namespace Probel.Lanceur
             _container.RegisterType<IReservedKeywordService, ReservedKeywordService>();
             _container.RegisterType<IMacroService, MacroService>();
             _container.RegisterType<IUpdateService, SQLiteUpdateService>();
+            _container.RegisterType<IKeywordLoader, KeywordLoader>();
 
             //UI
             _container.RegisterType<IUserNotifyer, UserNotifyer>();

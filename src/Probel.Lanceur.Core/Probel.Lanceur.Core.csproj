@@ -46,6 +46,7 @@
       <Link>Properties\Version.cs</Link>
     </Compile>
     <Compile Include="ServicesImpl\MacroManagement\IMacroAction.cs" />
+    <Compile Include="Services\IKeywordLoader.cs" />
     <Compile Include="Services\IMacroService.cs" />
     <Compile Include="ServicesImpl\MacroManagement\MacroAttribute.cs" />
     <Compile Include="ServicesImpl\MacroManagement\MacroService.cs" />
