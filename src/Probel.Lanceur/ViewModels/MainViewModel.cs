@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Entities.Settings;
 using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
@@ -13,11 +14,13 @@ namespace Probel.Lanceur.ViewModels
         #region Fields
 
         private readonly IAliasService _aliasService;
+        private readonly IParameterResolver _resolver;
         private readonly IScreenRuler _screenRuler;
         private readonly ISettingsService _settingsService;
-        private string _aliasName;
-        private ObservableCollection<string> _aliasNameList;
+        private AliasText _aliasName;
+        private ObservableCollection<AliasText> _aliasNameList;
         private AppSettings _appSettings;
+        private string _colour;
         private bool _isOnError;
         private double _left;
         private double _opacity;
@@ -27,11 +30,19 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public MainViewModel(IAliasService aliasService, ISettingsService settings, IEventAggregator ea, IScreenRuler screenRuler, ILogService logService)
+        public MainViewModel(
+            IAliasService aliasService,
+            ISettingsService settings,
+            IEventAggregator ea,
+            IScreenRuler screenRuler,
+            ILogService logService,
+            IParameterResolver resolver
+            )
         {
             LogService = logService;
             ea.Subscribe(this);
 
+            _resolver = resolver;
             _screenRuler = screenRuler;
             _settingsService = settings;
             _aliasService = aliasService;
@@ -41,13 +52,13 @@ namespace Probel.Lanceur.ViewModels
 
         #region Properties
 
-        public string AliasName
+        public AliasText AliasName
         {
             get => _aliasName;
             set => Set(ref _aliasName, value, nameof(AliasName));
         }
 
-        public ObservableCollection<string> AliasNameList
+        public ObservableCollection<AliasText> AliasNameList
         {
             get => _aliasNameList;
             set => Set(ref _aliasNameList, value, nameof(AliasNameList));
@@ -66,7 +77,11 @@ namespace Probel.Lanceur.ViewModels
         public string Colour
         {
 #if DEBUG
-            get => "Crimson";
+            get
+            {
+                _colour = "Crimson";
+                return _colour;
+            }
             set { }
 #else
             get => _colour;
@@ -123,11 +138,25 @@ namespace Probel.Lanceur.ViewModels
             }
         }
 
+        public bool ExecuteText(string cmdline1, string cmdline2)
+        {
+            var cmd = _resolver.Merge(cmdline1, cmdline2);
+
+            return ExecuteText(cmd.ToString());
+        }
+
         public void Handle(string message)
         {
             if (message == Notifications.CornerCommand)
             {
                 var r = _screenRuler.StickTo(Left, Top);
+                Left = r.X;
+                Top = r.Y;
+                SaveSettings();
+            }
+            if (message == Notifications.CenterCommand)
+            {
+                var r = _screenRuler.Center(150);
                 Left = r.X;
                 Top = r.Y;
                 SaveSettings();
@@ -152,6 +181,12 @@ namespace Probel.Lanceur.ViewModels
             RefreshAliases();
         }
 
+        public void RefreshAliases(string criterion)
+        {
+            var l = _aliasService.GetAliasNames(AppSettings.SessionId, criterion);
+            AliasNameList = new ObservableCollection<AliasText>(l);
+        }
+
         public void SaveSettings()
         {
             AppSettings.WindowSection.Position.Left = Left;
@@ -164,7 +199,7 @@ namespace Probel.Lanceur.ViewModels
         private void RefreshAliases()
         {
             var l = _aliasService.GetAliasNames(AppSettings.SessionId);
-            AliasNameList = new ObservableCollection<string>(l);
+            AliasNameList = new ObservableCollection<AliasText>(l);
         }
 
         #endregion Methods

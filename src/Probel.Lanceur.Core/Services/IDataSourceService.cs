@@ -19,7 +19,7 @@ namespace Probel.Lanceur.Core.Services
 
         Alias GetAlias(string name);
 
-        IEnumerable<string> GetAliasNames(long sessionId);
+        IEnumerable<AliasText> GetAliasNames(long sessionId);
 
         IEnumerable<Alias> GetAliases(long sessionId);
 
