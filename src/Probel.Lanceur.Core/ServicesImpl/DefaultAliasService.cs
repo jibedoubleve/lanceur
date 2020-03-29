@@ -1,7 +1,7 @@
 ﻿using Probel.Lanceur.Core.Services;
 using System.Collections.Generic;
 
-namespace Probel.Lanceur.Services
+namespace Probel.Lanceur.Core.ServicesImpl
 {
     public class DefaultAliasService : IAliasService
     {
@@ -48,7 +48,8 @@ namespace Probel.Lanceur.Services
 
             if (_macroService.Has(cmd.FileName))
             {
-                _macroService.With(_cmdRunner, this).Handle(cmd);
+                _macroService.With(_cmdRunner, this)
+                             .Handle(cmd);
                 return true;
             }
             else { return _cmdRunner.Run(cmd); }
