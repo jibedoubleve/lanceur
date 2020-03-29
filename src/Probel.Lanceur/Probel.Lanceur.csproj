@@ -128,8 +128,8 @@
     <Compile Include="Actions\ActionManager.cs" />
     <Compile Include="Actions\AddAction.cs" />
     <Compile Include="Actions\BaseUiAction.cs" />
+    <Compile Include="Actions\CentreAction.cs" />
     <Compile Include="Actions\ClearAction.cs" />
-    <Compile Include="Actions\CornerAction.cs" />
     <Compile Include="Actions\EchoAction.cs" />
     <Compile Include="Actions\ImportAction.cs" />
     <Compile Include="Actions\IUiAction.cs" />
@@ -141,11 +141,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\AliasControl.xaml.cs">
+      <DependentUpon>AliasControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\HeaderSlider.xaml.cs">
       <DependentUpon>HeaderSlider.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ProcessFinderButton.xaml.cs">
       <DependentUpon>ProcessFinderButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ResultList.xaml.cs">
+      <DependentUpon>ResultList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\WindowInfoControl.xaml.cs">
       <DependentUpon>WindowInfoControl.xaml</DependentUpon>
@@ -153,6 +159,7 @@
     <Compile Include="Converters\InvertBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\MahAppsHotKeyToSettingsHotKey.cs" />
     <Compile Include="Converters\OpacityToSliderConverter.cs" />
+    <Compile Include="Events\AliasTextEventArgs.cs" />
     <Compile Include="Helpers\DeactivateHotKey.cs" />
     <Compile Include="Helpers\MahappsHelper.cs" />
     <Compile Include="Models\Settings\AppSettingsModel.cs" />
@@ -235,6 +242,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\AliasControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\HeaderComboBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -248,6 +259,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ProcessFinderButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ResultList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

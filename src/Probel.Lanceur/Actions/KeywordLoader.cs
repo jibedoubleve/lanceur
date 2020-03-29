@@ -1,4 +1,5 @@
-﻿using Probel.Lanceur.Core.Services;
+﻿using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Core.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -52,6 +53,17 @@ namespace Probel.Lanceur.Actions
                 }
             }
             return _keywords;
+        }
+
+        public IEnumerable<AliasText> GetKeywordsAsAlias()
+        {
+            var result = (from k in GetDefinedKeywords()
+                          select new AliasText
+                          {
+                              Name = k,
+                              ExecutionCount = 0
+                          });
+            return result;
         }
 
         #endregion Methods

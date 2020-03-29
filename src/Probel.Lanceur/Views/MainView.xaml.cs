@@ -1,9 +1,12 @@
 ﻿using NHotkey;
 using NHotkey.Wpf;
+using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Events;
 using Probel.Lanceur.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Probel.Lanceur.Views
@@ -21,7 +24,11 @@ namespace Probel.Lanceur.Views
 
         #region Constructors
 
-        public MainView() => InitializeComponent();
+        public MainView()
+        {
+            InitializeComponent();
+            Results.SelectionChanged += OnResultsSelectionChanged;
+        }
 
         #endregion Constructors
 
@@ -35,25 +42,34 @@ namespace Probel.Lanceur.Views
 
         private void HideControl()
         {
-            AliasNameList.Text = string.Empty;
+            AliasTextBox.Text = string.Empty;
             _self.Visibility = Visibility.Collapsed;
             ViewModel.SaveSettings();
         }
+
+        protected override void OnDeactivated(EventArgs e) => HideControl();
 
         private void OnKeyPressed(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                if (ViewModel?.ExecuteText(AliasNameList.Text) ?? false)
-                {
-                    HideControl();
-                }
+                var a = (Results.SelectedItem as AliasText ?? new AliasText()).Name;
+                var b = AliasTextBox.Text;
+                if (ViewModel?.ExecuteText(a, b) ?? false) { HideControl(); }
                 else { ViewModel.IsOnError = true; }
+                e.Handled = true;
             }
             else if (e.Key == Key.Escape) { HideControl(); }
+            else if (e.Key == Key.Up) { Results.SelectNextItem(); }
+            else if (e.Key == Key.Down) { Results.SelectPreviousItem(); }
         }
 
-        protected override void OnDeactivated(EventArgs e) => HideControl();
+        private void OnResultsAliasDoubleClicked(object sender, AliasTextEventArgs e)
+        {
+            if (ViewModel?.ExecuteText(e.Alias.Name) ?? false) { HideControl(); }
+        }
+
+        private void OnResultsSelectionChanged(object sender, AliasTextEventArgs args) => AliasTextBox.Text = args?.Alias?.Name;
 
         private void OnShowWindow(object sender, HotkeyEventArgs e)
         {
@@ -63,6 +79,14 @@ namespace Probel.Lanceur.Views
                 ShowWindow();
                 e.Handled = true;
             }
+        }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+
+        {
+            ViewModel.IsOnError = false;
+            ViewModel.RefreshAliases(AliasTextBox.Text);
+            Results.SelectFirst();
         }
 
         private void OnWindowClosing(object sender, CancelEventArgs e) => ViewModel.SaveSettings();
@@ -116,10 +140,10 @@ namespace Probel.Lanceur.Views
             ViewModel.LoadAliases();
 
             Visibility = Visibility.Visible;
-            AliasNameList.Focus();
+            AliasTextBox.Focus();
 
             //https://stackoverflow.com/questions/3109080/focus-on-textbox-when-usercontrol-change-visibility
-            Dispatcher.BeginInvoke((Action)delegate { Keyboard.Focus(AliasNameList); });
+            Dispatcher.BeginInvoke((Action)delegate { Keyboard.Focus(AliasTextBox); });
 
             Activate();
             Topmost = true;

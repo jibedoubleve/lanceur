@@ -1,6 +1,8 @@
-﻿using Probel.Lanceur.Core.Services;
+﻿using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Core.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Probel.Lanceur.Core.ServicesImpl
 {
@@ -19,7 +21,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
         public ReservedKeywordService(ILogService log, IKeywordLoader keywordLoader)
         {
             _keywordLoader = keywordLoader;
-           _log = log;
+            _log = log;
         }
 
         #endregion Constructors
@@ -33,7 +35,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
             {
                 _reservedKeywords[c] = bindedAction;
             }
-            else if(_keywordLoader.Contains(keyword))
+            else if (_keywordLoader.Contains(keyword))
             {
                 _reservedKeywords.Add(c, bindedAction);
             }
@@ -54,7 +56,12 @@ namespace Probel.Lanceur.Core.ServicesImpl
             }
         }
 
-        public IEnumerable<string> GetReservedKeywords() => _keywordLoader.GetDefinedKeywords();
+        public IEnumerable<AliasText> GetReservedKeywords()
+        {
+            var r = from k in _keywordLoader.GetDefinedKeywords()
+                    select AliasText.ReservedKeyword(k);
+            return r;
+        }
 
         public bool IsReserved(string name) => _reservedKeywords.ContainsKey(name);
 
