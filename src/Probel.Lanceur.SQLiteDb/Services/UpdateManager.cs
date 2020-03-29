@@ -34,19 +34,27 @@ namespace Probel.Lanceur.SQLiteDb.Services
         public void Update()
         {
             var cur = GetCurrentVersion();
+                    _logger.Trace($"Current version is {cur}");
 
             using (var c = BuildConnection())
             {
                 foreach (var res in GetResources())
                 {
-                    _logger.Trace($"Current version is {cur}");
                     if (cur < res.Key)
                     {
                         _logger.Info($"Updating database. Current version is {cur}. Executing script version '{res.Key}'");
                         Execute(res.Value, c);
+                        SetVersion(res.Key, c);
                     }
                 }
             }
+        }
+
+        private void SetVersion(Version key, DbConnection c)
+        {
+            var sql = "update settings set s_value = @value where s_key = s_key";
+            c.Execute(sql, new { value = key.ToString() });
+            _logger.Info($"Update database version to '{key}'");
         }
 
         private void Execute(string value, DbConnection conn)

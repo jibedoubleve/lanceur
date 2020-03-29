@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\data.db" />
+    <None Include="Assets\Scripts\readme.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +81,11 @@
   <ItemGroup>
     <EmbeddedResource Include="..\..\sql\scripts\update-0.1.sql">
       <Link>Assets\Scripts\update-0.1.sql</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\sql\scripts\update-0.2.sql">
+      <Link>Assets\Scripts\update-0.2.sql</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
