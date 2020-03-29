@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Probel.Lanceur.Services
+namespace Probel.Lanceur.Core.ServicesImpl
 {
     public class ReservedKeywordService : IReservedKeywordService
     {
@@ -11,8 +11,6 @@ namespace Probel.Lanceur.Services
         private static readonly Dictionary<string, Action<string>> _reservedKeywords = new Dictionary<string, Action<string>>();
         private readonly IKeywordLoader _keywordLoader;
         private static ILogService _log;
-
-        private IList<string> _keywords = null;
 
         #endregion Fields
 
