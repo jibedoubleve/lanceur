@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using System;
+using Probel.Lanceur.Core.Plugins;
 
-namespace Probel.Lanceur.Core.Plugins
+namespace Probel.Lanceur.Core.PluginsImpl
 {
     public class PluginMetadata : IPluginMetadata
     {
@@ -13,15 +13,11 @@ namespace Probel.Lanceur.Core.Plugins
         [JsonProperty("dll")]
         public string Dll { get; set; }
 
+        [JsonProperty("keyword")]
+        public string Keyword { get; set; }
+
         [JsonProperty("name")]
         public string Name { get; set; }
-
-        /// <summary>
-        /// Should be the guid of the plugin. Information is in the
-        /// plugin.config.json
-        /// </summary>
-        [JsonProperty("plugin-id")]
-        public Guid PluginId { get; set; }
 
         #endregion Properties
     }

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Probel.Lanceur.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,6 +10,21 @@ namespace Probel.Lanceur.Core.Plugins
 {
     public class PluginLoader : IPluginLoader
     {
+        #region Fields
+
+        private readonly ILogService _logger;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public PluginLoader(ILogService logger)
+        {
+            _logger = logger;
+        }
+
+        #endregion Constructors
+
         #region Methods
 
         public IList<IPluginMetadata> LoadPlugins(string pluginRepository, Dictionary<string, Type> pluginTypes)
@@ -42,9 +58,10 @@ namespace Probel.Lanceur.Core.Plugins
                                 where t.IsClass
                                    && !t.IsAbstract
                                    && t.GetInterfaces().Contains(typeof(IPlugin))
-                                select t).First();
+                                select t).FirstOrDefault();
 
-                    pluginTypes.Add(dll, type);
+                    if (type != null) { pluginTypes.Add(dll, type); }
+                    else { _logger.Warning($"Didn't find any plugins."); }
                 }
                 catch (InvalidOperationException ex) { throw new InvalidOperationException($"An error occured when searching 'Plugin' class for dll '{dll}'", ex); }
             }

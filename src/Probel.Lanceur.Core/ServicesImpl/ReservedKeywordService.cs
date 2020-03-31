@@ -56,7 +56,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
             }
         }
 
-        public IEnumerable<AliasText> GetReservedKeywords()
+        public IEnumerable<AliasText> GetKeywords()
         {
             var r = from k in _keywordLoader.GetDefinedKeywords()
                     select AliasText.ReservedKeyword(k);

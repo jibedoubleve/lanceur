@@ -1,0 +1,6 @@
+{
+  "name": "Calculator",
+  "keyword": "=",
+  "dll": "Probel.Lanceur.Plugin.Calculator.dll",
+  "explanation": "Allow to make fast calculation"
+}

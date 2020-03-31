@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Probel.Lanceur.Core.Plugins
+﻿namespace Probel.Lanceur.Core.Plugins
 {
     public interface IPluginMetadata
     {
@@ -8,8 +6,8 @@ namespace Probel.Lanceur.Core.Plugins
 
         string Description { get; }
         string Dll { get; }
+        string Keyword { get; }
         string Name { get; }
-        Guid PluginId { get; }
 
         #endregion Properties
     }
