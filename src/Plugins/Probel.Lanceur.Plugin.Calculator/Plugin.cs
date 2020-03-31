@@ -1,10 +1,6 @@
-﻿using Humanizer;
-using NCalc;
-using Probel.Lanceur.Core.PluginsImpl;
-using Probel.Lanceur.Plugin.Calculator.Models;
+﻿using Probel.Lanceur.Core.PluginsImpl;
 using Probel.Lanceur.Plugin.Calculator.ViewModels;
 using Probel.Lanceur.Plugin.Calculator.Views;
-using System.Data;
 
 namespace Probel.Lanceur.Plugin.Calculator
 {

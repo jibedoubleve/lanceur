@@ -352,4 +352,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>cmd /K powershell -noprofile $(SolutionDir)..\deploy_plugins.ps1
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

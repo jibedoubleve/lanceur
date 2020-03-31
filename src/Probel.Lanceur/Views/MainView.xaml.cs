@@ -69,13 +69,13 @@ namespace Probel.Lanceur.Views
             ViewModel.SaveSettings();
         }
 
-        private void OnKeyPressed(object sender, KeyEventArgs e)
+        private async void OnKeyPressed(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 var a = (Results.SelectedItem as AliasText ?? new AliasText()).Name;
                 var b = AliasTextBox.Text;
-                var result = ViewModel?.ExecuteText(a, b) ?? ExecutionResult.Failure;
+                var result = await ViewModel?.ExecuteTextAsync(a, b) ?? ExecutionResult.Failure;
 
                 if (!result.KeepShowing) { HideControl(); }
                 if (result.IsError) { ViewModel.IsOnError = true; }
@@ -92,9 +92,9 @@ namespace Probel.Lanceur.Views
             if (e.Key == Key.Escape) { HideControl(); }
         }
 
-        private void OnResultsAliasDoubleClicked(object sender, AliasTextEventArgs e)
+        private async void OnResultsAliasDoubleClicked(object sender, AliasTextEventArgs e)
         {
-            var result = ViewModel?.ExecuteText(e.Alias.Name) ?? ExecutionResult.Failure;
+            var result = await ViewModel?.ExecuteTextAsync(e.Alias.Name) ?? ExecutionResult.Failure;
             if (!result.IsError) { HideControl(); }
         }
 

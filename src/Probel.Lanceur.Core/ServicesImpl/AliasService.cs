@@ -3,6 +3,7 @@ using Probel.Lanceur.Core.Plugins;
 using Probel.Lanceur.Core.Services;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Probel.Lanceur.Core.ServicesImpl
 {
@@ -59,7 +60,8 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
             if (_pluginManager.Exists(cmd.Name))
             {
-                _pluginManager.Build(cmd.Name).Execute(cmd.Arguments);
+                _pluginManager.Build(cmd.Name)
+                              .Execute(cmd.Arguments);
                 return ExecutionResult.SuccesShow; ;
             }
             else if (_macroService.Has(cmd.FileName))

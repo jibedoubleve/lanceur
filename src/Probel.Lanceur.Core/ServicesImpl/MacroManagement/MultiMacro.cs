@@ -2,6 +2,7 @@
 using Probel.Lanceur.Core.Services;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
 {

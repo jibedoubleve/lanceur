@@ -67,8 +67,14 @@ namespace Probel.Lanceur.Core.PluginsImpl
             var exist = (from p in GetPluginsInfo()
                          where p.Name.ToLower() == name
                             || p.Keyword.ToLower() == name
-                         select p).Any();
-            return exist;
+                         select p);
+            if (exist.Any())
+            {
+                _logger.Info($"Found {exist.Count()} plugin(s) with criteria '{name}'");
+                foreach (var plugin in exist) { _logger.Trace($"Plugin '{plugin.Name}' [Keyword: {plugin.Keyword}] - {plugin.Description}"); }
+                return true;
+            }
+            else { return false; }
         }
 
         public IEnumerable<AliasText> GetKeywords()
