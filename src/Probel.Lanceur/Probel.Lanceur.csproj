@@ -131,6 +131,7 @@
     <Compile Include="Actions\CentreAction.cs" />
     <Compile Include="Actions\ClearAction.cs" />
     <Compile Include="Actions\EchoAction.cs" />
+    <Compile Include="Actions\GuidAction.cs" />
     <Compile Include="Actions\ImportAction.cs" />
     <Compile Include="Actions\IUiAction.cs" />
     <Compile Include="Actions\QuitAction.cs" />
