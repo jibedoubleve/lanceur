@@ -28,6 +28,7 @@
                 <ResourceDictionary Source="/Probel.Lanceur;component/Styles/Merged.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="TextBrush" Color="#FFE6E6E6" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -6,6 +6,7 @@ using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Services;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace Probel.Lanceur.ViewModels
 {
@@ -125,7 +126,7 @@ namespace Probel.Lanceur.ViewModels
         /// </summary>
         /// <param name="cmdLine">The command line (the alias & the arguments) to be executed.</param>
         /// <returns><c>True</c> on success; otherwise <c>False</c></returns>
-        public ExecutionResult ExecuteText(string cmdLine)
+        public async Task<ExecutionResult> ExecuteTextAsync(string cmdLine)
         {
             try { return _aliasService.Execute(cmdLine); }
             catch (Exception ex)
@@ -138,11 +139,11 @@ namespace Probel.Lanceur.ViewModels
             }
         }
 
-        public ExecutionResult ExecuteText(string cmdline1, string cmdline2)
+        public async Task<ExecutionResult> ExecuteTextAsync(string cmdline1, string cmdline2)
         {
             var cmd = _resolver.Merge(cmdline1, cmdline2);
 
-            return ExecuteText(cmd.ToString());
+            return await ExecuteTextAsync(cmd.ToString());
         }
 
         public void Handle(string message)
