@@ -10,7 +10,7 @@
     mc:Ignorable="d">
     <ListBox
         x:Name="Results"
-        Background="Transparent"        
+        Background="Transparent"
         PreviewMouseLeftButtonUp="OnResultsMouseClick"
         SelectionChanged="OnResultsSelectionChanged">
         <ListBox.Resources>
