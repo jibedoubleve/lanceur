@@ -86,7 +86,6 @@ namespace Probel.Lanceur
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-            var l = _container.Resolve<ILogService>();
             var u = _container.Resolve<IUpdateService>();
 
             u.UpdateDatabase();

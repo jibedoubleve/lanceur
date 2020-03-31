@@ -26,6 +26,8 @@ namespace Probel.Lanceur.Views
 
         #region Methods
 
+        private void OnKeyDown(object sender, System.Windows.Input.KeyEventArgs e) => Close();
+
         private void OnTabControlSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (e.AddedItems.Count > 0)
