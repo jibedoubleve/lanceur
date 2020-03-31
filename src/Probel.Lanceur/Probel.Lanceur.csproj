@@ -132,6 +132,7 @@
     <Compile Include="Actions\ClearAction.cs" />
     <Compile Include="Actions\EchoAction.cs" />
     <Compile Include="Actions\GuidAction.cs" />
+    <Compile Include="Actions\IActionManager.cs" />
     <Compile Include="Actions\ImportAction.cs" />
     <Compile Include="Actions\IUiAction.cs" />
     <Compile Include="Actions\QuitAction.cs" />
@@ -316,10 +317,6 @@
     <ProjectReference Include="..\Probel.Lanceur.Core\Probel.Lanceur.Core.csproj">
       <Project>{76716e34-6464-45e0-bcc6-21203ab79fd1}</Project>
       <Name>Probel.Lanceur.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Probel.Lanceur.Services\Probel.Lanceur.Services.csproj">
-      <Project>{c6784cd2-3152-4f9b-87eb-f0bdab2710b6}</Project>
-      <Name>Probel.Lanceur.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Probel.Lanceur.SQLiteDb\Probel.Lanceur.SQLiteDb.csproj">
       <Project>{f19b7525-245c-464d-bed2-7675c5bf9462}</Project>

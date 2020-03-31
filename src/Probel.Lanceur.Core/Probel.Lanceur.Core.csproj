@@ -32,8 +32,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.7.0\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,8 +57,15 @@
       <Link>Properties\Version.cs</Link>
     </Compile>
     <Compile Include="Entities\AliasText.cs" />
+    <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Plugins\IPluginLoader.cs" />
+    <Compile Include="Plugins\IPluginMetadata.cs" />
+    <Compile Include="Plugins\PluginLoader.cs" />
+    <Compile Include="Plugins\PluginMetadata.cs" />
     <Compile Include="ServicesImpl\DefaultAliasService.cs" />
+    <Compile Include="ServicesImpl\JsonSettingsService.cs" />
     <Compile Include="ServicesImpl\MacroManagement\IMacroAction.cs" />
+    <Compile Include="ServicesImpl\NLogLogger.cs" />
     <Compile Include="ServicesImpl\ReservedKeywordService.cs" />
     <Compile Include="Services\IKeywordLoader.cs" />
     <Compile Include="Services\IMacroService.cs" />
@@ -96,6 +114,9 @@
     <Compile Include="Services\IAliasService.cs" />
     <Compile Include="Services\ISlickRunImporterService.cs" />
     <Compile Include="Services\IUpdateService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

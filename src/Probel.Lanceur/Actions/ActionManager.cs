@@ -6,13 +6,12 @@ using Unity;
 
 namespace Probel.Lanceur.Actions
 {
-    internal class ActionManager
+    internal class ActionManager : IActionManager
     {
         #region Fields
 
         public readonly ILogService _logger;
         private readonly IUnityContainer _container;
-
         private readonly IReservedKeywordService _reservedKeywordService;
 
         #endregion Fields

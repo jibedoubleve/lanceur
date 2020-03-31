@@ -35,9 +35,9 @@ namespace Probel.Lanceur
 
         private void ConfigureInternalCommands()
         {
-            var ss = _container.Resolve<IReservedKeywordService>();
+            var actionManager = _container.Resolve<IActionManager>();
 
-            new ActionManager(ss, _container).Bind();
+            actionManager.Bind();
         }
 
         protected override void BuildUp(object instance) => _container.BuildUp(instance);
@@ -47,6 +47,7 @@ namespace Probel.Lanceur
             /* IOC */
             _container.RegisterSingleton<IWindowManager, WindowManager>();
             _container.RegisterSingleton<IEventAggregator, EventAggregator>();
+            _container.RegisterSingleton<IActionManager, ActionManager>();
 
             _container.RegisterInstance(typeof(IDialogCoordinator), DialogCoordinator.Instance);
 
