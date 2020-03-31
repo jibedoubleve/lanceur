@@ -1,7 +1,9 @@
-﻿using Probel.Lanceur.Core.Services;
+﻿using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Core.Services;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace Probel.Lanceur.Services
+namespace Probel.Lanceur.Core.ServicesImpl
 {
     public class DefaultAliasService : IAliasService
     {
@@ -48,13 +50,24 @@ namespace Probel.Lanceur.Services
 
             if (_macroService.Has(cmd.FileName))
             {
-                _macroService.With(_cmdRunner, this).Handle(cmd);
+                _macroService.With(_cmdRunner, this)
+                             .Handle(cmd);
                 return true;
             }
             else { return _cmdRunner.Run(cmd); }
         }
 
-        public IEnumerable<string> GetAliasNames(long sessionId) => _databaseService.GetAliasNames(sessionId);
+        public IEnumerable<AliasText> GetAliasNames(long sessionId) => _databaseService.GetAliasNames(sessionId);
+        
+        public IEnumerable<AliasText> GetAliasNames(long sessionId, string criterion)
+        {
+            var splited = _resolver.Split(criterion);
+            criterion = splited.Command.ToLower();
+            var result = (from a in _databaseService.GetAliasNames(sessionId)
+                          where a.Name.ToLower().StartsWith(criterion)
+                          select a).ToList();
+            return result;
+        }
 
         #endregion Methods
     }

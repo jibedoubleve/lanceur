@@ -32,6 +32,21 @@ namespace Probel.Lanceur.Helpers
             return new Coordinate(rLeft, rTop);
         }
 
+        public Coordinate Center(double distanceFromTop)
+        {
+            var screenWidth = SystemParameters.PrimaryScreenWidth;
+            var screenHeight = SystemParameters.PrimaryScreenHeight;
+
+            var windowWidth = GetWindowWidth();
+            //var windowHeight = height ?? GetWindowHeight();
+
+            var rLeft = (screenWidth / 2) - (windowWidth / 2);
+            //var rTop = (screenHeight / 2) - (windowHeight / 2);
+            var rTop = distanceFromTop;
+
+            return new Coordinate(rLeft, rTop);
+        }
+
         #endregion Methods
     }
 }

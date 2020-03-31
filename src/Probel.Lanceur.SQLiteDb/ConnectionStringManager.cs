@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Probel.Lanceur.SQLiteDb
 {
-    public class ConnectionStringManager
+    internal class ConnectionStringManager
     {
         #region Fields
 

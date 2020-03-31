@@ -1,0 +1,22 @@
+﻿<UserControl
+    x:Class="Probel.Lanceur.Controls.ResultList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="clr-namespace:Probel.Lanceur.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="_self"
+    Background="Transparent"
+    mc:Ignorable="d">
+    <ListBox
+        x:Name="Results"
+        Background="Transparent"        
+        PreviewMouseLeftButtonUp="OnResultsMouseClick"
+        SelectionChanged="OnResultsSelectionChanged">
+        <ListBox.Resources>
+            <Style TargetType="ListBoxItem">
+                <Setter Property="Background" Value="Transparent" />
+            </Style>
+        </ListBox.Resources>
+    </ListBox>
+</UserControl>

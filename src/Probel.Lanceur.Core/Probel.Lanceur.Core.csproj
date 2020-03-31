@@ -45,7 +45,10 @@
     <Compile Include="..\Version.cs">
       <Link>Properties\Version.cs</Link>
     </Compile>
+    <Compile Include="Entities\AliasText.cs" />
+    <Compile Include="ServicesImpl\DefaultAliasService.cs" />
     <Compile Include="ServicesImpl\MacroManagement\IMacroAction.cs" />
+    <Compile Include="ServicesImpl\ReservedKeywordService.cs" />
     <Compile Include="Services\IKeywordLoader.cs" />
     <Compile Include="Services\IMacroService.cs" />
     <Compile Include="ServicesImpl\MacroManagement\MacroAttribute.cs" />
