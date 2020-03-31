@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Probel.Lanceur.Core.Plugin")]
+[assembly: AssemblyTitle("Probel.Lanceur.Plugins")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Probel.Lanceur.Core.Plugin")]
+[assembly: AssemblyProduct("Probel.Lanceur.Plugins")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0bb8d569-2044-4ed8-9c93-2a5f1a09a883")]
+[assembly: Guid("b91c9463-9731-4d4e-9278-9bef3594a939")]
 
 // Version information for an assembly consists of the following four values:
 //

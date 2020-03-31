@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Core.Plugins;
 using Probel.Lanceur.Core.Services;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,20 @@ namespace Probel.Lanceur.SQLiteDb.Services
         private readonly string _connectionString;
         private readonly IReservedKeywordService _keywordService;
         private readonly ILogService _log;
+        private readonly IPluginManager _pluginManager;
         private readonly IReservedKeywordService _reservedKeywordService;
 
         #endregion Fields
 
         #region Constructors
 
-        public SQLiteDatabaseService(IReservedKeywordService keywordService, ILogService log, IReservedKeywordService reservedKeywordService)
+        public SQLiteDatabaseService(IReservedKeywordService keywordService,
+            ILogService log,
+            IReservedKeywordService reservedKeywordService,
+            IPluginManager pluginManager
+            )
         {
+            _pluginManager = pluginManager;
             _reservedKeywordService = reservedKeywordService;
             _log = log;
             _connectionString = new ConnectionStringManager().Get();
@@ -207,7 +214,11 @@ namespace Probel.Lanceur.SQLiteDb.Services
             {
                 var result = c.Query<AliasText>(sql, new { sessionId }).ToList();
 
-                if (result != null) { result.AddRange(_reservedKeywordService.GetReservedKeywords()); }
+                if (result != null)
+                {
+                    result.AddRange(_reservedKeywordService.GetKeywords());
+                    result.AddRange(_pluginManager.GetKeywords());
+                }
                 else { result = new List<AliasText>(); }
 
                 return result.OrderByDescending(e => e.ExecutionCount)

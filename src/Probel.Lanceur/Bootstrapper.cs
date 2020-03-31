@@ -1,7 +1,10 @@
 ﻿using Caliburn.Micro;
 using MahApps.Metro.Controls.Dialogs;
 using Probel.Lanceur.Actions;
+using Probel.Lanceur.Core;
 using Probel.Lanceur.Core.Helpers;
+using Probel.Lanceur.Core.Plugins;
+using Probel.Lanceur.Core.PluginsImpl;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.ServicesImpl;
 using Probel.Lanceur.Core.ServicesImpl.MacroManagement;
@@ -33,13 +36,6 @@ namespace Probel.Lanceur
 
         #region Methods
 
-        private void ConfigureInternalCommands()
-        {
-            var actionManager = _container.Resolve<IActionManager>();
-
-            actionManager.Bind();
-        }
-
         protected override void BuildUp(object instance) => _container.BuildUp(instance);
 
         protected override void Configure()
@@ -52,7 +48,7 @@ namespace Probel.Lanceur
             _container.RegisterInstance(typeof(IDialogCoordinator), DialogCoordinator.Instance);
 
             _container.RegisterType<IClipboardService, ClipboardService>();
-            _container.RegisterType<IAliasService, DefaultAliasService>();
+            _container.RegisterType<IAliasService, AliasService>();
             _container.RegisterType<ICommandRunner, CommandRunner>();
             _container.RegisterType<IParameterResolver, ParameterResolver>();
             _container.RegisterType<IReservedKeywordService, ReservedKeywordService>();
@@ -72,8 +68,14 @@ namespace Probel.Lanceur
             //UI
             _container.RegisterType<IUserNotifyer, UserNotifyer>();
 
+            //Plugins
+            _container.RegisterType<IPluginLoader, PluginLoader>();
+            _container.RegisterType<IPluginManager, PluginManager>();
+            _container.RegisterType<IApplicationManager, ApplicationManager>();
+
             //Views
-            _container.RegisterType<MainViewModel>();
+            _container.RegisterSingleton<MainViewModel>();
+
             _container.RegisterType<SetupViewModel>();
             _container.RegisterType<EditSessionViewModel>();
 
@@ -100,6 +102,13 @@ namespace Probel.Lanceur
             _container.Resolve<ILogService>().Fatal($"Unexpected crash occured: {e.Exception.Message}", e.Exception);
             e.Handled = true;
             base.OnUnhandledException(sender, e);
+        }
+
+        private void ConfigureInternalCommands()
+        {
+            var actionManager = _container.Resolve<IActionManager>();
+
+            actionManager.Bind();
         }
 
         #endregion Methods

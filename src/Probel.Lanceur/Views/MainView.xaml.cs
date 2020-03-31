@@ -1,6 +1,8 @@
 ﻿using NHotkey;
 using NHotkey.Wpf;
 using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Core.Plugins;
+using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Events;
 using Probel.Lanceur.ViewModels;
 using System;
@@ -14,7 +16,7 @@ namespace Probel.Lanceur.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainView : Window
+    public partial class MainView : Window, IMainView
     {
         #region Fields
 
@@ -40,14 +42,32 @@ namespace Probel.Lanceur.Views
 
         #region Methods
 
+        public void HideResults()
+        {
+            Results.Visibility = Visibility.Collapsed;
+            PluginArea.Visibility = Visibility.Visible;
+        }
+
+        public void SetPluginArea(object area)
+        {
+            PluginArea.Content = area; ;
+        }
+
+        public void ShowResults()
+        {
+            Results.Visibility = Visibility.Visible;
+            PluginArea.Visibility = Visibility.Collapsed;
+        }
+
+        protected override void OnDeactivated(EventArgs e) => HideControl();
+
         private void HideControl()
         {
+            ShowResults();
             AliasTextBox.Text = string.Empty;
             _self.Visibility = Visibility.Collapsed;
             ViewModel.SaveSettings();
         }
-
-        protected override void OnDeactivated(EventArgs e) => HideControl();
 
         private void OnKeyPressed(object sender, KeyEventArgs e)
         {
@@ -55,8 +75,11 @@ namespace Probel.Lanceur.Views
             {
                 var a = (Results.SelectedItem as AliasText ?? new AliasText()).Name;
                 var b = AliasTextBox.Text;
-                if (ViewModel?.ExecuteText(a, b) ?? false) { HideControl(); }
-                else { ViewModel.IsOnError = true; }
+                var result = ViewModel?.ExecuteText(a, b) ?? ExecutionResult.Failure;
+
+                if (!result.KeepShowing) { HideControl(); }
+                if (result.IsError) { ViewModel.IsOnError = true; }
+
                 e.Handled = true;
             }
             else if (e.Key == Key.Escape) { HideControl(); }
@@ -64,9 +87,15 @@ namespace Probel.Lanceur.Views
             else if (e.Key == Key.Down) { Results.SelectPreviousItem(); }
         }
 
+        private void OnKeyPressedWindow(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape) { HideControl(); }
+        }
+
         private void OnResultsAliasDoubleClicked(object sender, AliasTextEventArgs e)
         {
-            if (ViewModel?.ExecuteText(e.Alias.Name) ?? false) { HideControl(); }
+            var result = ViewModel?.ExecuteText(e.Alias.Name) ?? ExecutionResult.Failure;
+            if (!result.IsError) { HideControl(); }
         }
 
         private void OnResultsSelectionChanged(object sender, AliasTextEventArgs args) => AliasTextBox.Text = args?.Alias?.Name;

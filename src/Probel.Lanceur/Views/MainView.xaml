@@ -13,13 +13,13 @@
     Width="650"
     AllowsTransparency="True"
     Closing="OnWindowClosing"
+    KeyDown="OnKeyPressedWindow"
     Cursor="Hand"
     FocusManager.FocusedElement="{Binding ElementName=CommandText}"
     Left="{Binding Left, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
     Loaded="OnWindowLoaded"
     LocationChanged="OnWindowLocationChanged"
     MouseDown="OnWindowMouseDown"
-    PreviewKeyDown="OnKeyPressed"
     ResizeMode="NoResize"
     ShowInTaskbar="False"
     SizeToContent="Height"
@@ -29,6 +29,7 @@
     mc:Ignorable="d">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <conv:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" />
         <conv:StringToColourBrushConverter x:Key="StringToColourBrushConverter" />
     </Window.Resources>
     <Window.Background>
@@ -55,6 +56,7 @@
             FontWeight="Regular"
             Foreground="#FFE6E6E6"
             Opacity="0.7"
+            PreviewKeyDown="OnKeyPressed"
             TextChanged="OnTextChanged" />
         <iconPacks:PackIconModern
             Grid.Column="1"
@@ -64,24 +66,24 @@
             Kind="Warning"
             Visibility="{Binding IsOnError, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-        <c:ResultList
-            x:Name="Results"
-            Grid.Row="1"
-            Grid.ColumnSpan="2"
-            MaxHeight="350"
-            Margin="5,0,5,5"
-            AliasClicked="OnResultsAliasDoubleClicked"
-            ItemsSource="{Binding AliasNameList, UpdateSourceTrigger=PropertyChanged}">
-            <c:ResultList.ItemTemplate>
-                <DataTemplate>
-                    <c:AliasControl
-                        AliasFileName="{Binding FileName}"
-                        AliasName="{Binding Name}"
-                        ExecutionCount="{Binding ExecutionCount}"
-                        Kind="{Binding Kind}" />
-                </DataTemplate>
-            </c:ResultList.ItemTemplate>
-        </c:ResultList>
-
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+            <c:ResultList
+                x:Name="Results"
+                MaxHeight="350"
+                Margin="5,0,5,5"
+                AliasClicked="OnResultsAliasDoubleClicked"
+                ItemsSource="{Binding AliasNameList, UpdateSourceTrigger=PropertyChanged}">
+                <c:ResultList.ItemTemplate>
+                    <DataTemplate>
+                        <c:AliasControl
+                            AliasFileName="{Binding FileName}"
+                            AliasName="{Binding Name}"
+                            ExecutionCount="{Binding ExecutionCount}"
+                            Kind="{Binding Kind}" />
+                    </DataTemplate>
+                </c:ResultList.ItemTemplate>
+            </c:ResultList>
+            <ContentControl x:Name="PluginArea" MaxHeight="350" />
+        </StackPanel>
     </Grid>
 </Window>
