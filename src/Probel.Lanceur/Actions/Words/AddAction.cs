@@ -3,16 +3,12 @@ using Probel.Lanceur.Helpers;
 using Probel.Lanceur.ViewModels;
 using Unity;
 
-namespace Probel.Lanceur.Actions
+namespace Probel.Lanceur.Actions.Words
 {
     [UiAction]
     public class AddAction : BaseUiAction
     {
         #region Methods
-
-        protected override void Configure()
-        {
-        }
 
         protected override void DoExecute(string arg)
         {

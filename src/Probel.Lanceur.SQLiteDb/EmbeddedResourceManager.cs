@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Probel.Lanceur.SQLiteDb
 {
@@ -58,6 +59,14 @@ namespace Probel.Lanceur.SQLiteDb
         {
             var result = (from s in ExecutingAssembly.GetManifestResourceNames()
                           where s.Contains(pattern)
+                          select s);
+            return result;
+        }
+
+        public IEnumerable<string> ListResources(Regex regex)
+        {
+            var result = (from s in ExecutingAssembly.GetManifestResourceNames()
+                          where regex.IsMatch(s)
                           select s);
             return result;
         }

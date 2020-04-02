@@ -75,6 +75,12 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net47\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -126,19 +132,20 @@
       <Link>Properties\Version.cs</Link>
     </Compile>
     <Compile Include="Actions\ActionManager.cs" />
-    <Compile Include="Actions\AddAction.cs" />
+    <Compile Include="Actions\Words\AddAction.cs" />
     <Compile Include="Actions\BaseUiAction.cs" />
-    <Compile Include="Actions\CentreAction.cs" />
-    <Compile Include="Actions\ClearAction.cs" />
-    <Compile Include="Actions\EchoAction.cs" />
-    <Compile Include="Actions\GuidAction.cs" />
+    <Compile Include="Actions\Words\CentreAction.cs" />
+    <Compile Include="Actions\Words\ClearAction.cs" />
+    <Compile Include="Actions\Words\EchoAction.cs" />
+    <Compile Include="Actions\Words\GuidAction.cs" />
     <Compile Include="Actions\IActionManager.cs" />
-    <Compile Include="Actions\ImportAction.cs" />
+    <Compile Include="Actions\Words\ImportAction.cs" />
     <Compile Include="Actions\IUiAction.cs" />
-    <Compile Include="Actions\QuitAction.cs" />
-    <Compile Include="Actions\SetupAction.cs" />
+    <Compile Include="Actions\Words\QuitAction.cs" />
+    <Compile Include="Actions\Words\SetupAction.cs" />
     <Compile Include="Actions\UiActionAttribute.cs" />
-    <Compile Include="Actions\VersionAction.cs" />
+    <Compile Include="Actions\Words\StatisticsAction.cs" />
+    <Compile Include="Actions\Words\VersionAction.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -198,6 +205,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\SetupViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="Views\EditSessionView.xaml.cs">
       <DependentUpon>EditSessionView.xaml</DependentUpon>
     </Compile>
@@ -215,6 +223,9 @@
     </Compile>
     <Compile Include="Views\SetupView.xaml.cs">
       <DependentUpon>SetupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatisticsView.xaml.cs">
+      <DependentUpon>StatisticsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +324,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SetupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatisticsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

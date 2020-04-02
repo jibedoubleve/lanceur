@@ -2,7 +2,7 @@
 using Probel.Lanceur.Services;
 using Unity;
 
-namespace Probel.Lanceur.Actions
+namespace Probel.Lanceur.Actions.Words
 {
     [UiAction]
     public class CentreAction : BaseUiAction

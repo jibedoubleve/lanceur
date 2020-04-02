@@ -27,7 +27,7 @@ namespace Probel.Lanceur.Actions
             return this;
         }
 
-        protected abstract void Configure();
+        protected virtual void Configure() { }
 
         protected abstract void DoExecute(string arg);
 

@@ -3,14 +3,12 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 
-namespace Probel.Lanceur.Actions
+namespace Probel.Lanceur.Actions.Words
 {
     [UiAction]
     public class VersionAction : BaseUiAction
     {
         #region Methods
-
-        protected override void Configure() { }
 
         protected override void DoExecute(string arg)
         {

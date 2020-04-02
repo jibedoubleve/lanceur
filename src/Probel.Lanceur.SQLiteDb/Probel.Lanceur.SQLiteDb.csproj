@@ -71,6 +71,7 @@
     <EmbeddedResource Include="Assets\data.db" />
     <None Include="Assets\Scripts\readme.md" />
     <None Include="packages.config" />
+    <Compile Include="Services\SQLiteDatabaseService.Statistics.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Probel.Lanceur.Core\Probel.Lanceur.Core.csproj">
@@ -86,6 +87,14 @@
   <ItemGroup>
     <EmbeddedResource Include="..\..\sql\scripts\update-0.2.sql">
       <Link>Assets\Scripts\update-0.2.sql</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\sql\scripts\views\views-data.sql">
+      <Link>Assets\Scripts\views-data.sql</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\sql\scripts\views\views-stat.sql">
+      <Link>Assets\Scripts\views-stat.sql</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
