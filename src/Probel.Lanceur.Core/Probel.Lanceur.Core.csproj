@@ -57,6 +57,7 @@
       <Link>Properties\Version.cs</Link>
     </Compile>
     <Compile Include="Entities\AliasText.cs" />
+    <Compile Include="Entities\ChartPoint.cs" />
     <Compile Include="PluginsImpl\EmptyPlugin.cs" />
     <Compile Include="PluginsImpl\PluginBase.cs" />
     <Compile Include="PluginsImpl\PluginLoader.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="ServicesImpl\MacroManagement\IMacroAction.cs" />
     <Compile Include="ServicesImpl\NLogLogger.cs" />
     <Compile Include="ServicesImpl\ReservedKeywordService.cs" />
+    <Compile Include="Services\IDataSourceService.Statistics.cs" />
     <Compile Include="Services\IKeywordLoader.cs" />
     <Compile Include="Services\IAppLogger.cs" />
     <Compile Include="Services\IMacroService.cs" />

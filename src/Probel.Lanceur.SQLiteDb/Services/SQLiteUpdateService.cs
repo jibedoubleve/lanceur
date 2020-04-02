@@ -30,17 +30,15 @@ namespace Probel.Lanceur.SQLiteDb.Services
         public void UpdateDatabase()
         {
             var rm = new EmbeddedResourceManager();
-            if (HasTableSettings())
-            {
-                new UpdateManager(_connectionString, _logger).Update();
-            }
-            else
+            if (!HasTableSettings())
             {
                 var script = "Probel.Lanceur.SQLiteDb.Assets.Scripts.update-0.1.sql";
                 _logger.Trace($"Do not has table 'settings'. Applying script '{script}'");
 
                 rm.ReadResourceAsString(script, content => ExecuteScript(content));
             }
+
+            new UpdateManager(_connectionString, _logger).Update();
         }
 
         private DbConnection BuildConnection() => new SQLiteConnection(_connectionString);

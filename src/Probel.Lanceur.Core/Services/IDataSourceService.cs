@@ -1,9 +1,10 @@
 ﻿using Probel.Lanceur.Core.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace Probel.Lanceur.Core.Services
 {
-    public interface IDataSourceService
+    public partial interface IDataSourceService
     {
         #region Methods
 

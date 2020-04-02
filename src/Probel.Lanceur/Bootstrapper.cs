@@ -76,6 +76,7 @@ namespace Probel.Lanceur
             //Views
             _container.RegisterSingleton<MainViewModel>();
 
+            _container.RegisterType<StatisticsViewModel>();
             _container.RegisterType<SetupViewModel>();
             _container.RegisterType<EditSessionViewModel>();
 

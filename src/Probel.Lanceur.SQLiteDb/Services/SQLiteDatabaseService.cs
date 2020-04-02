@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Probel.Lanceur.SQLiteDb.Services
 {
-    public class SQLiteDatabaseService : IDataSourceService
+    public partial class SQLiteDatabaseService : IDataSourceService
     {
         #region Fields
 
@@ -203,7 +203,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 from 
                     alias_name sn
                     inner join alias s on s.id = sn.id_alias
-                    left join stat_execution_count c on c.id_keyword  = s.id 
+                    left join stat_execution_count_v c on c.id_keyword = s.id 
                 where 
                     s.id_session = @sessionId
                 order by 
@@ -320,6 +320,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 c.Execute(sql, new { session.Id, session.Name, session.Notes });
             }
         }
+
 
         #endregion Methods
     }
