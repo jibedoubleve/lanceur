@@ -11,7 +11,7 @@
     Height="638"
     Icon="/Probel.Lanceur;component/Assets/appIcon.ico"
     ResizeMode="NoResize"
-    mc:Ignorable="d">
+    mc:Ignorable="d" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />

@@ -54,7 +54,7 @@
             FontFamily="Tahomas"
             FontSize="26"
             FontWeight="Regular"
-            Foreground="{DynamicResource TextBrush}"
+            Foreground="{DynamicResource MyTextBrush}"
             Opacity="0.7"
             PreviewKeyDown="OnKeyPressed"
             TextChanged="OnTextChanged" />
