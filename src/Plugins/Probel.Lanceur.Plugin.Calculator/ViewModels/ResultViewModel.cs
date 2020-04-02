@@ -6,6 +6,7 @@ using Probel.Lanceur.Plugin.Calculator.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 
 namespace Probel.Lanceur.Plugin.Calculator.ViewModels
@@ -40,9 +41,10 @@ namespace Probel.Lanceur.Plugin.Calculator.ViewModels
                 var right = parameters.Transform(To.LowerCase, To.TitleCase);
 
                 var formula = left + right;
-                Log.Debug($"Evaluating {formula}");
                 var expression = new Expression(formula);
                 var result = expression.Evaluate().ToString();
+
+                Log.Debug($"Evaluating {formula} -  Result: {result}");
 
                 ResulsAsReadonly();
                 Items.Add(ValueItem.Result(result));
@@ -53,9 +55,12 @@ namespace Probel.Lanceur.Plugin.Calculator.ViewModels
 
         private string GetLastResult()
         {
-            return (from i in Items
-                    where i.IsResult
-                    select i.Expression).LastOrDefault() ?? string.Empty;
+            var res = (from i in Items
+                       where i.IsResult
+                       select i.Expression).LastOrDefault() ?? string.Empty;
+
+            if (float.TryParse(res, out var value)) { return value.ToString("0.0", CultureInfo.CreateSpecificCulture("en")); }
+            else { return res; }
         }
 
         private void ResulsAsReadonly()

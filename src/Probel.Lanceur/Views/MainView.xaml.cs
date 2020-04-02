@@ -59,7 +59,12 @@ namespace Probel.Lanceur.Views
             PluginArea.Visibility = Visibility.Collapsed;
         }
 
-        protected override void OnDeactivated(EventArgs e) => HideControl();
+        protected override void OnDeactivated(EventArgs e)
+        {
+#if !DEBUG
+            HideControl();
+#endif
+        }
 
         private void HideControl()
         {
@@ -180,6 +185,6 @@ namespace Probel.Lanceur.Views
             Focus();
         }
 
-        #endregion Methods
+#endregion Methods
     }
 }
