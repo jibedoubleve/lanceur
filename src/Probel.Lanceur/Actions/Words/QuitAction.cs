@@ -1,13 +1,11 @@
 ﻿using System.Windows;
 
-namespace Probel.Lanceur.Actions
+namespace Probel.Lanceur.Actions.Words
 {
     [UiAction]
     public class QuitAction : BaseUiAction
     {
         #region Methods
-
-        protected override void Configure() { }
 
         protected override void DoExecute(string arg) => Application.Current.Shutdown();
 

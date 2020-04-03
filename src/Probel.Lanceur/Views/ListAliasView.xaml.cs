@@ -26,8 +26,24 @@ namespace Probel.Lanceur.Views
 
         #region Methods
 
+        private void OnIsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        {
+            if (IsVisible) { FocusSearchBar(); }
+        }
+
+        private void FocusSearchBar()
+        {
+            _tbSearch.Focus();
+            Keyboard.Focus(_tbSearch);
+        }
+
         private void OnSearchKeyDown(object sender, KeyEventArgs e)
         {
+            // https://stackoverflow.com/questions/5750722/how-to-detect-modifier-key-states-in-wpf
+            if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+            {
+                if (e.Key == Key.F) { FocusSearchBar(); }
+            }
             if (e.Key == Key.Enter)
             {
                 ViewModel.Search(_tbSearch.Text);

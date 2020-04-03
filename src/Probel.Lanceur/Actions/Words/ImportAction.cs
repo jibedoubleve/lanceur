@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Unity;
 
-namespace Probel.Lanceur.Actions
+namespace Probel.Lanceur.Actions.Words
 {
     [UiAction]
     public class ImportAction : BaseUiAction
@@ -40,8 +40,6 @@ namespace Probel.Lanceur.Actions
         #endregion Properties
 
         #region Methods
-
-        protected override void Configure() { }
 
         protected override async void DoExecute(string arg)
         {

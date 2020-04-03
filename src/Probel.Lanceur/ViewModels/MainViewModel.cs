@@ -6,6 +6,7 @@ using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Services;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace Probel.Lanceur.ViewModels
 {
@@ -125,7 +126,7 @@ namespace Probel.Lanceur.ViewModels
         /// </summary>
         /// <param name="cmdLine">The command line (the alias & the arguments) to be executed.</param>
         /// <returns><c>True</c> on success; otherwise <c>False</c></returns>
-        public bool ExecuteText(string cmdLine)
+        public async Task<ExecutionResult> ExecuteTextAsync(string cmdLine)
         {
             try { return _aliasService.Execute(cmdLine); }
             catch (Exception ex)
@@ -133,16 +134,16 @@ namespace Probel.Lanceur.ViewModels
                 /* I swallow the error as this crash shouldn't crash the application
                  * I log and continue without any other warning.
                  */
-                LogService.Warning($"An error occured while trying to execute the alias '{cmdLine}'", ex);
-                return false;
+                LogService.Error($"An error occured while trying to execute the alias '{cmdLine}'", ex);
+                return ExecutionResult.Failure;
             }
         }
 
-        public bool ExecuteText(string cmdline1, string cmdline2)
+        public async Task<ExecutionResult> ExecuteTextAsync(string cmdline1, string cmdline2)
         {
             var cmd = _resolver.Merge(cmdline1, cmdline2);
 
-            return ExecuteText(cmd.ToString());
+            return await ExecuteTextAsync(cmd.ToString());
         }
 
         public void Handle(string message)

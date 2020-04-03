@@ -14,12 +14,35 @@ namespace Probel.Lanceur.Core.Services
         /// That's the alias and the arguments (which are NOT
         /// mandatory)</param>
         /// <returns><c>True</c> if execution succeeded. Otherwise <c>False</c></returns>
-        bool Execute(string param);
+        ExecutionResult Execute(string param);
 
         IEnumerable<AliasText> GetAliasNames(long sessionId);
 
         IEnumerable<AliasText> GetAliasNames(long sessionId, string criterion);
 
         #endregion Methods
+    }
+
+    public class ExecutionResult
+    {
+        #region Constructors
+
+        private ExecutionResult(bool isError, bool keepShowing)
+        {
+            IsError = isError;
+            KeepShowing = keepShowing;
+        }
+
+        #endregion Constructors
+
+        #region Properties
+
+        public static ExecutionResult Failure => new ExecutionResult(true, true);
+        public static ExecutionResult SuccessHide => new ExecutionResult(false, false);
+        public static ExecutionResult SuccesShow => new ExecutionResult(false, true);
+        public bool IsError { get; }
+        public bool KeepShowing { get; }
+
+        #endregion Properties
     }
 }

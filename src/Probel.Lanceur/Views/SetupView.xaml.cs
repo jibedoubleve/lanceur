@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls;
 using Probel.Lanceur.ViewModels;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Probel.Lanceur.Views
 {
@@ -25,6 +26,11 @@ namespace Probel.Lanceur.Views
         #endregion Properties
 
         #region Methods
+
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape) { Close(); }
+        }
 
         private void OnTabControlSelectionChanged(object sender, SelectionChangedEventArgs e)
         {

@@ -12,6 +12,8 @@
     xmlns:ret="clr-namespace:Probel.Lanceur.Helpers"
     Dialog:DialogParticipation.Register="{Binding}"
     d:DesignWidth="800"
+    IsVisibleChanged="OnIsVisibleChanged"
+    KeyDown="OnSearchKeyDown"
     mc:Ignorable="d">
     <UserControl.Resources>
         <Thickness x:Key="ControlMargin">5 5 5 5</Thickness>

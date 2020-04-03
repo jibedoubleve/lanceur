@@ -3,7 +3,7 @@ using System;
 using System.Windows;
 using Unity;
 
-namespace Probel.Lanceur.Actions
+namespace Probel.Lanceur.Actions.Words
 {
     [UiAction]
     public class ClearAction : BaseUiAction
