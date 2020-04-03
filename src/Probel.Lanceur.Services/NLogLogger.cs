@@ -18,11 +18,19 @@ namespace Probel.Lanceur.Services
 
         public void Debug(Exception ex) => _logger.Debug(ex);
 
+        public void Error(string message, Exception ex = null)
+        {
+            if (ex != null) { _logger.Error(ex, message); }
+            else { _logger.Error(message); }
+        }
+
         public void Fatal(string message, Exception ex = null)
         {
             if (ex != null) { _logger.Fatal(ex, message); }
             else { _logger.Fatal(message); }
         }
+
+        public void Info(string message) => _logger.Info(message);
 
         public void Trace(string message) => _logger.Trace(message);
 

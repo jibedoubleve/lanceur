@@ -79,7 +79,8 @@ Task("Build")
     .Does(() => {    
         var msBuildSettings = new MSBuildSettings {
             Verbosity = verbosity,
-            Configuration = configuration
+            Configuration = configuration,
+            PlatformTarget = PlatformTarget.x64
         };
 
         MSBuild(solution, msBuildSettings
@@ -123,17 +124,15 @@ Task("Inno-Setup")
 Task("Release-GitHub")
     .Does(()=>{
         //https://stackoverflow.com/questions/42761777/hide-services-passwords-in-cake-build
-        var token = EnvironmentVariable("CAKE_GITHUB_TOKEN");
-        var owner = EnvironmentVariable("CAKE_GITHUB_USERNAME");
+        var token = EnvironmentVariable("CAKE_PUBLIC_GITHUB_TOKEN");
+        var owner = EnvironmentVariable("CAKE_PUBLIC_GITHUB_USERNAME");
 
         var stg = new GitReleaseManagerCreateSettings 
         {
-            Milestone         = "V" + gitVersion.MajorMinorPatch,
-            Prerelease        = false,
+            Milestone         = "V" + gitVersion.MajorMinorPatch,            
+            Name              = gitVersion.SemVer,
+            Prerelease        = gitVersion.SemVer.Contains("alpha"),
             Assets            = publishDir + "/lanceur." + gitVersion.SemVer + ".bin.zip," + publishDir + "/lanceur." + gitVersion.SemVer + ".setup.exe",
-            TargetCommitish   = "master",
-            // TargetDirectory   = "c:/repo",
-            LogFilePath       = "c:/temp/grm.log"
         };
 
         GitReleaseManagerCreate(token, owner, "Lanceur", stg);  

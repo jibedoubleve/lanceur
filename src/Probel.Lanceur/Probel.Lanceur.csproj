@@ -177,6 +177,7 @@
     <Compile Include="Models\AliasSessionModel.cs" />
     <Compile Include="Services\ClipboardService.cs" />
     <Compile Include="Services\IUserNotifyer.cs" />
+    <Compile Include="Actions\KeywordLoader.cs" />
     <Compile Include="Services\Notifications.cs" />
     <Compile Include="Services\SessionQueries.cs" />
     <Compile Include="Services\UserNotifyer.cs" />

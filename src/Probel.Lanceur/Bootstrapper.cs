@@ -65,6 +65,8 @@ namespace Probel.Lanceur
             _container.RegisterType<IScreenRuler, ScreenRuler>();
             _container.RegisterType<IReservedKeywordService, ReservedKeywordService>();
             _container.RegisterType<IMacroService, MacroService>();
+            _container.RegisterType<IUpdateService, SQLiteUpdateService>();
+            _container.RegisterType<IKeywordLoader, KeywordLoader>();
 
             //UI
             _container.RegisterType<IUserNotifyer, UserNotifyer>();
@@ -82,12 +84,19 @@ namespace Probel.Lanceur
 
         protected override object GetInstance(Type service, string key) => _container.Resolve(service, key);
 
-        protected override void OnStartup(object sender, StartupEventArgs e) => DisplayRootViewFor<MainViewModel>();
+        protected override void OnStartup(object sender, StartupEventArgs e)
+        {
+            var u = _container.Resolve<IUpdateService>();
+            u.DoNeedUpdate();
+
+            DisplayRootViewFor<MainViewModel>();
+        }
 
         protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             MessageBox.Show($"Unexpected crash occured: {e.Exception.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             _container.Resolve<ILogService>().Fatal($"Unexpected crash occured: {e.Exception.Message}", e.Exception);
+            e.Handled = true;
             base.OnUnhandledException(sender, e);
         }
 

@@ -16,6 +16,9 @@ namespace Probel.Lanceur.Actions
 
         protected override void DoExecute(string arg)
         {
+            var keywords = Container.Resolve<IKeywordLoader>();
+            if (keywords.Contains(arg)) { return; }
+
             using (DeactivateHotKey.During())
             {
                 var vm = Container.Resolve<SetupViewModel>();

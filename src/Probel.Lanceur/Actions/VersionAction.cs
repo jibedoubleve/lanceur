@@ -23,7 +23,7 @@ namespace Probel.Lanceur.Actions
             semver = semverSplit.Length > 0 ? semverSplit[0] : semver;
 
             var nl = Environment.NewLine;
-            var msg = $"Version: {version}{nl}File Version: {fileVersion}{nl}SemVer: {semver}{nl}";
+            var msg = $"Version: {version}{nl}File Version: {fileVersion}{nl}SemVer: {semver}{nl}Author: JB Wautier";
             MessageBox.Show(msg, "Probel Lanceur", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
