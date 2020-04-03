@@ -10,6 +10,13 @@ branches:
     is-release-branch: true  
   develop:
     mode: ContinuousDeployment
+    tag: beta
+    increment: Patch
+    prevent-increment-of-merged-branch-version: true
+    track-merge-target: true
+  feature:
+    regex: ^featu*
+    mode: ContinuousDeployment
     tag: alpha
     increment: Patch
     prevent-increment-of-merged-branch-version: true
