@@ -10,6 +10,8 @@ namespace Probel.Lanceur.Core.Services
 
         void Save(AppSettings settings);
 
+        void SavePosition(AppSettings src);
+
         #endregion Methods
     }
 }

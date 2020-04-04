@@ -46,6 +46,15 @@ namespace Probel.Lanceur.Services
             File.WriteAllText(_file, json);
         }
 
+        public void SavePosition(AppSettings src)
+        {
+            var dst = Get();
+            dst.WindowSection.Position.Left = src.WindowSection.Position.Left;
+            dst.WindowSection.Position.Top = src.WindowSection.Position.Top;
+
+            Save(dst);
+        }
+
         #endregion Methods
     }
 }
