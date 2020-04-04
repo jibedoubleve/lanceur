@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
+using Notifications.Wpf;
 using System;
 using System.Windows;
 
@@ -6,6 +7,21 @@ namespace Probel.Lanceur.Services
 {
     public class UserNotifyer : IUserNotifyer
     {
+        #region Fields
+
+        private readonly INotificationManager _notifyer;
+
+        #endregion Fields
+
+        #region Constructors
+
+        public UserNotifyer(INotificationManager notifyer)
+        {
+            _notifyer = notifyer;
+        }
+
+        #endregion Constructors
+
         #region Methods
 
         //TODO: need improvment. UI should be in the Mahapps fashion
@@ -23,10 +39,21 @@ namespace Probel.Lanceur.Services
             }
         }
 
-        //TODO: need improvment. UI should be in the Mahapps fashion
-        public void NotifyInfo(string message, string title = null)
+        public void NotifyError(string message, string title = null) => Notify(message, title, NotificationType.Error);
+
+        public void NotifyInfo(string message, string title = null) => Notify(message, title, NotificationType.Information);
+
+        public void NotifyWarning(string message, string title = null) => Notify(message, title, NotificationType.Warning);
+
+        private void Notify(string message, string title, NotificationType type)
         {
-            MessageBox.Show(message, title ?? "INFORMATION", MessageBoxButton.OK, MessageBoxImage.Information);
+            var m = new NotificationContent
+            {
+                Title = title ?? type.ToString().ToUpper(),
+                Message = message,
+                Type = type
+            };
+            _notifyer.Show(m);
         }
 
         #endregion Methods

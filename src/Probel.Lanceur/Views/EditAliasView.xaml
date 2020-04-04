@@ -74,6 +74,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 DockPanel.Dock="Right"
+                Notifyer="{Binding UserNotifyer}"
                 ProcessName="{Binding ElementName=_processTextBlock, Path=Text, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" />
             <ctrl:HeaderTextBox
                 x:Name="_processTextBlock"

@@ -37,9 +37,11 @@ namespace Probel.Lanceur.ViewModels
             IEventAggregator ea,
             IScreenRuler screenRuler,
             ILogService logService,
-            IParameterResolver resolver
+            IParameterResolver resolver,
+            IUserNotifyer notifyer
             )
         {
+            Notifyer = notifyer;
             LogService = logService;
             ea.Subscribe(this);
 
@@ -104,6 +106,8 @@ namespace Probel.Lanceur.ViewModels
 
         public ILogService LogService { get; }
 
+        public IUserNotifyer Notifyer { get; }
+
         public double Opacity
         {
             get => _opacity;
@@ -148,14 +152,14 @@ namespace Probel.Lanceur.ViewModels
 
         public void Handle(string message)
         {
-            if (message == Notifications.CornerCommand)
+            if (message == Services.UiEvent.CornerCommand)
             {
                 var r = _screenRuler.StickTo(Left, Top);
                 Left = r.X;
                 Top = r.Y;
                 SaveSettings();
             }
-            if (message == Notifications.CenterCommand)
+            if (message == Services.UiEvent.CenterCommand)
             {
                 var r = _screenRuler.Center(150);
                 Left = r.X;

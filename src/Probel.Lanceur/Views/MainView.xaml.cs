@@ -137,7 +137,7 @@ namespace Probel.Lanceur.Views
             {
                 var msg = $"NHotkey: key already binded!{Environment.NewLine}Default binding is 'SHIFT+WINDOWS+R'";
                 ViewModel.LogService.Warning(msg);
-                MessageBox.Show(msg, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+               ViewModel.Notifyer.NotifyWarning(msg);
 
                 var key = Key.R;
                 var mod = ModifierKeys.Shift | ModifierKeys.Windows;
@@ -185,6 +185,6 @@ namespace Probel.Lanceur.Views
             Focus();
         }
 
-#endregion Methods
+        #endregion Methods
     }
 }

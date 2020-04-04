@@ -1,4 +1,6 @@
 ﻿using Probel.Lanceur.Core.Helpers;
+using Probel.Lanceur.Services;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -25,6 +27,18 @@ namespace Probel.Lanceur.Controls
             typeof(string),
             typeof(ProcessFinderButton),
             null);
+
+        public static DependencyProperty NotifyerProperty = DependencyProperty.Register(
+            "Notifyer",
+            typeof(IUserNotifyer),
+            typeof(ProcessFinderButton),
+            null);
+
+        public IUserNotifyer Notifyer
+        {
+            get => (IUserNotifyer)GetValue(NotifyerProperty);
+            set => SetValue(NotifyerProperty, value);
+        }
 
         #endregion Fields
 
@@ -155,14 +169,18 @@ namespace Probel.Lanceur.Controls
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
-            base.OnMouseLeftButtonUp(e);
-            _iconCrossHair.Visibility = Visibility.Visible;
+            try
+            {
+                base.OnMouseLeftButtonUp(e);
+                _iconCrossHair.Visibility = Visibility.Visible;
 
-            var ps = ProcessHelper.GetExecutablePath();
-            ProcessName = ps.FileName;
+                var ps = ProcessHelper.GetExecutablePath();
+                ProcessName = ps.FileName;
 
-            ReleaseMouseCapture();
-            Cursor = null;
+                ReleaseMouseCapture();
+                Cursor = null;
+            }
+            catch (Exception ex) { Notifyer?.NotifyError(ex.Message); }
         }
 
         protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
