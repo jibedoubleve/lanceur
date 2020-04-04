@@ -31,6 +31,9 @@ namespace Probel.Lanceur.Core.PluginsImpl
         public IList<IPluginMetadata> LoadPlugins(string pluginRepository, Dictionary<string, Type> pluginTypes)
         {
             pluginRepository = Environment.ExpandEnvironmentVariables(pluginRepository);
+
+            CreateIfNotExist(pluginRepository);
+
             var metadataList = new List<IPluginMetadata>();
 
             foreach (var file in Directory.EnumerateFiles(pluginRepository, "plugin.config.json", SearchOption.AllDirectories))
@@ -43,6 +46,11 @@ namespace Probel.Lanceur.Core.PluginsImpl
                 Load(dir, metadata.Dll, pluginTypes);
             }
             return metadataList;
+        }
+
+        private void CreateIfNotExist(string dir)
+        {
+            if (Directory.Exists(dir) == false) { Directory.CreateDirectory(dir); }
         }
 
         private void Load(string dir, string dll, Dictionary<string, Type> pluginTypes)
