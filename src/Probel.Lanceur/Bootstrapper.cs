@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using MahApps.Metro.Controls.Dialogs;
+using Notifications.Wpf;
 using Probel.Lanceur.Actions;
 using Probel.Lanceur.Core;
 using Probel.Lanceur.Core.Helpers;
@@ -68,6 +69,7 @@ namespace Probel.Lanceur
 
             //UI
             _container.RegisterType<IUserNotifyer, UserNotifyer>();
+            _container.RegisterSingleton<INotificationManager, NotificationManager>();
 
             //Settings
             _container.RegisterType<IConnectionStringManager, ConnectionStringManager>();
@@ -103,8 +105,11 @@ namespace Probel.Lanceur
 
         protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            MessageBox.Show($"Unexpected crash occured: {e.Exception.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            _container.Resolve<ILogService>().Fatal($"Unexpected crash occured: {e.Exception.Message}", e.Exception);
+            var l = _container.Resolve<ILogService>();
+            var n = _container.Resolve<IUserNotifyer>();
+
+            n.NotifyError($"Unexpected crash occured: {e.Exception.Message}");
+            l.Fatal($"Unexpected crash occured: {e.Exception.Message}", e.Exception);
             e.Handled = true;
             base.OnUnhandledException(sender, e);
         }

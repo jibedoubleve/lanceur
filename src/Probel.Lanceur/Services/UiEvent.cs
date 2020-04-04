@@ -1,6 +1,6 @@
 ﻿namespace Probel.Lanceur.Services
 {
-    public static class Notifications
+    public static class UiEvent
     {
         #region Fields
 

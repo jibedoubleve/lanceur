@@ -13,10 +13,11 @@ namespace Probel.Lanceur.ViewModels
         #region Fields
 
         private readonly IDataSourceService _databaseService;
-        private readonly IUserNotifyer _userNotifyer;
+
         private AliasModel _alias;
         private bool _isCreation;
         private ObservableCollection<AliasNameModel> _names;
+        private IUserNotifyer _userNotifyer;
 
         #endregion Fields
 
@@ -25,15 +26,13 @@ namespace Probel.Lanceur.ViewModels
         public EditAliasViewModel(IDataSourceService databaseService, ILogService log, IUserNotifyer userNotifyer)
         {
             Log = log;
-            _userNotifyer = userNotifyer;
+            UserNotifyer = userNotifyer;
             _databaseService = databaseService;
         }
 
         #endregion Constructors
 
         #region Properties
-
-        private ListAliasViewModel ParentVm => Parent as ListAliasViewModel;
 
         public AliasModel Alias
         {
@@ -62,14 +61,17 @@ namespace Probel.Lanceur.ViewModels
             set => Set(ref _names, value, nameof(Names));
         }
 
+        public IUserNotifyer UserNotifyer
+        {
+            get => _userNotifyer;
+            set => Set(ref _userNotifyer, value, nameof(UserNotifyer));
+        }
+
+        private ListAliasViewModel ParentVm => Parent as ListAliasViewModel;
+
         #endregion Properties
 
         #region Methods
-
-        private void RefreshParentList()
-        {
-            if (Parent is ListAliasViewModel vm) { vm.RefreshData(); }
-        }
 
         public bool CanDeleteAlias() => _alias != null;
 
@@ -79,7 +81,7 @@ namespace Probel.Lanceur.ViewModels
         {
             _databaseService.Create(Alias.AsEntity(), Names.AsNames());
             RefreshParentList();
-            _userNotifyer.NotifyInfo("Alias created!");
+            UserNotifyer.NotifyInfo("Alias created!");
         }
 
         public async Task DeleteAliasAsync()
@@ -107,7 +109,12 @@ namespace Probel.Lanceur.ViewModels
 
             foreach (var name in Names) { name.IdAlias = Alias.Id; }
             _databaseService.Update(Names.AsEntity());
-            _userNotifyer.NotifyInfo("Alias updated!");
+            UserNotifyer.NotifyInfo("Alias updated!");
+        }
+
+        private void RefreshParentList()
+        {
+            if (Parent is ListAliasViewModel vm) { vm.RefreshData(); }
         }
 
         #endregion Methods

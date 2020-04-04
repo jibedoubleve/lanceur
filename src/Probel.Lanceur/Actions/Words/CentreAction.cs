@@ -17,7 +17,7 @@ namespace Probel.Lanceur.Actions.Words
 
         protected override void Configure() => _eventManager = Container.Resolve<IEventAggregator>();
 
-        protected override void DoExecute(string arg) => _eventManager.PublishOnUIThread(Notifications.CenterCommand);
+        protected override void DoExecute(string arg) => _eventManager.PublishOnUIThread(UiEvent.CenterCommand);
 
         #endregion Methods
     }
