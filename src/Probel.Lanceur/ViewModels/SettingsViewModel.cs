@@ -43,6 +43,19 @@ namespace Probel.Lanceur.ViewModels
             set => Set(ref _appSettings, value, nameof(AppSettings));
         }
 
+        private string _colour;
+        public string Colour
+        {
+            get => _colour;
+            set
+            {
+                if (Set(ref _colour, value, nameof(Colour)))
+                {
+                    _appSettings.WindowSection.Colour = value;
+                }
+            }
+        }
+
         public AliasSessionModel CurrentSession
         {
             get => _currentSession;
@@ -76,6 +89,7 @@ namespace Probel.Lanceur.ViewModels
         {
             var appSettings = _settingsService.Get().AsModel();
             AppSettings = appSettings;
+            Colour = AppSettings.WindowSection.Colour;
 
             var n = AppSettings.DatabaseSection.DatabaseName;
             var p = AppSettings.DatabaseSection.DatabasePath;
