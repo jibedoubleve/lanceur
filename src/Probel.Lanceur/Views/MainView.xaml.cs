@@ -74,13 +74,13 @@ namespace Probel.Lanceur.Views
             ViewModel.SaveSettings();
         }
 
-        private async void OnKeyPressed(object sender, KeyEventArgs e)
+        private void OnKeyPressed(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
                 var a = (Results.SelectedItem as AliasText ?? new AliasText()).Name;
                 var b = AliasTextBox.Text;
-                var result = await ViewModel?.ExecuteTextAsync(a, b) ?? ExecutionResult.Failure;
+                var result = ViewModel?.ExecuteText(a, b) ?? ExecutionResult.Failure;
 
                 if (!result.KeepShowing) { HideControl(); }
                 if (result.IsError) { ViewModel.IsOnError = true; }
@@ -97,9 +97,9 @@ namespace Probel.Lanceur.Views
             if (e.Key == Key.Escape) { HideControl(); }
         }
 
-        private async void OnResultsAliasDoubleClicked(object sender, AliasTextEventArgs e)
+        private void OnResultsAliasDoubleClicked(object sender, AliasTextEventArgs e)
         {
-            var result = await ViewModel?.ExecuteTextAsync(e.Alias.Name) ?? ExecutionResult.Failure;
+            var result = ViewModel?.ExecuteText(e.Alias.Name) ?? ExecutionResult.Failure;
             if (!result.IsError) { HideControl(); }
         }
 
@@ -137,7 +137,7 @@ namespace Probel.Lanceur.Views
             {
                 var msg = $"NHotkey: key already binded!{Environment.NewLine}Default binding is 'SHIFT+WINDOWS+R'";
                 ViewModel.LogService.Warning(msg);
-               ViewModel.Notifyer.NotifyWarning(msg);
+                ViewModel.Notifyer.NotifyWarning(msg);
 
                 var key = Key.R;
                 var mod = ModifierKeys.Shift | ModifierKeys.Windows;

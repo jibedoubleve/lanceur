@@ -1,8 +1,17 @@
-﻿namespace Probel.Lanceur.Core.Entities
+﻿using System.Diagnostics;
+
+namespace Probel.Lanceur.Core.Entities
 {
+    [DebuggerDisplay("{Command} - {Parameters}")]
     public class Cmdline
     {
         #region Constructors
+
+        public Cmdline(Cmdline src)
+        {
+            Command = src.Command;
+            Parameters = src.Parameters;
+        }
 
         public Cmdline(string cmd, string param)
         {

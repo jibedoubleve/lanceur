@@ -183,7 +183,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                      , s.working_dir as WorkingDirectory
                 from alias s
                 inner join alias_name n on s.id = n.id_alias
-                where n.name = @name";
+                where n.name like @name";
 
             using (var c = BuildConnection())
             {

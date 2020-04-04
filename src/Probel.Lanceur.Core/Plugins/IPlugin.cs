@@ -1,4 +1,5 @@
-﻿using Probel.Lanceur.Core.Services;
+﻿using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Core.Services;
 
 namespace Probel.Lanceur.Core.Plugins
 {
@@ -6,7 +7,7 @@ namespace Probel.Lanceur.Core.Plugins
     {
         #region Methods
 
-        void Execute(string parameters);
+        void Execute(Cmdline parameters);
 
         void Initialise(ILogService logger, IApplicationManager mainViewModel);
 

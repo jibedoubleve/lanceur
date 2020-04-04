@@ -38,6 +38,8 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
 
         public static bool Has(string macro)
         {
+            macro = macro ?? string.Empty;
+
             if (MacrosList == null) { FillMacroList(); }
 
             var result = (from m in MacrosList

@@ -3,6 +3,7 @@ using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.ServicesImpl.ArgumentHandlers;
+using System.Text.RegularExpressions;
 
 namespace Probel.Lanceur.Core.ServicesImpl
 {
@@ -41,14 +42,23 @@ namespace Probel.Lanceur.Core.ServicesImpl
             return result;
         }
 
-        public Cmdline Split(string cmdline)
+        public Cmdline Split(string cmd)
         {
-            var split = (cmdline ?? string.Empty).Split(' ');
+            /*
+             * Normalise command line: every command line that starts with 
+             * an *NOT* space and *NOT* alphanumeric should be concidered as
+             * a command shortcut             
+             */
+
+            var cmdline = (cmd ?? string.Empty);
+            cmdline = Regex.Replace(cmdline, @"^([\W])", "$1 ");
+
+            var split = cmdline.Split(' ');
 
             if (split.Length > 0)
             {
-                var parameter = string.Join(" ", split, 1, split.Length - 1);
-                return new Cmdline(split[0], parameter);
+                var parameter = string.Join(" ", split, 1, split.Length - 1).Trim();
+                return new Cmdline(split[0].Trim(), parameter);
             }
             else { return new Cmdline(cmdline, string.Empty); }
         }
@@ -62,10 +72,15 @@ namespace Probel.Lanceur.Core.ServicesImpl
         /// <returns>A merged command line</returns>
         public Cmdline Merge(string cmdline1, string cmdline2)
         {
-            var cmd1 = Split(cmdline1);
-            var cmd2 = Split(cmdline2);
+            if (string.IsNullOrEmpty(cmdline1)) { return Split(cmdline2); }
+            else if (string.IsNullOrEmpty(cmdline2)) { return Split(cmdline1); }
+            else
+            {
+                var cmd1 = Split(cmdline1);
+                var cmd2 = Split(cmdline2);
 
-            return new Cmdline(cmd1.Command, cmd2.Parameters);
+                return new Cmdline(cmd1.Command, cmd2.Parameters);
+            }
         }
 
         #endregion Methods

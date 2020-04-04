@@ -1,4 +1,5 @@
-﻿using Probel.Lanceur.Core.PluginsImpl;
+﻿using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Core.PluginsImpl;
 using Probel.Lanceur.Plugin.Spotify.Spotify;
 using Probel.Lanceur.Plugin.Spotify.ViewModels;
 using Probel.Lanceur.Plugin.Spotify.Views;
@@ -37,7 +38,7 @@ namespace Probel.Lanceur.Plugin.Spotify
 
         #region Methods
 
-        public override async void Execute(string parameters)
+        public override async void Execute(Cmdline parameters)
         {
             ViewModel.Log = Logger;
             MainView.HideResults();

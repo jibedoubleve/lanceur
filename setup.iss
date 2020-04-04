@@ -9,7 +9,7 @@
 ;#define public BinDirectory 
 ;----------------------------------------------------------------
 
-#define MyAppName "Probel Lanceur"
+#define MyAppName "Lanceur"
 #define MyAppPublisher "Probel"
 #define MyAppURL "http://www.probel.xyz/"
 #define MyAppExeName "Probel.Lanceur.exe"

@@ -4,6 +4,7 @@ using Probel.Lanceur.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Probel.Lanceur.Core.PluginsImpl
 {
@@ -38,10 +39,7 @@ namespace Probel.Lanceur.Core.PluginsImpl
             _metadataList = _pluginLoader.LoadPlugins(_pluginRepository, _pluginTypes);
             name = name.ToLower();
 
-            var metadata = (from m in _metadataList
-                            where m.Name == name
-                               || m.Keyword == name
-                            select m).FirstOrDefault();
+            var metadata = GetMetadataList(name).FirstOrDefault();
 
             if (metadata == null)
             {
@@ -63,11 +61,7 @@ namespace Probel.Lanceur.Core.PluginsImpl
 
         public bool Exists(string name)
         {
-            name = name.ToLower();
-            var exist = (from p in GetPluginsInfo()
-                         where p.Name.ToLower() == name
-                            || p.Keyword.ToLower() == name
-                         select p);
+            var exist = GetMetadataList(name.ToLower());
             if (exist.Any())
             {
                 _logger.Info($"Found {exist.Count()} plugin(s) with criteria '{name}'");
@@ -83,7 +77,7 @@ namespace Probel.Lanceur.Core.PluginsImpl
                             select new AliasText
                             {
                                 ExecutionCount = 0,
-                                FileName = k.Description,
+                                FileName = $"[{k.Name}] {k.Description}",
                                 Kind = "Puzzle",
                                 Name = string.IsNullOrWhiteSpace(k.Keyword) ? k.Name : k.Keyword
                             });
@@ -99,6 +93,14 @@ namespace Probel.Lanceur.Core.PluginsImpl
             }
 
             return _metadataList ?? new List<IPluginMetadata>();
+        }
+
+        private IEnumerable<IPluginMetadata> GetMetadataList(string name)
+        {
+            var metadata = (from m in GetPluginsInfo()
+                            where m.Keyword == name
+                            select m);
+            return metadata;
         }
 
         #endregion Methods

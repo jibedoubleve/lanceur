@@ -55,13 +55,13 @@ namespace Probel.Lanceur.Core.ServicesImpl
         {
             var splited = _resolver.Split(cmdline);
             var cmd = _databaseService.GetAlias(splited.Command);
-
+            
             cmd = _resolver.Resolve(cmd, splited.Parameters);
 
             if (_pluginManager.Exists(cmd.Name))
             {
                 _pluginManager.Build(cmd.Name)
-                              .Execute(cmd.Arguments);
+                              .Execute(splited);
                 return ExecutionResult.SuccesShow; ;
             }
             else if (_macroService.Has(cmd.FileName))
