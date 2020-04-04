@@ -5,6 +5,7 @@ using Probel.Lanceur.Models;
 using Probel.Lanceur.Models.Settings;
 using Probel.Lanceur.Services;
 using System.Collections.ObjectModel;
+using System.IO;
 
 namespace Probel.Lanceur.ViewModels
 {
@@ -18,6 +19,7 @@ namespace Probel.Lanceur.ViewModels
         private AppSettingsModel _appSettings;
 
         private AliasSessionModel _currentSession;
+        private string _databasePath;
         private ObservableCollection<AliasSessionModel> _sessons;
 
         #endregion Fields
@@ -47,6 +49,19 @@ namespace Probel.Lanceur.ViewModels
             set => Set(ref _currentSession, value, nameof(CurrentSession));
         }
 
+        public string DatabasePath
+        {
+            get => _databasePath;
+            set
+            {
+                if (Set(ref _databasePath, value, nameof(DatabasePath)))
+                {
+                    AppSettings.DatabaseSection.DatabaseName = Path.GetFileName(_databasePath);
+                    AppSettings.DatabaseSection.DatabasePath = Path.GetDirectoryName(_databasePath);
+                }
+            }
+        }
+
         public ObservableCollection<AliasSessionModel> Sessions
         {
             get => _sessons;
@@ -61,6 +76,10 @@ namespace Probel.Lanceur.ViewModels
         {
             var appSettings = _settingsService.Get().AsModel();
             AppSettings = appSettings;
+
+            var n = AppSettings.DatabaseSection.DatabaseName;
+            var p = AppSettings.DatabaseSection.DatabasePath;
+            DatabasePath = Path.Combine(p, n);
 
             var sessions = _databaseService.GetSessions().AsModel();
             Sessions = new ObservableCollection<AliasSessionModel>(sessions);
@@ -80,7 +99,10 @@ namespace Probel.Lanceur.ViewModels
         public void SaveSettings()
         {
             AppSettings.SessionId = CurrentSession?.Id ?? 1;
-            _settingsService.Save(AppSettings.AsEntity());
+
+            var e = AppSettings.AsEntity();
+            _settingsService.Save(e);
+
             _userNotifyer.NotifyInfo("Settings has been saved.");
         }
 
