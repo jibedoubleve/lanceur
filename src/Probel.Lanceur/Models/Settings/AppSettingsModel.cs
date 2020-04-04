@@ -6,6 +6,7 @@ namespace Probel.Lanceur.Models.Settings
     {
         #region Fields
 
+        private DatabaseSettingsModel _databaseSection;
         private HotKeySettingsModel _hotKey;
         private long _sessionId;
         private WindowSettingsModel _windowSection;
@@ -23,6 +24,12 @@ namespace Probel.Lanceur.Models.Settings
         #endregion Constructors
 
         #region Properties
+
+        public DatabaseSettingsModel DatabaseSection
+        {
+            get => _databaseSection;
+            set => Set(ref _databaseSection, value, nameof(DatabaseSection));
+        }
 
         public HotKeySettingsModel HotKey
         {

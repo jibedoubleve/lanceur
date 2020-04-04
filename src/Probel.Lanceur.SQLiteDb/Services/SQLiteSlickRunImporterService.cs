@@ -20,11 +20,11 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         #region Constructors
 
-        public SQLiteSlickRunImporterService(ISlickRunExtractor extractor, ILogService log)
+        public SQLiteSlickRunImporterService(ISlickRunExtractor extractor, ILogService log, IConnectionStringManager csm)
         {
             _log = log;
             _extractor = extractor;
-            _connectionString = new ConnectionStringManager().Get();
+            _connectionString = csm.Get();
         }
 
         #endregion Constructors

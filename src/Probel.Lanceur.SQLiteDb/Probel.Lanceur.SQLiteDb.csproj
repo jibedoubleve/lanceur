@@ -60,6 +60,7 @@
     <Compile Include="Entities\AliasEntity.cs" />
     <Compile Include="Entities\AliasNameEntity.cs" />
     <Compile Include="Entities\UsageEntity.cs" />
+    <Compile Include="IConnectionStringManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConnectionStringManager.cs" />
     <Compile Include="Services\SQLiteDatabaseService.cs" />

@@ -172,6 +172,7 @@
     <Compile Include="Helpers\DeactivateHotKey.cs" />
     <Compile Include="Helpers\MahappsHelper.cs" />
     <Compile Include="Models\Settings\AppSettingsModel.cs" />
+    <Compile Include="Models\Settings\DatabaseSettingsModel.cs" />
     <Compile Include="Models\Settings\PositionSettingsModel.cs" />
     <Compile Include="Models\Settings\HotKeySettingsModel.cs" />
     <Compile Include="Models\AliasNameModel.cs" />
@@ -220,6 +221,9 @@
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SetupView.xaml.cs">
       <DependentUpon>SetupView.xaml</DependentUpon>

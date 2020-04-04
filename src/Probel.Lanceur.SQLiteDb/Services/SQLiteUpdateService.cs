@@ -17,9 +17,9 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         #region Constructors
 
-        public SQLiteUpdateService(ILogService logger)
+        public SQLiteUpdateService(ILogService logger, IConnectionStringManager csm)
         {
-            _connectionString = new ConnectionStringManager().Get();
+            _connectionString = csm.Get();
             _logger = logger;
         }
 

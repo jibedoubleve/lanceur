@@ -27,13 +27,14 @@ namespace Probel.Lanceur.SQLiteDb.Services
         public SQLiteDatabaseService(IReservedKeywordService keywordService,
             ILogService log,
             IReservedKeywordService reservedKeywordService,
-            IPluginManager pluginManager
+            IPluginManager pluginManager,
+            IConnectionStringManager csm
             )
         {
             _pluginManager = pluginManager;
             _reservedKeywordService = reservedKeywordService;
             _log = log;
-            _connectionString = new ConnectionStringManager().Get();
+            _connectionString = csm.Get();
             _keywordService = keywordService;
         }
 

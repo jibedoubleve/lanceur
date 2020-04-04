@@ -10,6 +10,7 @@ using Probel.Lanceur.Core.ServicesImpl;
 using Probel.Lanceur.Core.ServicesImpl.MacroManagement;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Services;
+using Probel.Lanceur.SQLiteDb;
 using Probel.Lanceur.SQLiteDb.Services;
 using Probel.Lanceur.ViewModels;
 using System;
@@ -67,6 +68,9 @@ namespace Probel.Lanceur
 
             //UI
             _container.RegisterType<IUserNotifyer, UserNotifyer>();
+
+            //Settings
+            _container.RegisterType<IConnectionStringManager, ConnectionStringManager>();
 
             //Plugins
             _container.RegisterType<IPluginLoader, PluginLoader>();
