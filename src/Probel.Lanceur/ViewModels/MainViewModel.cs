@@ -193,7 +193,7 @@ namespace Probel.Lanceur.ViewModels
             AppSettings.WindowSection.Position.Left = Left;
             AppSettings.WindowSection.Position.Top = Top;
 
-            _settingsService.Save(AppSettings);
+            _settingsService.SavePosition(AppSettings);
             AppSettings = _settingsService.Get();
         }
 
