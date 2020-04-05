@@ -20,6 +20,8 @@ namespace Probel.Lanceur.Core.Services
 
         IEnumerable<AliasText> GetAliasNames(long sessionId, string criterion);
 
+        string GetSession(long id);
+
         #endregion Methods
     }
 

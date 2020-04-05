@@ -1,11 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 
 namespace Probel.Lanceur.Actions.Words
 {
-    [UiAction]
+    [UiAction, Description("Shows the version of the application.")]
     public class VersionAction : BaseUiAction
     {
         #region Methods

@@ -39,6 +39,12 @@ namespace Probel.Lanceur.Controls
                 typeof(ResultList),
                 new PropertyMetadata(null, OnSelectedItemChanged));
 
+        public static DependencyProperty SessionNameProperty =
+                                            DependencyProperty.Register("SessionName",
+                typeof(string),
+                typeof(ResultList),
+                new PropertyMetadata(null, OnSessionNameChanged));
+
         #endregion Fields
 
         #region Constructors
@@ -82,6 +88,12 @@ namespace Probel.Lanceur.Controls
         {
             get => GetValue(SelectedItemProperty);
             private set => SetValue(SelectedItemProperty, value);
+        }
+
+        public string SessionName
+        {
+            get => (string)GetValue(SessionNameProperty);
+            set => SetValue(SessionNameProperty, value);
         }
 
         #endregion Properties
@@ -146,6 +158,14 @@ namespace Probel.Lanceur.Controls
             if (sender is ResultList rl && e.NewValue != null)
             {
                 rl.SelectedItem = rl.Results.SelectedItem;
+            }
+        }
+
+        private static void OnSessionNameChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is ResultList rl && e.NewValue != null)
+            {
+                rl.Session.Text = e.NewValue.ToString();
             }
         }
 

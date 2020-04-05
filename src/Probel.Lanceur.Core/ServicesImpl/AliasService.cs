@@ -3,7 +3,6 @@ using Probel.Lanceur.Core.Plugins;
 using Probel.Lanceur.Core.Services;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Probel.Lanceur.Core.ServicesImpl
 {
@@ -55,7 +54,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
         {
             var splited = _resolver.Split(cmdline);
             var cmd = _databaseService.GetAlias(splited.Command);
-            
+
             cmd = _resolver.Resolve(cmd, splited.Parameters);
 
             if (_pluginManager.Exists(cmd.Name))
@@ -90,8 +89,8 @@ namespace Probel.Lanceur.Core.ServicesImpl
             return result;
         }
 
+        public string GetSession(long id) => _databaseService.GetSession(id)?.Name ?? string.Empty;
+
         #endregion Methods
     }
-
-
 }

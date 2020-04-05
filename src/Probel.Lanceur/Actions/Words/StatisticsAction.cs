@@ -1,13 +1,16 @@
 ﻿using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.ViewModels;
+using System.ComponentModel;
 using Unity;
 
 namespace Probel.Lanceur.Actions.Words
 {
-    [UiAction]
+    [UiAction, Description("Shows usage statistics.")]
     internal class StatisticsAction : BaseUiAction
     {
+        #region Methods
+
         protected override void DoExecute(string arg)
         {
             using (DeactivateHotKey.During())
@@ -16,5 +19,7 @@ namespace Probel.Lanceur.Actions.Words
             }
             Container.Resolve<ILogService>().Trace("Closed settings");
         }
+
+        #endregion Methods
     }
 }

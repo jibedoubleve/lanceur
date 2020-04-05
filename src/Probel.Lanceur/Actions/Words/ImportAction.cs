@@ -1,13 +1,14 @@
 ﻿using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.ViewModels;
 using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Windows;
 using Unity;
 
 namespace Probel.Lanceur.Actions.Words
 {
-    [UiAction]
+    [UiAction, Description("Import the keywords of Slickrun into the database.")]
     public class ImportAction : BaseUiAction
     {
         #region Fields

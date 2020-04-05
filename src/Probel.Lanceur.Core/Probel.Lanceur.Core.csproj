@@ -78,6 +78,7 @@
     <Compile Include="ServicesImpl\MacroManagement\IMacroAction.cs" />
     <Compile Include="ServicesImpl\NLogLogger.cs" />
     <Compile Include="ServicesImpl\ReservedKeywordService.cs" />
+    <Compile Include="Services\IActionCollection.cs" />
     <Compile Include="Services\IDataSourceService.Statistics.cs" />
     <Compile Include="Services\IKeywordLoader.cs" />
     <Compile Include="Services\IAppLogger.cs" />

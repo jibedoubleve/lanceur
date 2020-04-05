@@ -79,6 +79,7 @@ namespace Probel.Lanceur
             _container.RegisterType<IPluginManager, PluginManager>();
             _container.RegisterType<IPluginConfigurator, PluginConfigurator>();
             _container.RegisterType<IApplicationManager, ApplicationManager>();
+            _container.RegisterType<IActionCollection, ActionCollection>();
 
             //Views
             _container.RegisterSingleton<MainViewModel>();

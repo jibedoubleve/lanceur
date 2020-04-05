@@ -9,7 +9,7 @@ namespace Probel.Lanceur.Core.Services
 
         bool Contains(string keyword);
 
-        IEnumerable<string> GetDefinedKeywords();
+        IEnumerable<ActionWord> DefinedKeywords { get; }
 
         IEnumerable<AliasText> GetKeywordsAsAlias();
 

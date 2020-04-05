@@ -1,8 +1,9 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 
 namespace Probel.Lanceur.Actions.Words
 {
-    [UiAction]
+    [UiAction, Description("Quits the application.")]
     public class QuitAction : BaseUiAction
     {
         #region Methods

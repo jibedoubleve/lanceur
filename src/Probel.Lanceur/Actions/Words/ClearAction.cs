@@ -1,11 +1,12 @@
 ﻿using Probel.Lanceur.Core.Services;
 using System;
+using System.ComponentModel;
 using System.Windows;
 using Unity;
 
 namespace Probel.Lanceur.Actions.Words
 {
-    [UiAction]
+    [UiAction, Description("Clears the database. (This action cannot be undone)")]
     public class ClearAction : BaseUiAction
     {
         #region Fields

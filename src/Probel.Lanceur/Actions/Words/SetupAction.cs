@@ -1,11 +1,12 @@
 ﻿using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.ViewModels;
+using System.ComponentModel;
 using Unity;
 
 namespace Probel.Lanceur.Actions.Words
 {
-    [UiAction]
+    [UiAction, Description("Opens the settings.")]
     public class SetupAction : BaseUiAction
     {
         #region Methods

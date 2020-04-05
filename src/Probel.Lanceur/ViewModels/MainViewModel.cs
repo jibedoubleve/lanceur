@@ -24,6 +24,7 @@ namespace Probel.Lanceur.ViewModels
         private bool _isOnError;
         private double _left;
         private double _opacity;
+        private string _session;
         private double _top;
 
         #endregion Fields
@@ -113,6 +114,12 @@ namespace Probel.Lanceur.ViewModels
             set => Set(ref _opacity, value);
         }
 
+        public string Session
+        {
+            get => _session;
+            set => Set(ref _session, value, nameof(Session));
+        }
+
         public double Top
         {
             get => _top;
@@ -179,14 +186,9 @@ namespace Probel.Lanceur.ViewModels
             Opacity = s.Opacity;
         }
 
-        public void OnShow()
-        {
-            AppSettings = _settingsService.Get();
-            RefreshAliases();
-        }
-
         public void RefreshAliases(string criterion)
         {
+            Session = _aliasService.GetSession(AppSettings.SessionId);
             var l = _aliasService.GetAliasNames(AppSettings.SessionId, criterion);
             AliasNameList = new ObservableCollection<AliasText>(l);
         }
@@ -202,6 +204,7 @@ namespace Probel.Lanceur.ViewModels
 
         private void RefreshAliases()
         {
+            Session = _aliasService.GetSession(AppSettings.SessionId);
             var l = _aliasService.GetAliasNames(AppSettings.SessionId);
             AliasNameList = new ObservableCollection<AliasText>(l);
         }

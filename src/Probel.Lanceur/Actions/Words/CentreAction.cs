@@ -1,10 +1,11 @@
 ﻿using Caliburn.Micro;
 using Probel.Lanceur.Services;
+using System.ComponentModel;
 using Unity;
 
 namespace Probel.Lanceur.Actions.Words
 {
-    [UiAction]
+    [UiAction, Description("Centre the window in the middle of the screen")]
     public class CentreAction : BaseUiAction
     {
         #region Fields

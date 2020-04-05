@@ -1,9 +1,10 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 
 namespace Probel.Lanceur.Actions.Words
 {
-    [UiAction]
+    [UiAction, Description("Save a new GUID into the clipboard.")]
     public class GuidAction : BaseUiAction
     {
         #region Methods

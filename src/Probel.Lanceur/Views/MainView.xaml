@@ -72,7 +72,8 @@
                 MaxHeight="350"
                 Margin="5,0,5,5"
                 AliasClicked="OnResultsAliasDoubleClicked"
-                ItemsSource="{Binding AliasNameList, UpdateSourceTrigger=PropertyChanged}">
+                ItemsSource="{Binding AliasNameList, UpdateSourceTrigger=PropertyChanged}"
+                SessionName="{Binding Session, UpdateSourceTrigger=PropertyChanged}">
                 <c:ResultList.ItemTemplate>
                     <DataTemplate>
                         <c:AliasControl

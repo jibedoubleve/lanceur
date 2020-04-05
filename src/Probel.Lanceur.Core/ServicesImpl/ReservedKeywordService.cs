@@ -12,7 +12,6 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         private static readonly Dictionary<string, Action<string>> _reservedKeywords = new Dictionary<string, Action<string>>();
         private readonly IKeywordLoader _keywordLoader;
-        private static ILogService _log;
 
         #endregion Fields
 
@@ -21,7 +20,6 @@ namespace Probel.Lanceur.Core.ServicesImpl
         public ReservedKeywordService(ILogService log, IKeywordLoader keywordLoader)
         {
             _keywordLoader = keywordLoader;
-            _log = log;
         }
 
         #endregion Constructors
@@ -58,7 +56,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         public IEnumerable<AliasText> GetKeywords()
         {
-            var r = from k in _keywordLoader.GetDefinedKeywords()
+            var r = from k in _keywordLoader.DefinedKeywords
                     select AliasText.ReservedKeyword(k);
             return r;
         }

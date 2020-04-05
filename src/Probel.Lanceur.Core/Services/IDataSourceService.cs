@@ -1,5 +1,4 @@
 ﻿using Probel.Lanceur.Core.Entities;
-using System;
 using System.Collections.Generic;
 
 namespace Probel.Lanceur.Core.Services
@@ -14,15 +13,21 @@ namespace Probel.Lanceur.Core.Services
 
         void Delete(Alias alias);
 
-        IEnumerable<AliasName> GetNamesOf(Alias alias);
-
-        IEnumerable<AliasSession> GetSessions();
+        void Delete(AliasSession session);
 
         Alias GetAlias(string name);
 
+        IEnumerable<Alias> GetAliases(long sessionId);
+
         IEnumerable<AliasText> GetAliasNames(long sessionId);
 
-        IEnumerable<Alias> GetAliases(long sessionId);
+        IEnumerable<AliasName> GetNamesOf(Alias alias);
+
+        AliasSession GetSession(long sessionId);
+
+        AliasSession GetSession(string sessionName);
+
+        IEnumerable<AliasSession> GetSessions();
 
         void SetUsage(Alias alias);
 
@@ -32,11 +37,7 @@ namespace Probel.Lanceur.Core.Services
 
         void Update(IEnumerable<AliasName> names);
 
-        AliasSession GetSession(long sessionId);
-
         void Update(AliasSession session);
-
-        void Delete(AliasSession session);
 
         #endregion Methods
     }

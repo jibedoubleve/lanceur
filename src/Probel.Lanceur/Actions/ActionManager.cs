@@ -11,6 +11,8 @@ namespace Probel.Lanceur.Actions
         #region Fields
 
         public readonly ILogService _logger;
+        private readonly IDataSourceService _dataSource;
+        private readonly IActionCollection _actions;
         private readonly IUnityContainer _container;
         private readonly IReservedKeywordService _reservedKeywordService;
 
@@ -18,8 +20,10 @@ namespace Probel.Lanceur.Actions
 
         #region Constructors
 
-        public ActionManager(IReservedKeywordService reservedKeywordService, IUnityContainer container)
+        public ActionManager(IReservedKeywordService reservedKeywordService, IUnityContainer container, IActionCollection actions, IDataSourceService dataSource)
         {
+            _dataSource = dataSource;
+            _actions = actions;
             _container = container;
 
             _logger = _container.Resolve<ILogService>();
@@ -32,24 +36,16 @@ namespace Probel.Lanceur.Actions
 
         public void Bind()
         {
-            var types = from t in Assembly.GetAssembly(typeof(IUiAction)).GetTypes()
-                        where t.GetCustomAttribute<UiActionAttribute>() != null
-                        select t;
-            foreach (var type in types)
+            foreach (var a in _actions)
             {
-                var actionName = GetActionName(type).ToUpper();
-                _logger.Trace($"Found type '{type.Name}' for action '{actionName}'");
+                var actionName = a.Name;
+                _logger.Trace($"Found type '{a.Type.Name:25}' for action '{actionName}'");
 
-                var action = (IUiAction)Activator.CreateInstance(type);
+                var action = (IUiAction)Activator.CreateInstance(a.Type);
 
-                _reservedKeywordService.Bind(actionName, arg => action.With(_container).Execute(arg));
+                _reservedKeywordService.Bind(actionName, arg => action.With(_container, _dataSource, _logger)
+                                                                      .Execute(arg));
             }
-        }
-
-        private string GetActionName(Type type)
-        {
-            var name = type.Name.Replace("Action", "");
-            return name;
         }
 
         #endregion Methods

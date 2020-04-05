@@ -42,8 +42,6 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         #region Methods
 
-        private DbConnection BuildConnection() => new SQLiteConnection(_connectionString);
-
         public void Clear()
         {
             using (var c = BuildConnection())
@@ -116,7 +114,88 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     @"delete from alias where id_session = @id"
                 };
                 foreach (var sql in queries) { c.Execute(sql, new { session.Id }); }
+            }
+        }
 
+        public Alias GetAlias(string name)
+        {
+            if (_keywordService.IsReserved(name)) { return Alias.Reserved(name); }
+
+            var sql = @"
+                select n.Name        as Name
+                     , s.id          as Id
+                     , s.arguments   as Arguments
+                     , s.file_name   as FileName
+                     , s.notes       as Notes
+                     , s.run_as      as RunAs
+                     , s.start_mode  as StartMode
+                     , s.working_dir as WorkingDirectory
+                from alias s
+                inner join alias_name n on s.id = n.id_alias
+                where n.name like @name";
+
+            using (var c = BuildConnection())
+            {
+                var result = c.Query<Alias>(sql, new { name })
+                              .FirstOrDefault();
+                return result ?? Alias.Empty(name);
+            }
+        }
+
+        public IEnumerable<Alias> GetAliases(long sessionId)
+        {
+            var sql = @"
+                select n.Name       as Name
+                     , s.id         as Id
+                     , s.arguments  as Arguments
+                     , s.file_name  as FileName
+                     , s.notes      as Notes
+                     , s.run_as     as RunAs
+                     , s.start_mode as StartMode
+                     , s.working_dir as WorkingDirectory
+                from alias s
+                left join alias_name n on s.id = n.id_alias
+                where s.id_session = @sessionId
+                order by n.name";
+
+            using (var c = BuildConnection())
+            {
+                var result = c.Query<Alias>(sql, new { sessionId });
+                return result ?? new List<Alias>();
+            }
+        }
+
+        public IEnumerable<AliasText> GetAliasNames(long sessionId)
+        {
+            var sql = @"
+                select
+                	sn.Name      as Name,
+                	c.exec_count as ExecutionCount,
+                	s.file_name  as FileName,
+                    'Rocket'     as Kind
+                from
+                    alias_name sn
+                    inner join alias s on s.id = sn.id_alias
+                    left join stat_execution_count_v c on c.id_keyword = s.id
+                where
+                    s.id_session = @sessionId
+                order by
+                    exec_count desc,
+                    name       asc";
+
+            using (var c = BuildConnection())
+            {
+                var result = c.Query<AliasText>(sql, new { sessionId }).ToList();
+
+                if (result != null)
+                {
+                    result.AddRange(_reservedKeywordService.GetKeywords());
+                    result.AddRange(_pluginManager.GetKeywords());
+                }
+                else { result = new List<AliasText>(); }
+
+                return result.OrderByDescending(e => e.ExecutionCount)
+                             .ThenBy(e => e.Name);
             }
         }
 
@@ -154,6 +233,22 @@ namespace Probel.Lanceur.SQLiteDb.Services
             }
         }
 
+        public AliasSession GetSession(string sessionName)
+        {
+            var sql = @"
+                select
+	                id    as id,
+	                name  as name,
+	                notes as notes
+                from alias_session
+                where lower(name) = @name";
+
+            using (var db = BuildConnection())
+            {
+                return db.Query<AliasSession>(sql, new { name = sessionName.ToLower() }).FirstOrDefault();
+            }
+        }
+
         public IEnumerable<AliasSession> GetSessions()
         {
             var sql = @"
@@ -165,88 +260,6 @@ namespace Probel.Lanceur.SQLiteDb.Services
             {
                 var result = c.Query<AliasSession>(sql);
                 return result.OrderBy(e => e.Name);
-            }
-        }
-
-        public Alias GetAlias(string name)
-        {
-            if (_keywordService.IsReserved(name)) { return Alias.Reserved(name); }
-
-            var sql = @"
-                select n.Name        as Name
-                     , s.id          as Id
-                     , s.arguments   as Arguments
-                     , s.file_name   as FileName
-                     , s.notes       as Notes
-                     , s.run_as      as RunAs
-                     , s.start_mode  as StartMode
-                     , s.working_dir as WorkingDirectory
-                from alias s
-                inner join alias_name n on s.id = n.id_alias
-                where n.name like @name";
-
-            using (var c = BuildConnection())
-            {
-                var result = c.Query<Alias>(sql, new { name })
-                              .FirstOrDefault();
-                return result ?? Alias.Empty(name);
-            }
-        }
-
-        public IEnumerable<AliasText> GetAliasNames(long sessionId)
-        {
-            var sql = @"
-                select 
-                	sn.Name      as Name,
-                	c.exec_count as ExecutionCount,
-                	s.file_name  as FileName,
-                    'Rocket'     as Kind
-                from 
-                    alias_name sn
-                    inner join alias s on s.id = sn.id_alias
-                    left join stat_execution_count_v c on c.id_keyword = s.id 
-                where 
-                    s.id_session = @sessionId
-                order by 
-                    exec_count desc,
-                    name       asc";
-
-            using (var c = BuildConnection())
-            {
-                var result = c.Query<AliasText>(sql, new { sessionId }).ToList();
-
-                if (result != null)
-                {
-                    result.AddRange(_reservedKeywordService.GetKeywords());
-                    result.AddRange(_pluginManager.GetKeywords());
-                }
-                else { result = new List<AliasText>(); }
-
-                return result.OrderByDescending(e => e.ExecutionCount)
-                             .ThenBy(e => e.Name);
-            }
-        }
-
-        public IEnumerable<Alias> GetAliases(long sessionId)
-        {
-            var sql = @"
-                select n.Name       as Name
-                     , s.id         as Id
-                     , s.arguments  as Arguments
-                     , s.file_name  as FileName
-                     , s.notes      as Notes
-                     , s.run_as     as RunAs
-                     , s.start_mode as StartMode
-                     , s.working_dir as WorkingDirectory
-                from alias s
-                left join alias_name n on s.id = n.id_alias
-                where s.id_session = @sessionId
-                order by n.name";
-
-            using (var c = BuildConnection())
-            {
-                var result = c.Query<Alias>(sql, new { sessionId });
-                return result ?? new List<Alias>();
             }
         }
 
@@ -322,6 +335,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
             }
         }
 
+        private DbConnection BuildConnection() => new SQLiteConnection(_connectionString);
 
         #endregion Methods
     }

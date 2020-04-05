@@ -1,4 +1,7 @@
-﻿namespace Probel.Lanceur.Core.Entities
+﻿using Probel.Lanceur.Core.Services;
+using System;
+
+namespace Probel.Lanceur.Core.Entities
 {
     public class AliasText
     {
@@ -13,16 +16,17 @@
 
         #region Methods
 
-        public static AliasText ReservedKeyword(string name)
+        public static AliasText ReservedKeyword(ActionWord word)
         {
             return new AliasText
             {
-                Name = name,
+                Name = word.Name.ToLower(),
                 ExecutionCount = 0,
-                FileName = "Internal Command",
+                FileName = $"{word.Description}",
                 Kind = "Settings"
             };
         }
+
 
         #endregion Methods
     }

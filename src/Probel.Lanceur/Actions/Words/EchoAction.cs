@@ -1,8 +1,9 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 
 namespace Probel.Lanceur.Actions.Words
 {
-    [UiAction]
+    [UiAction, Description("[DEBUG] Echoes a message using the internal notification facility.")]
     public class EchoAction : BaseUiAction
     {
         #region Methods

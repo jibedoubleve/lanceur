@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Probel.Lanceur.Core.Services;
 using Unity;
 
 namespace Probel.Lanceur.Actions
@@ -8,6 +9,8 @@ namespace Probel.Lanceur.Actions
         #region Properties
 
         protected IUnityContainer Container { get; private set; }
+        protected IDataSourceService DataService { get; private set; }
+        protected ILogService Log { get; private set; }
         protected IWindowManager WindowManager { get; private set; }
 
         #endregion Properties
@@ -20,14 +23,18 @@ namespace Probel.Lanceur.Actions
             DoExecute(arg);
         }
 
-        public IUiAction With(IUnityContainer container)
+        public IUiAction With(IUnityContainer container, IDataSourceService dataService, ILogService log)
         {
+            Log = log;
+            DataService = dataService;
             Container = container;
             WindowManager = Container.Resolve<IWindowManager>();
             return this;
         }
 
-        protected virtual void Configure() { }
+        protected virtual void Configure()
+        {
+        }
 
         protected abstract void DoExecute(string arg);
 

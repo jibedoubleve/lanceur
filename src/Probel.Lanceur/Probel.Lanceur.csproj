@@ -149,6 +149,7 @@
     <Compile Include="..\Version.cs">
       <Link>Properties\Version.cs</Link>
     </Compile>
+    <Compile Include="Actions\ActionCollection.cs" />
     <Compile Include="Actions\ActionManager.cs" />
     <Compile Include="Actions\Words\AddAction.cs" />
     <Compile Include="Actions\BaseUiAction.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="Actions\Words\ImportAction.cs" />
     <Compile Include="Actions\IUiAction.cs" />
     <Compile Include="Actions\Words\QuitAction.cs" />
+    <Compile Include="Actions\Words\SessionAction.cs" />
     <Compile Include="Actions\Words\SetupAction.cs" />
     <Compile Include="Actions\UiActionAttribute.cs" />
     <Compile Include="Actions\Words\StatisticsAction.cs" />
