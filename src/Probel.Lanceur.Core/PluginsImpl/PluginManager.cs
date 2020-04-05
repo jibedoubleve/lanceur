@@ -4,7 +4,6 @@ using Probel.Lanceur.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Probel.Lanceur.Core.PluginsImpl
 {
@@ -12,7 +11,7 @@ namespace Probel.Lanceur.Core.PluginsImpl
     {
         #region Fields
 
-        private const string _pluginRepository = @"%appdata%\probel\lanceur\plugins\";
+        internal const string PluginRepository = @"%appdata%\probel\lanceur\plugins\";
         private readonly IApplicationManager _appManager;
         private readonly ILogService _logger;
         private readonly IPluginLoader _pluginLoader;
@@ -36,7 +35,7 @@ namespace Probel.Lanceur.Core.PluginsImpl
 
         public IPlugin Build(string name)
         {
-            _metadataList = _pluginLoader.LoadPlugins(_pluginRepository, _pluginTypes);
+            _metadataList = _pluginLoader.LoadPlugins(PluginRepository, _pluginTypes);
             name = name.ToLower();
 
             var metadata = GetMetadataList(name).FirstOrDefault();
@@ -89,7 +88,7 @@ namespace Probel.Lanceur.Core.PluginsImpl
         {
             if (_metadataList == null)
             {
-                _metadataList = _pluginLoader.LoadPlugins(_pluginRepository, _pluginTypes);
+                _metadataList = _pluginLoader.LoadPlugins(PluginRepository, _pluginTypes);
             }
 
             return _metadataList ?? new List<IPluginMetadata>();

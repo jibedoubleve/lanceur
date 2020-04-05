@@ -77,6 +77,7 @@ namespace Probel.Lanceur
             //Plugins
             _container.RegisterType<IPluginLoader, PluginLoader>();
             _container.RegisterType<IPluginManager, PluginManager>();
+            _container.RegisterType<IPluginConfigurator, PluginConfigurator>();
             _container.RegisterType<IApplicationManager, ApplicationManager>();
 
             //Views
@@ -85,6 +86,7 @@ namespace Probel.Lanceur
             _container.RegisterType<StatisticsViewModel>();
             _container.RegisterType<SetupViewModel>();
             _container.RegisterType<EditSessionViewModel>();
+            _container.RegisterType<EditPluginViewModel>();
 
             /* Default commands */
             ConfigureInternalCommands();

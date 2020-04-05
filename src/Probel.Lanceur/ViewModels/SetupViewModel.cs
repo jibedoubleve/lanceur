@@ -8,6 +8,7 @@ namespace Probel.Lanceur.ViewModels
         #region Fields
 
         private string _appVersion;
+        private EditPluginViewModel _editPluginViewModel;
         private EditSessionViewModel _editSessionViewModel;
         private ListAliasViewModel _listAliasViewModel;
 
@@ -18,8 +19,9 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public SetupViewModel(ListAliasViewModel listAliasViewModel, SettingsViewModel settingsViewModel, EditSessionViewModel editSessionViewModel)
+        public SetupViewModel(ListAliasViewModel listAliasViewModel, SettingsViewModel settingsViewModel, EditSessionViewModel editSessionViewModel, EditPluginViewModel editPluginViewModel)
         {
+            EditPluginViewModel = editPluginViewModel;
             EditSessionViewModel = editSessionViewModel;
             ListAliasViewModel = listAliasViewModel;
             SettingsViewModel = settingsViewModel;
@@ -38,6 +40,12 @@ namespace Probel.Lanceur.ViewModels
         {
             get => _appVersion;
             set => Set(ref _appVersion, value, nameof(AppVersion));
+        }
+
+        public EditPluginViewModel EditPluginViewModel
+        {
+            get => _editPluginViewModel;
+            set => Set(ref _editPluginViewModel, value, nameof(EditPluginViewModel));
         }
 
         public EditSessionViewModel EditSessionViewModel

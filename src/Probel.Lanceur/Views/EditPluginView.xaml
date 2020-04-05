@@ -1,0 +1,60 @@
+﻿<UserControl
+    x:Class="Probel.Lanceur.Views.EditPluginView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:ctrl="clr-namespace:Probel.Lanceur.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Probel.Lanceur.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    d:DesignHeight="300"
+    d:DesignWidth="600"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Margin="0,10,0,10"
+            HorizontalAlignment="Center"
+            FontSize="30"
+            FontWeight="Bold"
+            Foreground="Red"
+            Text="Restart needed!"
+            Visibility="{Binding IsRebootNeeded, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Configurations}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <ctrl:PluginConfigControl PluginConfig="{Binding}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <StackPanel
+            Grid.Row="2"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <StackPanel.Resources>
+                <sys:Double x:Key="DefaultWidth">90</sys:Double>
+                <Thickness x:Key="DefaultMargin">5</Thickness>
+            </StackPanel.Resources>
+            <Button
+                x:Name="Save"
+                Width="{StaticResource DefaultWidth}"
+                Margin="{StaticResource DefaultMargin}"
+                Content="Save"
+                Style="{StaticResource AccentedSquareButtonStyle}" />
+            <Button
+                x:Name="Reset"
+                Width="{StaticResource DefaultWidth}"
+                Margin="{StaticResource DefaultMargin}"
+                Content="Reset"
+                Style="{StaticResource SquareButtonStyle}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

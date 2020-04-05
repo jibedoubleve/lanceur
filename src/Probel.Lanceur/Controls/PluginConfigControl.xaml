@@ -1,0 +1,27 @@
+﻿<UserControl
+    x:Class="Probel.Lanceur.Controls.PluginConfigControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Probel.Lanceur.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="self"
+    mc:Ignorable="d">
+
+    <Expander
+        Margin="5,5,5,10"
+        Header="{Binding ElementName=self, Path=PluginConfig.Name}"
+        IsExpanded="True">
+        <StackPanel>
+
+            <Controls:MetroHeader Margin="5" Header="Summary">
+                <TextBlock Text="{Binding ElementName=self, Path=PluginConfig.Explanation}" />
+            </Controls:MetroHeader>
+
+            <Controls:MetroHeader Margin="5" Header="Keyword">
+                <TextBox Margin="5" Text="{Binding ElementName=self, Path=PluginConfig.Keyword, UpdateSourceTrigger=PropertyChanged}" />
+            </Controls:MetroHeader>
+        </StackPanel>
+    </Expander>
+</UserControl>

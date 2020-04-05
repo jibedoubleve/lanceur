@@ -34,6 +34,11 @@
                     <ContentControl x:Name="EditSessionViewModel" />
                 </Grid>
             </TabItem>
+            <TabItem x:Name="_tabPlugins" Header="Plugins">
+                <Grid>
+                    <ContentControl x:Name="EditPluginViewModel" />
+                </Grid>
+            </TabItem>
         </Controls:MetroAnimatedTabControl>
         <StatusBar Grid.Row="1">
             <StatusBarItem HorizontalAlignment="Right" Content="{Binding AppVersion}" />

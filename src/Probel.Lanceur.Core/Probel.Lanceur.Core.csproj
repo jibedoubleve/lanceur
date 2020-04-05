@@ -61,12 +61,14 @@
     <Compile Include="Entities\Settings\DatabaseSettings.cs" />
     <Compile Include="PluginsImpl\EmptyPlugin.cs" />
     <Compile Include="PluginsImpl\PluginBase.cs" />
+    <Compile Include="PluginsImpl\PluginConfigurator.cs" />
     <Compile Include="PluginsImpl\PluginLoader.cs" />
     <Compile Include="PluginsImpl\PluginManager.cs" />
     <Compile Include="PluginsImpl\PluginMetadata.cs" />
     <Compile Include="Plugins\IApplicationManager.cs" />
     <Compile Include="Plugins\IMainView.cs" />
     <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Plugins\IPluginConfigurator.cs" />
     <Compile Include="Plugins\IPluginInfoManager.cs" />
     <Compile Include="Plugins\IPluginLoader.cs" />
     <Compile Include="Plugins\IPluginManager.cs" />

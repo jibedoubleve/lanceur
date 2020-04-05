@@ -40,6 +40,7 @@ namespace Probel.Lanceur.Views
                 if (tab == _tabKeywords) { ViewModel.ListAliasViewModel.RefreshData(); }
                 else if (tab == _tabSettings) { ViewModel.SettingsViewModel.RefreshData(); }
                 else if (tab == _tabSessions) { ViewModel.EditSessionViewModel.RefreshData(); }
+                else if (tab == _tabPlugins) { ViewModel.EditPluginViewModel.RefreshData(); }
             }
         }
 
