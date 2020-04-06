@@ -13,6 +13,7 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <conv:HexaToColourConverter x:Key="ColourToHexaConverter" />
         <conv:OpacityToSliderConverter x:Key="OpacityToSliderConverter" />
         <conv:MahAppsHotKeyToSettingsHotKey x:Key="MahAppsHotKeyToSettingsHotKey" />
@@ -23,10 +24,20 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <StackPanel>
+
+            <TextBlock
+                Margin="0,10,0,10"
+                HorizontalAlignment="Center"
+                FontSize="30"
+                FontWeight="Bold"
+                Foreground="Red"
+                Text="Restart needed!"
+                Visibility="{Binding IsRebootNeeded, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <StackPanel Grid.Row="1">
                 <Expander
                     Margin="{StaticResource ExpanderBorder}"
                     Header="Window settings"
@@ -94,7 +105,7 @@
                 </Expander>
                 <StackPanel />
             </StackPanel>
-            <StackPanel Grid.Row="1">
+            <StackPanel Grid.Row="2">
                 <Button
                     x:Name="ResetSettings"
                     Margin="{StaticResource DefaultBorder}"

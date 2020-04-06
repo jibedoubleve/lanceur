@@ -188,10 +188,12 @@
     <Compile Include="Controls\WindowInfoControl.xaml.cs">
       <DependentUpon>WindowInfoControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\UsageToColorConverter.cs" />
     <Compile Include="Converters\HexaToColourConverter.cs" />
     <Compile Include="Converters\InvertBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\MahAppsHotKeyToSettingsHotKey.cs" />
     <Compile Include="Converters\OpacityToSliderConverter.cs" />
+    <Compile Include="Converters\UsageToIconConverter.cs" />
     <Compile Include="Events\AliasTextEventArgs.cs" />
     <Compile Include="Helpers\DeactivateHotKey.cs" />
     <Compile Include="Helpers\MahappsHelper.cs" />

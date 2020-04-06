@@ -70,9 +70,9 @@ create view stat_usage_per_month_v as
 drop view if exists stat_usage_per_day_of_week_v;
 create view stat_usage_per_day_of_week_v as 
     select 
-        sum(exec_count),
-        day_of_week,
-        day_name
+        sum(exec_count) as exec_count,
+        day_of_week     as day_of_week,
+        day_name        as day_name
     from (
         select * 
         from (

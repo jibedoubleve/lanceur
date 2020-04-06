@@ -20,7 +20,7 @@ namespace Probel.Lanceur.ViewModels
 
         private ChartValues<ChartPoint<DateTime, int>> _chartPerDay;
         private ChartValues<int> _chartPerDayOfWeek;
-        private ChartValues<ChartPoint<string, int>> _chartPerExecutionCount;
+        private ObservableCollection<ChartPoint<string, int>> _aliasPerExecutionCount;
         private ChartValues<int> _chartPerHourInDay;
         private ChartValues<int> _chartPerMonth;
 
@@ -42,10 +42,6 @@ namespace Probel.Lanceur.ViewModels
             XyDateTimeMapper = Mappers.Xy<ChartPoint<DateTime, int>>()
                 .X(p => p.X.Ticks)
                 .Y(p => p.Y);
-
-            //XyStringMapper = Mappers.Xy<ChartPoint<string, int>>()
-            //    .X(m => m.X)
-            //    .Y(m => m.Y);
         }
 
         #endregion Constructors
@@ -64,10 +60,10 @@ namespace Probel.Lanceur.ViewModels
             set => Set(ref _chartPerDayOfWeek, value, nameof(ChartPerDayOfWeek));
         }
 
-        public ChartValues<ChartPoint<string, int>> ChartPerExecutionCount
+        public ObservableCollection<ChartPoint<string, int>> AliasPerExecutionCount
         {
-            get => _chartPerExecutionCount;
-            set => Set(ref _chartPerExecutionCount, value, nameof(ChartPerExecutionCount));
+            get => _aliasPerExecutionCount;
+            set => Set(ref _aliasPerExecutionCount, value, nameof(AliasPerExecutionCount));
         }
 
         public ChartValues<int> ChartPerHourInDay
@@ -127,7 +123,7 @@ namespace Probel.Lanceur.ViewModels
             ChartPerDayOfWeek = new ChartValues<int>(t4.Result.Select(e => e.Y));
             LabelsDayOfWeek = new ObservableCollection<string>(t4.Result.Select(e => e.X));
 
-            ChartPerExecutionCount = new ChartValues<ChartPoint<string, int>>(t5.Result);
+            AliasPerExecutionCount = new ObservableCollection<ChartPoint<string, int>>(t5.Result.OrderByDescending(e => e.Y));
         }
 
         #endregion Methods

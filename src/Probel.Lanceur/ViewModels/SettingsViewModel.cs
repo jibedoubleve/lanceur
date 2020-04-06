@@ -18,9 +18,11 @@ namespace Probel.Lanceur.ViewModels
         private readonly IUserNotifyer _userNotifyer;
         private AppSettingsModel _appSettings;
 
+        private string _colour;
         private AliasSessionModel _currentSession;
         private string _databasePath;
-        private ObservableCollection<AliasSessionModel> _sessons;
+        private bool _isRebootNeeded;
+        private ObservableCollection<AliasSessionModel> _sessions;
 
         #endregion Fields
 
@@ -43,7 +45,6 @@ namespace Probel.Lanceur.ViewModels
             set => Set(ref _appSettings, value, nameof(AppSettings));
         }
 
-        private string _colour;
         public string Colour
         {
             get => _colour;
@@ -75,10 +76,16 @@ namespace Probel.Lanceur.ViewModels
             }
         }
 
+        public bool IsRebootNeeded
+        {
+            get => _isRebootNeeded;
+            set => Set(ref _isRebootNeeded, value, nameof(IsRebootNeeded));
+        }
+
         public ObservableCollection<AliasSessionModel> Sessions
         {
-            get => _sessons;
-            set => Set(ref _sessons, value, nameof(Sessions));
+            get => _sessions;
+            set => Set(ref _sessions, value, nameof(Sessions));
         }
 
         #endregion Properties
@@ -116,6 +123,7 @@ namespace Probel.Lanceur.ViewModels
 
             var e = AppSettings.AsEntity();
             _settingsService.Save(e);
+            IsRebootNeeded = true;
 
             _userNotifyer.NotifyInfo("Settings has been saved.");
         }
