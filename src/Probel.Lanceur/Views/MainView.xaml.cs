@@ -1,9 +1,14 @@
 ﻿using NHotkey;
 using NHotkey.Wpf;
+using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Core.Plugins;
+using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Events;
 using Probel.Lanceur.ViewModels;
 using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Probel.Lanceur.Views
@@ -11,7 +16,7 @@ namespace Probel.Lanceur.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainView : Window
+    public partial class MainView : Window, IMainView
     {
         #region Fields
 
@@ -21,7 +26,11 @@ namespace Probel.Lanceur.Views
 
         #region Constructors
 
-        public MainView() => InitializeComponent();
+        public MainView()
+        {
+            InitializeComponent();
+            Results.SelectionChanged += OnResultsSelectionChanged;
+        }
 
         #endregion Constructors
 
@@ -33,27 +42,68 @@ namespace Probel.Lanceur.Views
 
         #region Methods
 
+        public void HideResults()
+        {
+            Results.Visibility = Visibility.Collapsed;
+            PluginArea.Visibility = Visibility.Visible;
+        }
+
+        public void SetPluginArea(object area)
+        {
+            PluginArea.Content = area; ;
+        }
+
+        public void ShowResults()
+        {
+            Results.Visibility = Visibility.Visible;
+            PluginArea.Visibility = Visibility.Collapsed;
+        }
+
+        protected override void OnDeactivated(EventArgs e)
+        {
+#if !DEBUG
+            HideControl();
+#endif
+        }
+
         private void HideControl()
         {
-            AliasNameList.Text = string.Empty;
+            ShowResults();
+            AliasTextBox.Text = string.Empty;
             _self.Visibility = Visibility.Collapsed;
             ViewModel.SaveSettings();
         }
 
-        private void OnKeyPressed(object sender, KeyEventArgs e)
+        private async void OnKeyPressed(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                if (ViewModel?.ExecuteText(AliasNameList.Text) ?? false)
-                {
-                    HideControl();
-                }
-                else { ViewModel.IsOnError = true; }
+                var a = (Results.SelectedItem as AliasText ?? new AliasText()).Name;
+                var b = AliasTextBox.Text;
+                var result = await ViewModel?.ExecuteTextAsync(a, b) ?? ExecutionResult.Failure;
+
+                if (!result.KeepShowing) { HideControl(); }
+                if (result.IsError) { ViewModel.IsOnError = true; }
+
+                e.Handled = true;
             }
             else if (e.Key == Key.Escape) { HideControl(); }
+            else if (e.Key == Key.Up) { Results.SelectNextItem(); }
+            else if (e.Key == Key.Down) { Results.SelectPreviousItem(); }
         }
 
-        protected override void OnDeactivated(EventArgs e) => HideControl();
+        private void OnKeyPressedWindow(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape) { HideControl(); }
+        }
+
+        private async void OnResultsAliasDoubleClicked(object sender, AliasTextEventArgs e)
+        {
+            var result = await ViewModel?.ExecuteTextAsync(e.Alias.Name) ?? ExecutionResult.Failure;
+            if (!result.IsError) { HideControl(); }
+        }
+
+        private void OnResultsSelectionChanged(object sender, AliasTextEventArgs args) => AliasTextBox.Text = args?.Alias?.Name;
 
         private void OnShowWindow(object sender, HotkeyEventArgs e)
         {
@@ -63,6 +113,14 @@ namespace Probel.Lanceur.Views
                 ShowWindow();
                 e.Handled = true;
             }
+        }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+
+        {
+            ViewModel.IsOnError = false;
+            ViewModel.RefreshAliases(AliasTextBox.Text);
+            Results.SelectFirst();
         }
 
         private void OnWindowClosing(object sender, CancelEventArgs e) => ViewModel.SaveSettings();
@@ -79,7 +137,7 @@ namespace Probel.Lanceur.Views
             {
                 var msg = $"NHotkey: key already binded!{Environment.NewLine}Default binding is 'SHIFT+WINDOWS+R'";
                 ViewModel.LogService.Warning(msg);
-                MessageBox.Show(msg, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+               ViewModel.Notifyer.NotifyWarning(msg);
 
                 var key = Key.R;
                 var mod = ModifierKeys.Shift | ModifierKeys.Windows;
@@ -116,10 +174,10 @@ namespace Probel.Lanceur.Views
             ViewModel.LoadAliases();
 
             Visibility = Visibility.Visible;
-            AliasNameList.Focus();
+            AliasTextBox.Focus();
 
             //https://stackoverflow.com/questions/3109080/focus-on-textbox-when-usercontrol-change-visibility
-            Dispatcher.BeginInvoke((Action)delegate { Keyboard.Focus(AliasNameList); });
+            Dispatcher.BeginInvoke((Action)delegate { Keyboard.Focus(AliasTextBox); });
 
             Activate();
             Topmost = true;

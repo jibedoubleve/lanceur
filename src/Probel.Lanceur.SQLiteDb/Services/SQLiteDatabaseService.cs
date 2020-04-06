@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Core.Plugins;
 using Probel.Lanceur.Core.Services;
 using System;
 using System.Collections.Generic;
@@ -9,24 +10,31 @@ using System.Linq;
 
 namespace Probel.Lanceur.SQLiteDb.Services
 {
-    public class SQLiteDatabaseService : IDataSourceService
+    public partial class SQLiteDatabaseService : IDataSourceService
     {
         #region Fields
 
         private readonly string _connectionString;
         private readonly IReservedKeywordService _keywordService;
         private readonly ILogService _log;
+        private readonly IPluginManager _pluginManager;
         private readonly IReservedKeywordService _reservedKeywordService;
 
         #endregion Fields
 
         #region Constructors
 
-        public SQLiteDatabaseService(IReservedKeywordService keywordService, ILogService log, IReservedKeywordService reservedKeywordService)
+        public SQLiteDatabaseService(IReservedKeywordService keywordService,
+            ILogService log,
+            IReservedKeywordService reservedKeywordService,
+            IPluginManager pluginManager,
+            IConnectionStringManager csm
+            )
         {
+            _pluginManager = pluginManager;
             _reservedKeywordService = reservedKeywordService;
             _log = log;
-            _connectionString = new ConnectionStringManager().Get();
+            _connectionString = csm.Get();
             _keywordService = keywordService;
         }
 
@@ -185,23 +193,37 @@ namespace Probel.Lanceur.SQLiteDb.Services
             }
         }
 
-        public IEnumerable<string> GetAliasNames(long sessionId)
+        public IEnumerable<AliasText> GetAliasNames(long sessionId)
         {
             var sql = @"
-                select sn.Name as Name
-                from alias_name sn
-                inner join alias s on s.id = sn.id_alias
-                where s.id_session = @sessionId
-                order by name";
+                select 
+                	sn.Name      as Name,
+                	c.exec_count as ExecutionCount,
+                	s.file_name  as FileName,
+                    'Rocket'     as Kind
+                from 
+                    alias_name sn
+                    inner join alias s on s.id = sn.id_alias
+                    left join stat_execution_count_v c on c.id_keyword = s.id 
+                where 
+                    s.id_session = @sessionId
+                order by 
+                    exec_count desc,
+                    name       asc";
 
             using (var c = BuildConnection())
             {
-                var result = c.Query<string>(sql, new { sessionId }).ToList();
+                var result = c.Query<AliasText>(sql, new { sessionId }).ToList();
 
-                if (result != null) { result.AddRange(_reservedKeywordService.GetReservedKeywords()); }
-                else { result = new List<string>(); }
+                if (result != null)
+                {
+                    result.AddRange(_reservedKeywordService.GetKeywords());
+                    result.AddRange(_pluginManager.GetKeywords());
+                }
+                else { result = new List<AliasText>(); }
 
-                return result.OrderBy(e => e);
+                return result.OrderByDescending(e => e.ExecutionCount)
+                             .ThenBy(e => e.Name);
             }
         }
 
@@ -217,9 +239,9 @@ namespace Probel.Lanceur.SQLiteDb.Services
                      , s.start_mode as StartMode
                      , s.working_dir as WorkingDirectory
                 from alias s
-                inner join alias_name n on s.id = n.id_alias
+                left join alias_name n on s.id = n.id_alias
                 where s.id_session = @sessionId
-                order by n.name      ";
+                order by n.name";
 
             using (var c = BuildConnection())
             {
@@ -299,6 +321,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 c.Execute(sql, new { session.Id, session.Name, session.Notes });
             }
         }
+
 
         #endregion Methods
     }

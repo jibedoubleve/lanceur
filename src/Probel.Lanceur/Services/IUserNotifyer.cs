@@ -6,8 +6,13 @@ namespace Probel.Lanceur.Services
     {
         #region Methods
 
-        void NotifyInfo(string message, string title = null);
         MessageDialogResult Ask(string message, string title = null);
+
+        void NotifyError(string message, string title = null);
+
+        void NotifyInfo(string message, string title = null);
+
+        void NotifyWarning(string message, string title = null);
 
         #endregion Methods
     }

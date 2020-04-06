@@ -75,6 +75,12 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
+    </Reference>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.6.5.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.6.5\lib\net47\MahApps.Metro.dll</HintPath>
     </Reference>
@@ -86,6 +92,9 @@
     </Reference>
     <Reference Include="NHotkey.Wpf, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NHotkey.Wpf.1.2.1\lib\net35\NHotkey.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Notifications.Wpf, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Notifications.Wpf.0.1.1\lib\net461\Notifications.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -126,20 +135,26 @@
       <Link>Properties\Version.cs</Link>
     </Compile>
     <Compile Include="Actions\ActionManager.cs" />
-    <Compile Include="Actions\AddAction.cs" />
+    <Compile Include="Actions\Words\AddAction.cs" />
     <Compile Include="Actions\BaseUiAction.cs" />
-    <Compile Include="Actions\ClearAction.cs" />
-    <Compile Include="Actions\CornerAction.cs" />
-    <Compile Include="Actions\EchoAction.cs" />
-    <Compile Include="Actions\ImportAction.cs" />
+    <Compile Include="Actions\Words\CentreAction.cs" />
+    <Compile Include="Actions\Words\ClearAction.cs" />
+    <Compile Include="Actions\Words\EchoAction.cs" />
+    <Compile Include="Actions\Words\GuidAction.cs" />
+    <Compile Include="Actions\IActionManager.cs" />
+    <Compile Include="Actions\Words\ImportAction.cs" />
     <Compile Include="Actions\IUiAction.cs" />
-    <Compile Include="Actions\QuitAction.cs" />
-    <Compile Include="Actions\SetupAction.cs" />
+    <Compile Include="Actions\Words\QuitAction.cs" />
+    <Compile Include="Actions\Words\SetupAction.cs" />
     <Compile Include="Actions\UiActionAttribute.cs" />
-    <Compile Include="Actions\VersionAction.cs" />
+    <Compile Include="Actions\Words\StatisticsAction.cs" />
+    <Compile Include="Actions\Words\VersionAction.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Controls\AliasControl.xaml.cs">
+      <DependentUpon>AliasControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\HeaderSlider.xaml.cs">
       <DependentUpon>HeaderSlider.xaml</DependentUpon>
@@ -147,15 +162,20 @@
     <Compile Include="Controls\ProcessFinderButton.xaml.cs">
       <DependentUpon>ProcessFinderButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ResultList.xaml.cs">
+      <DependentUpon>ResultList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\WindowInfoControl.xaml.cs">
       <DependentUpon>WindowInfoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\InvertBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\MahAppsHotKeyToSettingsHotKey.cs" />
     <Compile Include="Converters\OpacityToSliderConverter.cs" />
+    <Compile Include="Events\AliasTextEventArgs.cs" />
     <Compile Include="Helpers\DeactivateHotKey.cs" />
     <Compile Include="Helpers\MahappsHelper.cs" />
     <Compile Include="Models\Settings\AppSettingsModel.cs" />
+    <Compile Include="Models\Settings\DatabaseSettingsModel.cs" />
     <Compile Include="Models\Settings\PositionSettingsModel.cs" />
     <Compile Include="Models\Settings\HotKeySettingsModel.cs" />
     <Compile Include="Models\AliasNameModel.cs" />
@@ -175,10 +195,11 @@
     <Compile Include="Helpers\MapperExtension.cs" />
     <Compile Include="Models\AliasModel.cs" />
     <Compile Include="Models\AliasSessionModel.cs" />
+    <Compile Include="Services\ApplicationManager.cs" />
     <Compile Include="Services\ClipboardService.cs" />
     <Compile Include="Services\IUserNotifyer.cs" />
     <Compile Include="Actions\KeywordLoader.cs" />
-    <Compile Include="Services\Notifications.cs" />
+    <Compile Include="Services\UiEvent.cs" />
     <Compile Include="Services\SessionQueries.cs" />
     <Compile Include="Services\UserNotifyer.cs" />
     <Compile Include="ViewModels\EditSessionViewModel.cs" />
@@ -188,6 +209,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\SetupViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="Views\EditSessionView.xaml.cs">
       <DependentUpon>EditSessionView.xaml</DependentUpon>
     </Compile>
@@ -203,8 +225,14 @@
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SetupView.xaml.cs">
       <DependentUpon>SetupView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatisticsView.xaml.cs">
+      <DependentUpon>StatisticsView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +253,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -235,6 +266,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\AliasControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\HeaderComboBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -248,6 +283,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ProcessFinderButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ResultList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -295,15 +334,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\StatisticsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Probel.Lanceur.Core\Probel.Lanceur.Core.csproj">
       <Project>{76716e34-6464-45e0-bcc6-21203ab79fd1}</Project>
       <Name>Probel.Lanceur.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Probel.Lanceur.Services\Probel.Lanceur.Services.csproj">
-      <Project>{c6784cd2-3152-4f9b-87eb-f0bdab2710b6}</Project>
-      <Name>Probel.Lanceur.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Probel.Lanceur.SQLiteDb\Probel.Lanceur.SQLiteDb.csproj">
       <Project>{f19b7525-245c-464d-bed2-7675c5bf9462}</Project>
@@ -335,4 +374,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>cmd /K powershell -noprofile $(SolutionDir)..\deploy_plugins.ps1
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -5,12 +5,6 @@ namespace Probel.Lanceur.Actions
 {
     public abstract class BaseUiAction : IUiAction
     {
-        #region Fields
-
-        private bool _isConfigured = false;
-
-        #endregion Fields
-
         #region Properties
 
         protected IUnityContainer Container { get; private set; }
@@ -33,7 +27,7 @@ namespace Probel.Lanceur.Actions
             return this;
         }
 
-        protected abstract void Configure();
+        protected virtual void Configure() { }
 
         protected abstract void DoExecute(string arg);
 

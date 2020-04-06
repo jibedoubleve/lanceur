@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Probel.Lanceur.Core.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace Probel.Lanceur.Core.Services
@@ -12,7 +13,7 @@ namespace Probel.Lanceur.Core.Services
 
         void ExecuteActionFor(string name, string arg);
 
-        IEnumerable<string> GetReservedKeywords();
+        IEnumerable<AliasText> GetKeywords();
 
         bool IsReserved(string cmd);
 

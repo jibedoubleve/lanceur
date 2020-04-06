@@ -23,11 +23,13 @@
 
                 <!--  Default Styles  -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Cyan.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
 
                 <!--  My Styles  -->
                 <ResourceDictionary Source="/Probel.Lanceur;component/Styles/Merged.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
+            <SolidColorBrush x:Key="MyTextBrush" Color="#FFE6E6E6" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

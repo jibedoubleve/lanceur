@@ -12,6 +12,8 @@
 
         #region Methods
 
+        Coordinate Center(double distanceFromTop);
+
         double GetWindowHeight();
 
         double GetWindowWidth();

@@ -4,9 +4,7 @@
     {
         #region Methods
 
-        bool DoNeedUpdate();
-
-        void Update();
+        void UpdateDatabase();
 
         #endregion Methods
     }

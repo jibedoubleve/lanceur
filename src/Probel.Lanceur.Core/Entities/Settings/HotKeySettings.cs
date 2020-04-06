@@ -11,12 +11,6 @@ namespace Probel.Lanceur.Core.Entities.Settings
         {
         }
 
-        public HotKeySettings(int modifierKeys, int key)
-        {
-            Key = key;
-            ModifierKeys = modifierKeys;
-        }
-
         #endregion Constructors
 
         #region Properties

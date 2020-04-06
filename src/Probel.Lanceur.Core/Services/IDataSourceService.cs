@@ -1,9 +1,10 @@
 ﻿using Probel.Lanceur.Core.Entities;
+using System;
 using System.Collections.Generic;
 
 namespace Probel.Lanceur.Core.Services
 {
-    public interface IDataSourceService
+    public partial interface IDataSourceService
     {
         #region Methods
 
@@ -19,7 +20,7 @@ namespace Probel.Lanceur.Core.Services
 
         Alias GetAlias(string name);
 
-        IEnumerable<string> GetAliasNames(long sessionId);
+        IEnumerable<AliasText> GetAliasNames(long sessionId);
 
         IEnumerable<Alias> GetAliases(long sessionId);
 

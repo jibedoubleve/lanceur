@@ -1,0 +1,6 @@
+{
+  "name": "Spotify played song",
+  "keyword": "ss",
+  "dll": "Probel.Lanceur.Plugin.Spotify.dll",
+  "explanation": "Display information about what is played on Spotify"
+}

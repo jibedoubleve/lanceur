@@ -1,10 +1,8 @@
 ﻿using Dapper;
 using Probel.Lanceur.Core.Services;
 using System;
-using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SQLite;
-using System.Reflection;
 
 namespace Probel.Lanceur.SQLiteDb.Services
 {
@@ -19,9 +17,9 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         #region Constructors
 
-        public SQLiteUpdateService(ILogService logger)
+        public SQLiteUpdateService(ILogService logger, IConnectionStringManager csm)
         {
-            _connectionString = new ConnectionStringManager().Get();
+            _connectionString = csm.Get();
             _logger = logger;
         }
 
@@ -29,26 +27,19 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         #region Methods
 
-        public bool DoNeedUpdate()
+        public void UpdateDatabase()
         {
             var rm = new EmbeddedResourceManager();
-            if (HasTableSettings())
-            {
-                new UpdateManager(_connectionString, _logger).Update();
-                return true;
-            }
-            else
+            if (!HasTableSettings())
             {
                 var script = "Probel.Lanceur.SQLiteDb.Assets.Scripts.update-0.1.sql";
                 _logger.Trace($"Do not has table 'settings'. Applying script '{script}'");
 
                 rm.ReadResourceAsString(script, content => ExecuteScript(content));
-
-                return false;
             }
-        }
 
-        public void Update() => throw new NotImplementedException();
+            new UpdateManager(_connectionString, _logger).Update();
+        }
 
         private DbConnection BuildConnection() => new SQLiteConnection(_connectionString);
 

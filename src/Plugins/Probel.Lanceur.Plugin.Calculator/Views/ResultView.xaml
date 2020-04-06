@@ -1,0 +1,51 @@
+﻿<UserControl
+    x:Class="Probel.Lanceur.Plugin.Calculator.Views.ResultView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:Probel.Lanceur.Plugin.Calculator"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <local:FormulaTemplateSelector x:Key="FormulaTemplateSelector" />
+        <sys:Double x:Key="DefaultIconSize">30</sys:Double>
+        <DataTemplate x:Key="ResultTemplate">
+            <StackPanel Orientation="Horizontal">
+                <iconPacks:PackIconMaterial
+                    Width="{StaticResource DefaultIconSize}"
+                    Height="{StaticResource DefaultIconSize}"
+                    Margin="5,5,10,5"
+                    Foreground="{DynamicResource MyTextBrush}"
+                    Kind="Calculator" />
+                <TextBlock
+                    Margin="5"
+                    FontFamily="Tahomas"
+                    FontSize="26"
+                    Foreground="{DynamicResource MyTextBrush}"
+                    Text="{Binding Expression, UpdateSourceTrigger=PropertyChanged}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="CalculationTemplate">
+            <TextBox
+                x:Name="TextBoxExpression"
+                Margin="5"
+                local:FocusOnLastBehavior.Focus="True"
+                Background="Transparent"
+                FontFamily="Tahomas"
+                FontSize="26"
+                Foreground="{DynamicResource MyTextBrush}"
+                IsReadOnly="{Binding IsReadOnly, UpdateSourceTrigger=PropertyChanged}"
+                KeyDown="OnTextBoxKeyDown"
+                Text="{Binding Expression, UpdateSourceTrigger=PropertyChanged}" />
+        </DataTemplate>
+    </UserControl.Resources>
+    <ScrollViewer>
+        <ItemsControl
+            x:Name="Results"
+            ItemTemplateSelector="{StaticResource FormulaTemplateSelector}"
+            ItemsSource="{Binding Items}" />
+    </ScrollViewer>
+</UserControl>

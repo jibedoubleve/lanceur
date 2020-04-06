@@ -1,10 +1,12 @@
 ﻿using Caliburn.Micro;
+using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Entities.Settings;
 using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Services;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace Probel.Lanceur.ViewModels
 {
@@ -13,10 +15,11 @@ namespace Probel.Lanceur.ViewModels
         #region Fields
 
         private readonly IAliasService _aliasService;
+        private readonly IParameterResolver _resolver;
         private readonly IScreenRuler _screenRuler;
         private readonly ISettingsService _settingsService;
-        private string _aliasName;
-        private ObservableCollection<string> _aliasNameList;
+        private AliasText _aliasName;
+        private ObservableCollection<AliasText> _aliasNameList;
         private AppSettings _appSettings;
         private string _colour;
         private bool _isOnError;
@@ -28,11 +31,21 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public MainViewModel(IAliasService aliasService, ISettingsService settings, IEventAggregator ea, IScreenRuler screenRuler, ILogService logService)
+        public MainViewModel(
+            IAliasService aliasService,
+            ISettingsService settings,
+            IEventAggregator ea,
+            IScreenRuler screenRuler,
+            ILogService logService,
+            IParameterResolver resolver,
+            IUserNotifyer notifyer
+            )
         {
+            Notifyer = notifyer;
             LogService = logService;
             ea.Subscribe(this);
 
+            _resolver = resolver;
             _screenRuler = screenRuler;
             _settingsService = settings;
             _aliasService = aliasService;
@@ -42,13 +55,13 @@ namespace Probel.Lanceur.ViewModels
 
         #region Properties
 
-        public string AliasName
+        public AliasText AliasName
         {
             get => _aliasName;
             set => Set(ref _aliasName, value, nameof(AliasName));
         }
 
-        public ObservableCollection<string> AliasNameList
+        public ObservableCollection<AliasText> AliasNameList
         {
             get => _aliasNameList;
             set => Set(ref _aliasNameList, value, nameof(AliasNameList));
@@ -67,7 +80,11 @@ namespace Probel.Lanceur.ViewModels
         public string Colour
         {
 #if DEBUG
-            get => "Crimson";
+            get
+            {
+                _colour = "Crimson";
+                return _colour;
+            }
             set { }
 #else
             get => _colour;
@@ -88,6 +105,8 @@ namespace Probel.Lanceur.ViewModels
         }
 
         public ILogService LogService { get; }
+
+        public IUserNotifyer Notifyer { get; }
 
         public double Opacity
         {
@@ -111,7 +130,7 @@ namespace Probel.Lanceur.ViewModels
         /// </summary>
         /// <param name="cmdLine">The command line (the alias & the arguments) to be executed.</param>
         /// <returns><c>True</c> on success; otherwise <c>False</c></returns>
-        public bool ExecuteText(string cmdLine)
+        public async Task<ExecutionResult> ExecuteTextAsync(string cmdLine)
         {
             try { return _aliasService.Execute(cmdLine); }
             catch (Exception ex)
@@ -119,27 +138,37 @@ namespace Probel.Lanceur.ViewModels
                 /* I swallow the error as this crash shouldn't crash the application
                  * I log and continue without any other warning.
                  */
-                LogService.Warning($"An error occured while trying to execute the alias '{cmdLine}'", ex);
-                return false;
+                LogService.Error($"An error occured while trying to execute the alias '{cmdLine}'", ex);
+                return ExecutionResult.Failure;
             }
+        }
+
+        public async Task<ExecutionResult> ExecuteTextAsync(string cmdline1, string cmdline2)
+        {
+            var cmd = _resolver.Merge(cmdline1, cmdline2);
+
+            return await ExecuteTextAsync(cmd.ToString());
         }
 
         public void Handle(string message)
         {
-            if (message == Notifications.CornerCommand)
+            if (message == Services.UiEvent.CornerCommand)
             {
                 var r = _screenRuler.StickTo(Left, Top);
                 Left = r.X;
                 Top = r.Y;
                 SaveSettings();
             }
+            if (message == Services.UiEvent.CenterCommand)
+            {
+                var r = _screenRuler.Center(150);
+                Left = r.X;
+                Top = r.Y;
+                SaveSettings();
+            }
         }
 
-        public void LoadAliases()
-        {
-            var l = _aliasService.GetAliasNames(AppSettings.SessionId);
-            AliasNameList = new ObservableCollection<string>(l);
-        }
+        public void LoadAliases() => RefreshAliases();
 
         public void LoadSettings()
         {
@@ -154,8 +183,13 @@ namespace Probel.Lanceur.ViewModels
         public void OnShow()
         {
             AppSettings = _settingsService.Get();
-            var n = _aliasService.GetAliasNames(AppSettings.SessionId);
-            AliasNameList = new ObservableCollection<string>(n);
+            RefreshAliases();
+        }
+
+        public void RefreshAliases(string criterion)
+        {
+            var l = _aliasService.GetAliasNames(AppSettings.SessionId, criterion);
+            AliasNameList = new ObservableCollection<AliasText>(l);
         }
 
         public void SaveSettings()
@@ -163,8 +197,14 @@ namespace Probel.Lanceur.ViewModels
             AppSettings.WindowSection.Position.Left = Left;
             AppSettings.WindowSection.Position.Top = Top;
 
-            _settingsService.Save(AppSettings);
+            _settingsService.SavePosition(AppSettings);
             AppSettings = _settingsService.Get();
+        }
+
+        private void RefreshAliases()
+        {
+            var l = _aliasService.GetAliasNames(AppSettings.SessionId);
+            AliasNameList = new ObservableCollection<AliasText>(l);
         }
 
         #endregion Methods

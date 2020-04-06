@@ -12,7 +12,6 @@ namespace Probel.Lanceur.SQLiteDb.Services
     {
         #region Fields
 
-        public const string Pattern = "Probel.Lanceur.SQLiteDb.Assets.Scripts.";
         private readonly string _connectionString;
         private readonly ILogService _logger;
         private EmbeddedResourceManager _resManager = new EmbeddedResourceManager();
@@ -34,19 +33,32 @@ namespace Probel.Lanceur.SQLiteDb.Services
         public void Update()
         {
             var cur = GetCurrentVersion();
+            _logger.Trace($"Current version is {cur}");
 
             using (var c = BuildConnection())
             {
                 foreach (var res in GetResources())
                 {
-                    _logger.Trace($"Current version is {cur}");
                     if (cur < res.Key)
                     {
                         _logger.Info($"Updating database. Current version is {cur}. Executing script version '{res.Key}'");
                         Execute(res.Value, c);
+                        SetVersion(res.Key, c);
                     }
                 }
+                foreach (var sql in GetViewsDDL())
+                {
+                    _logger.Info($"Executing view script");
+                    Execute(sql, c);
+                }
             }
+        }
+
+        private void SetVersion(Version key, DbConnection c)
+        {
+            var sql = "update settings set s_value = @value where s_key = s_key";
+            c.Execute(sql, new { value = key.ToString() });
+            _logger.Info($"Update database version to '{key}'");
         }
 
         private void Execute(string value, DbConnection conn)
@@ -77,14 +89,26 @@ namespace Probel.Lanceur.SQLiteDb.Services
         private IDictionary<Version, string> GetResources()
         {
             var dico = new Dictionary<Version, string>();
-            var resources = _resManager.ListResources(Pattern);
             var regex = new Regex(@"Probel\.Lanceur\.SQLiteDb\.Assets\.Scripts\.update-(?<version>\d{1,2}\.\d{1,2})\.sql");
+            var resources = _resManager.ListResources(regex);
 
             foreach (var r in resources)
             {
                 var v = Version.Parse(regex.Match(r)?.Groups["version"]?.Value ?? string.Empty);
                 dico.Add(v, r);
             }
+
+            return dico;
+        }
+
+
+        private IEnumerable<string> GetViewsDDL()
+        {
+            var dico = new List<string>();
+            var regex = new Regex(@"Probel\.Lanceur\.SQLiteDb\.Assets\.Scripts\.views-.*\.sql");
+            var resources = _resManager.ListResources(regex);
+
+            foreach (var r in resources) { dico.Add(r); }
 
             return dico;
         }
