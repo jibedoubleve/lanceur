@@ -29,7 +29,6 @@ namespace Probel.Lanceur.Views
         public MainView()
         {
             InitializeComponent();
-            Results.SelectionChanged += OnResultsSelectionChanged;
         }
 
         #endregion Constructors
@@ -103,7 +102,6 @@ namespace Probel.Lanceur.Views
             if (!result.IsError) { HideControl(); }
         }
 
-        private void OnResultsSelectionChanged(object sender, AliasTextEventArgs args) => AliasTextBox.Text = args?.Alias?.Name;
 
         private void OnShowWindow(object sender, HotkeyEventArgs e)
         {

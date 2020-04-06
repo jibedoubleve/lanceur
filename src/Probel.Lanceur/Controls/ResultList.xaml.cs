@@ -59,8 +59,7 @@ namespace Probel.Lanceur.Controls
         #region Events
 
         public event EventHandler<AliasTextEventArgs> AliasClicked;
-
-        public event EventHandler<AliasTextEventArgs> SelectionChanged;
+        
 
         #endregion Events
 

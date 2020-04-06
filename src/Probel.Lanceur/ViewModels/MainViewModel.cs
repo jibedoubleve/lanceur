@@ -186,6 +186,12 @@ namespace Probel.Lanceur.ViewModels
             Opacity = s.Opacity;
         }
 
+        public void OnShow()
+        {
+            AppSettings = _settingsService.Get();
+            RefreshAliases();
+        }
+
         public void RefreshAliases(string criterion)
         {
             Session = _aliasService.GetSession(AppSettings.SessionId);
