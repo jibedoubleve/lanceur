@@ -15,7 +15,7 @@ namespace Probel.Lanceur.Core.Services
 
         void Delete(AliasSession session);
 
-        Alias GetAlias(string name);
+        Alias GetAlias(string name, long sessionId);
 
         IEnumerable<Alias> GetAliases(long sessionId);
 
@@ -30,8 +30,6 @@ namespace Probel.Lanceur.Core.Services
         IEnumerable<AliasSession> GetSessions();
 
         void SetUsage(Alias alias);
-
-        void SetUsage(long idAlias);
 
         void Update(Alias alias);
 

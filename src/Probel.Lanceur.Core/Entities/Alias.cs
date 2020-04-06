@@ -11,6 +11,7 @@
                 Arguments = src.Arguments,
                 FileName = src.FileName,
                 Id = src.Id,
+                IdSession = src.IdSession,
                 IsExecutable = src.IsExecutable,
                 Name = src.Name,
                 Notes = src.Notes,

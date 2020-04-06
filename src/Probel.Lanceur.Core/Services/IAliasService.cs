@@ -13,8 +13,9 @@ namespace Probel.Lanceur.Core.Services
         /// <param name="cmdline">The command line to execute.
         /// That's the alias and the arguments (which are NOT
         /// mandatory)</param>
+        /// <param name="sessionId">ID of the current session</param>
         /// <returns><c>True</c> if execution succeeded. Otherwise <c>False</c></returns>
-        ExecutionResult Execute(string param);
+        ExecutionResult Execute(string param, long sessionId);
 
         IEnumerable<AliasText> GetAliasNames(long sessionId);
 

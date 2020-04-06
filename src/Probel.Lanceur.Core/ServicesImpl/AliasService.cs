@@ -50,10 +50,10 @@ namespace Probel.Lanceur.Core.ServicesImpl
         /// Executes the command line.
         /// </summary>
         /// <param name="cmdline">The command line to execute. That's the alias and the arguments (which are not mandatory)</param>
-        public ExecutionResult Execute(string cmdline)
+        public ExecutionResult Execute(string cmdline, long sessionId)
         {
             var splited = _resolver.Split(cmdline);
-            var cmd = _databaseService.GetAlias(splited.Command);
+            var cmd = _databaseService.GetAlias(splited.Command, sessionId);
 
             cmd = _resolver.Resolve(cmd, splited.Parameters);
 

@@ -6,6 +6,7 @@ drop view if exists data_not_used_v;
 create view data_not_used_v as
     select 	
         a.id,
+        a.id_session, 
         group_concat(sn.name, ', ') as keywords,	
         a.file_name,
         a.arguments,
@@ -26,7 +27,8 @@ create view data_not_used_v as
 drop view if exists data_doubloons_v;
 create view data_doubloons_v as
     select 
-        a.id,
+        a.id,        
+        a.id_session, 
         group_concat(sn.name, ', ') as keywords,
         a.file_name,
         a.arguments,

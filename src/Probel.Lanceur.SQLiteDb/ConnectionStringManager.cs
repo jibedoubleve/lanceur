@@ -85,7 +85,12 @@ namespace Probel.Lanceur.SQLiteDb
             {
                 if (string.IsNullOrEmpty(_connectionString))
                 {
-                    _connectionString = string.Format(CSTRING_PATTERN, DbPath);
+#if DEBUG
+                    var path = Environment.ExpandEnvironmentVariables(@"%appdata%\probel\Lanceur\debug_data.db");
+#else
+                    var path = DbPath;
+#endif
+                    _connectionString = string.Format(CSTRING_PATTERN, path);
                 }
                 return _connectionString;
             }
@@ -108,7 +113,8 @@ namespace Probel.Lanceur.SQLiteDb
             get
             {
                 if (string.IsNullOrEmpty(_dbPath))
-                {;
+                {
+                    ;
                     var path = Path.Combine(AppSettings.DatabaseSection.DatabasePath, DbName);
                     _dbPath = Environment.ExpandEnvironmentVariables(path);
                 }

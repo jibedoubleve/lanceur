@@ -138,7 +138,11 @@ namespace Probel.Lanceur.ViewModels
         /// <returns><c>True</c> on success; otherwise <c>False</c></returns>
         public ExecutionResult ExecuteText(string cmdLine)
         {
-            try { return _aliasService.Execute(cmdLine); }
+            try
+            {
+                var sid = _settingsService.Get().SessionId;
+                return _aliasService.Execute(cmdLine, sid);
+            }
             catch (Exception ex)
             {
                 /* I swallow the error as this crash shouldn't crash the application

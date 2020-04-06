@@ -5,7 +5,7 @@ using Unity;
 
 namespace Probel.Lanceur.Actions.Words
 {
-    [UiAction("chs"), Description("Changes the current session.")]
+    [UiAction("switch"), Description("Switch session.")]
     public class SessionAction : BaseUiAction
     {
         #region Methods

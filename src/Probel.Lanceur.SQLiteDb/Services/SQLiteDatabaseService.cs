@@ -117,26 +117,31 @@ namespace Probel.Lanceur.SQLiteDb.Services
             }
         }
 
-        public Alias GetAlias(string name)
+        public Alias GetAlias(string name, long sessionId)
         {
             if (_keywordService.IsReserved(name)) { return Alias.Reserved(name); }
 
             var sql = @"
-                select n.Name        as Name
-                     , s.id          as Id
-                     , s.arguments   as Arguments
-                     , s.file_name   as FileName
-                     , s.notes       as Notes
-                     , s.run_as      as RunAs
-                     , s.start_mode  as StartMode
-                     , s.working_dir as WorkingDirectory
-                from alias s
-                inner join alias_name n on s.id = n.id_alias
-                where n.name like @name";
+                select 
+                    n.Name        as Name,
+                    s.id          as Id,
+                    s.id_session  as IdSession,
+                    s.arguments   as Arguments,
+                    s.file_name   as FileName,
+                    s.notes       as Notes,
+                    s.run_as      as RunAs,
+                    s.start_mode  as StartMode,
+                    s.working_dir as WorkingDirectory
+                from 
+                    alias s
+                    inner join alias_name n on s.id = n.id_alias
+                where 
+                    n.name like @name
+                    and s.id_session = @sessionId";
 
             using (var c = BuildConnection())
             {
-                var result = c.Query<Alias>(sql, new { name })
+                var result = c.Query<Alias>(sql, new { name, sessionId })
                               .FirstOrDefault();
                 return result ?? Alias.Empty(name);
             }
@@ -263,14 +268,22 @@ namespace Probel.Lanceur.SQLiteDb.Services
             }
         }
 
-        public void SetUsage(Alias alias) => SetUsage(alias.Id);
-
-        public void SetUsage(long idAlias)
+        public void SetUsage(Alias alias)
         {
             using (var c = BuildConnection())
             {
-                var sql = @"insert into alias_usage (id_alias, time_stamp) values (@idAlias, @now)";
-                c.Execute(sql, new { idAlias, now = DateTime.Now });
+                var sql = @"
+                    insert into alias_usage (
+                        id_alias,
+                        id_session,
+                        time_stamp
+    
+                    ) values (
+                        @idAlias, 
+                        @idSession,
+                        @now
+                    )";
+                c.Execute(sql, new { idAlias = alias.Id, idSession = alias.IdSession, now = DateTime.Now });
             }
         }
 
