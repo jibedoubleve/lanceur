@@ -8,15 +8,15 @@ namespace Probel.Lanceur.Core.Services
     {
         #region Methods
 
-        IEnumerable<ChartPoint<DateTime, int>> GetChartPerDay();
+        IEnumerable<ChartPoint<DateTime, int>> GetChartPerDay(long idSession);
 
-        IEnumerable<ChartPoint<string, int>> GetChartPerDayOfWeek();
+        IEnumerable<ChartPoint<string, int>> GetChartPerDayOfWeek(long idSession);
 
-        IEnumerable<ChartPoint<string, int>> GetChartPerExecutionCount();
+        IEnumerable<ChartPoint<string, int>> GetChartPerExecutionCount(long idSession);
 
-        IEnumerable<ChartPoint<DateTime, int>> GetChartPerHourInDay();
+        IEnumerable<ChartPoint<DateTime, int>> GetChartPerHourInDay(long idSession);
 
-        IEnumerable<ChartPoint<DateTime, int>> GetChartPerMonth();
+        IEnumerable<ChartPoint<DateTime, int>> GetChartPerMonth(long idSession);
 
         #endregion Methods
     }
