@@ -116,7 +116,7 @@ Task("Zip")
         foreach(var d in dir.GetDirectories())
         {
             var pluginBin = d.FullName + @"\bin\Release\";
-            var dest = publishDir + "/" + d.Name.Replace("Probel.Lanceur.Plugins.","plugin-") + "-" + gitVersion.SemVer + ".bin.zip";
+            var dest = publishDir + "/" + d.Name.Replace("Probel.Lanceur.Plugin.","plugin-") + "-" + gitVersion.SemVer + ".bin.zip";
             assets.Add(dest);
 
             Information("Zipping plugin:  {0}", dest);
