@@ -226,6 +226,7 @@
     <Compile Include="Services\SessionQueries.cs" />
     <Compile Include="Services\UserNotifyer.cs" />
     <Compile Include="ViewModels\EditDoubloonsViewModel.cs" />
+    <Compile Include="ViewModels\EditObsoleteKeywordsViewModel.cs" />
     <Compile Include="ViewModels\EditPluginViewModel.cs" />
     <Compile Include="ViewModels\EditSessionViewModel.cs" />
     <Compile Include="ViewModels\EditAliasViewModel.cs" />
@@ -237,6 +238,9 @@
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="Views\EditDoubloonsView.xaml.cs">
       <DependentUpon>EditDoubloonsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditObsoleteKeywordsView.xaml.cs">
+      <DependentUpon>EditObsoleteKeywordsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\EditPluginView.xaml.cs">
       <DependentUpon>EditPluginView.xaml</DependentUpon>
@@ -342,6 +346,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EditDoubloonsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\EditObsoleteKeywordsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -9,6 +9,7 @@ namespace Probel.Lanceur.ViewModels
 
         private string _appVersion;
         private EditDoubloonsViewModel _editDoubloonsViewModel;
+        private EditObsoleteKeywordsViewModel _editEmptyKeywordsViewModel;
         private EditPluginViewModel _editPluginViewModel;
         private EditSessionViewModel _editSessionViewModel;
         private ListAliasViewModel _listAliasViewModel;
@@ -24,8 +25,10 @@ namespace Probel.Lanceur.ViewModels
             SettingsViewModel settingsViewModel,
             EditSessionViewModel editSessionViewModel,
             EditDoubloonsViewModel editDoubloonsViewModel,
+            EditObsoleteKeywordsViewModel editEmptyKeywordsViewModel,
             EditPluginViewModel editPluginViewModel)
         {
+            EditObsoleteKeywordsViewModel = editEmptyKeywordsViewModel;
             EditDoubloonsViewModel = editDoubloonsViewModel;
             EditPluginViewModel = editPluginViewModel;
             EditSessionViewModel = editSessionViewModel;
@@ -52,6 +55,12 @@ namespace Probel.Lanceur.ViewModels
         {
             get => _editDoubloonsViewModel;
             set => Set(ref _editDoubloonsViewModel, value, nameof(EditDoubloonsViewModel));
+        }
+
+        public EditObsoleteKeywordsViewModel EditObsoleteKeywordsViewModel
+        {
+            get => _editEmptyKeywordsViewModel;
+            set => Set(ref _editEmptyKeywordsViewModel, value, nameof(EditObsoleteKeywordsViewModel));
         }
 
         public EditPluginViewModel EditPluginViewModel

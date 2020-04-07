@@ -1,16 +1,17 @@
 ﻿using Probel.Lanceur.ViewModels;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Probel.Lanceur.Views
 {
     /// <summary>
-    /// Interaction logic for EditDoubloonsView.xaml
+    /// Interaction logic for EditEmptyKeywordsView.xaml
     /// </summary>
-    public partial class EditDoubloonsView : UserControl
+    public partial class EditObsoleteKeywordsView : UserControl
     {
         #region Constructors
 
-        public EditDoubloonsView()
+        public EditObsoleteKeywordsView()
         {
             InitializeComponent();
         }
@@ -19,13 +20,13 @@ namespace Probel.Lanceur.Views
 
         #region Properties
 
-        private EditDoubloonsViewModel ViewModel => DataContext as EditDoubloonsViewModel;
+        private EditObsoleteKeywordsViewModel ViewModel => DataContext as EditObsoleteKeywordsViewModel;
 
         #endregion Properties
 
         #region Methods
 
-        private void OnDeleteDoubloon(object sender, System.Windows.RoutedEventArgs e)
+        private void OnDeleteDoubloon(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.Tag is long id)
             {

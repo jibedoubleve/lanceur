@@ -34,6 +34,9 @@
             <TabItem x:Name="_tabDoubloons" Header="Doubloons">
                 <ContentControl x:Name="EditDoubloonsViewModel" />
             </TabItem>
+            <TabItem x:Name="_tabObsolete" Header="Empty keywords">
+                <ContentControl x:Name="EditObsoleteKeywordsViewModel" />
+            </TabItem>
         </Controls:MetroAnimatedTabControl>
         <StatusBar Grid.Row="1">
             <StatusBarItem HorizontalAlignment="Right" Content="{Binding AppVersion}" />

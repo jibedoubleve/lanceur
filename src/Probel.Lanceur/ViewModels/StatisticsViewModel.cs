@@ -91,8 +91,11 @@ namespace Probel.Lanceur.ViewModels
         public Func<int, string> FormatterCount { get; }
 
         public Func<double, string> FormatterDay { get; }
+
         public Func<double, string> FormatterHour { get; }
+
         public Func<double, string> FormatterMonth { get; }
+
         public ObservableCollection<string> LabelsDayOfWeek { get; set; }
 
         public ObservableCollection<string> LabelsHour { get; set; }

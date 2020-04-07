@@ -4,6 +4,7 @@ using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Services;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace Probel.Lanceur.ViewModels
 {
@@ -22,7 +23,7 @@ namespace Probel.Lanceur.ViewModels
         #region Constructors
 
         public EditDoubloonsViewModel(IUserNotifyer notifyer,
-                            IDataSourceService dataService,
+            IDataSourceService dataService,
             ISettingsService settingService)
         {
             _settingService = settingService;
@@ -58,9 +59,11 @@ namespace Probel.Lanceur.ViewModels
 
         public void RefreshData()
         {
+            Mouse.OverrideCursor = Cursors.Wait;
             var s = _settingService.Get();
             var doubloons = _dataService.GetDoubloons(s.SessionId);
             Doubloons = new ObservableCollection<Doubloon>(doubloons);
+            Mouse.OverrideCursor = null;
         }
 
         #endregion Methods
