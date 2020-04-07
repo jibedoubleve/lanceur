@@ -27,7 +27,7 @@ namespace Probel.Lanceur.Services
         //TODO: need improvment. UI should be in the Mahapps fashion
         public MessageDialogResult Ask(string message, string title = null)
         {
-            var result = MessageBox.Show(message, title ?? "QUESTION", MessageBoxButton.OK, MessageBoxImage.Question);
+            var result = MessageBox.Show(message, title ?? "QUESTION", MessageBoxButton.YesNo, MessageBoxImage.Question);
             switch (result)
             {
                 case MessageBoxResult.None: return MessageDialogResult.Canceled;

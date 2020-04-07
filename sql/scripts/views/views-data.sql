@@ -19,7 +19,7 @@ create view data_not_used_v as
     where 
         s.exec_count is null	
         or s.exec_count = 0
-    group by a.id;    
+    group by a.id;
 -------------------------------------------------------------------------------
 /*
  * Displays all the doubloons
@@ -27,33 +27,35 @@ create view data_not_used_v as
 drop view if exists data_doubloons_v;
 create view data_doubloons_v as
     select 
-        a.id,        
-        a.id_session, 
-        group_concat(sn.name, ', ') as keywords,
-        a.file_name,
-        a.arguments,
-        a.run_as,
-        a.working_dir
-    from 	
-        alias a
-        inner join alias_name sn on a.id = sn.id_alias
-        left join (
-            select 	
-	            a.file_name,
-	            a.arguments,
-    	        a.run_as,
-                a.working_dir
-            from 
-    	        alias a
+        d.*,
+        group_concat(an.name, ', ') as keywords
+    from (
+        select 
+            a.*
+        from alias a 
+        inner join (
+            select 
+                file_name   as file_name, 
+                id_session  as id_session ,
+                arguments   as arguments ,
+                run_as      as run_as ,
+                working_dir as working_dir,  
+                id_session  as id_session
+            from alias
             group by 
-    	        a.file_name,
-    	        a.arguments,
-    	        a.run_as,
-                a.working_dir
-            having 
-    	        count(a.id) >= 2
-        ) t on a.file_name = t.file_name
-    where 
-        t.file_name is not null	
-    group by a.id	
-    order by a.file_name;    
+                file_name, 
+                id_session,		
+                arguments,
+                run_as,
+                working_dir 
+            having count(*) > 1
+        ) d on  
+            a.file_name         = d.file_name
+            and a.id_session    = d.id_session
+            and a.run_as        = d.run_as
+            and ((a.working_dir = d.working_dir) is null or a.working_dir = d.working_dir) 
+            and ((a.arguments   = d.arguments) is null   or a.arguments =d.arguments)
+        order by a.file_name
+    ) d
+    inner join alias_name an on d.id = an.id_alias
+    group by d.id;

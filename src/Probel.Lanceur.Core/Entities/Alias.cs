@@ -42,12 +42,6 @@
         #endregion Properties
 
         #region Methods
-        public static Alias Reserved(string name) => new Alias
-        {
-            FileName = "__RESERVED_KEYWORD__",
-            Name = name.ToUpper(),
-            IsExecutable = false
-        };
 
         public static Alias Empty(string name) => new Alias()
         {
@@ -57,6 +51,15 @@
         };
 
         public static implicit operator Alias(string name) => new Alias() { FileName = name };
+
+        public static implicit operator Alias(long id) => new Alias() { Id = id };
+
+        public static Alias Reserved(string name) => new Alias
+        {
+            FileName = "__RESERVED_KEYWORD__",
+            Name = name.ToUpper(),
+            IsExecutable = false
+        };
 
         #endregion Methods
     }

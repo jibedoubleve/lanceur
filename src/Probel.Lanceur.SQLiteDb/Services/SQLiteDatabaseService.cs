@@ -350,6 +350,26 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         private DbConnection BuildConnection() => new SQLiteConnection(_connectionString);
 
+        public IEnumerable<Doubloon> GetDoubloons(long idSession)
+        {
+            var sql = @"
+                select 
+	                id          as Id,
+	                id_session  as IdSession,
+	                keywords    as Keywords,
+	                file_name   as FileName,
+	                arguments   as Arguments,
+	                run_as      as RunAs,
+	                working_dir as WorkingDir 
+                from data_doubloons_v
+                where id_session = @idSession";
+
+            using (var db = BuildConnection())
+            {
+                return db.Query<Doubloon>(sql, new { idSession });
+            }
+        }
+
         #endregion Methods
     }
 }

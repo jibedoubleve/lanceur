@@ -20,24 +20,19 @@
         </Grid.RowDefinitions>
         <Controls:MetroAnimatedTabControl SelectedIndex="{Binding SelectedTab, UpdateSourceTrigger=PropertyChanged}" SelectionChanged="OnTabControlSelectionChanged">
             <TabItem x:Name="_tabKeywords" Header="Keywords">
-                <Grid>
-                    <ContentControl x:Name="ListAliasViewModel" />
-                </Grid>
+                <ContentControl x:Name="ListAliasViewModel" />
             </TabItem>
             <TabItem x:Name="_tabSettings" Header="Settings">
-                <Grid>
-                    <ContentControl x:Name="SettingsViewModel" />
-                </Grid>
+                <ContentControl x:Name="SettingsViewModel" />
             </TabItem>
             <TabItem x:Name="_tabSessions" Header="Sessions">
-                <Grid>
-                    <ContentControl x:Name="EditSessionViewModel" />
-                </Grid>
+                <ContentControl x:Name="EditSessionViewModel" />
             </TabItem>
             <TabItem x:Name="_tabPlugins" Header="Plugins">
-                <Grid>
-                    <ContentControl x:Name="EditPluginViewModel" />
-                </Grid>
+                <ContentControl x:Name="EditPluginViewModel" />
+            </TabItem>
+            <TabItem x:Name="_tabDoubloons" Header="Doubloons">
+                <ContentControl x:Name="EditDoubloonsViewModel" />
             </TabItem>
         </Controls:MetroAnimatedTabControl>
         <StatusBar Grid.Row="1">

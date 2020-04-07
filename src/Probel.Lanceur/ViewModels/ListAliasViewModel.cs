@@ -16,6 +16,7 @@ namespace Probel.Lanceur.ViewModels
     {
         #region Fields
 
+        public AppSettings _appSettings;
         private readonly IDataSourceService _databaseService;
         private readonly IDialogCoordinator _dialog;
         private readonly ILogService _log;
@@ -24,13 +25,16 @@ namespace Probel.Lanceur.ViewModels
         private IEnumerable<AliasModel> _bufferAlias;
         private AliasModel _selectedAlias;
         private ObservableCollection<AliasModel> aliases;
-        public AppSettings _appSettings;
 
         #endregion Fields
 
         #region Constructors
 
-        public ListAliasViewModel(IDataSourceService databaseService, IDialogCoordinator dialog, EditAliasViewModel editaliasViewModel, ILogService log, ISettingsService settingService)
+        public ListAliasViewModel(IDataSourceService databaseService, 
+            IDialogCoordinator dialog, 
+            EditAliasViewModel editaliasViewModel, 
+            ILogService log, 
+            ISettingsService settingService)
         {
             _settingService = settingService;
             _appSettings = settingService.Get();

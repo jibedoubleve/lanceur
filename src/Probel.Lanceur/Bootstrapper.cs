@@ -88,6 +88,7 @@ namespace Probel.Lanceur
             _container.RegisterType<SetupViewModel>();
             _container.RegisterType<EditSessionViewModel>();
             _container.RegisterType<EditPluginViewModel>();
+            _container.RegisterType<EditDoubloonsViewModel>();
 
             /* Default commands */
             ConfigureInternalCommands();
