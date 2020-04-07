@@ -25,16 +25,16 @@ namespace Probel.Lanceur.Services
         #region Methods
 
         //TODO: need improvment. UI should be in the Mahapps fashion
-        public MessageDialogResult Ask(string message, string title = null)
+        public NotificationResult Ask(string message, string title = null)
         {
             var result = MessageBox.Show(message, title ?? "QUESTION", MessageBoxButton.YesNo, MessageBoxImage.Question);
             switch (result)
             {
-                case MessageBoxResult.None: return MessageDialogResult.Canceled;
+                case MessageBoxResult.None: return NotificationResult.Canceled;
                 case MessageBoxResult.OK:
-                case MessageBoxResult.Yes: return MessageDialogResult.Affirmative;
+                case MessageBoxResult.Yes: return NotificationResult.Affirmative;
                 case MessageBoxResult.Cancel:
-                case MessageBoxResult.No: return MessageDialogResult.Negative;
+                case MessageBoxResult.No: return NotificationResult.Negative;
                 default: throw new NotSupportedException($"The answer '{result}' is not supported.");
             }
         }

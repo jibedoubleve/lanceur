@@ -1,12 +1,17 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-
-namespace Probel.Lanceur.Services
+﻿namespace Probel.Lanceur.Services
 {
+    public enum NotificationResult
+    {
+        Negative,
+        Affirmative,
+        Canceled,
+    }
+
     public interface IUserNotifyer
     {
         #region Methods
 
-        MessageDialogResult Ask(string message, string title = null);
+        NotificationResult Ask(string message, string title = null);
 
         void NotifyError(string message, string title = null);
 

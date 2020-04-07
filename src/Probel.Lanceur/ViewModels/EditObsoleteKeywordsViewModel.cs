@@ -51,7 +51,7 @@ namespace Probel.Lanceur.ViewModels
         public void DeleteCurrent(long id)
         {
             var response = _notifyer.Ask("Do you want to delete this doubloon?");
-            if (response == MessageDialogResult.Affirmative)
+            if (response == NotificationResult.Affirmative)
             {
                 _dataService.Delete(id);
                 RefreshData();
