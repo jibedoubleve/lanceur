@@ -11,7 +11,7 @@
 
 #define MyAppName "Lanceur"
 #define MyAppPublisher "Probel"
-#define MyAppURL "http://www.probel.xyz/"
+#define MyAppURL "https://github.com/jibedoubleve/lanceur"
 #define MyAppExeName "Probel.Lanceur.exe"
 
 [Setup]
@@ -44,6 +44,11 @@ Name: startup; Description: "Automatically start on login"; GroupDescription: "{
 Source: "{#BinDirectory}{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#BinDirectory}*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+;----------------------------------------------------------------
+;-- binaries of the plugins
+;----------------------------------------------------------------
+Source: "{#SpotifyPluginDir}*"; DestDir: "{userappdata}\probel\lanceur\plugins\spotify\"; Flags: ignoreversion
+Source: "{#CalculatorPluginDir}*"; DestDir: "{userappdata}\probel\lanceur\plugins\calculator\"; Flags: ignoreversion
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

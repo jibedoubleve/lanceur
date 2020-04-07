@@ -19,6 +19,12 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var verbosity = Argument("verbosity", Verbosity.Minimal);
 
+/* This list contains the path of the assets to release.
+ * It is cleared and filled into task "Zip" and used into
+ * the task "Release-GitHub".
+ */
+var assets = new List<string>(); 
+
 ///////////////////////////////////////////////////////////////////////////////
 // PREPARATION
 ///////////////////////////////////////////////////////////////////////////////
@@ -27,6 +33,7 @@ var verbosity = Argument("verbosity", Verbosity.Minimal);
 var solution   = "./src/Probel.Lanceur.sln";
 var publishDir = "./Publish/";
 var inno_setup = "./setup.iss";
+var binPluginDir    = $"./src/plugins/Probel.Lanceur.Plugin.{{0}}/bin/{configuration}/";
 
 GitVersion gitVersion = GitVersion(new GitVersionSettings 
 { 
@@ -104,19 +111,39 @@ Task("Zip")
 
         EnsureDirectoryExists(Directory(publishDir));
         Zip(binDirectory, zipName);
+
+        var dir = new DirectoryInfo(binDirectory + @"/../../../plugins/");        
+        foreach(var d in dir.GetDirectories())
+        {
+            var pluginBin = d.FullName + @"\bin\Release\";
+            var dest = publishDir + "/" + d.Name.Replace("Probel.Lanceur.Plugins.","plugin-") + "-" + gitVersion.SemVer + ".bin.zip";
+            assets.Add(dest);
+
+            Information("Zipping plugin:  {0}", dest);
+            Information("  pluginBin   : {0}", pluginBin);
+            Information("  dest        : {0}", dest);
+
+            Zip(pluginBin, dest);
+        }
     
 });  
 
 Task("Inno-Setup")
     .Does(() => {
-        var path = binDirectory.Replace("/", "\\").TrimStart('.').TrimStart('\\');
-        Information("Path: {0}: ", path);
+        var path      = MakeAbsolute(Directory(binDirectory)).FullPath + "\\";
+        var pluginDir = MakeAbsolute(Directory(binPluginDir)).FullPath + "\\";
+        var plugins   = new string[] { "spotify", "calculator" }; 
+        
+        Information("Bin path   : {0}: ", path);
+        Information("Plugin path: {0}: ", pluginDir);
 
         InnoSetup(inno_setup, new InnoSetupSettings { 
             OutputDirectory = publishDir,
             Defines = new Dictionary<string, string> {
-                 { "MyAppVersion", gitVersion.SemVer },
-                 { "BinDirectory", path }
+                { "MyAppVersion", gitVersion.SemVer },
+                { "BinDirectory", path },
+                { "SpotifyPluginDir", String.Format(pluginDir, plugins[0]) },
+                { "CalculatorPluginDir", String.Format(pluginDir, plugins[1]) },
             }
         });
 });
@@ -132,7 +159,10 @@ Task("Release-GitHub")
             Milestone         = "V" + gitVersion.MajorMinorPatch,            
             Name              = gitVersion.SemVer,
             Prerelease        = gitVersion.SemVer.Contains("alpha"),
-            Assets            = publishDir + "/lanceur." + gitVersion.SemVer + ".bin.zip," + publishDir + "/lanceur." + gitVersion.SemVer + ".setup.exe",
+            Assets            = publishDir + "/lanceur." + gitVersion.SemVer + ".bin.zip," 
+                              + publishDir + "/lanceur." + gitVersion.SemVer + ".setup.exe,"
+                              + publishDir + "/plugin-calculator-" + gitVersion.SemVer + ".bin.zip," 
+                              + publishDir + "/plugin-spotify-" + gitVersion.SemVer + ".bin.zip" 
         };
 
         GitReleaseManagerCreate(token, owner, "Lanceur", stg);  
