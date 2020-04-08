@@ -22,120 +22,120 @@
         <Thickness x:Key="ExpanderBorder">5 5</Thickness>
         <Thickness x:Key="SettingsBorder">15 5 5 5</Thickness>
     </UserControl.Resources>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-            <TextBlock
-                Margin="0,10,0,10"
-                HorizontalAlignment="Center"
-                FontSize="30"
-                FontWeight="Bold"
-                Foreground="Red"
-                Text="Restart needed!"
-                Visibility="{Binding IsRebootNeeded, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <ScrollViewer Grid.Row="1">
-                <StackPanel>
-                    <Border
-                        Margin="{StaticResource ExpanderBorder}"
-                        Padding="6"
-                        Background="{DynamicResource AccentColorBrush4}">
-                        <TextBlock
-                            FontSize="14"
-                            FontWeight="Bold"
-                            Foreground="White"
-                            Text="Window settings" />
-                    </Border>
-                    <StackPanel Margin="{StaticResource SettingsBorder}">
-                        <Controls:MetroHeader Margin="{StaticResource DefaultBorder}">
-                            <Controls:MetroHeader.Header>
-                                <TextBlock Text="{Binding AppSettings.WindowSection.Opacity, Converter={StaticResource OpacityToSliderConverter}, UpdateSourceTrigger=PropertyChanged, StringFormat=Opacity {0} %}" />
-                            </Controls:MetroHeader.Header>
-                            <Slider
-                                IsSnapToTickEnabled="True"
-                                Maximum="100"
-                                Minimum="0"
-                                SmallChange="1"
-                                TickFrequency="1"
-                                TickPlacement="TopLeft"
-                                Value="{Binding AppSettings.WindowSection.Opacity, Converter={StaticResource OpacityToSliderConverter}, UpdateSourceTrigger=PropertyChanged}" />
-                        </Controls:MetroHeader>
-                        <StackPanel>
-                            <Controls:MetroHeader Margin="{StaticResource DefaultBorder}" Header="Background Colour">
-                                <xctk:ColorPicker
-                                    Grid.Column="1"
-                                    Margin="0,5,0,0"
-                                    AvailableColorsSortingMode="HueSaturationBrightness"
-                                    Background="Transparent"
-                                    DisplayColorAndName="True"
-                                    DropDownBackground="{DynamicResource MenuItemBackgroundBrush}"
-                                    SelectedColor="{Binding AppSettings.WindowSection.Colour, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ColourToHexaConverter}}" />
-                            </Controls:MetroHeader>
-                        </StackPanel>
-                    </StackPanel>
-                    <Border
-                        Margin="{StaticResource ExpanderBorder}"
-                        Padding="6"
-                        Background="{DynamicResource AccentColorBrush4}">
-                        <TextBlock
-                            FontSize="14"
-                            FontWeight="Bold"
-                            Foreground="White"
-                            Text="General" />
-                    </Border>
-                    <StackPanel Margin="{StaticResource SettingsBorder}">
-                        <Controls:MetroHeader Margin="0,0,0,5" Header="Alias">
-                            <Controls:HotKeyBox HotKey="{Binding AppSettings.HotKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource MahAppsHotKeyToSettingsHotKey}}" />
-                        </Controls:MetroHeader>
-                        <ctrl:HeaderComboBox
-                            DisplayMemberPath="Name"
-                            Header="Loaded Session"
-                            ItemsSource="{Binding Sessions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                            SelectedItem="{Binding CurrentSession, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-                    </StackPanel>
-                    <Border
-                        Margin="{StaticResource ExpanderBorder}"
-                        Padding="6"
-                        Background="{DynamicResource AccentColorBrush4}">
-                        <TextBlock
-                            FontSize="14"
-                            FontWeight="Bold"
-                            Foreground="White"
-                            Text="Database" />
-                    </Border>
-                    <Controls:MetroHeader Margin="{StaticResource DefaultBorder}" Header="Database path">
-                        <DockPanel Margin="{StaticResource SettingsBorder}" LastChildFill="True">
-                            <Button
-                                Width="90"
-                                Margin="10,5,5,5"
-                                BorderThickness="0"
-                                Click="OnSelectDbClick"
-                                Content="Select"
-                                DockPanel.Dock="Right" />
-                            <TextBox
-                                x:Name="_tbPath"
-                                Margin="5"
-                                VerticalAlignment="Center"
-                                DockPanel.Dock="Left"
-                                Text="{Binding DatabasePath, UpdateSourceTrigger=PropertyChanged}" />
-                        </DockPanel>
+        <TextBlock
+            Margin="0,10,0,10"
+            HorizontalAlignment="Center"
+            FontSize="30"
+            FontWeight="Bold"
+            Foreground="Red"
+            Text="Restart needed!"
+            Visibility="{Binding IsRebootNeeded, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <Border
+                    Margin="{StaticResource ExpanderBorder}"
+                    Padding="6"
+                    Background="{DynamicResource AccentColorBrush4}">
+                    <TextBlock
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Text="Window settings" />
+                </Border>
+                <StackPanel Margin="{StaticResource SettingsBorder}">
+                    <Controls:MetroHeader Margin="{StaticResource DefaultBorder}">
+                        <Controls:MetroHeader.Header>
+                            <TextBlock Text="{Binding AppSettings.WindowSection.Opacity, Converter={StaticResource OpacityToSliderConverter}, UpdateSourceTrigger=PropertyChanged, StringFormat=Opacity {0} %}" />
+                        </Controls:MetroHeader.Header>
+                        <Slider
+                            IsSnapToTickEnabled="True"
+                            Maximum="100"
+                            Minimum="0"
+                            SmallChange="1"
+                            TickFrequency="1"
+                            TickPlacement="TopLeft"
+                            Value="{Binding AppSettings.WindowSection.Opacity, Converter={StaticResource OpacityToSliderConverter}, UpdateSourceTrigger=PropertyChanged}" />
                     </Controls:MetroHeader>
+                    <StackPanel>
+                        <Controls:MetroHeader Margin="{StaticResource DefaultBorder}" Header="Background Colour">
+                            <xctk:ColorPicker
+                                Grid.Column="1"
+                                Margin="0,5,0,0"
+                                AvailableColorsSortingMode="HueSaturationBrightness"
+                                Background="Transparent"
+                                DisplayColorAndName="True"
+                                DropDownBackground="{DynamicResource MenuItemBackgroundBrush}"
+                                SelectedColor="{Binding AppSettings.WindowSection.Colour, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ColourToHexaConverter}}" />
+                        </Controls:MetroHeader>
+                    </StackPanel>
                 </StackPanel>
-            </ScrollViewer>
-            <StackPanel Grid.Row="2">
-                <Button
-                    x:Name="ResetSettings"
-                    Margin="{StaticResource DefaultBorder}"
-                    Content="Reset Configuration"
-                    Style="{DynamicResource SquareButtonStyle}" />
-                <Button
-                    x:Name="SaveSettings"
-                    Margin="{StaticResource DefaultBorder}"
-                    Content="Save"
-                    Style="{DynamicResource AccentedSquareButtonStyle}" />
+                <Border
+                    Margin="{StaticResource ExpanderBorder}"
+                    Padding="6"
+                    Background="{DynamicResource AccentColorBrush4}">
+                    <TextBlock
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Text="General" />
+                </Border>
+                <StackPanel Margin="{StaticResource SettingsBorder}">
+                    <Controls:MetroHeader Margin="0,0,0,5" Header="Alias">
+                        <Controls:HotKeyBox HotKey="{Binding AppSettings.HotKey, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource MahAppsHotKeyToSettingsHotKey}}" />
+                    </Controls:MetroHeader>
+                    <ctrl:HeaderComboBox
+                        DisplayMemberPath="Name"
+                        Header="Loaded Session"
+                        ItemsSource="{Binding Sessions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                        SelectedItem="{Binding CurrentSession, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                </StackPanel>
+                <Border
+                    Margin="{StaticResource ExpanderBorder}"
+                    Padding="6"
+                    Background="{DynamicResource AccentColorBrush4}">
+                    <TextBlock
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Text="Database" />
+                </Border>
+                <Controls:MetroHeader Margin="{StaticResource DefaultBorder}" Header="Database path">
+                    <DockPanel Margin="{StaticResource SettingsBorder}" LastChildFill="True">
+                        <Button
+                            Width="90"
+                            Margin="10,5,5,5"
+                            BorderThickness="0"
+                            Click="OnSelectDbClick"
+                            Content="Select"
+                            DockPanel.Dock="Right" />
+                        <TextBox
+                            x:Name="_tbPath"
+                            Margin="5"
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Left"
+                            Text="{Binding DatabasePath, UpdateSourceTrigger=PropertyChanged}" />
+                    </DockPanel>
+                </Controls:MetroHeader>
             </StackPanel>
-        </Grid>
+        </ScrollViewer>
+        <StackPanel Grid.Row="2">
+            <Button
+                x:Name="ResetSettings"
+                Margin="{StaticResource DefaultBorder}"
+                Content="Reset Configuration"
+                Style="{DynamicResource SquareButtonStyle}" />
+            <Button
+                x:Name="SaveSettings"
+                Margin="{StaticResource DefaultBorder}"
+                Content="Save"
+                Style="{DynamicResource AccentedSquareButtonStyle}" />
+        </StackPanel>
+    </Grid>
 </UserControl>

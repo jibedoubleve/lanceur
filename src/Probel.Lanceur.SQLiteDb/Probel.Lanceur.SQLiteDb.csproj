@@ -82,27 +82,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\..\sql\scripts\update-0.1.sql">
-      <Link>Assets\Scripts\update-0.1.sql</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\..\sql\scripts\update-0.2.sql">
-      <Link>Assets\Scripts\update-0.2.sql</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\..\sql\scripts\views\views-data.sql">
-      <Link>Assets\Scripts\views-data.sql</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\..\sql\scripts\views\views-stat.sql">
-      <Link>Assets\Scripts\views-stat.sql</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\..\sql\scripts\update-0.3.sql">
-      <Link>Assets\Scripts\update-0.3.sql</Link>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Assets\Scripts\update-0.1.sql" />
+    <EmbeddedResource Include="Assets\Scripts\update-0.2.sql" />
+    <EmbeddedResource Include="Assets\Scripts\update-0.3.sql" />
+    <EmbeddedResource Include="Assets\Scripts\views-data.sql" />
+    <EmbeddedResource Include="Assets\Scripts\views-helpers.sql" />
+    <EmbeddedResource Include="Assets\Scripts\views-stat.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets')" />

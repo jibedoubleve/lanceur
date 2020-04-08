@@ -46,10 +46,10 @@ namespace Probel.Lanceur.SQLiteDb.Services
                         SetVersion(res.Key, c);
                     }
                 }
-                foreach (var sql in GetViewsDDL())
+                foreach (var script in GetViewsDDL())
                 {
-                    _logger.Info($"Executing view script");
-                    Execute(sql, c);
+                    _logger.Info($"Executing view script '{script}'");
+                    Execute(script, c);
                 }
             }
         }
