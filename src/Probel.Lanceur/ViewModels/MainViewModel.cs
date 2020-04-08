@@ -79,17 +79,20 @@ namespace Probel.Lanceur.ViewModels
 
         public string Colour
         {
-#if DEBUG
-            get
-            {
-                _colour = "Crimson";
-                return _colour;
-            }
-            set { }
-#else
             get => _colour;
             set => Set(ref _colour, value, nameof(Colour));
+        }
+
+        public bool IsDebug
+        {
+            get
+            {
+#if DEBUG
+                return true;
+#else
+                return false;
 #endif
+            }
         }
 
         public bool IsOnError

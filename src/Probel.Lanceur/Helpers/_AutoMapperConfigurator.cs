@@ -23,10 +23,7 @@ namespace Probel.Lanceur.Helpers
 
             //Settings
             e.CreateMap<AppSettings, AppSettingsModel>();
-            e.CreateMap<WindowSettings, WindowSettingsModel>()
-                .ForMember(src => src.ColourRed, opt => opt.Ignore())
-                .ForMember(src => src.ColourGreen, opt => opt.Ignore())
-                .ForMember(src => src.ColourBlue, opt => opt.Ignore());
+            e.CreateMap<WindowSettings, WindowSettingsModel>();
             e.CreateMap<PositionSettings, PositionSettingsModel>();
             e.CreateMap<HotKeySettings, HotKeySettingsModel>();
             e.CreateMap<AliasSession, AliasSessionModel>();

@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     x:Name="_self"
     Title="Lanceur"
     Width="650"
@@ -31,6 +32,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <conv:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" />
         <conv:StringToColourBrushConverter x:Key="StringToColourBrushConverter" />
+        <sys:Double x:Key="DefaultIconSize">30</sys:Double>
     </Window.Resources>
     <Window.Background>
         <SolidColorBrush Opacity="{Binding Opacity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Color="{Binding Colour, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToColourBrushConverter}}" />
@@ -43,10 +45,36 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <DockPanel Grid.ColumnSpan="2" Visibility="{Binding IsDebug, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <iconPacks:PackIconMaterial
+                Width="{StaticResource DefaultIconSize}"
+                Height="{StaticResource DefaultIconSize}"
+                VerticalAlignment="Center"
+                DockPanel.Dock="Left"
+                Foreground="Crimson"
+                Kind="AndroidDebugBridge" />
+            <iconPacks:PackIconMaterial
+                Width="{StaticResource DefaultIconSize}"
+                Height="{StaticResource DefaultIconSize}"
+                VerticalAlignment="Center"
+                DockPanel.Dock="Right"
+                Foreground="Crimson"
+                Kind="AndroidDebugBridge" />
+            <TextBlock
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                DockPanel.Dock="Left"
+                FontSize="25pt"
+                FontWeight="DemiBold"
+                Foreground="Crimson"
+                Text="DEBUG" />
+        </DockPanel>
         <TextBox
             x:Name="AliasTextBox"
+            Grid.Row="1"
             Margin="5"
             cal:Message.Attach="[GotFocus]=[OnShow]"
             Background="Transparent"
@@ -59,6 +87,7 @@
             PreviewKeyDown="OnKeyPressed"
             TextChanged="OnTextChanged" />
         <iconPacks:PackIconModern
+            Grid.Row="1"
             Grid.Column="1"
             Margin="5,0,0,0"
             VerticalAlignment="Center"
@@ -66,7 +95,7 @@
             Kind="Warning"
             Visibility="{Binding IsOnError, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2">
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
             <c:ResultList
                 x:Name="Results"
                 MaxHeight="350"
