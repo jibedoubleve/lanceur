@@ -194,6 +194,7 @@
     <Compile Include="Events\AliasTextEventArgs.cs" />
     <Compile Include="Helpers\DeactivateHotKey.cs" />
     <Compile Include="Helpers\MahappsHelper.cs" />
+    <Compile Include="Helpers\SingleAppInstance.cs" />
     <Compile Include="Models\NewAliasSessionModel.cs" />
     <Compile Include="Models\Settings\AppSettingsModel.cs" />
     <Compile Include="Models\Settings\PositionSettingsModel.cs" />

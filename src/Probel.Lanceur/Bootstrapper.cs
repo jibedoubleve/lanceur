@@ -16,6 +16,7 @@ using Probel.Lanceur.SQLiteDb.Services;
 using Probel.Lanceur.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using Unity;
@@ -101,11 +102,20 @@ namespace Probel.Lanceur
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-            var u = _container.Resolve<IUpdateService>();
 
-            u.UpdateDatabase();
+            var hasMutex = SingleInstance.WaitOne();
 
-            DisplayRootViewFor<MainViewModel>();
+            if (hasMutex)
+            {
+                var u = _container.Resolve<IUpdateService>();
+                u.UpdateDatabase();
+                DisplayRootViewFor<MainViewModel>();
+            }
+            else
+            {
+                MessageBox.Show("An instance of Lanceur is already running.", "Warning", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                Environment.Exit(0);
+            }
         }
 
         protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -115,8 +125,12 @@ namespace Probel.Lanceur
 
             n.NotifyError($"Unexpected crash occured: {e.Exception.Message}");
             l.Fatal($"Unexpected crash occured: {e.Exception.Message}", e.Exception);
+
+
             e.Handled = true;
             base.OnUnhandledException(sender, e);
+
+            SingleInstance.ReleaseMutex();
         }
 
         private void ConfigureInternalCommands()
