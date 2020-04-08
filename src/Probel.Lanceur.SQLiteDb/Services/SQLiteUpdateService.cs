@@ -30,10 +30,18 @@ namespace Probel.Lanceur.SQLiteDb.Services
         public void UpdateDatabase()
         {
             var rm = new EmbeddedResourceManager();
+            if (IsEmptyDatabase())
+            {
+                //Build first tables
+                var script = "Probel.Lanceur.SQLiteDb.Assets.Scripts.ddl.sql";
+                _logger.Info($"Create first tables. Applying script '{script}'");
+
+                rm.ReadResourceAsString(script, content => ExecuteScript(content));
+            }
             if (!HasTableSettings())
             {
                 var script = "Probel.Lanceur.SQLiteDb.Assets.Scripts.update-0.1.sql";
-                _logger.Trace($"Do not has table 'settings'. Applying script '{script}'");
+                _logger.Info($"Table 'settings' does not exist. Applying script '{script}'");
 
                 rm.ReadResourceAsString(script, content => ExecuteScript(content));
             }
@@ -64,6 +72,15 @@ namespace Probel.Lanceur.SQLiteDb.Services
             {
                 var sql = "select count(name) from sqlite_master where type = 'table' and name = 'settings';";
                 return (long)c.ExecuteScalar(sql) > 0;
+            }
+        }
+
+        private bool IsEmptyDatabase()
+        {
+            using (var c = BuildConnection())
+            {
+                var sql = "select count(name) from sqlite_master where type = 'table';";
+                return (long)c.ExecuteScalar(sql) == 0;
             }
         }
 

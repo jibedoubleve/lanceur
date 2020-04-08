@@ -33,7 +33,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
         public void Update()
         {
             var cur = GetCurrentVersion();
-            _logger.Trace($"Current version is {cur}");
+            _logger.Debug($"Current version is {cur}");
 
             using (var c = BuildConnection())
             {
