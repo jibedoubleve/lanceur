@@ -6,7 +6,7 @@ namespace Probel.Lanceur.Models.Settings
     {
         #region Fields
 
-        private DatabaseSettingsModel _databaseSection;
+        private string _databasePath;
         private HotKeySettingsModel _hotKey;
         private long _sessionId;
         private WindowSettingsModel _windowSection;
@@ -25,10 +25,10 @@ namespace Probel.Lanceur.Models.Settings
 
         #region Properties
 
-        public DatabaseSettingsModel DatabaseSection
+        public string DatabasePath
         {
-            get => _databaseSection;
-            set => Set(ref _databaseSection, value, nameof(DatabaseSection));
+            get => _databasePath;
+            set => Set(ref _databasePath, value, nameof(DatabasePath));
         }
 
         public HotKeySettingsModel HotKey

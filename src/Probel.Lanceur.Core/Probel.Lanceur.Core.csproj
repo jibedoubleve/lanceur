@@ -59,7 +59,6 @@
     <Compile Include="Entities\AliasText.cs" />
     <Compile Include="Entities\ChartPoint.cs" />
     <Compile Include="Entities\Doubloon.cs" />
-    <Compile Include="Entities\Settings\DatabaseSettings.cs" />
     <Compile Include="PluginsImpl\EmptyPlugin.cs" />
     <Compile Include="PluginsImpl\PluginBase.cs" />
     <Compile Include="PluginsImpl\PluginConfigurator.cs" />

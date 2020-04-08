@@ -173,9 +173,6 @@
     <Compile Include="Controls\AliasControl.xaml.cs">
       <DependentUpon>AliasControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\HeaderSlider.xaml.cs">
-      <DependentUpon>HeaderSlider.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\PluginConfigControl.xaml.cs">
       <DependentUpon>PluginConfigControl.xaml</DependentUpon>
     </Compile>
@@ -199,7 +196,6 @@
     <Compile Include="Helpers\MahappsHelper.cs" />
     <Compile Include="Models\NewAliasSessionModel.cs" />
     <Compile Include="Models\Settings\AppSettingsModel.cs" />
-    <Compile Include="Models\Settings\DatabaseSettingsModel.cs" />
     <Compile Include="Models\Settings\PositionSettingsModel.cs" />
     <Compile Include="Models\Settings\HotKeySettingsModel.cs" />
     <Compile Include="Models\AliasNameModel.cs" />
@@ -308,10 +304,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\HeaderComboBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\HeaderSlider.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

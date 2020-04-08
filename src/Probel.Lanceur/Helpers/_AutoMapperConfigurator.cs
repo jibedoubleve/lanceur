@@ -27,7 +27,6 @@ namespace Probel.Lanceur.Helpers
                 .ForMember(src => src.ColourRed, opt => opt.Ignore())
                 .ForMember(src => src.ColourGreen, opt => opt.Ignore())
                 .ForMember(src => src.ColourBlue, opt => opt.Ignore());
-            e.CreateMap<DatabaseSettings, DatabaseSettingsModel>();
             e.CreateMap<PositionSettings, PositionSettingsModel>();
             e.CreateMap<HotKeySettings, HotKeySettingsModel>();
             e.CreateMap<AliasSession, AliasSessionModel>();
@@ -42,7 +41,6 @@ namespace Probel.Lanceur.Helpers
             //Settings
             e.CreateMap<AppSettingsModel, AppSettings>();
             e.CreateMap<WindowSettingsModel, WindowSettings>();
-            e.CreateMap<DatabaseSettingsModel, DatabaseSettings>();
             e.CreateMap<PositionSettingsModel, PositionSettings>();
             e.CreateMap<HotKeySettingsModel, HotKeySettings>();
             e.CreateMap<AliasSessionModel, AliasSession>();

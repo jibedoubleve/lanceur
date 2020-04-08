@@ -70,8 +70,7 @@ namespace Probel.Lanceur.ViewModels
             {
                 if (Set(ref _databasePath, value, nameof(DatabasePath)))
                 {
-                    AppSettings.DatabaseSection.DatabaseName = Path.GetFileName(_databasePath);
-                    AppSettings.DatabaseSection.DatabasePath = Path.GetDirectoryName(_databasePath);
+                    AppSettings.DatabasePath = _databasePath;
                 }
             }
         }
@@ -98,9 +97,7 @@ namespace Probel.Lanceur.ViewModels
             AppSettings = appSettings;
             Colour = AppSettings.WindowSection.Colour;
 
-            var n = AppSettings.DatabaseSection.DatabaseName;
-            var p = AppSettings.DatabaseSection.DatabasePath;
-            DatabasePath = Path.Combine(p, n);
+            DatabasePath = AppSettings.DatabasePath;
 
             var sessions = _databaseService.GetSessions().AsModel();
             Sessions = new ObservableCollection<AliasSessionModel>(sessions);
@@ -121,9 +118,10 @@ namespace Probel.Lanceur.ViewModels
         {
             AppSettings.SessionId = CurrentSession?.Id ?? 1;
 
+            if (_settingsService.Get().DatabasePath != AppSettings.DatabasePath) { IsRebootNeeded = true; }
+
             var e = AppSettings.AsEntity();
             _settingsService.Save(e);
-            IsRebootNeeded = true;
 
             _userNotifyer.NotifyInfo("Settings has been saved.");
         }

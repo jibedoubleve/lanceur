@@ -29,8 +29,7 @@ namespace Probel.Lanceur.SQLiteDb
             {
                 if (!FileExist())
                 {
-                    var db = DbName;
-                    resource.CopyTo($"Probel.Lanceur.SQLiteDb.Assets.{db}", DbPath);
+                    resource.CopyTo($"Probel.Lanceur.SQLiteDb.Assets.data.db", DbPath);
                 }
             }
             return ConnectionString;
@@ -54,8 +53,6 @@ namespace Probel.Lanceur.SQLiteDb
         private readonly ISettingsService _settings;
 
         private AppSettings _appSettings;
-
-        private string _dbName;
 
         #endregion Fields
 
@@ -96,18 +93,6 @@ namespace Probel.Lanceur.SQLiteDb
             }
         }
 
-        protected string DbName
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_dbName))
-                {
-                    _dbName = AppSettings.DatabaseSection.DatabaseName;
-                }
-                return _dbName;
-            }
-        }
-
         protected string DbPath
         {
             get
@@ -115,7 +100,7 @@ namespace Probel.Lanceur.SQLiteDb
                 if (string.IsNullOrEmpty(_dbPath))
                 {
                     ;
-                    var path = Path.Combine(AppSettings.DatabaseSection.DatabasePath, DbName);
+                    var path = AppSettings.DatabasePath;
                     _dbPath = Environment.ExpandEnvironmentVariables(path);
                 }
                 return _dbPath;
