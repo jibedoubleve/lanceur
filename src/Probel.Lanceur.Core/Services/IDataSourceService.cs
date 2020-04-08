@@ -11,6 +11,8 @@ namespace Probel.Lanceur.Core.Services
 
         void Create(Alias alias, IEnumerable<string> names = null);
 
+        void Create(AliasSession session);
+
         void Delete(Alias alias);
 
         void Delete(AliasSession session);

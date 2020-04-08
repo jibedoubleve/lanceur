@@ -59,11 +59,11 @@ namespace Probel.Lanceur.ViewModels
 
         public void RefreshData()
         {
-            Mouse.OverrideCursor = Cursors.Wait;
+            _notifyer.NotifyWait();
             var s = _settingService.Get();
             var doubloons = _dataService.GetDoubloons(s.SessionId);
             Doubloons = new ObservableCollection<Doubloon>(doubloons);
-            Mouse.OverrideCursor = null;
+            _notifyer.NotifyEndWait();
         }
 
         #endregion Methods

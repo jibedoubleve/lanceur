@@ -19,6 +19,10 @@
 
         void NotifyWarning(string message, string title = null);
 
+        void NotifyWait();
+
+        void NotifyEndWait();
+
         #endregion Methods
     }
 }

@@ -3,8 +3,8 @@ using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Models;
 using Probel.Lanceur.Services;
+using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 
 namespace Probel.Lanceur.ViewModels
@@ -14,17 +14,19 @@ namespace Probel.Lanceur.ViewModels
         #region Fields
 
         private readonly IDataSourceService _databaseService;
-        private AliasSessionModel _currentSession;
-        private ObservableCollection<AliasSessionModel> _sessions;
-
+        private readonly IUserNotifyer _notifyer;
         private ObservableCollection<AliasModel> _aliases;
+        private object _currentSession;
+        private bool _isCreatingNewSession;
+        private ObservableCollection<object> _sessions;
 
         #endregion Fields
 
         #region Constructors
 
-        public EditSessionViewModel(IDataSourceService databaseService, ISettingsService settingsService)
+        public EditSessionViewModel(IDataSourceService databaseService, ISettingsService settingsService, IUserNotifyer notifyer)
         {
+            _notifyer = notifyer;
             _settingsService = settingsService;
             _databaseService = databaseService;
         }
@@ -35,23 +37,42 @@ namespace Probel.Lanceur.ViewModels
 
         public ISettingsService _settingsService { get; }
 
-        public AliasSessionModel CurrentSession
-        {
-            get => _currentSession;
-            set => Set(ref _currentSession, value, nameof(CurrentSession));
-        }
-
-        public ObservableCollection<AliasSessionModel> Sessions
-        {
-            get => _sessions;
-            set => Set(ref _sessions, value, nameof(Sessions));
-        }
-
         public ObservableCollection<AliasModel> Aliases
         {
             get => _aliases;
             set => Set(ref _aliases, value, nameof(Aliases));
         }
+
+        public object CurrentSession
+        {
+            get => _currentSession;
+            set
+            {
+                if (Set(ref _currentSession, value, nameof(CurrentSession)))
+                {
+                    if (value is NewAliasSessionModel ns)
+                    {
+                        IsCreatingNewSession = true;
+                        ns.Reset();
+                    }
+                    else { IsCreatingNewSession = false; }
+                }
+            }
+        }
+
+        public bool IsCreatingNewSession
+        {
+            get => _isCreatingNewSession;
+            set => Set(ref _isCreatingNewSession, value, nameof(IsCreatingNewSession));
+        }
+
+        public ObservableCollection<object> Sessions
+        {
+            get => _sessions;
+            set => Set(ref _sessions, value, nameof(Sessions));
+        }
+
+        private AliasSessionModel CastedCurrentSession => (CurrentSession as AliasSessionModel) ?? new AliasSessionModel();
 
         #endregion Properties
 
@@ -61,38 +82,61 @@ namespace Probel.Lanceur.ViewModels
         {
             if (CurrentSession != null)
             {
-                _databaseService.Delete(CurrentSession.AsEntity());
+                var name = (CurrentSession as AliasSessionModel)?.Name ?? throw new NullReferenceException("The current session to be deleted is null");
+                if (_notifyer.Ask($"Do you want to delete the session '{name}'?") == NotificationResult.Affirmative)
+                {
 
-                var toDel = (from s in Sessions
-                            where s.Id == CurrentSession.Id
-                            select s).SingleOrDefault();
+                    _databaseService.Delete(CastedCurrentSession.AsEntity());
 
-                if (toDel != null) { Sessions.Remove(toDel); }
+                    var toDel = (from s in Sessions
+                                 where s is AliasSessionModel m
+                                    && m.Id == CastedCurrentSession.Id
+                                 select s).SingleOrDefault();
+
+                    if (toDel != null) { Sessions.Remove(toDel); }
+                }
             }
+        }
 
+        public void RefreshAliases()
+        {
+            _notifyer.NotifyWait();
+            if (CurrentSession != null)
+            {
+                var sessionId = CastedCurrentSession.Id;
+                var aliases = _databaseService.GetAliases(sessionId).AsModel();
+                Aliases = new ObservableCollection<AliasModel>(aliases);
+            }
+            _notifyer.NotifyEndWait();
         }
 
         public void RefreshData()
         {
             var stg = _settingsService.Get();
             var sessions = _databaseService.GetSessions().AsModel();
-            Sessions = new ObservableCollection<AliasSessionModel>(sessions);
-            CurrentSession = Sessions.GetSession(stg.SessionId);
+            Sessions = new ObservableCollection<object>(sessions);
+            Sessions.Add(new NewAliasSessionModel());
+
+            CurrentSession = (from s in Sessions
+                              where s is AliasSessionModel m
+                              && m.Id == stg.SessionId
+                              select s as AliasSessionModel).FirstOrDefault();
 
             RefreshAliases();
         }
 
-        public void RefreshAliases()
+        public void UpdateName()
         {
-            if (CurrentSession != null)
+            if (CurrentSession is NewAliasSessionModel)
             {
-                var sessionId = CurrentSession.Id;
-                var aliases = _databaseService.GetAliases(sessionId).AsModel();
-                Aliases = new ObservableCollection<AliasModel>(aliases);
+                _databaseService.Create(CastedCurrentSession?.AsEntity());
+                RefreshData();
+            }
+            else if (CurrentSession is AliasSessionModel)
+            {
+                _databaseService.Update(CastedCurrentSession.AsEntity());
             }
         }
-
-        public void UpdateName() => _databaseService.Update(CurrentSession.AsEntity());
 
         #endregion Methods
     }

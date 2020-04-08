@@ -7,12 +7,25 @@
     xmlns:local="clr-namespace:Probel.Lanceur.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    d:DesignHeight="450"
+    xmlns:t="clr-namespace:Probel.Lanceur.Templating"
+    x:Name="_self"
+    d:DesignHeight="150"
     d:DesignWidth="800"
     mc:Ignorable="d">
     <UserControl.Resources>
         <Thickness x:Key="DefaultBorder">5 5 5 5</Thickness>
         <sys:Double x:Key="ButtonWidth">65</sys:Double>
+        <DataTemplate x:Key="EditSessionTemplate">
+            <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
+        <DataTemplate x:Key="NewSessionTemplate">
+            <TextBlock Text="{Binding Message}" />
+        </DataTemplate>
+        <t:SessionTemplateSelector
+            x:Key="SessionTemplateSelector"
+            EditSessionTemplate="{StaticResource EditSessionTemplate}"
+            NewSessionTemplate="{StaticResource NewSessionTemplate}" />
+
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -23,8 +36,8 @@
         <ComboBox
             Margin="{StaticResource DefaultBorder}"
             cal:Message.Attach="[Event SelectionChanged]=[Action RefreshAliases]"
-            DisplayMemberPath="Name"
-            ItemsSource="{Binding Sessions}"
+            ItemTemplateSelector="{StaticResource SessionTemplateSelector}"
+            ItemsSource="{Binding Sessions, Mode=OneWay}"
             SelectedItem="{Binding CurrentSession, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
         <DockPanel Grid.Row="1">
             <Button
@@ -38,9 +51,18 @@
                 x:Name="UpdateName"
                 Width="{StaticResource ButtonWidth}"
                 Margin="{StaticResource DefaultBorder}"
-                Content="Update"
-                DockPanel.Dock="Right"
-                Style="{DynamicResource AccentedSquareButtonStyle}" />
+                DockPanel.Dock="Right">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource AccentedSquareButtonStyle}" TargetType="Button">
+                        <Setter Property="Content" Value="Update" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=_self, Path=DataContext.IsCreatingNewSession}" Value="True">
+                                <Setter Property="Content" Value="Create" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
             <TextBox Margin="{StaticResource DefaultBorder}" Text="{Binding CurrentSession.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
         </DockPanel>
         <ScrollViewer Grid.Row="2">

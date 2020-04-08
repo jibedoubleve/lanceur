@@ -66,7 +66,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     exec_count as Y
                 from stat_usage_per_month_v
                 where id_session = @idSession";
-
+            
             return GetChart<DateTime>(sql, new { idSession });
         }
 
@@ -79,7 +79,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     : c.Query<ChartPoint<Ty, int>>(sql, parameters).ToList();
                 return result;
             }
-        }
+        }        
 
         #endregion Methods
     }

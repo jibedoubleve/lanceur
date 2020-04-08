@@ -3,6 +3,7 @@ using LiveCharts;
 using LiveCharts.Configurations;
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace Probel.Lanceur.ViewModels
 {
     public class StatisticsViewModel : Screen
     {
+        private readonly IUserNotifyer _notifyer;
         #region Fields
 
         private readonly ILogService _log;
@@ -32,8 +34,9 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public StatisticsViewModel(ILogService log, IDataSourceService service)
+        public StatisticsViewModel(ILogService log, IDataSourceService service, IUserNotifyer notifyer)
         {
+            _notifyer = notifyer;
             _log = log;
             _service = service;
 
@@ -130,7 +133,7 @@ namespace Probel.Lanceur.ViewModels
 
         private void LoadStatistics(long idSession)
         {
-            Mouse.OverrideCursor = Cursors.Wait;
+            _notifyer.NotifyWait();
 
             _log.Trace("Loading statistics");
             var t1 = Task.Run(() => _service.GetChartPerDay(idSession));
@@ -154,7 +157,7 @@ namespace Probel.Lanceur.ViewModels
 
             AliasPerExecutionCount = new ObservableCollection<ChartPoint<string, int>>(t5.Result.OrderByDescending(e => e.Y));
 
-            Mouse.OverrideCursor = null;
+            _notifyer.NotifyEndWait();
         }
 
         #endregion Methods

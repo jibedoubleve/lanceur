@@ -73,6 +73,7 @@
     <None Include="Assets\Scripts\readme.md" />
     <None Include="packages.config" />
     <Compile Include="Services\SQLiteDatabaseService.Statistics.cs" />
+    <Compile Include="Services\SQLiteDatabaseService.Get.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Probel.Lanceur.Core\Probel.Lanceur.Core.csproj">

@@ -66,7 +66,7 @@ namespace Probel.Lanceur.ViewModels
         public void RefreshData()
         {
 
-            Mouse.OverrideCursor = Cursors.Wait;
+            _notifyer.NotifyWait();
             var macro = new Regex("^@.*@$");
             var abs = new Regex(@"[a-zA-Z]:\\");
 
@@ -78,7 +78,7 @@ namespace Probel.Lanceur.ViewModels
                              && abs.IsMatch(a.FileName)
                           select a);
             EmptyKeywords = new ObservableCollection<Alias>(result);
-            Mouse.OverrideCursor = null;
+            _notifyer.NotifyEndWait();
         }
 
         #endregion Methods

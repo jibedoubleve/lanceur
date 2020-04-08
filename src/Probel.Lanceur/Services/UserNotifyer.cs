@@ -1,7 +1,7 @@
-﻿using MahApps.Metro.Controls.Dialogs;
-using Notifications.Wpf;
+﻿using Notifications.Wpf;
 using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Probel.Lanceur.Services
 {
@@ -42,6 +42,10 @@ namespace Probel.Lanceur.Services
         public void NotifyError(string message, string title = null) => Notify(message, title, NotificationType.Error);
 
         public void NotifyInfo(string message, string title = null) => Notify(message, title, NotificationType.Information);
+
+        public void NotifyWait() => Mouse.OverrideCursor = Cursors.Wait;
+
+        public void NotifyEndWait() => Mouse.OverrideCursor = null;
 
         public void NotifyWarning(string message, string title = null) => Notify(message, title, NotificationType.Warning);
 
