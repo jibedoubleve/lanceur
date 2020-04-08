@@ -15,8 +15,8 @@ namespace Probel.Lanceur.Core.Entities.Settings
 
         #region Properties
 
-        public int Key { get; set; }
-        public int ModifierKeys { get; set; }
+        public int Key { get; set; } = 18;
+        public int ModifierKeys { get; set; } = 3;
 
         #endregion Properties
     }
