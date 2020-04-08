@@ -192,6 +192,11 @@ namespace Probel.Lanceur.ViewModels
 
         public void OnShow()
         {
+            // In any case, I don't want to see an hourglass cursor
+            // indicating a work is going on when I'm displaying
+            // this view as I just want to launch a shortcut!
+            Notifyer.NotifyEndWait();
+
             AppSettings = _settingsService.Get();
             RefreshAliases();
         }
