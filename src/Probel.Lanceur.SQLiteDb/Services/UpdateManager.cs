@@ -34,6 +34,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
         {
             var cur = GetCurrentVersion();
             _logger.Debug($"Current version is {cur}");
+            var doUpdate = false;
 
             using (var c = BuildConnection())
             {
@@ -41,32 +42,30 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 {
                     if (cur < res.Key)
                     {
+                        doUpdate = true;
                         _logger.Info($"Updating database. Current version is {cur}. Executing script version '{res.Key}'");
                         Execute(res.Value, c);
                         SetVersion(res.Key, c);
                     }
                 }
-                foreach (var script in GetViewsDDL())
+
+                if (doUpdate)
                 {
-                    _logger.Info($"Executing view script '{script}'");
-                    Execute(script, c);
+                    foreach (var script in GetViewsDDL())
+                    {
+                        _logger.Info($"Executing view script '{script}'");
+                        Execute(script, c);
+                    }
                 }
             }
         }
 
-        private void SetVersion(Version key, DbConnection c)
-        {
-            var sql = "update settings set s_value = @value where s_key = s_key";
-            c.Execute(sql, new { value = key.ToString() });
-            _logger.Info($"Update database version to '{key}'");
-        }
+        private DbConnection BuildConnection() => new SQLiteConnection(_connectionString);
 
         private void Execute(string value, DbConnection conn)
         {
             _resManager.ReadResourceAsString(value, sql => conn.Execute(sql));
         }
-
-        private DbConnection BuildConnection() => new SQLiteConnection(_connectionString);
 
         private Version GetCurrentVersion()
         {
@@ -101,7 +100,6 @@ namespace Probel.Lanceur.SQLiteDb.Services
             return dico;
         }
 
-
         private IEnumerable<string> GetViewsDDL()
         {
             var dico = new List<string>();
@@ -111,6 +109,13 @@ namespace Probel.Lanceur.SQLiteDb.Services
             foreach (var r in resources) { dico.Add(r); }
 
             return dico;
+        }
+
+        private void SetVersion(Version key, DbConnection c)
+        {
+            var sql = "update settings set s_value = @value where s_key = s_key";
+            c.Execute(sql, new { value = key.ToString() });
+            _logger.Info($"Update database version to '{key}'");
         }
 
         #endregion Methods
