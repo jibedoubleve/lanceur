@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 
 namespace Probel.Lanceur.Plugin.Calculator
 {
@@ -30,21 +29,6 @@ namespace Probel.Lanceur.Plugin.Calculator
 
             element.Focus();
         }
-        //static void OnElementFocused(DependencyObject depObj, DependencyPropertyChangedEventArgs e)
-        //{
-        //    ItemsControl itemsControl = depObj as ItemsControl;
-        //    if (itemsControl == null) { return; }
-        //    itemsControl.
-        //    itemsControl.Loaded += (object sender, RoutedEventArgs args) =>
-        //    {
-        //        // get the content presented for the first listbox element
-        //        var contentPresenter = (ContentPresenter)itemsControl.ItemContainerGenerator.ContainerFromIndex(0);
-
-        //        // get the textbox and give it focus
-        //        var textbox = contentPresenter.ContentTemplate.FindName("myTextBox", contentPresenter) as TextBox;
-        //        textbox.Focus();
-        //    };
-        //}
 
         #endregion Methods
     }
