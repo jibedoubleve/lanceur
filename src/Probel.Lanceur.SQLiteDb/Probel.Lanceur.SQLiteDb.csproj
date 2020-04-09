@@ -54,6 +54,7 @@
     <Compile Include="..\Version.cs">
       <Link>Properties\Version.cs</Link>
     </Compile>
+    <EmbeddedResource Include="Assets\Scripts\update-0.4.sql" />
     <Compile Include="EmbeddedResourceManager.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Entities\SessionEntity.cs" />

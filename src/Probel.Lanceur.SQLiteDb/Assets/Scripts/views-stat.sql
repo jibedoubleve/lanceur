@@ -46,8 +46,6 @@ create view stat_usage_per_day_v as
         strftime('%Y-%m-%d', time_stamp) as day
     from 
     	alias_usage
-    where 
-		strftime('%Y-%m-%d', time_stamp) < strftime('%Y-%m-01', date())
     group by 
         strftime('%Y-%m-%d', time_stamp)
     order by 
@@ -142,8 +140,6 @@ create view stat_usage_per_hour_in_day_v as
 		    	strftime('%H:00', time_stamp) as hour_in_day
 			from 
 		    	alias_usage
-		    where 
-				strftime('%Y-%m-%d', time_stamp) < strftime('%Y-%m-01', date())
 			group by strftime('%H:00', time_stamp)    	
 		)
 		union all 
