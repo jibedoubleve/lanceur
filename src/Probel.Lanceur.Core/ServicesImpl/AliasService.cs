@@ -52,7 +52,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
         /// <param name="cmdline">The command line to execute. That's the alias and the arguments (which are not mandatory)</param>
         public ExecutionResult Execute(string cmdline, long sessionId)
         {
-            var splited = _resolver.Split(cmdline);
+            var splited = _resolver.Split(cmdline, sessionId);
             var cmd = _databaseService.GetAlias(splited.Command, sessionId);
 
             cmd = _resolver.Resolve(cmd, splited.Parameters);
@@ -81,7 +81,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         public IEnumerable<AliasText> GetAliasNames(long sessionId, string criterion)
         {
-            var splited = _resolver.Split(criterion);
+            var splited = _resolver.Split(criterion, sessionId);
             criterion = splited.Command.ToLower();
             var result = (from a in _databaseService.GetAliasNames(sessionId)
                           where a.Name.ToLower().StartsWith(criterion)

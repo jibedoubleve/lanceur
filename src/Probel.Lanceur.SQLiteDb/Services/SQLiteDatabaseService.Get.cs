@@ -1,20 +1,20 @@
 ﻿using Dapper;
 using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Probel.Lanceur.SQLiteDb.Services
 {
-	public partial class SQLiteDatabaseService
-	{
-		#region Methods
+    public partial class SQLiteDatabaseService : IDataSourceService
+    {
+        #region Methods
+        public bool AliasExists(string name, long sessionId)
+        {
+            if (_keywordService.IsReserved(name)) { return true; }
 
-		public Alias GetAlias(string name, long sessionId)
-		{
-			if (_keywordService.IsReserved(name)) { return Alias.Reserved(name); }
-
-			var sql = @"
+            var sql = @"
                 select
                     n.Name        as Name,
                     s.id          as Id,
@@ -29,20 +29,48 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     alias s
                     inner join alias_name n on s.id = n.id_alias
                 where
-                    n.name like @name
+                    lower(n.name) = lower(@name)
                     and s.id_session = @sessionId";
 
-			using (var c = BuildConnection())
-			{
-				var result = c.Query<Alias>(sql, new { name, sessionId })
-							  .FirstOrDefault();
-				return result ?? Alias.Empty(name);
-			}
-		}
+            using (var c = BuildConnection())
+            {
+                var result = c.Query<Alias>(sql, new { name, sessionId }).Any();
+                return result;
+            }
+        }
+        public Alias GetAlias(string name, long sessionId)
+        {
+            if (_keywordService.IsReserved(name)) { return Alias.Reserved(name); }
 
-		public IEnumerable<Alias> GetAliases(long sessionId)
-		{
-			var sql = @"
+            var sql = @"
+                select
+                    n.Name        as Name,
+                    s.id          as Id,
+                    s.id_session  as IdSession,
+                    s.arguments   as Arguments,
+                    s.file_name   as FileName,
+                    s.notes       as Notes,
+                    s.run_as      as RunAs,
+                    s.start_mode  as StartMode,
+                    s.working_dir as WorkingDirectory
+                from
+                    alias s
+                    inner join alias_name n on s.id = n.id_alias
+                where
+                    lower(n.name) = lower(@name)
+                    and s.id_session = @sessionId";
+
+            using (var c = BuildConnection())
+            {
+                var result = c.Query<Alias>(sql, new { name, sessionId })
+                              .FirstOrDefault();
+                return result ?? Alias.Empty(name);
+            }
+        }
+
+        public IEnumerable<Alias> GetAliases(long sessionId)
+        {
+            var sql = @"
                 select n.Name       as Name
                      , s.id         as Id
                      , s.arguments  as Arguments
@@ -56,16 +84,16 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 where s.id_session = @sessionId
                 order by n.name";
 
-			using (var c = BuildConnection())
-			{
-				var result = c.Query<Alias>(sql, new { sessionId });
-				return result ?? new List<Alias>();
-			}
-		}
+            using (var c = BuildConnection())
+            {
+                var result = c.Query<Alias>(sql, new { sessionId });
+                return result ?? new List<Alias>();
+            }
+        }
 
-		public IEnumerable<AliasText> GetAliasNames(long sessionId)
-		{
-			var sql = @"
+        public IEnumerable<AliasText> GetAliasNames(long sessionId)
+        {
+            var sql = @"
                 select
                 	sn.Name      as Name,
                 	c.exec_count as ExecutionCount,
@@ -81,25 +109,25 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     exec_count desc,
                     name       asc";
 
-			using (var c = BuildConnection())
-			{
-				var result = c.Query<AliasText>(sql, new { sessionId }).ToList();
+            using (var c = BuildConnection())
+            {
+                var result = c.Query<AliasText>(sql, new { sessionId }).ToList();
 
-				if (result != null)
-				{
-					result.AddRange(_reservedKeywordService.GetKeywords());
-					result.AddRange(_pluginManager.GetKeywords());
-				}
-				else { result = new List<AliasText>(); }
+                if (result != null)
+                {
+                    result.AddRange(_reservedKeywordService.GetKeywords());
+                    result.AddRange(_pluginManager.GetKeywords());
+                }
+                else { result = new List<AliasText>(); }
 
-				return result.OrderByDescending(e => e.ExecutionCount)
-							 .ThenBy(e => e.Name);
-			}
-		}
+                return result.OrderByDescending(e => e.ExecutionCount)
+                             .ThenBy(e => e.Name);
+            }
+        }
 
-		public IEnumerable<Doubloon> GetDoubloons(long idSession)
-		{
-			var sql = @"
+        public IEnumerable<Doubloon> GetDoubloons(long idSession)
+        {
+            var sql = @"
                 select
 	                id          as Id,
 	                id_session  as IdSession,
@@ -111,49 +139,49 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 from data_doubloons_v
                 where id_session = @idSession";
 
-			using (var db = BuildConnection())
-			{
-				return db.Query<Doubloon>(sql, new { idSession });
-			}
-		}
+            using (var db = BuildConnection())
+            {
+                return db.Query<Doubloon>(sql, new { idSession });
+            }
+        }
 
-		public IEnumerable<AliasName> GetNamesOf(Alias alias)
-		{
-			using (var c = BuildConnection())
-			{
-				var sql = @"
+        public IEnumerable<AliasName> GetNamesOf(Alias alias)
+        {
+            using (var c = BuildConnection())
+            {
+                var sql = @"
                     select id          as Id
                          , name        as Name
                          , id_alias as IdAlias
                     from alias_name
                     where id_alias = @idAlias";
-				var result = c.Query<AliasName>(sql, new { IdAlias = alias.Id });
-				return result;
-			}
-		}
+                var result = c.Query<AliasName>(sql, new { IdAlias = alias.Id });
+                return result;
+            }
+        }
 
-		public AliasSession GetSession(long sessionId)
-		{
-			var sql = @"
+        public AliasSession GetSession(long sessionId)
+        {
+            var sql = @"
                 select id    as id
                      , name  as name
                      , notes as notes
                 from alias_session
                 where id = @sessionId";
-			using (var c = BuildConnection())
-			{
-				try
-				{
-					var result = c.Query<AliasSession>(sql, new { sessionId }).Single();
-					return result;
-				}
-				catch (InvalidOperationException ex) { throw new InvalidOperationException($"There's no session with ID '{sessionId}'", ex); }
-			}
-		}
+            using (var c = BuildConnection())
+            {
+                try
+                {
+                    var result = c.Query<AliasSession>(sql, new { sessionId }).Single();
+                    return result;
+                }
+                catch (InvalidOperationException ex) { throw new InvalidOperationException($"There's no session with ID '{sessionId}'", ex); }
+            }
+        }
 
-		public AliasSession GetSession(string sessionName)
-		{
-			var sql = @"
+        public AliasSession GetSession(string sessionName)
+        {
+            var sql = @"
                 select
 	                id    as id,
 	                name  as name,
@@ -161,26 +189,26 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 from alias_session
                 where lower(name) = @name";
 
-			using (var db = BuildConnection())
-			{
-				return db.Query<AliasSession>(sql, new { name = sessionName.ToLower() }).FirstOrDefault();
-			}
-		}
+            using (var db = BuildConnection())
+            {
+                return db.Query<AliasSession>(sql, new { name = sessionName.ToLower() }).FirstOrDefault();
+            }
+        }
 
-		public IEnumerable<AliasSession> GetSessions()
-		{
-			var sql = @"
+        public IEnumerable<AliasSession> GetSessions()
+        {
+            var sql = @"
                 select id    as id
                      , name  as name
                      , notes as notes
                 from alias_session ";
-			using (var c = BuildConnection())
-			{
-				var result = c.Query<AliasSession>(sql);
-				return result.OrderBy(e => e.Name);
-			}
-		}
+            using (var c = BuildConnection())
+            {
+                var result = c.Query<AliasSession>(sql);
+                return result.OrderBy(e => e.Name);
+            }
+        }
 
-		#endregion Methods
-	}
+        #endregion Methods
+    }
 }
