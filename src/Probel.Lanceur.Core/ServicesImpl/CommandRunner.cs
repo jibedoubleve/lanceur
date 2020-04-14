@@ -2,6 +2,7 @@
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Plugin;
 using System.Diagnostics;
 
 namespace Probel.Lanceur.Core.ServicesImpl
@@ -44,7 +45,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
             return psInfo;
         }
 
-        public bool Run(Alias alias)
+        public bool Execute(Alias alias)
         {
             if (alias.IsExecutable)
             {

@@ -109,13 +109,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Probel.Lanceur.Core\Probel.Lanceur.Core.csproj">
-      <Project>{76716e34-6464-45e0-bcc6-21203ab79fd1}</Project>
-      <Name>Probel.Lanceur.Core</Name>
-      <Private>False</Private>
+    <ProjectReference Include="..\..\Probel.Lanceur.Plugin\Probel.Lanceur.Plugin.csproj">
+      <Project>{f4db7268-da54-4141-9567-afbd6c5fe1ac}</Project>
+      <Name>Probel.Lanceur.Plugin</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Page Include="Views\ResultView.xaml">
       <SubType>Designer</SubType>

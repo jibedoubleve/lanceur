@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Probel.Lanceur.Core.Services
+namespace Probel.Lanceur.Plugin
 {
     public interface ILogService
     {
@@ -10,9 +10,9 @@ namespace Probel.Lanceur.Core.Services
 
         void Debug(Exception ex);
 
-        void Fatal(string message, Exception ex = null);
-
         void Error(string message, Exception ex = null);
+
+        void Fatal(string message, Exception ex = null);
 
         void Info(string message);
 

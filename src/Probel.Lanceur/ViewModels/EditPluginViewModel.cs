@@ -1,5 +1,5 @@
 ﻿using Caliburn.Micro;
-using Probel.Lanceur.Core.Plugins;
+using Probel.Lanceur.Plugin;
 using Probel.Lanceur.Services;
 using System.Collections.ObjectModel;
 
@@ -9,13 +9,12 @@ namespace Probel.Lanceur.ViewModels
     {
         #region Fields
 
+        private static bool _isRebootNeeded;
         private readonly IUserNotifyer _notifyer;
 
         private readonly IPluginConfigurator _pluginConfigurator;
 
         private ObservableCollection<PluginConfig> _configurations;
-
-        private static bool _isRebootNeeded;
 
         #endregion Fields
 

@@ -1,5 +1,4 @@
-﻿using Probel.Lanceur.Core.Plugins;
-using System;
+﻿using Probel.Lanceur.Plugin;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -17,14 +16,6 @@ namespace Probel.Lanceur.Controls
                 typeof(PluginConfig),
                 typeof(PluginConfigControl),
                 null);
-
-        //private static void OnPluginConfigChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        //{
-        //    if(sender is PluginConfigControl ctrl)
-        //    {
-        //        ctrl.
-        //    }
-        //}
 
         #endregion Fields
 

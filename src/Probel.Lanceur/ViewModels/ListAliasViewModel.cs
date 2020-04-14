@@ -4,6 +4,7 @@ using Probel.Lanceur.Core.Entities.Settings;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Models;
+using Probel.Lanceur.Plugin;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,10 +31,10 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public ListAliasViewModel(IDataSourceService databaseService, 
-            IDialogCoordinator dialog, 
-            EditAliasViewModel editaliasViewModel, 
-            ILogService log, 
+        public ListAliasViewModel(IDataSourceService databaseService,
+            IDialogCoordinator dialog,
+            EditAliasViewModel editaliasViewModel,
+            ILogService log,
             ISettingsService settingService)
         {
             _settingService = settingService;

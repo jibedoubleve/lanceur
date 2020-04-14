@@ -1,7 +1,6 @@
-﻿using Probel.Lanceur.Core.Entities;
-using Probel.Lanceur.Core.PluginsImpl;
-using Probel.Lanceur.Plugin.Calculator.ViewModels;
+﻿using Probel.Lanceur.Plugin.Calculator.ViewModels;
 using Probel.Lanceur.Plugin.Calculator.Views;
+using Probel.Lanceur.Plugin;
 
 namespace Probel.Lanceur.Plugin.Calculator
 {
@@ -28,7 +27,7 @@ namespace Probel.Lanceur.Plugin.Calculator
             MainView.HideResults();
         }
 
-        protected override void Boot()
+        protected override void Initialise()
         {
             View = new ResultView();
             ViewModel = View.DataContext as ResultViewModel;

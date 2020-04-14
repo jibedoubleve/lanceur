@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Probel.Lanceur.Core.Plugins;
+using Probel.Lanceur.Plugin;
 
 namespace Probel.Lanceur.Core.PluginsImpl
 {

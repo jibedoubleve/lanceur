@@ -1,6 +1,6 @@
 ﻿using Probel.Lanceur.Core.Entities;
-using Probel.Lanceur.Core.Plugins;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Plugin;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +12,8 @@ namespace Probel.Lanceur.Core.PluginsImpl
         #region Fields
 
         internal const string PluginRepository = @"%appdata%\probel\lanceur\plugins\";
-        private readonly IApplicationManager _appManager;
         private readonly ILogService _logger;
+        private readonly IPluginContext _pluginContext;
         private readonly IPluginLoader _pluginLoader;
         private readonly Dictionary<string, Type> _pluginTypes = new Dictionary<string, Type>();
         private IList<IPluginMetadata> _metadataList;
@@ -22,10 +22,10 @@ namespace Probel.Lanceur.Core.PluginsImpl
 
         #region Constructors
 
-        public PluginManager(IPluginLoader loader, ILogService logger, IApplicationManager appManager)
+        public PluginManager(IPluginLoader loader, IPluginContext context, ILogService logService)
         {
-            _appManager = appManager;
-            _logger = logger;
+            _logger = logService;
+            _pluginContext = context;
             _pluginLoader = loader;
         }
 
@@ -43,7 +43,7 @@ namespace Probel.Lanceur.Core.PluginsImpl
             if (metadata == null)
             {
                 var p = new EmptyPlugin();
-                p.Initialise(_logger, _appManager);
+                p.Initialise(_pluginContext);
                 return p;
             }
             else if (_pluginTypes.ContainsKey(metadata.Dll))
@@ -52,7 +52,7 @@ namespace Probel.Lanceur.Core.PluginsImpl
                 var plugin = Activator.CreateInstance(type);
 
                 var p = plugin as PluginBase;
-                p?.Initialise(_logger, _appManager);
+                p?.Initialise(_pluginContext);
                 return p;
             }
             else { throw new NotSupportedException($"Cannot instanciate the plugin '{metadata.Dll}'. Did you forget to load the plugins?"); }
@@ -70,10 +70,10 @@ namespace Probel.Lanceur.Core.PluginsImpl
             else { return false; }
         }
 
-        public IEnumerable<AliasText> GetKeywords()
+        public IEnumerable<PluginAlias> GetKeywords()
         {
             var keywords = (from k in GetPluginsInfo()
-                            select new AliasText
+                            select new PluginAlias
                             {
                                 ExecutionCount = 0,
                                 FileName = $"[{k.Name}] {k.Description}",

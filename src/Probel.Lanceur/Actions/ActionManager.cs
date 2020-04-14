@@ -1,7 +1,6 @@
 ﻿using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Plugin;
 using System;
-using System.Linq;
-using System.Reflection;
 using Unity;
 
 namespace Probel.Lanceur.Actions
@@ -11,9 +10,9 @@ namespace Probel.Lanceur.Actions
         #region Fields
 
         public readonly ILogService _logger;
-        private readonly IDataSourceService _dataSource;
         private readonly IActionCollection _actions;
         private readonly IUnityContainer _container;
+        private readonly IDataSourceService _dataSource;
         private readonly IReservedKeywordService _reservedKeywordService;
 
         #endregion Fields

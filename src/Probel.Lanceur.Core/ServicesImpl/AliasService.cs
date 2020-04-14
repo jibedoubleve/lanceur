@@ -1,6 +1,6 @@
 ﻿using Probel.Lanceur.Core.Entities;
-using Probel.Lanceur.Core.Plugins;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Plugin;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,12 +16,14 @@ namespace Probel.Lanceur.Core.ServicesImpl
         private readonly IPluginManager _pluginManager;
         private readonly IParameterResolver _resolver;
 
+        private ILogService _log;
+
         #endregion Fields
 
         #region Constructors
 
         public AliasService(IDataSourceService databaseService,
-            IParameterResolver argumentHandler,
+                    IParameterResolver argumentHandler,
             ICommandRunner runner,
             ILogService log,
             IMacroService macroService,
@@ -37,12 +39,6 @@ namespace Probel.Lanceur.Core.ServicesImpl
         }
 
         #endregion Constructors
-
-        #region Properties
-
-        public ILogService _log { get; }
-
-        #endregion Properties
 
         #region Methods
 
@@ -63,15 +59,15 @@ namespace Probel.Lanceur.Core.ServicesImpl
                               .Execute(splited);
                 return ExecutionResult.SuccesShow; ;
             }
-            else if (_macroService.Has(cmd.FileName))
+            else if (_macroService.Exists(cmd.FileName))
             {
                 _macroService.With(_cmdRunner, this)
-                             .Handle(cmd);
+                             .Execute(cmd);
                 return ExecutionResult.SuccessHide;
             }
             else
             {
-                return _cmdRunner.Run(cmd)
+                return _cmdRunner.Execute(cmd)
                  ? ExecutionResult.SuccessHide
                  : ExecutionResult.Failure;
             }

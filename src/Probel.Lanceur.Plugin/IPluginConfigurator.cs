@@ -1,7 +1,6 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Probel.Lanceur.Core.Plugins
+namespace Probel.Lanceur.Plugin
 {
     public interface IPluginConfigurator
     {
@@ -18,19 +17,14 @@ namespace Probel.Lanceur.Core.Plugins
     {
         #region Properties
 
-        [JsonProperty("dll")]
         public string Dll { get; set; }
 
-        [JsonProperty("explanation")]
         public string Explanation { get; set; }
 
-        [JsonIgnore]
         public string FilePath { get; set; }
 
-        [JsonProperty("keyword")]
         public string Keyword { get; set; }
 
-        [JsonProperty("name")]
         public string Name { get; set; }
 
         #endregion Properties

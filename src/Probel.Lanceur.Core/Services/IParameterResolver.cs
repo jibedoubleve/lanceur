@@ -1,4 +1,5 @@
 ﻿using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Plugin;
 
 namespace Probel.Lanceur.Core.Services
 {

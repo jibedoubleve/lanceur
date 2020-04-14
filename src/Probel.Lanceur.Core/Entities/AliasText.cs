@@ -1,5 +1,5 @@
 ﻿using Probel.Lanceur.Core.Services;
-using System;
+using Probel.Lanceur.Plugin;
 
 namespace Probel.Lanceur.Core.Entities
 {
@@ -16,6 +16,17 @@ namespace Probel.Lanceur.Core.Entities
 
         #region Methods
 
+        public static implicit operator AliasText(PluginAlias src)
+        {
+            return new AliasText
+            {
+                ExecutionCount = src.ExecutionCount,
+                FileName = src.FileName,
+                Kind = src.Kind,
+                Name = src.Name,
+            };
+        }
+
         public static AliasText ReservedKeyword(ActionWord word)
         {
             return new AliasText
@@ -26,7 +37,6 @@ namespace Probel.Lanceur.Core.Entities
                 Kind = "Settings"
             };
         }
-
 
         #endregion Methods
     }

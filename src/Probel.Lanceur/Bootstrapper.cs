@@ -2,21 +2,19 @@
 using MahApps.Metro.Controls.Dialogs;
 using Notifications.Wpf;
 using Probel.Lanceur.Actions;
-using Probel.Lanceur.Core;
 using Probel.Lanceur.Core.Helpers;
-using Probel.Lanceur.Core.Plugins;
 using Probel.Lanceur.Core.PluginsImpl;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.ServicesImpl;
 using Probel.Lanceur.Core.ServicesImpl.MacroManagement;
 using Probel.Lanceur.Helpers;
+using Probel.Lanceur.Plugin;
 using Probel.Lanceur.Services;
 using Probel.Lanceur.SQLiteDb;
 using Probel.Lanceur.SQLiteDb.Services;
 using Probel.Lanceur.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using Unity;
@@ -79,8 +77,9 @@ namespace Probel.Lanceur
             _container.RegisterType<IPluginLoader, PluginLoader>();
             _container.RegisterType<IPluginManager, PluginManager>();
             _container.RegisterType<IPluginConfigurator, PluginConfigurator>();
-            _container.RegisterType<IApplicationManager, ApplicationManager>();
+            _container.RegisterType<IPluginViewAdapter, PluginViewAdapter>();
             _container.RegisterType<IActionCollection, ActionCollection>();
+            _container.RegisterType<IPluginContext, PluginContext>();
 
             //Views
             _container.RegisterSingleton<MainViewModel>();
@@ -102,7 +101,6 @@ namespace Probel.Lanceur
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-
             var hasMutex = SingleInstance.WaitOne();
 
             if (hasMutex)
@@ -125,7 +123,6 @@ namespace Probel.Lanceur
 
             n.NotifyError($"Unexpected crash occured: {e.Exception.Message}");
             l.Fatal($"Unexpected crash occured: {e.Exception.Message}", e.Exception);
-
 
             e.Handled = true;
             base.OnUnhandledException(sender, e);

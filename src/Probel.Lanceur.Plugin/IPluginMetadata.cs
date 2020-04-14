@@ -1,4 +1,4 @@
-﻿namespace Probel.Lanceur.Core.Plugins
+﻿namespace Probel.Lanceur.Plugin
 {
     public interface IPluginMetadata
     {

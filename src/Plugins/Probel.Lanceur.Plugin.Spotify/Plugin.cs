@@ -1,8 +1,7 @@
-﻿using Probel.Lanceur.Core.Entities;
-using Probel.Lanceur.Core.PluginsImpl;
-using Probel.Lanceur.Plugin.Spotify.Spotify;
+﻿using Probel.Lanceur.Plugin.Spotify.Spotify;
 using Probel.Lanceur.Plugin.Spotify.ViewModels;
 using Probel.Lanceur.Plugin.Spotify.Views;
+using Probel.Lanceur.Plugin;
 using System;
 using System.Threading.Tasks;
 using System.Timers;
@@ -48,7 +47,7 @@ namespace Probel.Lanceur.Plugin.Spotify
             _timer.Start();
         }
 
-        protected override void Boot()
+        protected override void Initialise()
         {
             View = new MainView();
             ViewModel = View.DataContext as MainViewModel;

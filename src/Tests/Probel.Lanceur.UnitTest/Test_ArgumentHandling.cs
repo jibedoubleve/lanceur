@@ -1,7 +1,7 @@
 ﻿using NSubstitute;
-using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.ServicesImpl;
+using Probel.Lanceur.Plugin;
 using Xunit;
 
 namespace Probel.Lanceur.UnitTest
@@ -15,22 +15,6 @@ namespace Probel.Lanceur.UnitTest
         #endregion Fields
 
         #region Methods
-
-        private static void GetCmdWithMultipleParameters(out string cmd, out string param, out Cmdline cmdline)
-        {
-            cmd = "a";
-            param = "un deux trois quatre";
-            var mgt = new ParameterResolver(_clipboard);
-            cmdline = mgt.Split($"{cmd} {param}");
-        }
-
-        private static void GetCmdWithOneParameter(out string cmd, out string param, out Cmdline cmdline)
-        {
-            cmd = "a";
-            param = "un_deux_trois_quatre";
-            var mgt = new ParameterResolver(_clipboard);
-            cmdline = mgt.Split($"{cmd} {param}");
-        }
 
         [Fact]
         public void Can_split_multiple_parameter_right_cmd()
@@ -58,6 +42,22 @@ namespace Probel.Lanceur.UnitTest
         {
             GetCmdWithOneParameter(out _, out var param, out var cmdline);
             Assert.Equal(param, cmdline.Parameters);
+        }
+
+        private static void GetCmdWithMultipleParameters(out string cmd, out string param, out Cmdline cmdline)
+        {
+            cmd = "a";
+            param = "un deux trois quatre";
+            var mgt = new ParameterResolver(_clipboard);
+            cmdline = mgt.Split($"{cmd} {param}");
+        }
+
+        private static void GetCmdWithOneParameter(out string cmd, out string param, out Cmdline cmdline)
+        {
+            cmd = "a";
+            param = "un_deux_trois_quatre";
+            var mgt = new ParameterResolver(_clipboard);
+            cmdline = mgt.Split($"{cmd} {param}");
         }
 
         #endregion Methods
