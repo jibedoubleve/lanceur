@@ -59,7 +59,7 @@ namespace Probel.Lanceur.Controls
         #region Events
 
         public event EventHandler<AliasTextEventArgs> AliasClicked;
-        
+
 
         #endregion Events
 
@@ -88,6 +88,8 @@ namespace Probel.Lanceur.Controls
             get => GetValue(SelectedItemProperty);
             private set => SetValue(SelectedItemProperty, value);
         }
+
+        public string SelectedText =>   SelectedItem is AliasText at ? at.Name : SelectedItem?.ToString();
 
         public string SessionName
         {
