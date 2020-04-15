@@ -12,15 +12,24 @@ namespace Probel.Lanceur.Actions.Words
 
         protected override void DoExecute(string arg)
         {
-            var settings = Container.Resolve<ISettingsService>();
+            if (string.IsNullOrWhiteSpace(arg))
+            {
+                Notifyer.NotifyWarning($"Cannot switch to an empty session!");
+                return;
+            }
+            else
+            {
+                var settings = Container.Resolve<ISettingsService>();
 
-            var s = DataService.GetSession(arg) ?? new AliasSession();
+                var s = DataService.GetSession(arg) ?? new AliasSession();
 
-            var aps = settings.Get();
-            aps.SessionId = s.Id;
-            settings.Save(aps);
+                var aps = settings.Get();
+                aps.SessionId = s.Id;
+                settings.Save(aps);
 
-            Log.Info($"Switched to Session [{s.Id}] - {s.Name}");
+                Log.Info($"Switched to Session '{s.Name}'");
+                Notifyer.NotifyInfo($"Switched to Session [{s.Id}] - {s.Name}");
+            }
         }
 
         #endregion Methods

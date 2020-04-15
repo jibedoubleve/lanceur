@@ -75,7 +75,7 @@
     <Compile Include="Plugins\IPluginMetadata.cs" />
     <Compile Include="ServicesImpl\AliasService.cs" />
     <Compile Include="ServicesImpl\JsonSettingsService.cs" />
-    <Compile Include="ServicesImpl\MacroManagement\IMacroAction.cs" />
+    <Compile Include="Services\IMacroAction.cs" />
     <Compile Include="ServicesImpl\NLogLogger.cs" />
     <Compile Include="ServicesImpl\ReservedKeywordService.cs" />
     <Compile Include="Services\IActionCollection.cs" />

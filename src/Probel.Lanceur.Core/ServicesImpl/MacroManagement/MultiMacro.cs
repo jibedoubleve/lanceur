@@ -1,8 +1,8 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Core.Services.MacroManagement;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
 {

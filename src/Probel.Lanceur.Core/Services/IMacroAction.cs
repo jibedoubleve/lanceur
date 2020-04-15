@@ -1,7 +1,6 @@
 ﻿using Probel.Lanceur.Core.Entities;
-using Probel.Lanceur.Core.Services;
 
-namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
+namespace Probel.Lanceur.Core.Services.MacroManagement
 {
     public interface IMacroAction
     {
