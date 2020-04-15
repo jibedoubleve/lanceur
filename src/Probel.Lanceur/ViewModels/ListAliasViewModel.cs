@@ -30,10 +30,10 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public ListAliasViewModel(IDataSourceService databaseService, 
-            IDialogCoordinator dialog, 
-            EditAliasViewModel editaliasViewModel, 
-            ILogService log, 
+        public ListAliasViewModel(IDataSourceService databaseService,
+            IDialogCoordinator dialog,
+            EditAliasViewModel editaliasViewModel,
+            ILogService log,
             ISettingsService settingService)
         {
             _settingService = settingService;
@@ -42,6 +42,7 @@ namespace Probel.Lanceur.ViewModels
             _dialog = dialog;
             _databaseService = databaseService;
             EditAliasViewModel = editaliasViewModel;
+            EditAliasViewModel.OnRefresh = () => RefreshData();
         }
 
         #endregion Constructors
