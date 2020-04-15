@@ -56,7 +56,7 @@
             </Controls:MetroHeader.HeaderTemplate>
             <DataGrid
                 x:Name="Names"
-                Height="80"
+                Height="135"
                 AutoGenerateColumns="False"
                 BorderThickness="1"
                 GridLinesVisibility="Horizontal"

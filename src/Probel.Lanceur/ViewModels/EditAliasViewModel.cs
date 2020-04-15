@@ -108,7 +108,7 @@ namespace Probel.Lanceur.ViewModels
             _databaseService.Update(Alias.AsEntity());
 
             foreach (var name in Names) { name.IdAlias = Alias.Id; }
-            _databaseService.Update(Names.AsEntity());
+            _databaseService.Update(Names.AsEntity(), Alias.Id);
             UserNotifyer.NotifyInfo("Alias updated!");
         }
 
