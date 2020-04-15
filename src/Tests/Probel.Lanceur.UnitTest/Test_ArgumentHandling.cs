@@ -14,6 +14,20 @@ namespace Probel.Lanceur.UnitTest
 
         #endregion Fields
 
+        #region Properties
+
+        public static IDataSourceService DataSource
+        {
+            get
+            {
+                var ds = Substitute.For<IDataSourceService>();
+                ds.AliasExists(Arg.Any<string>(), Arg.Any<long>()).Returns(true);
+                return ds;
+            }
+        }
+
+        #endregion Properties
+
         #region Methods
 
         [Fact]
@@ -48,16 +62,16 @@ namespace Probel.Lanceur.UnitTest
         {
             cmd = "a";
             param = "un deux trois quatre";
-            var mgt = new ParameterResolver(_clipboard);
-            cmdline = mgt.Split($"{cmd} {param}");
+            var mgt = new ParameterResolver(_clipboard, DataSource);
+            cmdline = mgt.Split($"{cmd} {param}", 0);
         }
 
         private static void GetCmdWithOneParameter(out string cmd, out string param, out Cmdline cmdline)
         {
             cmd = "a";
             param = "un_deux_trois_quatre";
-            var mgt = new ParameterResolver(_clipboard);
-            cmdline = mgt.Split($"{cmd} {param}");
+            var mgt = new ParameterResolver(_clipboard, DataSource);
+            cmdline = mgt.Split($"{cmd} {param}", 0);
         }
 
         #endregion Methods

@@ -43,6 +43,7 @@ namespace Probel.Lanceur.ViewModels
             _dialog = dialog;
             _databaseService = databaseService;
             EditAliasViewModel = editaliasViewModel;
+            EditAliasViewModel.OnRefresh = () => RefreshData();
         }
 
         #endregion Constructors

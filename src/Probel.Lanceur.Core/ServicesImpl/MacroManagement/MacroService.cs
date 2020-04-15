@@ -1,5 +1,6 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Core.Services.MacroManagement;
 using Probel.Lanceur.Plugin;
 using System;
 using System.Linq;

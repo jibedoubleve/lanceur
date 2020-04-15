@@ -8,7 +8,15 @@ namespace Probel.Lanceur.UnitTest
     public class Test_ArgumentsResolving
     {
         #region Methods
-
+        public static IDataSourceService DataSource
+        {
+            get
+            {
+                var ds = Substitute.For<IDataSourceService>();
+                ds.AliasExists(Arg.Any<string>(), Arg.Any<long>()).Returns(true);
+                return ds;
+            }
+        }
         [Fact]
         public void Can_resolve_raw_text()
         {
@@ -17,7 +25,7 @@ namespace Probel.Lanceur.UnitTest
 
             var cb = Substitute.For<IClipboardService>();
             cb.GetText().Returns(string.Empty);
-            var pm = new ParameterResolver(cb);
+            var pm = new ParameterResolver(cb, DataSource);
             var result = pm.Resolve("$I$", before);
 
             Assert.Equal(after, result.FileName);
@@ -31,7 +39,7 @@ namespace Probel.Lanceur.UnitTest
 
             var cb = Substitute.For<IClipboardService>();
             cb.GetText().Returns(string.Empty);
-            var pm = new ParameterResolver(cb);
+            var pm = new ParameterResolver(cb, DataSource);
             var result = pm.Resolve("$W$", before);
 
             Assert.Equal(after, result.FileName);
@@ -45,7 +53,7 @@ namespace Probel.Lanceur.UnitTest
 
             var cb = Substitute.For<IClipboardService>();
             cb.GetText().Returns(string.Empty);
-            var pm = new ParameterResolver(cb);
+            var pm = new ParameterResolver(cb, DataSource);
             var result = pm.Resolve("$W$", before);
 
             Assert.Equal(after, result.FileName);

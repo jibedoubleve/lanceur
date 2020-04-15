@@ -159,7 +159,8 @@ namespace Probel.Lanceur.ViewModels
 
         public ExecutionResult ExecuteText(string cmdline1, string cmdline2)
         {
-            var cmd = _resolver.Merge(cmdline1, cmdline2);
+            var sid = _settingsService.Get().SessionId;
+            var cmd = _resolver.Merge(cmdline1, cmdline2, sid);
 
             return ExecuteText(cmd.ToString());
         }

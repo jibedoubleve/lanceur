@@ -89,6 +89,12 @@ namespace Probel.Lanceur.Views
             else if (e.Key == Key.Escape) { HideControl(); }
             else if (e.Key == Key.Up) { Results.SelectNextItem(); }
             else if (e.Key == Key.Down) { Results.SelectPreviousItem(); }
+            else if (e.Key == Key.Tab)
+            {
+                AliasTextBox.Text = Results.SelectedText + " ";
+                AliasTextBox.CaretIndex = AliasTextBox.Text.Length;
+                e.Handled = true;
+            }
         }
 
         private void OnKeyPressedWindow(object sender, KeyEventArgs e)

@@ -102,15 +102,19 @@ namespace Probel.Lanceur.ViewModels
                 var names = _databaseService.GetNamesOf(Alias.AsEntity());
                 Names = new ObservableCollection<AliasNameModel>(names.AsModel());
             }
+
         }
+
+        public System.Action OnRefresh { get; set; }
 
         public void UpdateAlias()
         {
             _databaseService.Update(Alias.AsEntity());
 
             foreach (var name in Names) { name.IdAlias = Alias.Id; }
-            _databaseService.Update(Names.AsEntity());
+            _databaseService.Update(Names.AsEntity(), Alias.Id);
             UserNotifyer.NotifyInfo("Alias updated!");
+            OnRefresh?.Invoke();
         }
 
         private void RefreshParentList()

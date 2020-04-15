@@ -179,25 +179,14 @@ namespace Probel.Lanceur.SQLiteDb.Services
             }
         }
 
-        public void Update(IEnumerable<AliasName> names)
+        public void Update(IEnumerable<AliasName> names, long idAlias)
         {
+            var sqlDelete = "delete from alias_name where id_alias = @idAlias";
+            var sqlInsert = "insert into alias_name(id_alias, name) values(@idAlias, @name)";
             using (var c = BuildConnection())
             {
-                var sqlInsert = @"insert into alias_name (name, id_alias) values (@name, @aliasId)";
-                var sqlUpdate = @"update alias_name set name = @name where id = @id";
-                foreach (var name in names)
-                {
-                    if (name.Id == 0)
-                    {
-                        _log.Debug($"Insert new. id_alias: {name.IdAlias} - name: {name.Name} - id: {name.Id}");
-                        c.Execute(sqlInsert, new { name = name.Name, aliasId = name.IdAlias });
-                    }
-                    else
-                    {
-                        _log.Debug($"Update. id_alias: {name.IdAlias} - name: {name.Name} - id: {name.Id}");
-                        c.Execute(sqlUpdate, new { name.Name, name.Id });
-                    }
-                }
+                c.Execute(sqlDelete, new { idAlias });
+                foreach (var name in names) { c.Execute(sqlInsert, new { idAlias, name.Name }); }
             }
         }
 

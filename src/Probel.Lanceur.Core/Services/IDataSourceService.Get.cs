@@ -3,26 +3,28 @@ using System.Collections.Generic;
 
 namespace Probel.Lanceur.Core.Services
 {
-	public partial interface IDataSourceService
-	{
-		#region Methods
+    public partial interface IDataSourceService
+    {
+        #region Methods
 
-		Alias GetAlias(string name, long sessionId);
+        bool AliasExists(string name, long sessionId);
 
-		IEnumerable<Alias> GetAliases(long sessionId);
+        Alias GetAlias(string name, long sessionId);
 
-		IEnumerable<AliasText> GetAliasNames(long sessionId);
+        IEnumerable<Alias> GetAliases(long sessionId);
 
-		IEnumerable<Doubloon> GetDoubloons(long sessionId);
+        IEnumerable<AliasText> GetAliasNames(long sessionId);
 
-		IEnumerable<AliasName> GetNamesOf(Alias alias);
+        IEnumerable<Doubloon> GetDoubloons(long sessionId);
 
-		AliasSession GetSession(long sessionId);
+        IEnumerable<AliasName> GetNamesOf(Alias alias);
 
-		AliasSession GetSession(string sessionName);
+        AliasSession GetSession(long sessionId);
 
-		IEnumerable<AliasSession> GetSessions();
+        AliasSession GetSession(string sessionName);
 
-		#endregion Methods
-	}
+        IEnumerable<AliasSession> GetSessions();
+
+        #endregion Methods
+    }
 }

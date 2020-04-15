@@ -72,6 +72,13 @@ namespace Probel.Lanceur.Core.PluginsImpl
                     if (type != null) { pluginTypes.Add(dll, type); }
                     else { _logger.Warning($"Didn't find any plugins."); }
                 }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    var msg = string.Empty;
+                    foreach (var item in ex?.LoaderExceptions) {
+                        _logger.Error(item.Message, ex); }
+                    throw new InvalidOperationException($"One or more plugins cannot be loaded. This is probably a version mismatch.", ex);
+                }
                 catch (InvalidOperationException ex) { throw new InvalidOperationException($"An error occured when searching 'Plugin' class for dll '{dll}'", ex); }
             }
         }
