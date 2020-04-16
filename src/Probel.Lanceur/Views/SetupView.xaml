@@ -31,11 +31,15 @@
             <TabItem x:Name="_tabPlugins" Header="Plugins">
                 <ContentControl x:Name="EditPluginViewModel" />
             </TabItem>
-            <TabItem x:Name="_tabDoubloons" Header="Doubloons">
-                <ContentControl x:Name="EditDoubloonsViewModel" />
-            </TabItem>
-            <TabItem x:Name="_tabObsolete" Header="Empty keywords">
-                <ContentControl x:Name="EditObsoleteKeywordsViewModel" />
+            <TabItem Header="Reconciliation">
+                <TabControl TabStripPlacement="Right">
+                    <TabItem x:Name="_tabDoubloons" Header="Doubloons">
+                        <ContentControl x:Name="EditDoubloonsViewModel" />
+                    </TabItem>
+                    <TabItem x:Name="_tabObsolete" Header="Empty keywords">
+                        <ContentControl x:Name="EditObsoleteKeywordsViewModel" />
+                    </TabItem>
+                </TabControl>
             </TabItem>
         </Controls:MetroAnimatedTabControl>
         <StatusBar Grid.Row="1">

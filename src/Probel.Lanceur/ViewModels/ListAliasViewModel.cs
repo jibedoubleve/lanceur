@@ -87,7 +87,7 @@ namespace Probel.Lanceur.ViewModels
             var result = MessageDialogResult.Negative;
             try
             {
-                result = await _dialog.ShowMessageAsync(this, "QUESTION", $"Do you want to delte the alias '{name}'?", MessageDialogStyle.AffirmativeAndNegative, opt);
+                result = await _dialog.ShowMessageAsync(this, "QUESTION", $"Do you want to delete the alias '{name}'?", MessageDialogStyle.AffirmativeAndNegative, opt);
             }
             catch (Exception ex) { _log.Debug(ex); }
 
