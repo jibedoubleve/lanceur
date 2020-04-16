@@ -49,7 +49,7 @@ namespace Probel.Lanceur.ViewModels
 
         #region Methods
 
-        public async Task DeleteCurrent(long id)
+        public async Task DeleteCurrentAsync(long id)
         {
             var response = await _notifyer.AskAsync("Do you want to delete this doubloon?");
             if (response == NotificationResult.Affirmative)
