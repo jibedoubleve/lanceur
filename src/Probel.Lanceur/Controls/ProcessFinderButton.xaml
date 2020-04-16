@@ -13,6 +13,7 @@
             BorderThickness="0"
             Style="{DynamicResource DefaultButton}">
             <iconPacks:PackIconModern
+                Foreground="Crimson"
                 x:Name="_iconCrossHair"
                 Width="20"
                 Height="20"
