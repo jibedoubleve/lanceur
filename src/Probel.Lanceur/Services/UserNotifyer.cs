@@ -1,5 +1,8 @@
-﻿using Notifications.Wpf;
+﻿using MahApps.Metro.Controls.Dialogs;
+using Notifications.Wpf;
+using Probel.Lanceur.Core.Services;
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -9,23 +12,28 @@ namespace Probel.Lanceur.Services
     {
         #region Fields
 
+        private readonly IDialogCoordinator _dialog;
+        private readonly ILogService _log;
         private readonly INotificationManager _notifyer;
+        private static object _dialogSource;
 
         #endregion Fields
 
         #region Constructors
 
-        public UserNotifyer(INotificationManager notifyer)
+        public UserNotifyer(INotificationManager notifyer, IDialogCoordinator dialog, ILogService log)
         {
+            _log = log;
             _notifyer = notifyer;
+            _dialog = dialog;
         }
 
         #endregion Constructors
 
         #region Methods
+        public void SetDialogSource(object src) => _dialogSource = src;
 
-        //TODO: need improvment. UI should be in the Mahapps fashion
-        public NotificationResult Ask(string message, string title = null)
+        private NotificationResult Ask(string message, string title = null)
         {
             var result = MessageBox.Show(message, title ?? "QUESTION", MessageBoxButton.YesNo, MessageBoxImage.Question);
             switch (result)
@@ -39,13 +47,45 @@ namespace Probel.Lanceur.Services
             }
         }
 
+        public async Task<NotificationResult> AskAsync(string message, string title = null)
+        {
+            if (_dialogSource == null)
+            {
+                var result = Ask(message, title);
+                return await Task.FromResult(result);
+            }
+            else
+            {
+                var opt = new MetroDialogSettings()
+                {
+                    AffirmativeButtonText = "Yes",
+                    NegativeButtonText = "No",
+                };
+
+                var result = MessageDialogResult.Negative;
+                try
+                {
+                    result = await _dialog.ShowMessageAsync(_dialogSource, title ?? "QUESTION", message, MessageDialogStyle.AffirmativeAndNegative, opt);
+                }
+                catch (Exception ex) { _log.Warning(ex); }
+
+                switch (result)
+                {
+                    case MessageDialogResult.Canceled: return NotificationResult.Canceled;
+                    case MessageDialogResult.Negative: return NotificationResult.Negative;
+                    case MessageDialogResult.Affirmative: return NotificationResult.Affirmative;
+                    default: throw new NotSupportedException($"The result '{result}' is not supported as an answer.");
+                }
+            }
+        }
+
+        public void NotifyEndWait() => Mouse.OverrideCursor = null;
+
         public void NotifyError(string message, string title = null) => Notify(message, title, NotificationType.Error);
 
         public void NotifyInfo(string message, string title = null) => Notify(message, title, NotificationType.Information);
 
         public void NotifyWait() => Mouse.OverrideCursor = Cursors.Wait;
-
-        public void NotifyEndWait() => Mouse.OverrideCursor = null;
 
         public void NotifyWarning(string message, string title = null) => Notify(message, title, NotificationType.Warning);
 

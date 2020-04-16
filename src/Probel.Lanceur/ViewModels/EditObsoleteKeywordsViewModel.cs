@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Probel.Lanceur.ViewModels
@@ -48,9 +49,9 @@ namespace Probel.Lanceur.ViewModels
 
         #region Methods
 
-        public void DeleteCurrent(long id)
+        public async Task DeleteCurrent(long id)
         {
-            var response = _notifyer.Ask("Do you want to delete this doubloon?");
+            var response = await _notifyer.AskAsync("Do you want to delete this doubloon?");
             if (response == NotificationResult.Affirmative)
             {
                 _dataService.Delete(id);

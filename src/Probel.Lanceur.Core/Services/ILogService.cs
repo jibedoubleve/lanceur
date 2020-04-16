@@ -10,15 +10,17 @@ namespace Probel.Lanceur.Core.Services
 
         void Debug(Exception ex);
 
-        void Fatal(string message, Exception ex = null);
-
         void Error(string message, Exception ex = null);
+
+        void Fatal(string message, Exception ex = null);
 
         void Info(string message);
 
         void Trace(string message);
 
         void Warning(string message, Exception ex = null);
+
+        void Warning(Exception ex);
 
         #endregion Methods
     }

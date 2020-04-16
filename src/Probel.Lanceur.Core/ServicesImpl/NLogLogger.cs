@@ -40,6 +40,8 @@ namespace Probel.Lanceur.Services
             else { _logger.Warn(message); }
         }
 
+        public void Warning(Exception ex) => Warning(ex.Message, ex);
+
         #endregion Methods
     }
 }
