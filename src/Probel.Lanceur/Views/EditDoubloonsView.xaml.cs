@@ -1,4 +1,5 @@
 ﻿using Probel.Lanceur.ViewModels;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace Probel.Lanceur.Views
@@ -25,11 +26,11 @@ namespace Probel.Lanceur.Views
 
         #region Methods
 
-        private void OnDeleteDoubloon(object sender, System.Windows.RoutedEventArgs e)
+        private async void OnDeleteDoubloon(object sender, System.Windows.RoutedEventArgs e)
         {
             if (sender is Button btn && btn.Tag is long id)
             {
-                ViewModel.DeleteCurrent(id);
+                await ViewModel.DeleteCurrentAsync(id);
             }
         }
 

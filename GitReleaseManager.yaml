@@ -22,6 +22,7 @@ issue-labels-exclude:
 - wontfix
 - duplicate
 - documentation
+- invalid
 issue-labels-alias:
     - name:    Documentation
       header:  Documentation

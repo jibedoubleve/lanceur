@@ -43,6 +43,8 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         public void Warning(string message, Exception ex = null) => WriteLine(Level.Warning, message, ex);
 
+        public void Warning(Exception ex) => WriteLine(Level.Warning, ex.Message, ex);
+
         private void WriteLine(Level level, string message, Exception ex = null)
         {
             var msg = string.Format(TEMPLATE, level.ToString().ToUpper(), message);

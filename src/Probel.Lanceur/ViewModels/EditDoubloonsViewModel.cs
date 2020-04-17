@@ -1,10 +1,9 @@
 ﻿using Caliburn.Micro;
-using MahApps.Metro.Controls.Dialogs;
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Services;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
+using System.Threading.Tasks;
 
 namespace Probel.Lanceur.ViewModels
 {
@@ -47,9 +46,9 @@ namespace Probel.Lanceur.ViewModels
 
         #region Methods
 
-        public void DeleteCurrent(long id)
+        public async Task DeleteCurrentAsync(long id)
         {
-            var response = _notifyer.Ask("Do you want to delete this doubloon?");
+            var response = await _notifyer.AskAsync("Do you want to delete this doubloon?");
             if (response == NotificationResult.Affirmative)
             {
                 _dataService.Delete(id);

@@ -1,10 +1,10 @@
 ﻿using Caliburn.Micro;
-using MahApps.Metro.Controls.Dialogs;
 using Probel.Lanceur.Core.Entities.Settings;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Models;
 using Probel.Lanceur.Plugin;
+using Probel.Lanceur.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,8 +19,8 @@ namespace Probel.Lanceur.ViewModels
 
         public AppSettings _appSettings;
         private readonly IDataSourceService _databaseService;
-        private readonly IDialogCoordinator _dialog;
         private readonly ILogService _log;
+        private readonly IUserNotifyer _notifyer;
         private readonly ISettingsService _settingService;
 
         private IEnumerable<AliasModel> _bufferAlias;
@@ -32,15 +32,15 @@ namespace Probel.Lanceur.ViewModels
         #region Constructors
 
         public ListAliasViewModel(IDataSourceService databaseService,
-            IDialogCoordinator dialog,
             EditAliasViewModel editaliasViewModel,
             ILogService log,
-            ISettingsService settingService)
+            ISettingsService settingService,
+            IUserNotifyer notifyer)
         {
+            _notifyer = notifyer;
             _settingService = settingService;
             _appSettings = settingService.Get();
             _log = log;
-            _dialog = dialog;
             _databaseService = databaseService;
             EditAliasViewModel = editaliasViewModel;
             EditAliasViewModel.OnRefresh = () => RefreshData();
@@ -79,20 +79,8 @@ namespace Probel.Lanceur.ViewModels
 
         public async Task<bool> AskForDeletion(string name)
         {
-            var opt = new MetroDialogSettings()
-            {
-                AffirmativeButtonText = "Yes",
-                NegativeButtonText = "No",
-            };
-
-            var result = MessageDialogResult.Negative;
-            try
-            {
-                result = await _dialog.ShowMessageAsync(this, "QUESTION", $"Do you want to delte the alias '{name}'?", MessageDialogStyle.AffirmativeAndNegative, opt);
-            }
-            catch (Exception ex) { _log.Debug(ex); }
-
-            return (result == MessageDialogResult.Affirmative);
+            var answer = await _notifyer.AskAsync($"Do you want to delete the alias '{name}'?");
+            return answer == NotificationResult.Affirmative;
         }
 
         public void CreateKeyword(string name = null)

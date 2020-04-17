@@ -3,14 +3,17 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Settings"
     Width="850"
     Height="638"
+    Dialog:DialogParticipation.Register="{Binding}"
     Icon="/Probel.Lanceur;component/Assets/appIcon.ico"
     KeyDown="OnKeyDown"
     ResizeMode="NoResize"
+    Top="{Binding Top, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Grid>
@@ -31,11 +34,15 @@
             <TabItem x:Name="_tabPlugins" Header="Plugins">
                 <ContentControl x:Name="EditPluginViewModel" />
             </TabItem>
-            <TabItem x:Name="_tabDoubloons" Header="Doubloons">
-                <ContentControl x:Name="EditDoubloonsViewModel" />
-            </TabItem>
-            <TabItem x:Name="_tabObsolete" Header="Empty keywords">
-                <ContentControl x:Name="EditObsoleteKeywordsViewModel" />
+            <TabItem Header="Reconciliation">
+                <TabControl TabStripPlacement="Right">
+                    <TabItem x:Name="_tabDoubloons" Header="Doubloons">
+                        <ContentControl x:Name="EditDoubloonsViewModel" />
+                    </TabItem>
+                    <TabItem x:Name="_tabObsolete" Header="Empty keywords">
+                        <ContentControl x:Name="EditObsoleteKeywordsViewModel" />
+                    </TabItem>
+                </TabControl>
             </TabItem>
         </Controls:MetroAnimatedTabControl>
         <StatusBar Grid.Row="1">

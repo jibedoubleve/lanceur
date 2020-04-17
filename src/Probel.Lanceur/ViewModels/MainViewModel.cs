@@ -43,6 +43,7 @@ namespace Probel.Lanceur.ViewModels
             )
         {
             Notifyer = notifyer;
+
             LogService = logService;
             ea.Subscribe(this);
 

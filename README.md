@@ -1,9 +1,9 @@
 # Lanceur
-This is a free adaptation of Slickrun written in .NET and inspired by Wox
+This is a free adaptation of Slickrun written in .NET and with features inspired by Wox
 
-# What does it do
+# What does it do?
 
-Make a list of shortcuts, configure them and earn a lot of time by just tying the shortcut and press `ENTER`
+Make a list of shortcuts, configure them and earn a lot of time by just typing the shortcut and press `ENTER`
 
 ![img](/doc/assets/Lanceur.png)
 

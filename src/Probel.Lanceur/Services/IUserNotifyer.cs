@@ -1,4 +1,6 @@
-﻿namespace Probel.Lanceur.Services
+﻿using System.Threading.Tasks;
+
+namespace Probel.Lanceur.Services
 {
     public enum NotificationResult
     {
@@ -11,17 +13,20 @@
     {
         #region Methods
 
-        NotificationResult Ask(string message, string title = null);
+        Task<NotificationResult> AskAsync(string message, string title = null);
+
+        //NotificationResult Ask(string message, string title = null);
+        void NotifyEndWait();
 
         void NotifyError(string message, string title = null);
 
         void NotifyInfo(string message, string title = null);
 
-        void NotifyWarning(string message, string title = null);
-
         void NotifyWait();
 
-        void NotifyEndWait();
+        void NotifyWarning(string message, string title = null);
+
+        void SetDialogSource(object src);
 
         #endregion Methods
     }

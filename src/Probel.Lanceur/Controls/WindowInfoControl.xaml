@@ -19,6 +19,7 @@
         <iconPacks:PackIconModern
             Width="{StaticResource CrosshairSize}"
             Height="{StaticResource CrosshairSize}"
+            Foreground="Crimson"
             Kind="Crosshair" />
     </Border>
 </UserControl>

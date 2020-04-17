@@ -20,6 +20,8 @@ namespace Probel.Lanceur.Plugin
 
         void Warning(string message, Exception ex = null);
 
+        void Warning(Exception ex);
+
         #endregion Methods
     }
 }

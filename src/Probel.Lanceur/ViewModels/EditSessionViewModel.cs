@@ -6,6 +6,7 @@ using Probel.Lanceur.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Probel.Lanceur.ViewModels
 {
@@ -78,12 +79,12 @@ namespace Probel.Lanceur.ViewModels
 
         #region Methods
 
-        public void DeleteName()
+        public async Task DeleteName()
         {
             if (CurrentSession != null)
             {
                 var name = (CurrentSession as AliasSessionModel)?.Name ?? throw new NullReferenceException("The current session to be deleted is null");
-                if (_notifyer.Ask($"Do you want to delete the session '{name}'?") == NotificationResult.Affirmative)
+                if (await _notifyer.AskAsync($"Do you want to delete the session '{name}'?") == NotificationResult.Affirmative)
                 {
 
                     _databaseService.Delete(CastedCurrentSession.AsEntity());

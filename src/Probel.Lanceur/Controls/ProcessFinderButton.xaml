@@ -16,6 +16,7 @@
                 x:Name="_iconCrossHair"
                 Width="20"
                 Height="20"
+                Foreground="Crimson"
                 Kind="Crosshair" />
         </Button>
     </StackPanel>
