@@ -176,7 +176,7 @@ Task("Default")
     .IsDependentOn("Zip")
     .IsDependentOn("Inno-Setup");
 
-Task("Release")    
+Task("Github")    
     .IsDependentOn("Default")
     .IsDependentOn("Release-GitHub");
 
