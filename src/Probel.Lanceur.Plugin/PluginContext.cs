@@ -1,15 +1,14 @@
-﻿using Probel.Lanceur.Plugin;
-
-namespace Probel.Lanceur.Plugin
+﻿namespace Probel.Lanceur.Plugin
 {
     public class PluginContext : IPluginContext
     {
         #region Constructors
 
-        public PluginContext(ILogService logService, IPluginViewAdapter pluginViewAdapter)
+        public PluginContext(ILogService logService, IPluginViewAdapter pluginViewAdapter, IUserNotifyer userNotifyer)
         {
             LogService = logService;
             PluginViewAdapter = pluginViewAdapter;
+            UserNotifyer = userNotifyer;
         }
 
         #endregion Constructors
@@ -19,6 +18,11 @@ namespace Probel.Lanceur.Plugin
         public ILogService LogService { get; }
 
         public IPluginViewAdapter PluginViewAdapter { get; }
+
+        public IUserNotifyer UserNotifyer
+        {
+            get;
+        }
 
         #endregion Properties
     }

@@ -1,6 +1,5 @@
 ﻿using Probel.Lanceur.Plugin.Calculator.ViewModels;
 using Probel.Lanceur.Plugin.Calculator.Views;
-using Probel.Lanceur.Plugin;
 
 namespace Probel.Lanceur.Plugin.Calculator
 {
