@@ -1,4 +1,4 @@
-﻿using Probel.Lanceur.Core.Services;
+﻿using Probel.Lanceur.Plugin;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Enums;

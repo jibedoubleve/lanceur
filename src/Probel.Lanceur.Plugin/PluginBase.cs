@@ -1,7 +1,4 @@
-﻿using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Plugins;
-
-namespace Probel.Lanceur.Core.Plugins
+﻿namespace Probel.Lanceur.Plugin
 {
     public abstract class PluginBase : IPlugin
     {
@@ -9,33 +6,32 @@ namespace Probel.Lanceur.Core.Plugins
 
         private bool _isInitialised = false;
 
-        protected IMainView MainView { get; private set; }
-
         #endregion Fields
 
         #region Properties
 
         protected ILogService Logger { get; private set; }
+        protected IPluginView MainView { get; private set; }
 
         #endregion Properties
 
         #region Methods
 
-        public abstract void Execute(string parameters);
+        public abstract void Execute(Cmdline cmd);
 
-        public void Initialise(ILogService logger, IApplicationManager vm)
+        public void Initialise(IPluginContext context)
         {
-            Logger = logger;
-            MainView = vm.GetMain();
+            Logger = context.LogService;
+            MainView = context.PluginViewAdapter.GetView();
 
             if (!_isInitialised)
             {
-                Boot();
+                Initialise();
                 _isInitialised = true;
             }
         }
 
-        protected virtual void Boot()
+        protected virtual void Initialise()
         {
             /* By default nothing to do...*/
         }

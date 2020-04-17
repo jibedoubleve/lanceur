@@ -11,9 +11,9 @@ namespace Probel.Lanceur.Core.Services
     {
         #region Methods
 
-        void Handle(Alias cmd);
+        void Execute(Alias cmd);
 
-        bool Has(string name);
+        bool Exists(string name);
 
         IMacroService With(ICommandRunner cmdrunner, IAliasService aliasService);
 

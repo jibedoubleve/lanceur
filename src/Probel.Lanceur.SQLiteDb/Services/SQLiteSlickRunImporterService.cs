@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Plugin;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;

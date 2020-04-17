@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
-using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Plugin.Spotify.Spotify;
+using Probel.Lanceur.Plugin;
 using SpotifyAPI.Web.Models;
 using System;
 using System.Linq;
@@ -16,6 +16,7 @@ namespace Probel.Lanceur.Plugin.Spotify.ViewModels
         private static Image _image;
         private static string _title;
 
+        private bool _isVisible;
         private int _progress;
 
         #endregion Fields
@@ -38,6 +39,12 @@ namespace Probel.Lanceur.Plugin.Spotify.ViewModels
         {
             get => _image;
             set => Set(ref _image, value, nameof(Image));
+        }
+
+        public bool IsVisible
+        {
+            get => _isVisible;
+            set => Set(ref _isVisible, value, nameof(IsVisible));
         }
 
         public ILogService Log { get; internal set; }
@@ -73,13 +80,6 @@ namespace Probel.Lanceur.Plugin.Spotify.ViewModels
             IsVisible = true;
         }
 
-
-        private bool _isVisible;
-        public bool IsVisible
-        {
-            get => _isVisible;
-            set => Set(ref _isVisible, value, nameof(IsVisible));
-        }
         #endregion Methods
     }
 }

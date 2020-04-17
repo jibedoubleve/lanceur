@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Probel.Lanceur.Core.Entities
+namespace Probel.Lanceur.Plugin
 {
     [DebuggerDisplay("{Command} - {Parameters}")]
     public class Cmdline

@@ -1,7 +1,6 @@
-﻿using Probel.Lanceur.Core.Entities;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Probel.Lanceur.Core.Plugins
+namespace Probel.Lanceur.Plugin
 {
     public interface IPluginManager
     {
@@ -11,7 +10,7 @@ namespace Probel.Lanceur.Core.Plugins
 
         bool Exists(string name);
 
-        IEnumerable<AliasText> GetKeywords();
+        IEnumerable<PluginAlias> GetKeywords();
 
         #endregion Methods
     }

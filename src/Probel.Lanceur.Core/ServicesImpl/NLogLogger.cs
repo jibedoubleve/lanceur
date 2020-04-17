@@ -1,5 +1,5 @@
 ﻿using NLog;
-using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Plugin;
 using System;
 
 namespace Probel.Lanceur.Services

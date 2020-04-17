@@ -1,6 +1,7 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.Services.MacroManagement;
+using Probel.Lanceur.Plugin;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -28,7 +29,7 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
 
         #region Methods
 
-        public void Handle(Alias cmd)
+        public void Execute(Alias cmd)
         {
             var types = from t in Assembly.GetAssembly(typeof(IMacroAction)).GetTypes()
                         where t.GetCustomAttribute<MacroAttribute>() != null
@@ -44,7 +45,7 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
             }
         }
 
-        public bool Has(string name) => Macros.Has(name);
+        public bool Exists(string name) => Macros.Has(name);
 
         public IMacroService With(ICommandRunner cmdrunner, IAliasService aliasService)
         {

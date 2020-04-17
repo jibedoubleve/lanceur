@@ -1,6 +1,7 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.Services.MacroManagement;
+using Probel.Lanceur.Plugin;
 using System.Text.RegularExpressions;
 using System.Threading;
 

@@ -1,9 +1,9 @@
 ﻿using NHotkey;
 using NHotkey.Wpf;
 using Probel.Lanceur.Core.Entities;
-using Probel.Lanceur.Core.Plugins;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Events;
+using Probel.Lanceur.Plugin;
 using Probel.Lanceur.ViewModels;
 using System;
 using System.ComponentModel;
@@ -16,7 +16,7 @@ namespace Probel.Lanceur.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainView : Window, IMainView
+    public partial class MainView : Window, IPluginView
     {
         #region Fields
 
@@ -107,7 +107,6 @@ namespace Probel.Lanceur.Views
             var result = ViewModel?.ExecuteText(e.Alias.Name) ?? ExecutionResult.Failure;
             if (!result.IsError) { HideControl(); }
         }
-
 
         private void OnShowWindow(object sender, HotkeyEventArgs e)
         {

@@ -3,6 +3,7 @@ using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Entities.Settings;
 using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Plugin;
 using Probel.Lanceur.Services;
 using System;
 using System.Collections.ObjectModel;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Probel.Lanceur.Core.Services
+namespace Probel.Lanceur.Plugin
 {
     public interface ILogService
     {

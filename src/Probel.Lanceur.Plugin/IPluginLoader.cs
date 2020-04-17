@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Probel.Lanceur.Core.Plugins
+namespace Probel.Lanceur.Plugin
 {
     public interface IPluginLoader
     {

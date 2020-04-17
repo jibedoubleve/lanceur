@@ -1,5 +1,5 @@
-﻿using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Helpers;
+﻿using Probel.Lanceur.Helpers;
+using Probel.Lanceur.Plugin;
 using Probel.Lanceur.ViewModels;
 using System.ComponentModel;
 using Unity;

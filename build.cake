@@ -25,6 +25,12 @@ var verbosity = Argument("verbosity", Verbosity.Minimal);
  */
 var assets = new List<string>(); 
 
+/* These arguments are used to build the nuget packages
+ */
+ var latestInstallationPath = VSWhereLatest(new VSWhereLatestSettings { IncludePrerelease = true });
+var msBuildPath = latestInstallationPath.Combine("./MSBuild/Current/Bin");
+var msBuildPathExe = msBuildPath.CombineWithFilePath("./MSBuild.exe");
+
 ///////////////////////////////////////////////////////////////////////////////
 // PREPARATION
 ///////////////////////////////////////////////////////////////////////////////
@@ -166,12 +172,41 @@ Task("Release-GitHub")
         };
 
         GitReleaseManagerCreate(token, owner, "Lanceur", stg);  
-    });
+});
+
+Task("Pack")
+    .ContinueOnError()
+    .Does(() =>
+{
+    EnsureDirectoryExists(Directory(publishDir));
+
+    var msBuildSettings = new MSBuildSettings {
+        Verbosity = verbosity
+        , ToolPath = msBuildPathExe
+        , Configuration = configuration
+    };
+
+    var project = "./src/Probel.Lanceur.Plugin/Probel.Lanceur.Plugin.csproj";
+    MSBuild(project, msBuildSettings
+      .WithTarget("pack")
+      .WithProperty("NoBuild", "true")
+      .WithProperty("IncludeBuildOutput", "true")
+      .WithProperty("PackageOutputPath", "../../" + publishDir)
+      .WithProperty("RepositoryBranch", branchName)
+      .WithProperty("RepositoryCommit", gitVersion.Sha)
+      .WithProperty("Description", "This is the library to use to create plugins for Lanceur")
+      .WithProperty("Version", gitVersion.MajorMinorPatch)
+      .WithProperty("AssemblyVersion", gitVersion.AssemblySemVer)
+      .WithProperty("FileVersion", gitVersion.AssemblySemFileVer)
+      .WithProperty("InformationalVersion", gitVersion.InformationalVersion)
+    );
+});
 
 Task("Default")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
+    .IsDependentOn("Pack")
     .IsDependentOn("Unit-Test")
     .IsDependentOn("Zip")
     .IsDependentOn("Inno-Setup");

@@ -1,5 +1,5 @@
-﻿using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Plugin.Calculator.ViewModels;
+﻿using Probel.Lanceur.Plugin.Calculator.ViewModels;
+using Probel.Lanceur.Plugin;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -23,12 +23,12 @@ namespace Probel.Lanceur.Plugin.Calculator.Views
         #region Properties
 
         private ILogService Log => ViewModel.Log;
+
         private ResultViewModel ViewModel => DataContext as ResultViewModel;
 
         #endregion Properties
 
         #region Methods
-
 
         private void OnTextBoxKeyDown(object sender, KeyEventArgs e)
         {

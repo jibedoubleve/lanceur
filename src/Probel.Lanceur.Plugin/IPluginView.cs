@@ -1,6 +1,6 @@
-﻿namespace Probel.Lanceur.Core.Plugins
+﻿namespace Probel.Lanceur.Plugin
 {
-    public interface IMainView
+    public interface IPluginView
     {
         #region Methods
 

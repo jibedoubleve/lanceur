@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>Lanceur.Plugin</PackageId>
+    <PackageLicenseExpression>GPL3</PackageLicenseExpression>
+    <Authors>Wautier JB</Authors>
+    <Company>Wautier JB</Company>
+    <Product>Lanceur</Product>
+    <Description>Root to create plugin for Lanceur</Description>
+    <PackageProjectUrl>https://github.com/jibedoubleve/lanceur</PackageProjectUrl>
+    <PackageTags>Wox slickrun plugin</PackageTags>
+  </PropertyGroup>
+
+</Project>
