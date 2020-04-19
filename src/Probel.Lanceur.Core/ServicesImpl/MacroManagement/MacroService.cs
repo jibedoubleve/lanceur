@@ -12,16 +12,16 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
         #region Fields
 
         private readonly ILogService _log;
-        private IAliasService _aliasService;
-        private ICommandRunner _cmdrunner;
+        private readonly ICommandRunner _runner;
 
         #endregion Fields
 
         #region Constructors
 
-        public MacroService(ILogService logservice)
+        public MacroService(ILogService logservice, ICommandRunner runner)
         {
             _log = logservice;
+            _runner = runner;
         }
 
         #endregion Constructors
@@ -39,19 +39,13 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
             {
                 _log.Trace($"Found maro action of type '{type}'");
                 var action = (IMacroAction)Activator.CreateInstance(type);
-                action.With(_cmdrunner, _log, _aliasService)
+                action.With(_log, _runner)
                       .Execute(cmd);
             }
         }
 
         public bool Exists(string name) => Macros.Has(name);
 
-        public IMacroService With(ICommandRunner cmdrunner, IAliasService aliasService)
-        {
-            _cmdrunner = cmdrunner;
-            _aliasService = aliasService;
-            return this;
-        }
 
         #endregion Methods
     }

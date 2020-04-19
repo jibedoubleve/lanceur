@@ -102,6 +102,12 @@ namespace Probel.Lanceur.Core.PluginsImpl
             return metadata;
         }
 
+        public void Execute(Cmdline cmd)
+        {
+            var plugin = Build(cmd.Command);
+            plugin?.Execute(cmd);
+        }
+
         #endregion Methods
     }
 }

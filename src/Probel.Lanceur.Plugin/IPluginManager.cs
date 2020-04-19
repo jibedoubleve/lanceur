@@ -8,6 +8,8 @@ namespace Probel.Lanceur.Plugin
 
         IPlugin Build(string name);
 
+        void Execute(Cmdline cmd);
+
         bool Exists(string name);
 
         IEnumerable<PluginAlias> GetKeywords();

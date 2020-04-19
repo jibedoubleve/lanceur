@@ -10,7 +10,7 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
 
         void Execute(Alias alias);
 
-        IMacroAction With(ICommandRunner cmdrunner, ILogService log, IAliasService aliasService);
+        IMacroAction With(ILogService log, ICommandRunner runner);
 
         #endregion Methods
     }
