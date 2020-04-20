@@ -2,30 +2,12 @@
 using EvernoteSDK.Advanced;
 using Probel.Lanceur.Plugin.Evernote.Models;
 using System;
+using System.Diagnostics;
 
 namespace Probel.Lanceur.Plugin.Evernote.Services
 {
     internal class EvernoteService
     {
-        #region Fields
-
-        private Settings _settings = null;
-
-        #endregion Fields
-
-        #region Properties
-
-        private Settings Settings
-        {
-            get
-            {
-                if (_settings == null) { _settings = SettingsService.Get(); }
-                return _settings;
-            }
-        }
-
-        #endregion Properties
-
         #region Methods
 
         public void SaveNote(string title) => Create(title);
@@ -44,6 +26,20 @@ namespace Probel.Lanceur.Plugin.Evernote.Services
             return results;
         }
 
+        private void Connect()
+        {
+            var s = Settings.Load();
+
+            // Supply your key using ENSessionAdvanced instead of ENEsssion, to indicate your use of the Advanced interface.
+            // Be sure to put your own consumer key and consumer secret here.
+            ENSessionAdvanced.SetSharedSessionConsumerKey(s.Host, s.Key, s.Server);
+
+            if (ENSession.SharedSession.IsAuthenticated == false)
+            {
+                ENSession.SharedSession.AuthenticateToEvernote();
+            }
+        }
+
         private void Create(string title, DateTime? dt = null)
         {
             Connect();
@@ -51,21 +47,13 @@ namespace Probel.Lanceur.Plugin.Evernote.Services
             // Create a note (in the user's default notebook) with an attribute set (in this case, the ReminderOrder attribute to create a Reminder).
             ENNoteAdvanced note = new ENNoteAdvanced { Title = title };
             note.Content = ENNoteContent.NoteContentWithString("");
-            if (dt.HasValue) { note.EdamAttributes["ReminderOrder"] = dt.Value.ToEdamTimestamp(); }
+            if (dt.HasValue)
+            {
+                note.EdamAttributes["ReminderOrder"] = dt.Value.ToEdamTimestamp();
+                note.EdamAttributes["ReminderTime"] = dt.Value.ToEdamTimestamp();
+            }
 
             ENSession.SharedSession.UploadNote(note, null);
-        }
-
-        private void Connect()
-        {
-            // Supply your key using ENSessionAdvanced instead of ENEsssion, to indicate your use of the Advanced interface.
-            // Be sure to put your own consumer key and consumer secret here.
-            ENSessionAdvanced.SetSharedSessionConsumerKey(Settings.Host, Settings.Key, Settings.Server);
-
-            if (ENSession.SharedSession.IsAuthenticated == false)
-            {
-                ENSession.SharedSession.AuthenticateToEvernote();
-            }
         }
 
         #endregion Methods

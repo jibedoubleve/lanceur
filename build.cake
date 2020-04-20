@@ -9,6 +9,7 @@
 
 #addin Cake.Figlet
 #addin Cake.Powershell
+#addin "Cake.FileHelpers"
 
 ///////////////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -27,9 +28,14 @@ var assets = new List<string>();
 
 /* These arguments are used to build the nuget packages
  */
- var latestInstallationPath = VSWhereLatest(new VSWhereLatestSettings { IncludePrerelease = true });
+var latestInstallationPath = VSWhereLatest(new VSWhereLatestSettings { IncludePrerelease = true });
 var msBuildPath = latestInstallationPath.Combine("./MSBuild/Current/Bin");
 var msBuildPathExe = msBuildPath.CombineWithFilePath("./MSBuild.exe");
+
+/* These arguments are used for Evernote Plugin. It contains the
+ * information to build the json file with API key and host
+ */
+ var evernote_cfg_dest = @"%userprofile%\Documents\Secrets\evenrote.plugin.config.json";
 
 ///////////////////////////////////////////////////////////////////////////////
 // PREPARATION
@@ -125,7 +131,7 @@ Task("Zip")
             var dest = publishDir + "/" + d.Name.Replace("Probel.Lanceur.Plugin.","plugin-") + "-" + gitVersion.SemVer + ".bin.zip";
             assets.Add(dest);
 
-            Information("Zipping plugin:  {0}", dest);
+            Information("Zipping plugin: {0}", dest);
             Information("  pluginBin   : {0}", pluginBin);
             Information("  dest        : {0}", dest);
 
@@ -134,11 +140,26 @@ Task("Zip")
     
 });  
 
+Task("Evernote-file")
+    .Does(()=>{
+        var host = EnvironmentVariable("EVERNOTE_API_HOST");
+        var key = EnvironmentVariable("EVERNOTE_API_KEY");
+        var json = $"{{\"host\":\"{host}\",\"key\":\"{key}\"}}";     
+
+        
+        var dir = new DirectoryInfo(binDirectory + @"/../../../plugins/Probel.Lanceur.Plugin.Evernote\");
+        var dest = dir.FullName + @"\bin\Release\api.json";
+
+        Information("Configuration file built at: {0}", dest);
+
+        FileWriteText(dest, json);
+});
+
 Task("Inno-Setup")
     .Does(() => {
-        var path      = MakeAbsolute(Directory(binDirectory)).FullPath + "\\";
-        var pluginDir = MakeAbsolute(Directory(binPluginDir)).FullPath + "\\";
-        var plugins   = new string[] { "spotify", "calculator" }; 
+        var path          = MakeAbsolute(Directory(binDirectory)).FullPath + "\\";
+        var pluginDir     = MakeAbsolute(Directory(binPluginDir)).FullPath + "\\";
+        var plugins       = new string[] { "spotify", "calculator" };         
         
         Information("Bin path   : {0}: ", path);
         Information("Plugin path: {0}: ", pluginDir);
@@ -149,7 +170,7 @@ Task("Inno-Setup")
                 { "MyAppVersion", gitVersion.SemVer },
                 { "BinDirectory", path },
                 { "SpotifyPluginDir", String.Format(pluginDir, plugins[0]) },
-                { "CalculatorPluginDir", String.Format(pluginDir, plugins[1]) },
+                { "CalculatorPluginDir", String.Format(pluginDir, plugins[1]) },                
             }
         });
 });
@@ -208,6 +229,7 @@ Task("Default")
     .IsDependentOn("Build")
     .IsDependentOn("Pack")
     .IsDependentOn("Unit-Test")
+    .IsDependentOn("Evernote-file")
     .IsDependentOn("Zip")
     .IsDependentOn("Inno-Setup");
 

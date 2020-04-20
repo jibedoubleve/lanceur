@@ -9,16 +9,11 @@ namespace Probel.Lanceur.Plugin.Evernote.Services
         #region Fields
 
         private readonly EvernoteService _evernoteService = new EvernoteService();
-        private readonly Settings _settings;
 
         #endregion Fields
 
         #region Constructors
 
-        public CmdExecutor(Settings settings)
-        {
-            _settings = settings;
-        }
 
         #endregion Constructors
 
@@ -26,8 +21,8 @@ namespace Probel.Lanceur.Plugin.Evernote.Services
 
         public void Execute(Cmdline cmd)
         {
-            if (_settings.IsEmpty() == false && IsReminder(cmd.Parameters)) { CreateReminder(cmd.Parameters); }
-            else if (_settings.IsEmpty() == false && IsNote(cmd.Parameters)) { CreateNote(cmd.Parameters); }
+            if (IsReminder(cmd.Parameters)) { CreateReminder(cmd.Parameters); }
+            else if (IsNote(cmd.Parameters)) { CreateNote(cmd.Parameters); }
         }
 
         internal bool IsList(string parameters)
