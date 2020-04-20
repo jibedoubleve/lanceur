@@ -74,7 +74,7 @@ namespace Probel.Lanceur.Plugin.Spotify.ViewModels
             Duration = t.Duration;
             Progress = t.Progress;
             Title = t.Title;
-            Image = (from i in t.AlbumImages
+            Image = (from i in t?.AlbumImages
                      where i.Width == 300
                      select i).FirstOrDefault();
             IsVisible = true;
