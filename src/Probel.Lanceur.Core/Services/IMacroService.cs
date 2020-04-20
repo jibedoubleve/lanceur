@@ -15,8 +15,6 @@ namespace Probel.Lanceur.Core.Services
 
         bool Exists(string name);
 
-        IMacroService With(ICommandRunner cmdrunner, IAliasService aliasService);
-
         #endregion Methods
     }
 }

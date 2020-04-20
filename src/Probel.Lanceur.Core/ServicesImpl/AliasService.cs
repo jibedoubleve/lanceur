@@ -23,7 +23,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
         #region Constructors
 
         public AliasService(IDataSourceService databaseService,
-                    IParameterResolver argumentHandler,
+            IParameterResolver argumentHandler,
             ICommandRunner runner,
             ILogService log,
             IMacroService macroService,
@@ -32,10 +32,11 @@ namespace Probel.Lanceur.Core.ServicesImpl
         {
             _pluginManager = pluginManager;
             _macroService = macroService;
+            _cmdRunner = runner;
+
             _log = log;
             _databaseService = databaseService;
             _resolver = argumentHandler;
-            _cmdRunner = runner;
         }
 
         #endregion Constructors
@@ -48,26 +49,24 @@ namespace Probel.Lanceur.Core.ServicesImpl
         /// <param name="cmdline">The command line to execute. That's the alias and the arguments (which are not mandatory)</param>
         public ExecutionResult Execute(string cmdline, long sessionId)
         {
-            var splited = _resolver.Split(cmdline, sessionId);
-            var cmd = _databaseService.GetAlias(splited.Command, sessionId);
+            var cmd = _resolver.Split(cmdline, sessionId);
+            
+            var alias = _databaseService.GetAlias(cmd.Command, sessionId);
+            alias = _resolver.Resolve(alias, cmd.Parameters);
 
-            cmd = _resolver.Resolve(cmd, splited.Parameters);
-
-            if (_pluginManager.Exists(cmd.Name))
+            if (_pluginManager.Exists(alias.Name))
             {
-                _pluginManager.Build(cmd.Name)
-                              .Execute(splited);
+                _pluginManager.Execute(cmd);
                 return ExecutionResult.SuccesShow; ;
             }
-            else if (_macroService.Exists(cmd.FileName))
+            else if (_macroService.Exists(alias.FileName))
             {
-                _macroService.With(_cmdRunner, this)
-                             .Execute(cmd);
+                _macroService.Execute(alias);
                 return ExecutionResult.SuccessHide;
             }
             else
             {
-                return _cmdRunner.Execute(cmd)
+                return _cmdRunner.Execute(alias)
                  ? ExecutionResult.SuccessHide
                  : ExecutionResult.Failure;
             }
