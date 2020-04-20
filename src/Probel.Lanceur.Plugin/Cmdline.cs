@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Probel.Lanceur.Plugin
 {
@@ -25,6 +26,8 @@ namespace Probel.Lanceur.Plugin
 
         public string Command { get; private set; }
         public string Parameters { get; private set; }
+
+        public IEnumerable<string> SplitedParameters => Parameters.Split(' ');
 
         #endregion Properties
 

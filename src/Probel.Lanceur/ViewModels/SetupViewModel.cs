@@ -1,5 +1,5 @@
 ﻿using Caliburn.Micro;
-using Probel.Lanceur.Services;
+using Probel.Lanceur.Plugin;
 using System.Reflection;
 
 namespace Probel.Lanceur.ViewModels

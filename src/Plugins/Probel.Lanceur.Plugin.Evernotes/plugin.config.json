@@ -1,0 +1,6 @@
+{
+  "name": "Evernote notes creator",
+  "keyword": "evernote",
+  "dll": "Probel.Lanceur.Plugin.Evernote.dll",
+  "explanation": "Create new notes for Evernote"
+}

@@ -6,6 +6,7 @@
 
         ILogService LogService { get; }
         IPluginViewAdapter PluginViewAdapter { get; }
+        IUserNotifyer UserNotifyer { get; }
 
         #endregion Properties
     }

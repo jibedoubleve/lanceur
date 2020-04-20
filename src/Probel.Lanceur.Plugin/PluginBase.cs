@@ -12,6 +12,7 @@
 
         protected ILogService Logger { get; private set; }
         protected IPluginView MainView { get; private set; }
+        protected IUserNotifyer Notifyer { get; private set; }
 
         #endregion Properties
 
@@ -23,6 +24,7 @@
         {
             Logger = context.LogService;
             MainView = context.PluginViewAdapter.GetView();
+            Notifyer = context.UserNotifyer;
 
             if (!_isInitialised)
             {

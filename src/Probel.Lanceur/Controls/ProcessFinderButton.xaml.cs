@@ -1,7 +1,6 @@
 ﻿using Probel.Lanceur.Core.Helpers;
-using Probel.Lanceur.Services;
+using Probel.Lanceur.Plugin;
 using System;
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,9 +17,11 @@ namespace Probel.Lanceur.Controls
     {
         #region Fields
 
-        private static readonly Point cursorHotSpot = new Point(16, 20);
-
-        private readonly Cursor crosshairsCursor;
+        public static DependencyProperty NotifyerProperty = DependencyProperty.Register(
+            "Notifyer",
+            typeof(IUserNotifyer),
+            typeof(ProcessFinderButton),
+            null);
 
         public static DependencyProperty ProcessNameProperty = DependencyProperty.Register(
             "ProcessName",
@@ -28,17 +29,9 @@ namespace Probel.Lanceur.Controls
             typeof(ProcessFinderButton),
             null);
 
-        public static DependencyProperty NotifyerProperty = DependencyProperty.Register(
-            "Notifyer",
-            typeof(IUserNotifyer),
-            typeof(ProcessFinderButton),
-            null);
+        private static readonly Point cursorHotSpot = new Point(16, 20);
 
-        public IUserNotifyer Notifyer
-        {
-            get => (IUserNotifyer)GetValue(NotifyerProperty);
-            set => SetValue(NotifyerProperty, value);
-        }
+        private readonly Cursor crosshairsCursor;
 
         #endregion Fields
 
@@ -54,6 +47,12 @@ namespace Probel.Lanceur.Controls
 
         #region Properties
 
+        public IUserNotifyer Notifyer
+        {
+            get => (IUserNotifyer)GetValue(NotifyerProperty);
+            set => SetValue(NotifyerProperty, value);
+        }
+
         public string ProcessName
         {
             get => (string)GetValue(ProcessNameProperty);
@@ -65,6 +64,31 @@ namespace Probel.Lanceur.Controls
         #endregion Properties
 
         #region Methods
+
+        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            try
+            {
+                base.OnMouseLeftButtonUp(e);
+                _iconCrossHair.Visibility = Visibility.Visible;
+
+                var ps = ProcessHelper.GetExecutablePath();
+                ProcessName = ps.FileName;
+
+                ReleaseMouseCapture();
+                Cursor = null;
+            }
+            catch (Exception ex) { Notifyer?.NotifyError(ex.Message); }
+        }
+
+        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            _iconCrossHair.Visibility = Visibility.Hidden;
+            StartTargetsSearch();
+            e.Handled = true;
+
+            base.OnPreviewMouseLeftButtonDown(e);
+        }
 
         // https://stackoverflow.com/a/27077188/122048
         private static Cursor ConvertToCursor(UIElement control, Point hotSpot = default)
@@ -165,31 +189,6 @@ namespace Probel.Lanceur.Controls
             CaptureMouse();
             Keyboard.Focus(btnStartWindowsSearch);
             Cursor = crosshairsCursor;
-        }
-
-        protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            try
-            {
-                base.OnMouseLeftButtonUp(e);
-                _iconCrossHair.Visibility = Visibility.Visible;
-
-                var ps = ProcessHelper.GetExecutablePath();
-                ProcessName = ps.FileName;
-
-                ReleaseMouseCapture();
-                Cursor = null;
-            }
-            catch (Exception ex) { Notifyer?.NotifyError(ex.Message); }
-        }
-
-        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            _iconCrossHair.Visibility = Visibility.Hidden;
-            StartTargetsSearch();
-            e.Handled = true;
-
-            base.OnPreviewMouseLeftButtonDown(e);
         }
 
         #endregion Methods

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Probel.Lanceur.Services
+namespace Probel.Lanceur.Plugin
 {
     public enum NotificationResult
     {
