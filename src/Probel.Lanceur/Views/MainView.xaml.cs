@@ -41,7 +41,7 @@ namespace Probel.Lanceur.Views
 
         #region Methods
 
-        public void HideResults()
+        public void ShowPlugin()
         {
             Results.Visibility = Visibility.Collapsed;
             PluginArea.Visibility = Visibility.Visible;
@@ -52,7 +52,7 @@ namespace Probel.Lanceur.Views
             PluginArea.Content = area; ;
         }
 
-        public void ShowResults()
+        public void HidePlugin()
         {
             Results.Visibility = Visibility.Visible;
             PluginArea.Visibility = Visibility.Collapsed;
@@ -74,7 +74,7 @@ namespace Probel.Lanceur.Views
 
         private void HideControl()
         {
-            ShowResults();
+            HidePlugin();
             AliasTextBox.Text = string.Empty;
             _self.Visibility = Visibility.Collapsed;
             ViewModel.SaveSettings();

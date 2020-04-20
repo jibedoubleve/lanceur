@@ -1,0 +1,6 @@
+{
+  "name": "Manage clipboard history",
+  "keyword": "cb",
+  "dll": "Probel.Lanceur.Plugin.Clipboard.dll",
+  "explanation": "Mananage clipboard history"
+}

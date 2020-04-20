@@ -40,7 +40,7 @@ namespace Probel.Lanceur.Plugin.Spotify
         public override async void Execute(Cmdline parameters)
         {
             ViewModel.Log = Logger;
-            MainView.HideResults();
+            MainView.ShowPlugin();
 
             await ConfigureSpotifyAsync();
 

@@ -12,37 +12,42 @@
     <UserControl.Resources>
         <sys:Double x:Key="DefaultIconSize">30</sys:Double>
     </UserControl.Resources>
-    <DockPanel Background="Transparent">
-        <iconPacks:PackIconMaterial
-            x:Name="CtrlIcon"
-            Width="{StaticResource DefaultIconSize}"
-            Height="{StaticResource DefaultIconSize}"
-            Margin="5,10,15,5"
-            DockPanel.Dock="Left"
-            Foreground="#FFB9B9B9" />
-        <TextBlock
-            x:Name="CtrlCounter"
-            VerticalAlignment="Bottom"
-            DockPanel.Dock="Right"
-            FontSize="8"
-            Foreground="#FFB9B9B9"
-            Visibility="Collapsed">
-            <Run Text="Count:" />
-            <Run x:Name="CtrlCount" />
-        </TextBlock>
+    <Border BorderBrush="white" BorderThickness="0.1">
+        <DockPanel Background="Transparent">
+            <iconPacks:PackIconMaterial
+                x:Name="CtrlIcon"
+                Width="{StaticResource DefaultIconSize}"
+                Height="{StaticResource DefaultIconSize}"
+                Margin="5,10,15,3"
+                DockPanel.Dock="Left"
+                Foreground="#FFB9B9B9" />
+            
+            <TextBlock
+                x:Name="CtrlCounter"
+                Margin="0,0,5,3"
+                VerticalAlignment="Bottom"
+                DockPanel.Dock="Right"
+                FontSize="8"
+                Foreground="#FFB9B9B9"
+                Visibility="Collapsed">
+                <Run Text="Count:" />
+                <Run x:Name="CtrlCount" />
+            </TextBlock>
 
-        <TextBlock
-            x:Name="CtrlName"
-            DockPanel.Dock="Top"
-            FontSize="22"
-            FontWeight="DemiBold"
-            Foreground="#FFE6E6E6" />
-        <TextBlock
-            x:Name="CtrlFileName"
-            Margin="0,3,0,0"
-            DockPanel.Dock="Bottom"
-            FontFamily="Consolas"
-            FontSize="10"
-            Foreground="#FFB9B9B9" />
-    </DockPanel>
+            <TextBlock
+                x:Name="CtrlName"
+                DockPanel.Dock="Top"
+                FontSize="22"
+                FontWeight="DemiBold"
+                Foreground="#FFE6E6E6" />
+            
+            <TextBlock
+                x:Name="CtrlFileName"
+                Margin="0,3,0,3"
+                DockPanel.Dock="Bottom"
+                FontFamily="Consolas"
+                FontSize="10"
+                Foreground="#FFB9B9B9" />
+        </DockPanel>
+    </Border>
 </UserControl>

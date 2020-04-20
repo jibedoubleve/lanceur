@@ -4,7 +4,7 @@
 $release = "Debug"
 $src = "$env:GIT_PRJ_SOURCE\lanceur\src\Plugins\Probel.Lanceur.Plugin.{0}\bin\$release\*.*"
 $dst = "$env:APPDATA\probel\lanceur\plugins\{0}"
-$plugins = "spotify", "calculator", "evernote"
+$plugins = "spotify", "calculator", "evernote", "clipboard"
 
 <#############################################################################
  # FUNCTIONS 

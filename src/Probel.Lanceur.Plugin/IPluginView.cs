@@ -4,11 +4,11 @@
     {
         #region Methods
 
-        void HideResults();
+        void HidePlugin();
 
         void SetPluginArea(object area);
 
-        void ShowResults();
+        void ShowPlugin();
 
         #endregion Methods
     }

@@ -23,7 +23,7 @@ namespace Probel.Lanceur.Plugin.Calculator
 
             ViewModel.Process(exp);
 
-            MainView.HideResults();
+            MainView.ShowPlugin();
         }
 
         protected override void Initialise()

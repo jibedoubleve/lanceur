@@ -40,6 +40,7 @@
                 ItemsSource="{Binding Aliases}"
                 SelectedIndex="0"
                 SelectedItem="{Binding SelectedAlias}" />
+            
             <Button
                 x:Name="CreateKeyword"
                 Grid.Row="2"
