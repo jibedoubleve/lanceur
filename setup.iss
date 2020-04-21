@@ -49,6 +49,7 @@ Source: "{#BinDirectory}*"; DestDir: "{app}"; Flags: ignoreversion recursesubdir
 ;----------------------------------------------------------------
 Source: "{#SpotifyPluginDir}*"; DestDir: "{userappdata}\probel\lanceur\plugins\spotify\"; Flags: ignoreversion
 Source: "{#CalculatorPluginDir}*"; DestDir: "{userappdata}\probel\lanceur\plugins\calculator\"; Flags: ignoreversion
+Source: "{#ClipboardPluginDir}*"; DestDir: "{userappdata}\probel\lanceur\plugins\clipboard\"; Flags: ignoreversion
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
