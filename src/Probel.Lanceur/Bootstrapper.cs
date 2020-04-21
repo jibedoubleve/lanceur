@@ -77,7 +77,7 @@ namespace Probel.Lanceur
             _container.RegisterType<IPluginLoader, PluginLoader>();
             _container.RegisterType<IPluginManager, PluginManager>();
             _container.RegisterType<IPluginConfigurator, PluginConfigurator>();
-            _container.RegisterType<IPluginViewAdapter, PluginViewAdapter>();
+            _container.RegisterType<IPluginViewFinder, MainViewFinder>();
             _container.RegisterType<IActionCollection, ActionCollection>();
             _container.RegisterType<IPluginContext, PluginContext>();
 

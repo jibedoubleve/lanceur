@@ -4,7 +4,7 @@
     {
         #region Constructors
 
-        public PluginContext(ILogService logService, IPluginViewAdapter pluginViewAdapter, IUserNotifyer userNotifyer)
+        public PluginContext(ILogService logService, IPluginViewFinder pluginViewAdapter, IUserNotifyer userNotifyer)
         {
             LogService = logService;
             PluginViewAdapter = pluginViewAdapter;
@@ -17,7 +17,7 @@
 
         public ILogService LogService { get; }
 
-        public IPluginViewAdapter PluginViewAdapter { get; }
+        public IPluginViewFinder PluginViewAdapter { get; }
 
         public IUserNotifyer UserNotifyer
         {

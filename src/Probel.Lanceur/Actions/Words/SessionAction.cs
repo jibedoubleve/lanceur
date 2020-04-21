@@ -32,10 +32,7 @@ namespace Probel.Lanceur.Actions.Words
                     Log.Info($"Switched to Session '{s.Name}'");
                     Notifyer.NotifyInfo($"Switched to Session [{s.Id}] - {s.Name}");
                 }
-                else
-                {
-                    Notifyer.NotifyWarning($"Session '{arg}' does not exist.");
-                }
+                else { Notifyer.NotifyWarning($"Session '{arg}' does not exist."); }
             }
         }
 

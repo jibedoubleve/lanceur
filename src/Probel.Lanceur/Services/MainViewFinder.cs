@@ -7,7 +7,7 @@ namespace Probel.Lanceur.Services
     /// <summary>
     /// This adapter is meant to get the View used for a plugin.
     /// </summary>
-    public class PluginViewAdapter : IPluginViewAdapter
+    public class MainViewFinder : IPluginViewFinder
     {
         #region Methods
 

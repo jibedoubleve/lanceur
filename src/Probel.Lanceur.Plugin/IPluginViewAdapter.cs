@@ -3,7 +3,7 @@
     /// <summary>
     /// Retrieve the view used for the plugin.
     /// </summary>
-    public interface IPluginViewAdapter
+    public interface IPluginViewFinder
     {
         #region Methods
 

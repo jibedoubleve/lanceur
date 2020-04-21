@@ -5,7 +5,7 @@
         #region Properties
 
         ILogService LogService { get; }
-        IPluginViewAdapter PluginViewAdapter { get; }
+        IPluginViewFinder PluginViewAdapter { get; }
         IUserNotifyer UserNotifyer { get; }
 
         #endregion Properties
