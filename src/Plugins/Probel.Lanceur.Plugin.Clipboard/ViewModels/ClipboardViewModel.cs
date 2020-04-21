@@ -1,6 +1,5 @@
 ﻿using Caliburn.Micro;
 using Probel.Lanceur.Plugin.Clipboard.Models;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -26,20 +25,20 @@ namespace Probel.Lanceur.Plugin.Clipboard.ViewModels
 
         #region Methods
 
-        public void Load()
-        {
-            using (var cm = new ClipboardManager())
-            {
-                var h = cm.GetHistory();
-                History = new ObservableCollection<ClipboardItem>(h.History.OrderByDescending(e=>e.Saved));
-            }
-        }
-
         public void Delete(ClipboardItem item)
         {
             using (var cm = new ClipboardManager())
             {
                 cm.Delete(item);
+            }
+        }
+
+        public void Load()
+        {
+            using (var cm = new ClipboardManager())
+            {
+                var h = cm.GetHistory();
+                History = new ObservableCollection<ClipboardItem>(h.History.OrderByDescending(e => e.Saved));
             }
         }
 

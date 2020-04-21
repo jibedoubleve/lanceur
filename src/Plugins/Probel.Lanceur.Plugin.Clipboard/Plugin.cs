@@ -1,5 +1,6 @@
 ﻿using Probel.Lanceur.Plugin.Clipboard.ViewModels;
 using Probel.Lanceur.Plugin.Clipboard.Views;
+using System.Linq;
 
 namespace Probel.Lanceur.Plugin.Clipboard
 {
@@ -17,17 +18,23 @@ namespace Probel.Lanceur.Plugin.Clipboard
 
         public override void Execute(Cmdline cmd)
         {
+            var list = new string[] { "list", "l" };
+
             var parameters = cmd.Parameters.ToLower().Trim();
-            if (!parameters.StartsWith("list"))
+            if (list.Contains(parameters))
+            {
+                ShowHistory();
+            }
+            else if (string.IsNullOrWhiteSpace(parameters))
             {
                 using (var s = new ClipboardManager())
                 {
                     s.AddClipboardContent();
+                    ShowHistory();
                     Notifyer.NotifyInfo("Clipboard content saved.");
                 }
             }
-
-            ShowHistory();
+            else { Notifyer.NotifyWarning($"Not supported argument '{parameters}'. Use no argument to save clipboard or 'l' or 'list' to see history"); }
         }
 
         protected override void Initialise()
