@@ -23,7 +23,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
         {
             _dataService = dataService;
             _handler = new TextHandler()
-                            .SetNext(new UrlHandler())
+                            .SetNext(new UriHandler())
                             .SetNext(new ClipboardHandler(clipboardService));
         }
 

@@ -2,9 +2,14 @@
 {
     public class TextHandler : ArgumentHandler
     {
+        #region Constructors
+
         public TextHandler() : base(Wildcards.Text)
         {
         }
+
+        #endregion Constructors
+
         #region Methods
 
         protected override string DoHandle(string cmdline, string arguments)

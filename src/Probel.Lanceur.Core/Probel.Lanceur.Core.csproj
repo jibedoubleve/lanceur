@@ -65,6 +65,7 @@
     <Compile Include="PluginsImpl\PluginManager.cs" />
     <Compile Include="PluginsImpl\PluginMetadata.cs" />
     <Compile Include="ServicesImpl\AliasService.cs" />
+    <Compile Include="ServicesImpl\ArgumentHandlers\UriHandler.cs" />
     <Compile Include="ServicesImpl\JsonSettingsService.cs" />
     <Compile Include="Services\IMacroAction.cs" />
     <Compile Include="ServicesImpl\NLogLogger.cs" />
@@ -92,12 +93,9 @@
     <Compile Include="Entities\AliasName.cs" />
     <Compile Include="Entities\AliasSession.cs" />
     <Compile Include="ServicesImpl\CommandRunner.cs" />
-    <Compile Include="ServicesImpl\ArgumentHandlers\_TextReplacementHandler.cs" />
     <Compile Include="ServicesImpl\ArgumentHandlers\_ArgumentHandler.cs" />
     <Compile Include="ServicesImpl\ArgumentHandlers\ClipboardHandler.cs" />
     <Compile Include="ServicesImpl\ArgumentHandlers\TextHandler.cs" />
-    <Compile Include="ServicesImpl\ArgumentHandlers\UrlHandler.cs" />
-    <Compile Include="ServicesImpl\ArgumentHandlers\WebHandler.cs" />
     <Compile Include="ServicesImpl\MacroManagement\Macros.cs" />
     <Compile Include="ServicesImpl\MacroManagement\MultiMacro.cs" />
     <Compile Include="ServicesImpl\ParameterResolver.cs" />
