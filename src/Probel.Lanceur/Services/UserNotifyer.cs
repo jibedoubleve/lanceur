@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using Notifications.Wpf;
+using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Plugin;
 using System;
 using System.Threading.Tasks;
@@ -16,13 +17,15 @@ namespace Probel.Lanceur.Services
         private readonly IDialogCoordinator _dialog;
         private readonly ILogService _log;
         private readonly INotificationManager _notifyer;
+        private readonly ISettingsService _settingsService;
 
         #endregion Fields
 
         #region Constructors
 
-        public UserNotifyer(INotificationManager notifyer, IDialogCoordinator dialog, ILogService log)
+        public UserNotifyer(INotificationManager notifyer, IDialogCoordinator dialog, ILogService log, ISettingsService settingsService)
         {
+            _settingsService = settingsService;
             _log = log;
             _notifyer = notifyer;
             _dialog = dialog;
@@ -96,9 +99,11 @@ namespace Probel.Lanceur.Services
             {
                 Title = title ?? type.ToString().ToUpper(),
                 Message = message,
-                Type = type
+                Type = type,
             };
-            _notifyer.Show(m);
+
+            var expTime = TimeSpan.FromSeconds(_settingsService.Get().WindowSection.ExpirationTimeMessage);
+            _notifyer.Show(m, "", expTime);
         }
 
         #endregion Methods
