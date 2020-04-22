@@ -1,5 +1,6 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +16,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
         private readonly IMacroRunner _macroRunner;
         private readonly IPluginManager _pluginManager;
         private readonly IParameterResolver _resolver;
-
-        private ILogService _log;
+        private readonly ILogService _log;
 
         #endregion Fields
 
@@ -50,7 +50,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
         public ExecutionResult Execute(string cmdline, long sessionId)
         {
             var cmd = _resolver.Split(cmdline, sessionId);
-            
+
             var alias = _databaseService.GetAlias(cmd.Command, sessionId);
             alias = _resolver.Resolve(alias, cmd.Parameters);
 

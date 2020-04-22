@@ -3,6 +3,7 @@ using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Entities.Settings;
 using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin;
 using System;
 using System.Collections.Generic;
@@ -77,18 +78,6 @@ namespace Probel.Lanceur.ViewModels
         {
             get => _colour;
             set => Set(ref _colour, value, nameof(Colour));
-        }
-
-        public bool IsDebug
-        {
-            get
-            {
-#if DEBUG
-                return true;
-#else
-                return false;
-#endif
-            }
         }
 
         public bool IsOnError

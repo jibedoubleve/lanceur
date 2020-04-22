@@ -1,4 +1,6 @@
-﻿namespace Probel.Lanceur.Plugin
+﻿using Probel.Lanceur.Infrastructure;
+
+namespace Probel.Lanceur.Plugin
 {
     public interface IPluginContext
     {

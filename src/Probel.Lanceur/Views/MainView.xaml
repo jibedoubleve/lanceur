@@ -68,36 +68,10 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <DockPanel Grid.ColumnSpan="2" Visibility="{Binding IsDebug, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <iconPacks:PackIconMaterial
-                Width="{StaticResource DefaultIconSize}"
-                Height="{StaticResource DefaultIconSize}"
-                VerticalAlignment="Center"
-                DockPanel.Dock="Left"
-                Foreground="Crimson"
-                Kind="AndroidDebugBridge" />
-            <iconPacks:PackIconMaterial
-                Width="{StaticResource DefaultIconSize}"
-                Height="{StaticResource DefaultIconSize}"
-                VerticalAlignment="Center"
-                DockPanel.Dock="Right"
-                Foreground="Crimson"
-                Kind="AndroidDebugBridge" />
-            <TextBlock
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                DockPanel.Dock="Left"
-                FontSize="25pt"
-                FontWeight="DemiBold"
-                Foreground="Crimson"
-                Text="DEBUG" />
-        </DockPanel>
         <TextBox
             x:Name="AliasTextBox"
-            Grid.Row="1"
             Margin="5"
             cal:Message.Attach="[GotFocus]=[OnShow]"
             Background="Transparent"
@@ -110,7 +84,6 @@
             PreviewKeyDown="OnKeyPressed"
             TextChanged="OnTextChanged" />
         <iconPacks:PackIconModern
-            Grid.Row="1"
             Grid.Column="1"
             Margin="5,0,0,0"
             VerticalAlignment="Center"

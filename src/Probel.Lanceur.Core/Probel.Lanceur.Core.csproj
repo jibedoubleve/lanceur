@@ -66,6 +66,7 @@
     <Compile Include="PluginsImpl\PluginMetadata.cs" />
     <Compile Include="ServicesImpl\AliasService.cs" />
     <Compile Include="ServicesImpl\ArgumentHandlers\UriHandler.cs" />
+    <Compile Include="ServicesImpl\DebugSettingsService.cs" />
     <Compile Include="ServicesImpl\JsonSettingsService.cs" />
     <Compile Include="Services\IMacroAction.cs" />
     <Compile Include="ServicesImpl\NLogLogger.cs" />
@@ -73,7 +74,6 @@
     <Compile Include="Services\IActionCollection.cs" />
     <Compile Include="Services\IDataSourceService.Statistics.cs" />
     <Compile Include="Services\IKeywordLoader.cs" />
-    <Compile Include="Services\IAppLogger.cs" />
     <Compile Include="Services\IMacroRunner.cs" />
     <Compile Include="ServicesImpl\MacroManagement\MacroAttribute.cs" />
     <Compile Include="ServicesImpl\MacroManagement\MacroRunner.cs" />
@@ -122,6 +122,10 @@
     <None Include="_Classes\Plugins.cd" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Probel.Lanceur.Infrastructure\Probel.Lanceur.Infrastructure.csproj">
+      <Project>{63FCDE3F-3D03-4075-90A4-4BF92996A32A}</Project>
+      <Name>Probel.Lanceur.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Probel.Lanceur.Plugin\Probel.Lanceur.Plugin.csproj">
       <Project>{f4db7268-da54-4141-9567-afbd6c5fe1ac}</Project>
       <Name>Probel.Lanceur.Plugin</Name>

@@ -1,7 +1,7 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.Services.MacroManagement;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.Infrastructure;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -12,8 +12,8 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
     {
         #region Fields
 
-        private ICommandRunner _runner;
         private ILogService _log;
+        private ICommandRunner _runner;
 
         #endregion Fields
 

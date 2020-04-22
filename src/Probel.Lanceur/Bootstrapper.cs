@@ -8,6 +8,7 @@ using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.ServicesImpl;
 using Probel.Lanceur.Core.ServicesImpl.MacroManagement;
 using Probel.Lanceur.Helpers;
+using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin;
 using Probel.Lanceur.Services;
 using Probel.Lanceur.SQLiteDb;
@@ -57,7 +58,12 @@ namespace Probel.Lanceur
             _container.RegisterType<IDataSourceService, SQLiteDatabaseService>();
             _container.RegisterType<ISlickRunImporterService, SQLiteSlickRunImporterService>();
             _container.RegisterType<ISlickRunExtractor, SlickRunExtractor>();
+#if DEBUG
+            _container.RegisterType<ISettingsService, DebugSettingsService>();
+#else
             _container.RegisterType<ISettingsService, JsonSettingsService>();
+#endif
+
             //_container.RegisterType<ILogService, TraceLogger>();
             _container.RegisterType<ILogService, NLogLogger>();
             _container.RegisterType<IScreenRuler, ScreenRuler>();
@@ -141,6 +147,6 @@ namespace Probel.Lanceur
             actionManager.Bind();
         }
 
-        #endregion Methods
+#endregion Methods
     }
 }

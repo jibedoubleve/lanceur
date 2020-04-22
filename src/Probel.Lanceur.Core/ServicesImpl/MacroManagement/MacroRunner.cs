@@ -1,7 +1,7 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.Services.MacroManagement;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.Infrastructure;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -46,7 +46,6 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
         }
 
         public bool Exists(string name) => Macros.Has(name);
-
 
         #endregion Methods
     }

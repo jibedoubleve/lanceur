@@ -2,7 +2,7 @@
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.Infrastructure;
 using System.Diagnostics;
 
 namespace Probel.Lanceur.Core.ServicesImpl
@@ -30,21 +30,6 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         #region Methods
 
-        private ProcessStartInfo GetProcessStartInfo(Alias alias)
-        {
-            _log.Debug($"Executing '{alias.FileName}' with args '{alias.Arguments}'");
-
-            var psInfo = new ProcessStartInfo()
-            {
-                Arguments = alias.Arguments,
-                WindowStyle = alias.StartMode.AsWindowsStyle(),
-                FileName = alias.FileName,
-                WorkingDirectory = alias.WorkingDirectory,
-            };
-            if (alias.RunAs == RunAs.Admin) { psInfo.Verb = "runas"; }
-            return psInfo;
-        }
-
         public ExecutionResult Execute(Alias alias)
         {
             if (alias.IsExecutable)
@@ -59,6 +44,21 @@ namespace Probel.Lanceur.Core.ServicesImpl
                 return _keywordService.ExecuteActionFor(alias.Name, alias.Arguments);
             }
             else { return ExecutionResult.Failure; }
+        }
+
+        private ProcessStartInfo GetProcessStartInfo(Alias alias)
+        {
+            _log.Debug($"Executing '{alias.FileName}' with args '{alias.Arguments}'");
+
+            var psInfo = new ProcessStartInfo()
+            {
+                Arguments = alias.Arguments,
+                WindowStyle = alias.StartMode.AsWindowsStyle(),
+                FileName = alias.FileName,
+                WorkingDirectory = alias.WorkingDirectory,
+            };
+            if (alias.RunAs == RunAs.Admin) { psInfo.Verb = "runas"; }
+            return psInfo;
         }
 
         #endregion Methods

@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin;
 using Unity;
 

@@ -1,5 +1,5 @@
-﻿using Probel.Lanceur.Plugin.Calculator.ViewModels;
-using Probel.Lanceur.Plugin;
+﻿using Probel.Lanceur.Infrastructure;
+using Probel.Lanceur.Plugin.Calculator.ViewModels;
 using System.Windows.Controls;
 using System.Windows.Input;
 

@@ -1,8 +1,8 @@
 ﻿using Caliburn.Micro;
 using Humanizer;
 using NCalc;
+using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin.Calculator.Models;
-using Probel.Lanceur.Plugin;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
