@@ -12,14 +12,14 @@ namespace Probel.Lanceur.Core.ServicesImpl
         #region Fields
 
         private readonly IDataSourceService _databaseService;
-        private readonly IReservedKeywordService _keywordService;
+        private readonly IKeywordService _keywordService;
         private readonly ILogService _log;
 
         #endregion Fields
 
         #region Constructors
 
-        public CommandRunner(IReservedKeywordService keywordService, IDataSourceService databaseService, ILogService logService)
+        public CommandRunner(IKeywordService keywordService, IDataSourceService databaseService, ILogService logService)
         {
             _log = logService;
             _databaseService = databaseService;
