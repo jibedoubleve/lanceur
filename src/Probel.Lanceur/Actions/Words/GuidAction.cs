@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Probel.Lanceur.Core.Services;
+using System;
 using System.ComponentModel;
 using System.Windows;
 
@@ -9,10 +10,11 @@ namespace Probel.Lanceur.Actions.Words
     {
         #region Methods
 
-        protected override void DoExecute(string arg)
+        protected override ExecutionResult DoExecute(string arg)
         {
             var guid = Guid.NewGuid();
             Clipboard.SetText(guid.ToString());
+            return ExecutionResult.SuccessHide;
         }
 
         #endregion Methods

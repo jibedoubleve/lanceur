@@ -45,21 +45,20 @@ namespace Probel.Lanceur.Core.ServicesImpl
             return psInfo;
         }
 
-        public bool Execute(Alias alias)
+        public ExecutionResult Execute(Alias alias)
         {
             if (alias.IsExecutable)
             {
                 var pInfo = GetProcessStartInfo(alias);
                 using (var ps = new Process { StartInfo = pInfo }) { ps.Start(); }
                 _databaseService.SetUsage(alias);
-                return true;
+                return ExecutionResult.SuccessHide;
             }
             else if (_keywordService.IsReserved(alias.Name))
             {
-                _keywordService.ExecuteActionFor(alias.Name, alias.Arguments);
-                return true;
+                return _keywordService.ExecuteActionFor(alias.Name, alias.Arguments);
             }
-            else { return false; }
+            else { return ExecutionResult.Failure; }
         }
 
         #endregion Methods

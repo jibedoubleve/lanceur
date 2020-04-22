@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Probel.Lanceur.Core.Services;
+using System.ComponentModel;
 using System.Windows;
 
 namespace Probel.Lanceur.Actions.Words
@@ -8,7 +9,11 @@ namespace Probel.Lanceur.Actions.Words
     {
         #region Methods
 
-        protected override void DoExecute(string arg) => MessageBox.Show(arg, "Easter Egg", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+        protected override ExecutionResult DoExecute(string arg)
+        {
+            MessageBox.Show(arg, "Easter Egg", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            return ExecutionResult.SuccessHide;
+        }
 
         #endregion Methods
     }

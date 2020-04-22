@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Probel.Lanceur.Controls.AliasControl"
+    x:Class="Probel.Lanceur.Controls.DisplayResultControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -35,14 +35,14 @@
             </TextBlock>
 
             <TextBlock
-                x:Name="CtrlName"
+                x:Name="CtrlTitle"
                 DockPanel.Dock="Top"
                 FontSize="22"
                 FontWeight="DemiBold"
                 Foreground="#FFE6E6E6" />
 
             <TextBlock
-                x:Name="CtrlFileName"
+                x:Name="CtrlSubtitle"
                 Margin="0,3,0,3"
                 DockPanel.Dock="Bottom"
                 FontFamily="Consolas"

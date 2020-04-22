@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
 {
-    public class MacroService : IMacroService
+    public class MacroRunner : IMacroRunner
     {
         #region Fields
 
@@ -19,7 +19,7 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
 
         #region Constructors
 
-        public MacroService(ILogService logservice, ICommandRunner runner)
+        public MacroRunner(ILogService logservice, ICommandRunner runner)
         {
             _log = logservice;
             _runner = runner;

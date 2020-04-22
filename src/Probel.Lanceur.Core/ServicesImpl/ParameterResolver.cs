@@ -64,7 +64,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
         public Cmdline Split(string cmd, long sessionId)
         {
             var cmdline = (cmd ?? string.Empty);
-            if (CheckAliasExists(cmd.Split(' '), sessionId) == false)
+            if (CheckAliasExists(cmdline.Split(' '), sessionId) == false)
             {
                 /*
                  * Normalise command line: every command line that starts with

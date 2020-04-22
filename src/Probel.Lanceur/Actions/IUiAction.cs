@@ -1,7 +1,4 @@
 ﻿using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Plugin;
-using Probel.Lanceur.Services;
-using Unity;
 
 namespace Probel.Lanceur.Actions
 {
@@ -9,9 +6,9 @@ namespace Probel.Lanceur.Actions
     {
         #region Methods
 
-        void Execute(string arg);
+        ExecutionResult Execute(string arg);
 
-        IUiAction With(IUnityContainer container, IDataSourceService dataService, ILogService log, IUserNotifyer notifyer);
+        IUiAction With(IActionContext context);
 
         #endregion Methods
     }

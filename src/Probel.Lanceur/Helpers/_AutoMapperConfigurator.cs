@@ -28,6 +28,11 @@ namespace Probel.Lanceur.Helpers
             e.CreateMap<HotKeySettings, HotKeySettingsModel>();
             e.CreateMap<AliasSession, AliasSessionModel>();
             e.CreateMap<AliasSession, AliasSessionModel>();
+
+            //Macros
+            e.CreateMap<AliasSession, SwitchSessionResult>()
+                .ForMember(src => src.Title, opt => opt.MapFrom(dest => dest.Name))
+                .ForMember(src => src.Subtitle, opt => opt.MapFrom(dest => dest.Notes));
         }
 
         private void ModelToEntity(IMapperConfigurationExpression e)

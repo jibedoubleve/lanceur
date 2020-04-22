@@ -1,6 +1,6 @@
 {
-  "name": "Manage clipboard history",
+  "name": "Clipboard history",
   "keyword": "cb",
   "dll": "Probel.Lanceur.Plugin.Clipboard.dll",
-  "explanation": "Mananage clipboard history"
+  "explanation": "List and recover previous saved clipboard sates"
 }

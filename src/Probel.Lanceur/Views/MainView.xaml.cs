@@ -16,7 +16,7 @@ namespace Probel.Lanceur.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainView : Window, IPluginView
+    public partial class MainView : Window, IPluginView, IMainView
     {
         #region Fields
 
@@ -41,10 +41,18 @@ namespace Probel.Lanceur.Views
 
         #region Methods
 
-        public void ShowPlugin()
+        public void HideControl()
         {
-            Results.Visibility = Visibility.Collapsed;
-            PluginArea.Visibility = Visibility.Visible;
+            HidePluginArea();
+            AliasTextBox.Text = string.Empty;
+            _self.Visibility = Visibility.Collapsed;
+            ViewModel.SaveSettings();
+        }
+
+        public void HidePluginArea()
+        {
+            Results.Visibility = Visibility.Visible;
+            PluginArea.Visibility = Visibility.Collapsed;
         }
 
         public void SetPluginArea(object area)
@@ -52,10 +60,10 @@ namespace Probel.Lanceur.Views
             PluginArea.Content = area; ;
         }
 
-        public void HidePlugin()
+        public void ShowPlugin()
         {
-            Results.Visibility = Visibility.Visible;
-            PluginArea.Visibility = Visibility.Collapsed;
+            Results.Visibility = Visibility.Collapsed;
+            PluginArea.Visibility = Visibility.Visible;
         }
 
         protected override void OnDeactivated(EventArgs e)
@@ -70,14 +78,6 @@ namespace Probel.Lanceur.Views
             return AliasTextBox.Text.Contains(" ")
                 ? AliasTextBox.Text.Split(' ')[0]
                 : (Results.SelectedItem as AliasText ?? new AliasText()).Name;
-        }
-
-        private void HideControl()
-        {
-            HidePlugin();
-            AliasTextBox.Text = string.Empty;
-            _self.Visibility = Visibility.Collapsed;
-            ViewModel.SaveSettings();
         }
 
         private void OnKeyPressed(object sender, KeyEventArgs e)
@@ -95,14 +95,30 @@ namespace Probel.Lanceur.Views
                 e.Handled = true;
             }
             else if (e.Key == Key.Escape) { HideControl(); }
-            else if (e.Key == Key.Up) { Results.SelectNextItem(); }
-            else if (e.Key == Key.Down) { Results.SelectPreviousItem(); }
+            else if (e.Key == Key.Up)
+            {
+                Results.SelectNextItem();
+                SetSelectedResultInTextBox();
+            }
+            else if (e.Key == Key.Down)
+            {
+                Results.SelectPreviousItem();
+                SetSelectedResultInTextBox();
+            }
             else if (e.Key == Key.Tab)
             {
-                AliasTextBox.Text = Results.SelectedText + " ";
-                AliasTextBox.CaretIndex = AliasTextBox.Text.Length;
+                SetSelectedResultInTextBox();
                 e.Handled = true;
             }
+
+        }
+
+        private void SetSelectedResultInTextBox()
+        {
+            _isSearchActive = false;
+            AliasTextBox.Text = Results.SelectedText + " ";
+            AliasTextBox.CaretIndex = AliasTextBox.Text.Length;
+            _isSearchActive = true;
         }
 
         private void OnKeyPressedWindow(object sender, KeyEventArgs e)
@@ -110,7 +126,7 @@ namespace Probel.Lanceur.Views
             if (e.Key == Key.Escape) { HideControl(); }
         }
 
-        private void OnResultsAliasDoubleClicked(object sender, AliasTextEventArgs e)
+        private void OnResultsClicked(object sender, AliasTextEventArgs e)
         {
             var result = ViewModel?.ExecuteText(e.Alias.Name) ?? ExecutionResult.Failure;
             if (!result.IsError) { HideControl(); }
@@ -126,12 +142,15 @@ namespace Probel.Lanceur.Views
             }
         }
 
+        private bool _isSearchActive = true;
         private void OnTextChanged(object sender, TextChangedEventArgs e)
-
         {
-            ViewModel.IsOnError = false;
-            ViewModel.RefreshAliases(AliasTextBox.Text);
-            Results.SelectFirst();
+            if (_isSearchActive)
+            {
+                ViewModel.IsOnError = false;
+                ViewModel.RefreshAliases(AliasTextBox.Text);
+                Results.SelectFirst();
+            }
         }
 
         private void OnWindowClosing(object sender, CancelEventArgs e) => ViewModel.SaveSettings();

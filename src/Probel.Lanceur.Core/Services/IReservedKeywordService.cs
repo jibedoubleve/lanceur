@@ -9,9 +9,9 @@ namespace Probel.Lanceur.Core.Services
     {
         #region Methods
 
-        void Bind(string keyword, Action<string> bindedAction);
+        void Bind(string keyword, Func<string, ExecutionResult> bindedAction);
 
-        void ExecuteActionFor(string name, string arg);
+        ExecutionResult ExecuteActionFor(string name, string arg);
 
         IEnumerable<AliasText> GetKeywords();
 
