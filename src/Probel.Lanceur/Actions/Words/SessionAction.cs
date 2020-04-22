@@ -21,14 +21,21 @@ namespace Probel.Lanceur.Actions.Words
             {
                 var settings = Container.Resolve<ISettingsService>();
 
-                var s = DataService.GetSession(arg) ?? new AliasSession();
+                var s = DataService.GetSession(arg);
 
-                var aps = settings.Get();
-                aps.SessionId = s.Id;
-                settings.Save(aps);
+                if (s != null)
+                {
+                    var aps = settings.Get();
+                    aps.SessionId = s.Id;
+                    settings.Save(aps);
 
-                Log.Info($"Switched to Session '{s.Name}'");
-                Notifyer.NotifyInfo($"Switched to Session [{s.Id}] - {s.Name}");
+                    Log.Info($"Switched to Session '{s.Name}'");
+                    Notifyer.NotifyInfo($"Switched to Session [{s.Id}] - {s.Name}");
+                }
+                else
+                {
+                    Notifyer.NotifyWarning($"Session '{arg}' does not exist.");
+                }
             }
         }
 
