@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.Infrastructure;
 using System;
 using System.Data.Common;
 using System.Data.SQLite;

@@ -1,6 +1,6 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
         #region Fields
 
         private static readonly Dictionary<string, Func<string, ExecutionResult>> _reservedKeywords = new Dictionary<string, Func<string, ExecutionResult>>();
-        
+
         private readonly IKeywordLoader _keywordLoader;
 
         #endregion Fields

@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin;
 using System;
 using System.Collections.Generic;

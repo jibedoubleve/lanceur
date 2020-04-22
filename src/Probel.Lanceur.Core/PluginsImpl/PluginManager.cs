@@ -1,5 +1,4 @@
-﻿using Probel.Lanceur.Core.Entities;
-using Probel.Lanceur.Core.Services;
+﻿using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin;
 using System;
 using System.Collections.Generic;
@@ -58,6 +57,12 @@ namespace Probel.Lanceur.Core.PluginsImpl
             else { throw new NotSupportedException($"Cannot instanciate the plugin '{metadata.Dll}'. Did you forget to load the plugins?"); }
         }
 
+        public void Execute(Cmdline cmd)
+        {
+            var plugin = Build(cmd.Command);
+            plugin?.Execute(cmd);
+        }
+
         public bool Exists(string name)
         {
             var exist = GetMetadataList(name.ToLower());
@@ -100,12 +105,6 @@ namespace Probel.Lanceur.Core.PluginsImpl
                             where m.Keyword == name
                             select m);
             return metadata;
-        }
-
-        public void Execute(Cmdline cmd)
-        {
-            var plugin = Build(cmd.Command);
-            plugin?.Execute(cmd);
         }
 
         #endregion Methods

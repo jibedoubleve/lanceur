@@ -1,5 +1,5 @@
 ﻿using Probel.Lanceur.Core.Entities;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.Infrastructure;
 
 namespace Probel.Lanceur.Core.Services.MacroManagement
 {

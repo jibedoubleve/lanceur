@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -30,6 +30,12 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         #endregion Constructors
 
+        #region Events
+
+        public event EventHandler<ImportUpdatedEventArg> ImportUpdated;
+
+        #endregion Events
+
         #region Properties
 
         public ILogService _log { get; }
@@ -37,26 +43,6 @@ namespace Probel.Lanceur.SQLiteDb.Services
         #endregion Properties
 
         #region Methods
-
-        private void InsertNames(SQLiteConnection c, long id, IEnumerable<string> names)
-        {
-            var sql = @"insert into alias_name (id_alias, name) values (@id, @name)";
-            foreach (var name in names)
-            {
-                c.Execute(sql, new { id, name = name.Trim('"', ' ') });
-                OnImportUpdated(_percentage, $"New name: '{name}'");
-            }
-        }
-
-        private long InsertSession(SQLiteConnection c, string sessionName)
-        {
-            var sql = @"
-                    insert into alias_session (name, notes) values(@sessionName,'Imported from SlickRun');
-                    select last_insert_rowid() from alias_session;";
-
-            var id = c.Query<long>(sql, new { sessionName }).ToList();
-            return id[0];
-        }
 
         public long Import(string sessionName = null, string fileName = null)
         {
@@ -105,11 +91,31 @@ namespace Probel.Lanceur.SQLiteDb.Services
             }
         }
 
-        public event EventHandler<ImportUpdatedEventArg> ImportUpdated;
+        private void InsertNames(SQLiteConnection c, long id, IEnumerable<string> names)
+        {
+            var sql = @"insert into alias_name (id_alias, name) values (@id, @name)";
+            foreach (var name in names)
+            {
+                c.Execute(sql, new { id, name = name.Trim('"', ' ') });
+                OnImportUpdated(_percentage, $"New name: '{name}'");
+            }
+        }
+
+        private long InsertSession(SQLiteConnection c, string sessionName)
+        {
+            var sql = @"
+                    insert into alias_session (name, notes) values(@sessionName,'Imported from SlickRun');
+                    select last_insert_rowid() from alias_session;";
+
+            var id = c.Query<long>(sql, new { sessionName }).ToList();
+            return id[0];
+        }
+
         private void OnImportUpdated(int progress, string output)
         {
             ImportUpdated?.Invoke(this, new ImportUpdatedEventArg(progress, output));
         }
+
         #endregion Methods
     }
 }

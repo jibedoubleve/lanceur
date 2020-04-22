@@ -1,6 +1,7 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using Notifications.Wpf;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin;
 using System;
 using System.Threading.Tasks;

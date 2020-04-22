@@ -13,4 +13,8 @@
     <PackageTags>Wox slickrun plugin</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Probel.Lanceur.Infrastructure\Probel.Lanceur.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
