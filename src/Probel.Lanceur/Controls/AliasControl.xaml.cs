@@ -96,7 +96,7 @@ namespace Probel.Lanceur.Controls
 
         private static void OnExecutionCountChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender is AliasControl ctrl )
+            if (sender is AliasControl ctrl)
             {
                 if (e.NewValue is long ct)
                 {

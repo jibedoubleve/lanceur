@@ -11,7 +11,8 @@ namespace Probel.Lanceur.Core.ServicesImpl
     {
         #region Fields
 
-        private static readonly Dictionary<string, Action<string>> _reservedKeywords = new Dictionary<string, Action<string>>();
+        private static readonly Dictionary<string, Func<string, ExecutionResult>> _reservedKeywords = new Dictionary<string, Func<string, ExecutionResult>>();
+        
         private readonly IKeywordLoader _keywordLoader;
 
         #endregion Fields
@@ -27,7 +28,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         #region Methods
 
-        public void Bind(string keyword, Action<string> bindedAction)
+        public void Bind(string keyword, Func<string, ExecutionResult> bindedAction)
         {
             var c = keyword.ToUpper();
             if (_reservedKeywords.ContainsKey(c))
@@ -46,13 +47,14 @@ namespace Probel.Lanceur.Core.ServicesImpl
         /// </summary>
         /// <param name="name">The name of the reserved keyword</param>
         /// <param name="arg">The arguments attached to the keyword</param>
-        public void ExecuteActionFor(string name, string arg)
+        public ExecutionResult ExecuteActionFor(string name, string arg)
         {
             if (IsReserved(name))
             {
                 var action = _reservedKeywords[name];
-                action(arg);
+                return action(arg);
             }
+            else { return ExecutionResult.None; }
         }
 
         public IEnumerable<AliasText> GetKeywords()

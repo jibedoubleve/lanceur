@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Probel.Lanceur.Core.Services;
+using System.ComponentModel;
 using System.Windows;
 
 namespace Probel.Lanceur.Actions.Words
@@ -8,7 +9,11 @@ namespace Probel.Lanceur.Actions.Words
     {
         #region Methods
 
-        protected override void DoExecute(string arg) => Application.Current.Shutdown();
+        protected override ExecutionResult DoExecute(string arg)
+        {
+            Application.Current.Shutdown();
+            return ExecutionResult.SuccessHide;
+        }
 
         #endregion Methods
     }

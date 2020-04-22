@@ -1,5 +1,6 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Events;
+using Probel.Lanceur.Models;
 using System;
 using System.Collections;
 using System.Windows;
@@ -27,20 +28,26 @@ namespace Probel.Lanceur.Controls
                 typeof(ResultList),
                 new PropertyMetadata(null, OnItemsSourceChanged));
 
+        public static DependencyProperty ItemTemlateSelectorProperty =
+                            DependencyProperty.Register("ItemTemlateSelector",
+                typeof(DataTemplateSelector),
+                typeof(ResultList),
+                new PropertyMetadata(null, OnItemTemplateSelctorChanged));
+
         public static DependencyProperty ItemTemplateProperty =
             DependencyProperty.Register("ItemTemplate",
                 typeof(DataTemplate),
                 typeof(ResultList),
-                new PropertyMetadata(null, OnItemTemplateChenged));
+                new PropertyMetadata(null, OnItemTemplateChanged));
 
         public static DependencyProperty SelectedItemProperty =
-                    DependencyProperty.Register("SelectedItem",
+            DependencyProperty.Register("SelectedItem",
                 typeof(object),
                 typeof(ResultList),
                 new PropertyMetadata(null, OnSelectedItemChanged));
 
         public static DependencyProperty SessionNameProperty =
-                                            DependencyProperty.Register("SessionName",
+            DependencyProperty.Register("SessionName",
                 typeof(string),
                 typeof(ResultList),
                 new PropertyMetadata(null, OnSessionNameChanged));
@@ -60,11 +67,14 @@ namespace Probel.Lanceur.Controls
 
         public event EventHandler<AliasTextEventArgs> AliasClicked;
 
-
         #endregion Events
 
         #region Properties
-
+        public DataTemplateSelector ItemTemlateSelector
+        {
+            get => (DataTemplateSelector)GetValue(ItemTemlateSelectorProperty);
+            set => SetValue(ItemTemlateSelectorProperty, value);
+        }
         public string DisplayMemberPath
         {
             get => (string)GetValue(DisplayMemberPathProperty);
@@ -89,7 +99,15 @@ namespace Probel.Lanceur.Controls
             private set => SetValue(SelectedItemProperty, value);
         }
 
-        public string SelectedText =>   SelectedItem is AliasText at ? at.Name : SelectedItem?.ToString();
+        public string SelectedText
+        {
+            get
+            {
+                if (SelectedItem is AliasText at) { return at.Name; }
+                else if (SelectedItem is ResultItem s) { return s.CmdLine; }
+                else { return SelectedItem.ToString(); }
+            }
+        }
 
         public string SessionName
         {
@@ -146,11 +164,19 @@ namespace Probel.Lanceur.Controls
             }
         }
 
-        private static void OnItemTemplateChenged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static void OnItemTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue is DataTemplate dt && sender is ResultList rl)
             {
                 rl.Results.ItemTemplate = dt;
+            }
+        }
+
+        private static void OnItemTemplateSelctorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is DataTemplateSelector dt && sender is ResultList rl)
+            {
+                rl.Results.ItemTemplateSelector = dt;
             }
         }
 
@@ -172,7 +198,13 @@ namespace Probel.Lanceur.Controls
 
         private void OnAliasClicked()
         {
-            var alias = Results.SelectedItem as AliasText ?? new AliasText();
+            AliasText alias = null;
+            var si = Results.SelectedItem;
+
+            if (si is SwitchSessionResult s) { alias = (AliasText)s; }
+            else if (si is AliasText at) { alias = at; }
+            else { throw new NotSupportedException($"The selected item of the result of type '{si.GetType()}' is not supported."); }
+
             AliasClicked?.Invoke(this, new AliasTextEventArgs(alias));
         }
 

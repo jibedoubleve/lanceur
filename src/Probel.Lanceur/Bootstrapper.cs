@@ -62,7 +62,7 @@ namespace Probel.Lanceur
             _container.RegisterType<ILogService, NLogLogger>();
             _container.RegisterType<IScreenRuler, ScreenRuler>();
             _container.RegisterType<IReservedKeywordService, ReservedKeywordService>();
-            _container.RegisterType<IMacroService, MacroService>();
+            _container.RegisterType<IMacroRunner, MacroRunner>();
             _container.RegisterType<IUpdateService, SQLiteUpdateService>();
             _container.RegisterType<IKeywordLoader, KeywordLoader>();
 
@@ -72,6 +72,10 @@ namespace Probel.Lanceur
 
             //Settings
             _container.RegisterType<IConnectionStringManager, ConnectionStringManager>();
+
+            //Reserved keywords
+            _container.RegisterType<IMainViewFinder, MainViewFinder>();
+            _container.RegisterType<IActionContext, ActionContext>();
 
             //Plugins
             _container.RegisterType<IPluginLoader, PluginLoader>();

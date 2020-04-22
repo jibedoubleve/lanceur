@@ -7,7 +7,7 @@ namespace Probel.Lanceur.Core.Services
     /// reserved word. It is used for instance launch multiple alias
     /// in one keyword
     /// </summary>
-    public interface IMacroService
+    public interface IMacroRunner
     {
         #region Methods
 

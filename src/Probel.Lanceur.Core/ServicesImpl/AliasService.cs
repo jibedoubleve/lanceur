@@ -12,7 +12,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         private readonly ICommandRunner _cmdRunner;
         private readonly IDataSourceService _databaseService;
-        private readonly IMacroService _macroService;
+        private readonly IMacroRunner _macroRunner;
         private readonly IPluginManager _pluginManager;
         private readonly IParameterResolver _resolver;
 
@@ -26,12 +26,12 @@ namespace Probel.Lanceur.Core.ServicesImpl
             IParameterResolver argumentHandler,
             ICommandRunner runner,
             ILogService log,
-            IMacroService macroService,
+            IMacroRunner macroService,
             IPluginManager pluginManager
             )
         {
             _pluginManager = pluginManager;
-            _macroService = macroService;
+            _macroRunner = macroService;
             _cmdRunner = runner;
 
             _log = log;
@@ -59,16 +59,14 @@ namespace Probel.Lanceur.Core.ServicesImpl
                 _pluginManager.Execute(cmd);
                 return ExecutionResult.SuccesShow; ;
             }
-            else if (_macroService.Exists(alias.FileName))
+            else if (_macroRunner.Exists(alias.FileName))
             {
-                _macroService.Execute(alias);
+                _macroRunner.Execute(alias);
                 return ExecutionResult.SuccessHide;
             }
             else
             {
-                return _cmdRunner.Execute(alias)
-                 ? ExecutionResult.SuccessHide
-                 : ExecutionResult.Failure;
+                return _cmdRunner.Execute(alias);
             }
         }
 

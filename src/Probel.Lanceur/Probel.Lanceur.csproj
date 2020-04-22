@@ -150,6 +150,7 @@
       <Link>Properties\Version.cs</Link>
     </Compile>
     <Compile Include="Actions\ActionCollection.cs" />
+    <Compile Include="Actions\ActionContext.cs" />
     <Compile Include="Actions\ActionManager.cs" />
     <Compile Include="Actions\Words\AddAction.cs" />
     <Compile Include="Actions\BaseUiAction.cs" />
@@ -161,7 +162,8 @@
     <Compile Include="Actions\Words\ImportAction.cs" />
     <Compile Include="Actions\IUiAction.cs" />
     <Compile Include="Actions\Words\QuitAction.cs" />
-    <Compile Include="Actions\Words\SessionAction.cs" />
+    <Compile Include="Actions\Words\SessionList.cs" />
+    <Compile Include="Actions\Words\SessionSwitchAction.cs" />
     <Compile Include="Actions\Words\SetupAction.cs" />
     <Compile Include="Actions\UiActionAttribute.cs" />
     <Compile Include="Actions\Words\StatisticsAction.cs" />
@@ -172,6 +174,9 @@
     </Compile>
     <Compile Include="Controls\AliasControl.xaml.cs">
       <DependentUpon>AliasControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DisplayResultControl.xaml.cs">
+      <DependentUpon>DisplayResultControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PluginConfigControl.xaml.cs">
       <DependentUpon>PluginConfigControl.xaml</DependentUpon>
@@ -191,11 +196,13 @@
     <Compile Include="Converters\MahAppsHotKeyToSettingsHotKey.cs" />
     <Compile Include="Converters\OpacityToSliderConverter.cs" />
     <Compile Include="Converters\UsageToIconConverter.cs" />
+    <Compile Include="DataTemplateSelectors\ResultTemplateSelector.cs" />
     <Compile Include="Events\AliasTextEventArgs.cs" />
     <Compile Include="Helpers\DeactivateHotKey.cs" />
     <Compile Include="Helpers\MahappsHelper.cs" />
     <Compile Include="Helpers\SingleAppInstance.cs" />
     <Compile Include="Models\NewAliasSessionModel.cs" />
+    <Compile Include="Models\ResultItem.cs" />
     <Compile Include="Models\Settings\AppSettingsModel.cs" />
     <Compile Include="Models\Settings\PositionSettingsModel.cs" />
     <Compile Include="Models\Settings\HotKeySettingsModel.cs" />
@@ -300,6 +307,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\AliasControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DisplayResultControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

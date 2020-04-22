@@ -1,9 +1,7 @@
 ﻿using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
-using Probel.Lanceur.Plugin;
 using Probel.Lanceur.ViewModels;
 using System.ComponentModel;
-using Unity;
 
 namespace Probel.Lanceur.Actions.Words
 {
@@ -12,21 +10,21 @@ namespace Probel.Lanceur.Actions.Words
     {
         #region Methods
 
-        protected override void DoExecute(string arg)
-        {
-            var keywords = Container.Resolve<IKeywordLoader>();
-            if (keywords.Contains(arg)) { return; }
+        protected override ExecutionResult DoExecute(string arg)
+        {            
+            if (KeywordLoader.Contains(arg)) { return ExecutionResult.SuccessHide; }
 
             using (DeactivateHotKey.During())
             {
-                var vm = Container.Resolve<SetupViewModel>();
+                var vm = GetViewModel<SetupViewModel>();
 
                 WindowManager.ShowWindow(vm);
 
                 vm.ListAliasViewModel.CreateKeyword(arg);
                 vm.SelectedTab = 0;
             }
-            Container.Resolve<ILogService>().Trace("Closed settings");
+            Log.Trace("Closed settings");
+            return ExecutionResult.SuccessHide;
         }
 
         #endregion Methods

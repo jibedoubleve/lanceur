@@ -40,6 +40,7 @@ namespace Probel.Lanceur.Core.Services
 
         #region Properties
 
+        public static ExecutionResult None => new ExecutionResult(false, false);
         public static ExecutionResult Failure => new ExecutionResult(true, true);
         public static ExecutionResult SuccessHide => new ExecutionResult(false, false);
         public static ExecutionResult SuccesShow => new ExecutionResult(false, true);

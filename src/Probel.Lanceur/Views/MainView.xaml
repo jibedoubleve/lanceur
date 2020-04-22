@@ -9,6 +9,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sel="clr-namespace:Probel.Lanceur.DataTemplateSelectors"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     x:Name="_self"
     Title="Lanceur"
@@ -31,6 +32,26 @@
     WindowStyle="None"
     mc:Ignorable="d">
     <Window.Resources>
+        <!--  DATATEMPLATES  -->
+        <DataTemplate x:Key="AliasTemplate">
+            <c:AliasControl
+                AliasFileName="{Binding FileName}"
+                AliasName="{Binding Name}"
+                ExecutionCount="{Binding ExecutionCount}"
+                Kind="{Binding Kind}" />
+        </DataTemplate>
+        <DataTemplate x:Key="ReadOnlyTemplate">
+            <c:DisplayResultControl
+                Title="{Binding Title}"
+                Kind="{Binding Icon}"
+                Subtitle="{Binding Subtitle}" />
+        </DataTemplate>
+        <sel:ResultTemplateSelector
+            x:Key="ResultTemplateSelector"
+            AliasTemplate="{StaticResource AliasTemplate}"
+            ReadOnlyTemplate="{StaticResource ReadOnlyTemplate}" />
+
+        <!--  CONVERTERS  -->
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <conv:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" />
         <conv:StringToColourBrushConverter x:Key="StringToColourBrushConverter" />
@@ -102,19 +123,10 @@
                 x:Name="Results"
                 MaxHeight="350"
                 Margin="5,0,5,5"
-                AliasClicked="OnResultsAliasDoubleClicked"
-                ItemsSource="{Binding AliasNameList, UpdateSourceTrigger=PropertyChanged}"
-                SessionName="{Binding Session, UpdateSourceTrigger=PropertyChanged}">
-                <c:ResultList.ItemTemplate>
-                    <DataTemplate>
-                        <c:AliasControl
-                            AliasFileName="{Binding FileName}"
-                            AliasName="{Binding Name}"
-                            ExecutionCount="{Binding ExecutionCount}"
-                            Kind="{Binding Kind}" />
-                    </DataTemplate>
-                </c:ResultList.ItemTemplate>
-            </c:ResultList>
+                AliasClicked="OnResultsClicked"
+                ItemTemlateSelector="{StaticResource ResultTemplateSelector}"
+                ItemsSource="{Binding Results, UpdateSourceTrigger=PropertyChanged}"
+                SessionName="{Binding Session, UpdateSourceTrigger=PropertyChanged}" />
             <ContentControl x:Name="PluginArea" MaxHeight="350" />
         </StackPanel>
     </Grid>

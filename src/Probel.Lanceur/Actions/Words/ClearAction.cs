@@ -2,32 +2,22 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
-using Unity;
 
 namespace Probel.Lanceur.Actions.Words
 {
     [UiAction, Description("Clears the database. (This action cannot be undone)")]
     public class ClearAction : BaseUiAction
     {
-        #region Fields
-
-        private IDataSourceService _db;
-
-        #endregion Fields
-
         #region Methods
 
-        protected override void Configure()
-        {
-            _db = Container.Resolve<IDataSourceService>();
-        }
-
-        protected override void DoExecute(string arg)
+        protected override ExecutionResult DoExecute(string arg)
         {
             var nl = Environment.NewLine;
             var result = MessageBox.Show($"Do you want to erase all data from database?{nl}This action cannot be undone!", "QUESTION", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
 
-            if (result == MessageBoxResult.Yes) { _db.Clear(); }
+            if (result == MessageBoxResult.Yes) { DataService.Clear(); }
+
+            return ExecutionResult.SuccessHide;
         }
 
         #endregion Methods
