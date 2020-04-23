@@ -30,6 +30,12 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         #region Methods
 
+        public ExecutionResult Execute(string cmd, long idSession)
+        {
+            var alias = _databaseService.GetAlias(cmd, idSession);
+            return Execute(alias);
+        }
+
         public ExecutionResult Execute(Alias alias)
         {
             if (alias.IsExecutable)

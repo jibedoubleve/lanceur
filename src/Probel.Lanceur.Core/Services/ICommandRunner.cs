@@ -6,6 +6,8 @@ namespace Probel.Lanceur.Core.Services
     {
         #region Methods
 
+        ExecutionResult Execute(string cmd, long idSession);
+
         ExecutionResult Execute(Alias alias);
 
         #endregion Methods
