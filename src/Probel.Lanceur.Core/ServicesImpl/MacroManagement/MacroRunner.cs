@@ -36,10 +36,13 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
                            && t.GetCustomAttribute<MacroAttribute>().Name == cmd.FileName.ToUpper()
                         select t;
 
-            foreach (var type in types)
+            if (types.Any())
             {
+                var type = types.ElementAt(0);
+
                 _log.Trace($"Found maro action of type '{type}'");
                 var action = (IMacroAction)Activator.CreateInstance(type);
+
                 action.With(_log, _runner)
                       .Execute(cmd);
             }

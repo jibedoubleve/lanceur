@@ -334,3 +334,6 @@ src/Version.cs
 tools/packages.config
 
 .vscode/
+
+#Doxygen output
+doxygen_output/
