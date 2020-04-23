@@ -199,7 +199,7 @@ namespace Probel.Lanceur.ViewModels
         }
 
         public void RefreshAliases(string criterion)
-        {
+        {            
             Session = _aliasService.GetSession(AppSettings.SessionId);
             var l = _aliasService.GetAliasNames(AppSettings.SessionId, criterion);
             Results = new ObservableCollection<object>(l);
