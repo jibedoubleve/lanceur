@@ -159,7 +159,7 @@ Task("Inno-Setup")
     .Does(() => {
         var path          = MakeAbsolute(Directory(binDirectory)).FullPath + "\\";
         var pluginDir     = MakeAbsolute(Directory(binPluginDir)).FullPath + "\\";
-        var plugins       = new string[] { "spotify", "calculator", "clipboard" };         
+        var plugins       = new string[] { "spotify", "calculator", "clipboard", "evernote" };         
         
         Information("Bin path   : {0}: ", path);
         Information("Plugin path: {0}: ", pluginDir);
@@ -171,7 +171,8 @@ Task("Inno-Setup")
                 { "BinDirectory", path },
                 { "SpotifyPluginDir", String.Format(pluginDir, plugins[0]) },
                 { "CalculatorPluginDir", String.Format(pluginDir, plugins[1]) },
-                { "ClipboardPluginDir", String.Format(pluginDir, plugins[2]) },   
+                { "ClipboardPluginDir", String.Format(pluginDir, plugins[2]) },
+                { "EvernotePluginDir", String.Format(pluginDir, plugins[3]) }
             }
         });
 });
@@ -191,7 +192,8 @@ Task("Release-GitHub")
                               + publishDir + "/lanceur." + gitVersion.SemVer + ".setup.exe,"
                               + publishDir + "/plugin-calculator-" + gitVersion.SemVer + ".bin.zip," 
                               + publishDir + "/plugin-spotify-" + gitVersion.SemVer + ".bin.zip," 
-                              + publishDir + "/plugin-clipboard-" + gitVersion.SemVer + ".bin.zip" 
+                              + publishDir + "/plugin-clipboard-" + gitVersion.SemVer + ".bin.zip," 
+                              + publishDir + "/plugin-evernote-" + gitVersion.SemVer + ".bin.zip" 
         };
 
         GitReleaseManagerCreate(token, owner, "Lanceur", stg);  

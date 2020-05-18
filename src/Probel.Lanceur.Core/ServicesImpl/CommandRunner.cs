@@ -49,7 +49,9 @@ namespace Probel.Lanceur.Core.ServicesImpl
             {
                 return _keywordService.ExecuteActionFor(alias.Name, alias.Arguments);
             }
-            else { return ExecutionResult.Failure; }
+            else {
+                _log.Warning($"Alias '{alias.Name}' does not exist in the database.");
+                return ExecutionResult.Failure; }
         }
 
         private ProcessStartInfo GetProcessStartInfo(Alias alias)

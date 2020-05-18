@@ -203,7 +203,7 @@ namespace Probel.Lanceur.Controls
 
             if (si is SwitchSessionResult s) { alias = (AliasText)s; }
             else if (si is AliasText at) { alias = at; }
-            else { throw new NotSupportedException($"The selected item of the result of type '{si.GetType()}' is not supported."); }
+            else { throw new NotSupportedException($"The selected item of the result of type '{si?.GetType().ToString() ?? "NULL"}' is not supported."); }
 
             AliasClicked?.Invoke(this, new AliasTextEventArgs(alias));
         }
