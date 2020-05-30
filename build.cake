@@ -162,7 +162,7 @@ Task("Inno-Setup")
         var plugins       = new string[] { "spotify", "calculator", "clipboard", "evernote" };         
         
         Information("Bin path   : {0}: ", path);
-        Information("Plugin path: {0}: ", pluginDir);
+        // Information("Plugin path: {0}: ", pluginDir);
 
         InnoSetup(inno_setup, new InnoSetupSettings { 
             OutputDirectory = publishDir,

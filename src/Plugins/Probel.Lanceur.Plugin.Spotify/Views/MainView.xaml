@@ -14,11 +14,14 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <conv:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" />
         <Style TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{DynamicResource MyTextBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextColourBrush}" />
             <Setter Property="Margin" Value="5" />
         </Style>
-        <Style x:Key="TimeTextBloxkStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{DynamicResource MyTextBrush}" />
+        <Style
+            x:Key="TimeTextBlockStyle"
+            BasedOn="{StaticResource BaseTextBoxStyle}"
+            TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource TextColourBrush}" />
             <Setter Property="Margin" Value="5" />
             <Setter Property="FontSize" Value="10" />
         </Style>
@@ -38,12 +41,14 @@
                     Source="{Binding Image.Url}" />
                 <StackPanel Margin="20,50,0,0">
                     <TextBlock
-                        FontSize="28"
+                        FontSize="24"
+                        Style="{StaticResource BaseTextBoxStyle}"
                         Text="{Binding Artists}"
                         TextWrapping="Wrap" />
 
                     <TextBlock
                         FontSize="18"
+                        Style="{StaticResource BaseTextBoxStyle}"
                         Text="{Binding Title}"
                         TextWrapping="Wrap" />
 
@@ -53,7 +58,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Style="{DynamicResource TimeTextBloxkStyle}" Text="{Binding Progress, Converter={StaticResource IntToTimeSpanStringConverter}}" />
+                        <TextBlock Style="{StaticResource TimeTextBlockStyle}" Text="{Binding Progress, Converter={StaticResource IntToTimeSpanStringConverter}}" />
 
                         <ProgressBar
                             Grid.Column="1"
@@ -64,7 +69,7 @@
 
                         <TextBlock
                             Grid.Column="2"
-                            Style="{DynamicResource TimeTextBloxkStyle}"
+                            Style="{DynamicResource TimeTextBlockStyle}"
                             Text="{Binding Duration, Converter={StaticResource IntToTimeSpanStringConverter}}" />
                     </Grid>
                 </StackPanel>

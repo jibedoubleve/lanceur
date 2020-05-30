@@ -30,8 +30,9 @@ namespace Probel.Lanceur.Core.Services
     {
         #region Constructors
 
-        private ExecutionResult(bool isError, bool keepShowing)
+        private ExecutionResult(bool isError, bool keepShowing, string error = null)
         {
+            Error = error;
             IsError = isError;
             KeepShowing = keepShowing;
         }
@@ -41,12 +42,22 @@ namespace Probel.Lanceur.Core.Services
         #region Properties
 
         public static ExecutionResult None => new ExecutionResult(false, false);
-        public static ExecutionResult Failure => new ExecutionResult(true, true);
         public static ExecutionResult SuccessHide => new ExecutionResult(false, false);
+
         public static ExecutionResult SuccesShow => new ExecutionResult(false, true);
+
+        public string Error { get; }
+
         public bool IsError { get; }
+
         public bool KeepShowing { get; }
 
         #endregion Properties
+
+        #region Methods
+
+        public static ExecutionResult Failure(string error = "An error occured") => new ExecutionResult(true, true, error);
+
+        #endregion Methods
     }
 }

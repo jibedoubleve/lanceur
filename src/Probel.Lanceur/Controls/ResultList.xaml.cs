@@ -46,12 +46,6 @@ namespace Probel.Lanceur.Controls
                 typeof(ResultList),
                 new PropertyMetadata(null, OnSelectedItemChanged));
 
-        public static DependencyProperty SessionNameProperty =
-            DependencyProperty.Register("SessionName",
-                typeof(string),
-                typeof(ResultList),
-                new PropertyMetadata(null, OnSessionNameChanged));
-
         #endregion Fields
 
         #region Constructors
@@ -70,11 +64,7 @@ namespace Probel.Lanceur.Controls
         #endregion Events
 
         #region Properties
-        public DataTemplateSelector ItemTemlateSelector
-        {
-            get => (DataTemplateSelector)GetValue(ItemTemlateSelectorProperty);
-            set => SetValue(ItemTemlateSelectorProperty, value);
-        }
+
         public string DisplayMemberPath
         {
             get => (string)GetValue(DisplayMemberPathProperty);
@@ -85,6 +75,12 @@ namespace Probel.Lanceur.Controls
         {
             get => (IEnumerable)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
+        }
+
+        public DataTemplateSelector ItemTemlateSelector
+        {
+            get => (DataTemplateSelector)GetValue(ItemTemlateSelectorProperty);
+            set => SetValue(ItemTemlateSelectorProperty, value);
         }
 
         public DataTemplate ItemTemplate
@@ -109,44 +105,9 @@ namespace Probel.Lanceur.Controls
             }
         }
 
-        public string SessionName
-        {
-            get => (string)GetValue(SessionNameProperty);
-            set => SetValue(SessionNameProperty, value);
-        }
-
         #endregion Properties
 
         #region Methods
-
-        public void MoveSelection(int offset)
-        {
-            var n = Results?.Items?.Count ?? 0;
-            var index = Results.SelectedIndex + offset;
-
-            if (n > 0) { index = (n + index) % n; }
-            else { index = -1; }
-
-            Results.SelectedIndex = index;
-            if (index >= 0 && Results != null)
-            {
-                Results.SelectedItem = Results?.Items[index];
-                Results.ScrollIntoView(Results.SelectedItem);
-            }
-        }
-
-        public void SelectFirst()
-        {
-            if (Results.Items.Count > 0)
-            {
-                Results.SelectedIndex = 0;
-                Results.SelectedItem = Results.Items[0];
-            }
-        }
-
-        public void SelectNextItem() => MoveSelection(-1);
-
-        public void SelectPreviousItem() => MoveSelection(1);
 
         private static void OnDisplayMemberPathChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
@@ -188,14 +149,6 @@ namespace Probel.Lanceur.Controls
             }
         }
 
-        private static void OnSessionNameChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (sender is ResultList rl && e.NewValue != null)
-            {
-                rl.Session.Text = e.NewValue.ToString();
-            }
-        }
-
         private void OnAliasClicked()
         {
             AliasText alias = null;
@@ -203,14 +156,45 @@ namespace Probel.Lanceur.Controls
 
             if (si is SwitchSessionResult s) { alias = (AliasText)s; }
             else if (si is AliasText at) { alias = at; }
-            else { throw new NotSupportedException($"The selected item of the result of type '{si?.GetType().ToString() ?? "NULL"}' is not supported."); }
-
-            AliasClicked?.Invoke(this, new AliasTextEventArgs(alias));
+            else
+            {
+                if (si != null) { AliasClicked?.Invoke(this, new AliasTextEventArgs(alias)); }
+                else { throw new NotSupportedException($"The selected item of the result of type '{si?.GetType().ToString() ?? "NULL"}' is not supported."); }
+            }
         }
 
         private void OnResultsMouseClick(object sender, MouseButtonEventArgs e) => OnAliasClicked();
 
         private void OnResultsSelectionChanged(object sender, SelectionChangedEventArgs e) => SelectedItem = Results.SelectedItem;
+
+        public void MoveSelection(int offset)
+        {
+            var n = Results?.Items?.Count ?? 0;
+            var index = Results.SelectedIndex + offset;
+
+            if (n > 0) { index = (n + index) % n; }
+            else { index = -1; }
+
+            Results.SelectedIndex = index;
+            if (index >= 0 && Results != null)
+            {
+                Results.SelectedItem = Results?.Items[index];
+                Results.ScrollIntoView(Results.SelectedItem);
+            }
+        }
+
+        public void SelectFirst()
+        {
+            if (Results.Items.Count > 0)
+            {
+                Results.SelectedIndex = 0;
+                Results.SelectedItem = Results.Items[0];
+            }
+        }
+
+        public void SelectNextItem() => MoveSelection(-1);
+
+        public void SelectPreviousItem() => MoveSelection(1);
 
         #endregion Methods
     }

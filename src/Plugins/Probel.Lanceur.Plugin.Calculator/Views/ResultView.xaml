@@ -17,13 +17,13 @@
                     Width="{StaticResource DefaultIconSize}"
                     Height="{StaticResource DefaultIconSize}"
                     Margin="5,5,10,5"
-                    Foreground="{DynamicResource MyTextBrush}"
+                    Foreground="{DynamicResource TextColourBrush}"
                     Kind="Calculator" />
                 <TextBlock
                     Margin="5"
-                    FontFamily="Tahomas"
+                    FontFamily="{StaticResource TextFontFamily}"
                     FontSize="26"
-                    Foreground="{DynamicResource MyTextBrush}"
+                    Foreground="{DynamicResource TextColourBrush}"
                     Text="{Binding Expression, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
         </DataTemplate>
@@ -34,9 +34,9 @@
                 Margin="5"
                 local:FocusOnLastBehavior.Focus="True"
                 Background="Transparent"
-                FontFamily="Tahomas"
+                FontFamily="{StaticResource TextFontFamily}"
                 FontSize="26"
-                Foreground="{DynamicResource MyTextBrush}"
+                Foreground="{DynamicResource TextColourBrush}"
                 IsReadOnly="{Binding IsReadOnly, UpdateSourceTrigger=PropertyChanged}"
                 KeyDown="OnTextBoxKeyDown"
                 Text="{Binding Expression, UpdateSourceTrigger=PropertyChanged}" />

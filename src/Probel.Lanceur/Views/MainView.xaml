@@ -13,11 +13,11 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     x:Name="_self"
     Title="Lanceur"
-    Width="650"
+    Width="720"
     Dialog:DialogParticipation.Register="{Binding}"
     AllowsTransparency="True"
+    Background="Transparent"
     Closing="OnWindowClosing"
-    Cursor="Hand"
     FocusManager.FocusedElement="{Binding ElementName=CommandText}"
     KeyDown="OnKeyPressedWindow"
     Left="{Binding Left, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -56,51 +56,126 @@
         <conv:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" />
         <conv:StringToColourBrushConverter x:Key="StringToColourBrushConverter" />
         <sys:Double x:Key="DefaultIconSize">30</sys:Double>
+
+        <!--  STYLES  -->
+        <DropShadowEffect
+            x:Key="borderEffect"
+            BlurRadius="7"
+            Direction="315"
+            ShadowDepth="5"
+            Color="Gray" />
+
+        <Style x:Key="ControlBorderStyle" TargetType="Border">
+            <Setter Property="BorderBrush" Value="Gray" />
+            <Setter Property="Margin" Value="5,15,5,5" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="Effect" Value="{StaticResource borderEffect}" />
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Opacity="{Binding Opacity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Color="{Binding Colour, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToColourBrushConverter}}" />
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
-    <Window.Background>
-        <SolidColorBrush Opacity="{Binding Opacity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Color="{Binding Colour, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource StringToColourBrushConverter}}" />
-    </Window.Background>
-    <Grid Margin="5">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <StackPanel>
+        <!--  ======================================================  -->
+        <!--  SEARCH BOX  -->
+        <!--  ======================================================  -->
+        <Border Style="{StaticResource ControlBorderStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox
+                    x:Name="AliasTextBox"
+                    Padding="10"
+                    cal:Message.Attach="[GotFocus]=[OnShow]"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Focusable="True"
+                    FontFamily="{StaticResource TextFontFamily}"
+                    FontSize="26"
+                    FontWeight="Regular"
+                    Foreground="{DynamicResource TextColourBrush}"
+                    PreviewKeyDown="OnKeyPressed"
+                    TextChanged="OnTextChanged" />
+                <iconPacks:PackIconModern
+                    Grid.Column="1"
+                    Width="30"
+                    Height="30"
+                    Margin="5,0,15,0"
+                    VerticalAlignment="Center"
+                    ToolTip="{Binding ErrorMessage}">
+                    <!--  Visibility="{Binding IsOnError, Converter={StaticResource BooleanToVisibilityConverter}}" >  -->
+                    <iconPacks:PackIconModern.Style>
+                        <Style TargetType="iconPacks:PackIconModern">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsOnError}" Value="True">
+                                    <Setter Property="Kind" Value="Warning" />
+                                    <Setter Property="Foreground" Value="Orange" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsOnError}" Value="False">
+                                    <Setter Property="Kind" Value="Magnify" />
+                                    <Setter Property="Foreground" Value="{StaticResource TextColourBrush}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </iconPacks:PackIconModern.Style>
+                </iconPacks:PackIconModern>
+            </Grid>
+        </Border>
 
-        <TextBox
-            x:Name="AliasTextBox"
-            Margin="5"
-            cal:Message.Attach="[GotFocus]=[OnShow]"
-            Background="Transparent"
-            Focusable="True"
-            FontFamily="Tahomas"
-            FontSize="26"
-            FontWeight="Regular"
-            Foreground="{DynamicResource MyTextBrush}"
-            Opacity="0.7"
-            PreviewKeyDown="OnKeyPressed"
-            TextChanged="OnTextChanged" />
-        <iconPacks:PackIconModern
-            Grid.Column="1"
-            Margin="5,0,0,0"
-            VerticalAlignment="Center"
-            Foreground="Orange"
-            Kind="Warning"
-            Visibility="{Binding IsOnError, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <!--  ======================================================  -->
+        <!--  RESULT BOX  -->
+        <!--  ======================================================  -->
+        <Border>
+            <Border.Style>
+                <Style BasedOn="{StaticResource ControlBorderStyle}" TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Results.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+            <StackPanel
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Margin="10">
+                <c:ResultList
+                    x:Name="Results"
+                    MaxHeight="350"
+                    AliasClicked="OnResultsClicked"
+                    ItemTemlateSelector="{StaticResource ResultTemplateSelector}"
+                    ItemsSource="{Binding Results, UpdateSourceTrigger=PropertyChanged}" />
+                <ContentControl x:Name="PluginArea" MaxHeight="350" />
 
-        <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
-            <c:ResultList
-                x:Name="Results"
-                MaxHeight="350"
-                Margin="5,0,5,5"
-                AliasClicked="OnResultsClicked"
-                ItemTemlateSelector="{StaticResource ResultTemplateSelector}"
-                ItemsSource="{Binding Results, UpdateSourceTrigger=PropertyChanged}"
-                SessionName="{Binding Session, UpdateSourceTrigger=PropertyChanged}" />
-            <ContentControl x:Name="PluginArea" MaxHeight="350" />
-        </StackPanel>
-    </Grid>
+            </StackPanel>
+        </Border>
+
+        <!--  ======================================================  -->
+        <!--  STATUS BOX  -->
+        <!--  ======================================================  -->
+        <Border Margin="5" Style="{StaticResource ControlBorderStyle}">
+            <DockPanel Margin="10,0,10,0">
+                <DockPanel.Resources>
+                    <Style BasedOn="{StaticResource BaseTextBoxStyle}" TargetType="TextBlock">
+                        <Setter Property="Margin" Value="0,0,10,0" />
+
+                        <Setter Property="Padding" Value="5" />
+                    </Style>
+                </DockPanel.Resources>
+                <TextBlock>
+                    <Run Text="{Binding Results.Count, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <Run Text="item(s) found" />
+                </TextBlock>
+                <TextBlock HorizontalAlignment="Right">
+                    <Run Text="Session:" />
+                    <Run FontWeight="DemiBold" Text="{Binding Session}" />
+                </TextBlock>
+            </DockPanel>
+        </Border>
+    </StackPanel>
 </Window>

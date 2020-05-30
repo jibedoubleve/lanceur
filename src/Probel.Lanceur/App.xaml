@@ -9,27 +9,16 @@
                 <ResourceDictionary>
                     <local:Bootstrapper x:Key="Bootstrapper" />
                 </ResourceDictionary>
-                <!--  MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive!  -->
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
 
-                <!--  Accent and AppTheme setting  -->
-                <!--  For all other styles  -->
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                <!--  For clean style  -->
-                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Clean/Clean.xaml" />-->
-
-                <!--  Default Styles  -->
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Cyan.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+                <!--  MahApps  -->
+                <ResourceDictionary Source="/Probel.Lanceur;component/Styles/MahApps.xaml" />
 
                 <!--  My Styles  -->
-                <ResourceDictionary Source="/Probel.Lanceur;component/Styles/Merged.xaml" />
+                <ResourceDictionary Source="/Probel.Lanceur;component/Styles/Themes/DarkTheme.xaml" />
+                <ResourceDictionary Source="/Probel.Lanceur;component/Styles/MahAppsFonts.xaml" />
+                <ResourceDictionary Source="/Probel.Lanceur;component/Styles/Styles.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
-            <SolidColorBrush x:Key="MyTextBrush" Color="#FFE6E6E6" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
