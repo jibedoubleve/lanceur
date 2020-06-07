@@ -10,9 +10,12 @@ namespace Probel.Lanceur.Plugin.Evernote
         public override void Execute(Cmdline cmd)
         {
             try
-            {                
+            {
                 var exec = new CmdExecutor();
-
+                if (exec.IsConfiguration(cmd.Parameters))
+                {
+                    exec.Configure(cmd.Parameters);
+                }
                 if (exec.IsList(cmd.Parameters))
                 {
                     var resul = exec.List();

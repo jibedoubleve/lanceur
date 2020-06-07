@@ -40,8 +40,8 @@ namespace Probel.Lanceur.Actions
             IKeywordLoader keywordLoader,
             ISlickRunImporterService slickRunImporterService)
         {
-            SlickRunImporterService = slickRunImporterService;
             KeywordLoader = keywordLoader;
+            SlickRunImporterService = slickRunImporterService;
             EventAggregator = eventAggregator;
             Container = container;
             SettingsService = settingsService;

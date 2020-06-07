@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  FONTS  -->
+    <FontFamily x:Key="TextFontFamily">Segoe UI</FontFamily>
+
+    <!--  NOT MAHAPPS STYLES  -->
+    <Style x:Key="DefaultTextBox" TargetType="TextBox" />
+    <Style x:Key="DefaultComboBox" TargetType="ComboBox" />
+    <Style x:Key="DefaultButton" TargetType="Button" />
+
+    <!--  STYLES  -->
+    <Style x:Key="BaseTextBoxStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource TextColourBrush}" />
+        <Setter Property="FontFamily" Value="{StaticResource TextFontFamily}" />
+    </Style>
+
+    <Style
+        x:Key="FooterStyle"
+        BasedOn="{StaticResource BaseTextBoxStyle}"
+        TargetType="TextBlock">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="FontSize" Value="10" />
+        <Setter Property="Opacity" Value=".7" />
+    </Style>
+
+</ResourceDictionary>

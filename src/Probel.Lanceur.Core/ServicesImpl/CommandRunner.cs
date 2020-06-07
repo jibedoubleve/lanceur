@@ -4,6 +4,7 @@ using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Infrastructure;
 using System.Diagnostics;
+using System.Net.Configuration;
 
 namespace Probel.Lanceur.Core.ServicesImpl
 {
@@ -30,6 +31,12 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         #region Methods
 
+        public ExecutionResult Execute(string cmd, long idSession)
+        {
+            var alias = _databaseService.GetAlias(cmd, idSession);
+            return Execute(alias);
+        }
+
         public ExecutionResult Execute(Alias alias)
         {
             if (alias.IsExecutable)
@@ -43,7 +50,12 @@ namespace Probel.Lanceur.Core.ServicesImpl
             {
                 return _keywordService.ExecuteActionFor(alias.Name, alias.Arguments);
             }
-            else { return ExecutionResult.Failure; }
+            else
+            {
+                var msg = $"Alias '{alias.Name}' does not exist in the database.";
+                _log.Warning(msg);
+                return ExecutionResult.Failure(msg);
+            }
         }
 
         private ProcessStartInfo GetProcessStartInfo(Alias alias)

@@ -46,6 +46,8 @@ namespace Probel.Lanceur.Actions
             WindowManager = c.WindowManager;
             SettingsService = c.SettingsService;
             EventAggregator = c.EventAggregator;
+            KeywordLoader = c.KeywordLoader;
+            SlickRunImporterService = c.SlickRunImporterService;
             return this;
         }
 

@@ -22,6 +22,8 @@ namespace Probel.Lanceur.Views
 
         private bool _canSavePosition = false;
 
+        private bool _isSearchActive = true;
+
         #endregion Fields
 
         #region Constructors
@@ -87,7 +89,7 @@ namespace Probel.Lanceur.Views
                 var a = GetAliasName();
                 var b = AliasTextBox.Text;
 
-                var result = ViewModel?.ExecuteText(a, b) ?? ExecutionResult.Failure;
+                var result = ViewModel?.ExecuteText(a, b) ?? ExecutionResult.Failure();
 
                 if (!result.KeepShowing) { HideControl(); }
                 if (result.IsError) { ViewModel.IsOnError = true; }
@@ -110,15 +112,7 @@ namespace Probel.Lanceur.Views
                 SetSelectedResultInTextBox();
                 e.Handled = true;
             }
-
-        }
-
-        private void SetSelectedResultInTextBox()
-        {
-            _isSearchActive = false;
-            AliasTextBox.Text = Results.SelectedText + " ";
-            AliasTextBox.CaretIndex = AliasTextBox.Text.Length;
-            _isSearchActive = true;
+            else { HidePluginArea(); }
         }
 
         private void OnKeyPressedWindow(object sender, KeyEventArgs e)
@@ -128,7 +122,7 @@ namespace Probel.Lanceur.Views
 
         private void OnResultsClicked(object sender, AliasTextEventArgs e)
         {
-            var result = ViewModel?.ExecuteText(e.Alias.Name) ?? ExecutionResult.Failure;
+            var result = ViewModel?.ExecuteText(e.Alias.Name) ?? ExecutionResult.Failure();
             if (!result.IsError) { HideControl(); }
         }
 
@@ -142,7 +136,6 @@ namespace Probel.Lanceur.Views
             }
         }
 
-        private bool _isSearchActive = true;
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             if (_isSearchActive)
@@ -196,6 +189,14 @@ namespace Probel.Lanceur.Views
         {
             ViewModel.Left = Left;
             ViewModel.Top = Top;
+        }
+
+        private void SetSelectedResultInTextBox()
+        {
+            _isSearchActive = false;
+            AliasTextBox.Text = Results.SelectedText + " ";
+            AliasTextBox.CaretIndex = AliasTextBox.Text.Length;
+            _isSearchActive = true;
         }
 
         private void ShowWindow()

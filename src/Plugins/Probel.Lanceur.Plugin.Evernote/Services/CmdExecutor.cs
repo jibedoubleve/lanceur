@@ -12,17 +12,35 @@ namespace Probel.Lanceur.Plugin.Evernote.Services
 
         #endregion Fields
 
-        #region Constructors
-
-
-        #endregion Constructors
-
         #region Methods
+
+        public void Configure(string parameters)
+        {
+            var configurator = new Configurator(parameters);
+
+            if (configurator.IsValid())
+            {
+                var s = new Settings
+                {
+                    Key = configurator.Key,
+                    Server = configurator.Server,
+                    Host = configurator.Host
+                };
+
+                Settings.Save(s);
+            }
+        }
 
         public void Execute(Cmdline cmd)
         {
             if (IsReminder(cmd.Parameters)) { CreateReminder(cmd.Parameters); }
             else if (IsNote(cmd.Parameters)) { CreateNote(cmd.Parameters); }
+        }
+
+        public bool IsConfiguration(string parameters)
+        {
+            var regex = new Regex(@"(-c|config).*");
+            return regex.IsMatch(parameters);
         }
 
         internal bool IsList(string parameters)

@@ -28,7 +28,7 @@
                                 Height="{StaticResource DefaultIconSize}"
                                 Margin="5,10,15,5"
                                 DockPanel.Dock="Left"
-                                Foreground="#FFB9B9B9"
+                                Foreground="{StaticResource TextColourBrush}"
                                 Kind="Clippy" />
 
                             <StackPanel
@@ -62,9 +62,7 @@
                                 Margin="0,3,0,0"
                                 VerticalAlignment="Bottom"
                                 DockPanel.Dock="Bottom"
-                                FontFamily="Consolas"
-                                FontSize="10"
-                                Foreground="#FFB9B9B9"
+                                Style="{StaticResource FooterStyle}"
                                 Text="{Binding Saved, StringFormat={}dd MMMM yyyy HH:mm:ss}" />
 
                         </DockPanel>

@@ -45,7 +45,7 @@
                 x:Name="CtrlSubtitle"
                 Margin="0,3,0,3"
                 DockPanel.Dock="Bottom"
-                FontFamily="Consolas"
+                FontFamily="{StaticResource TextFontFamily}"
                 FontSize="10"
                 Foreground="#FFB9B9B9" />
         </DockPanel>

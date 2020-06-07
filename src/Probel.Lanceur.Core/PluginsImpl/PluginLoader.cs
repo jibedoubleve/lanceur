@@ -69,7 +69,11 @@ namespace Probel.Lanceur.Core.PluginsImpl
                                    && t.GetInterfaces().Contains(typeof(IPlugin))
                                 select t).FirstOrDefault();
 
-                    if (type != null) { pluginTypes.Add(dll, type); }
+                    if (type != null)
+                    {
+                        _logger.Trace($"Loading plugin '{type}' from dll '{dll}'");
+                        pluginTypes.Add(dll, type);
+                    }
                     else { _logger.Warning($"Didn't find any plugins."); }
                 }
                 catch (ReflectionTypeLoadException ex)

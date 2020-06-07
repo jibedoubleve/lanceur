@@ -36,7 +36,7 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
                 else
                 {
                     _log.Trace($"Multiple alias. Executing '{item}'.");
-                    _runner.Execute(alias);
+                    _runner.Execute(item, alias.IdSession);
                 }
             }
         }
