@@ -12,7 +12,12 @@
     <UserControl.Resources>
         <sys:Double x:Key="DefaultIconSize">30</sys:Double>
     </UserControl.Resources>
-    <Border BorderBrush="white" BorderThickness="0.1">
+    <Border
+        Margin="0"
+        Padding="3"
+        Background="Transparent"
+        BorderBrush="white"
+        CornerRadius="3">
         <DockPanel Background="Transparent">
             <iconPacks:PackIconMaterial
                 x:Name="CtrlIcon"
@@ -20,15 +25,13 @@
                 Height="{StaticResource DefaultIconSize}"
                 Margin="5,10,15,3"
                 DockPanel.Dock="Left"
-                Foreground="#FFB9B9B9" />
+                Foreground="{StaticResource TextColourBrush}" />
 
             <TextBlock
                 x:Name="CtrlCounter"
-                Margin="0,0,5,3"
                 VerticalAlignment="Bottom"
                 DockPanel.Dock="Right"
-                FontSize="8"
-                Foreground="#FFB9B9B9"
+                Style="{StaticResource FooterStyle}"
                 Visibility="Collapsed">
                 <Run Text="Count:" />
                 <Run x:Name="CtrlCount" />
@@ -37,17 +40,16 @@
             <TextBlock
                 x:Name="CtrlName"
                 DockPanel.Dock="Top"
-                FontSize="22"
-                FontWeight="DemiBold"
-                Foreground="#FFE6E6E6" />
+                FontSize="24"
+                FontWeight="SemiBold"
+                Foreground="{StaticResource TextColourBrush}" />
 
             <TextBlock
                 x:Name="CtrlFileName"
                 Margin="0,3,0,3"
                 DockPanel.Dock="Bottom"
-                FontFamily="Consolas"
-                FontSize="10"
-                Foreground="#FFB9B9B9" />
+                Foreground="{StaticResource TextColourBrush}"
+                Opacity=".7" />
         </DockPanel>
     </Border>
 </UserControl>

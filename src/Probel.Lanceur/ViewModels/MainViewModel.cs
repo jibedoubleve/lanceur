@@ -23,6 +23,7 @@ namespace Probel.Lanceur.ViewModels
         private ObservableCollection<object> _aliasNameList;
         private AppSettings _appSettings;
         private string _colour;
+        private string _errorMessage;
         private bool _isOnError;
         private double _left;
         private double _opacity;
@@ -80,6 +81,12 @@ namespace Probel.Lanceur.ViewModels
             set => Set(ref _colour, value, nameof(Colour));
         }
 
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => Set(ref _errorMessage, value);
+        }
+
         public bool IsOnError
         {
             get => _isOnError;
@@ -126,6 +133,13 @@ namespace Probel.Lanceur.ViewModels
 
         #region Methods
 
+        private void RefreshAliases()
+        {
+            Session = _aliasService.GetSession(AppSettings.SessionId);
+            var l = _aliasService.GetAliasNames(AppSettings.SessionId);
+            Results = new ObservableCollection<object>(l);
+        }
+
         /// <summary>
         /// Executes the alias and returns <c>True</c> if execution was a success.
         /// Otherwise returns <c>False</c>
@@ -137,15 +151,20 @@ namespace Probel.Lanceur.ViewModels
             try
             {
                 var sid = _settingsService.Get().SessionId;
-                return _aliasService.Execute(cmdLine, sid);
+                var r = _aliasService.Execute(cmdLine, sid);
+
+                if (r.IsError) { ErrorMessage = r.Error; }
+
+                return r;
             }
             catch (Exception ex)
             {
                 /* I swallow the error as this crash shouldn't crash the application
                  * I log and continue without any other warning.
                  */
-                LogService.Error($"An error occured while trying to execute the alias '{cmdLine}'", ex);
-                return ExecutionResult.Failure;
+                var msg = $"An error occured while trying to execute the alias '{cmdLine}'";
+                LogService.Error(msg, ex);
+                return ExecutionResult.Failure(msg);
             }
         }
 
@@ -199,7 +218,7 @@ namespace Probel.Lanceur.ViewModels
         }
 
         public void RefreshAliases(string criterion)
-        {            
+        {
             Session = _aliasService.GetSession(AppSettings.SessionId);
             var l = _aliasService.GetAliasNames(AppSettings.SessionId, criterion);
             Results = new ObservableCollection<object>(l);
@@ -217,13 +236,6 @@ namespace Probel.Lanceur.ViewModels
         public void SetResult(IEnumerable<object> source, bool keepalive = false)
         {
             Results = new ObservableCollection<object>(source);
-        }
-
-        private void RefreshAliases()
-        {
-            Session = _aliasService.GetSession(AppSettings.SessionId);
-            var l = _aliasService.GetAliasNames(AppSettings.SessionId);
-            Results = new ObservableCollection<object>(l);
         }
 
         #endregion Methods

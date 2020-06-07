@@ -7,6 +7,12 @@ namespace Probel.Lanceur.Plugin.Evernote.Models
 {
     internal class Settings
     {
+        #region Fields
+
+        private const string DefaultServer = "www.evernote.com";
+
+        #endregion Fields
+
         #region Properties
 
         [JsonProperty("host")]
@@ -16,7 +22,7 @@ namespace Probel.Lanceur.Plugin.Evernote.Models
         public string Key { get; set; }
 
         [JsonProperty("server")]
-        public string Server { get; set; } = "sandbox.evernote.com";
+        public string Server { get; set; }
 
         #endregion Properties
 
@@ -33,11 +39,28 @@ namespace Probel.Lanceur.Plugin.Evernote.Models
             return s;
         }
 
+        internal static void Save(Settings src)
+        {
+            src.Normalise();
+
+            var json = JsonConvert.SerializeObject(src);
+            var p = GetPath();
+            File.WriteAllText(p, json);
+        }
+
         private static string GetPath()
         {
             var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var path = Path.Combine(dir, "api.json");
             return path;
+        }
+
+        private void Normalise()
+        {
+            if (string.IsNullOrEmpty(Server))
+            {
+                Server = DefaultServer;
+            }
         }
 
         #endregion Methods

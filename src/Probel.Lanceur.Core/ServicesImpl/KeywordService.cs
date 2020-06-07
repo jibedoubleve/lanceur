@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Probel.Lanceur.Core.ServicesImpl
 {
-    public class ReservedKeywordService : IReservedKeywordService
+    public class KeywordService : IKeywordService
     {
         #region Fields
 
@@ -19,7 +19,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         #region Constructors
 
-        public ReservedKeywordService(ILogService log, IKeywordLoader keywordLoader)
+        public KeywordService(ILogService log, IKeywordLoader keywordLoader)
         {
             _keywordLoader = keywordLoader;
         }

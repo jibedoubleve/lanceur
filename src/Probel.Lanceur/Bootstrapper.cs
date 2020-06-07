@@ -53,7 +53,7 @@ namespace Probel.Lanceur
             _container.RegisterType<IAliasService, AliasService>();
             _container.RegisterType<ICommandRunner, CommandRunner>();
             _container.RegisterType<IParameterResolver, ParameterResolver>();
-            _container.RegisterType<IReservedKeywordService, ReservedKeywordService>();
+            _container.RegisterType<IKeywordService, KeywordService>();
 
             _container.RegisterType<IDataSourceService, SQLiteDatabaseService>();
             _container.RegisterType<ISlickRunImporterService, SQLiteSlickRunImporterService>();
@@ -67,7 +67,7 @@ namespace Probel.Lanceur
             //_container.RegisterType<ILogService, TraceLogger>();
             _container.RegisterType<ILogService, NLogLogger>();
             _container.RegisterType<IScreenRuler, ScreenRuler>();
-            _container.RegisterType<IReservedKeywordService, ReservedKeywordService>();
+            _container.RegisterType<IKeywordService, KeywordService>();
             _container.RegisterType<IMacroRunner, MacroRunner>();
             _container.RegisterType<IUpdateService, SQLiteUpdateService>();
             _container.RegisterType<IKeywordLoader, KeywordLoader>();
@@ -147,6 +147,6 @@ namespace Probel.Lanceur
             actionManager.Bind();
         }
 
-#endregion Methods
+        #endregion Methods
     }
 }

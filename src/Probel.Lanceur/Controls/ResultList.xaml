@@ -24,12 +24,5 @@
                 </Style>
             </ListBox.Resources>
         </ListBox>
-        <TextBlock Grid.Row="1" HorizontalAlignment="Right">
-            <Run Foreground="#FFB9B9B9" Text="Session:" />
-            <Run
-                x:Name="Session"
-                FontWeight="DemiBold"
-                Foreground="#FFB9B9B9" />
-        </TextBlock>
     </Grid>
 </UserControl>
