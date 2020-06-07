@@ -3,6 +3,7 @@ using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Entities.Settings;
 using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Images;
 using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin;
 using System;
@@ -136,8 +137,9 @@ namespace Probel.Lanceur.ViewModels
         private void RefreshAliases()
         {
             Session = _aliasService.GetSession(AppSettings.SessionId);
-            var l = _aliasService.GetAliasNames(AppSettings.SessionId);
-            Results = new ObservableCollection<object>(l);
+            var aliases = _aliasService.GetAliasNames(AppSettings.SessionId);
+            var r = aliases.Refresh();
+            Results = new ObservableCollection<object>(r);
         }
 
         /// <summary>
@@ -221,7 +223,7 @@ namespace Probel.Lanceur.ViewModels
         {
             Session = _aliasService.GetSession(AppSettings.SessionId);
             var l = _aliasService.GetAliasNames(AppSettings.SessionId, criterion);
-            Results = new ObservableCollection<object>(l);
+            Results = new ObservableCollection<object>(l.Refresh());
         }
 
         public void SaveSettings()

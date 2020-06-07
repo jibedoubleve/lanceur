@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using Probel.Lanceur.Core.Entities;
+using System.Windows.Media;
 
 namespace Probel.Lanceur.Models
 {
@@ -9,6 +10,7 @@ namespace Probel.Lanceur.Models
 
         private string _footer;
         private string _icon;
+        private ImageSource _image;
         private string _subTitle;
 
         private string _title;
@@ -29,6 +31,12 @@ namespace Probel.Lanceur.Models
         {
             get => _icon;
             set => Set(ref _icon, value, nameof(Icon));
+        }
+
+        public ImageSource Image
+        {
+            get => _image;
+            set => Set(ref _image, value);
         }
 
         public string Subtitle

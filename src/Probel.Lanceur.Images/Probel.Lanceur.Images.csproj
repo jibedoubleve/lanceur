@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Icons\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="tlbimp-Microsoft.Search.Interop" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>

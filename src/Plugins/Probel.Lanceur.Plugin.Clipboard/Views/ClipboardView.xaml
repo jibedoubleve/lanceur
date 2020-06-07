@@ -12,10 +12,6 @@
     <ScrollViewer>
         <ItemsControl ItemsSource="{Binding History}">
 
-            <ItemsControl.Resources>
-                <sys:Double x:Key="DefaultIconSize">30</sys:Double>
-            </ItemsControl.Resources>
-
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Border

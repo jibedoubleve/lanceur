@@ -10,7 +10,6 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <sys:Double x:Key="DefaultIconSize">30</sys:Double>
         <CollectionViewSource x:Key="doubloons" Source="{Binding Doubloons}">
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="FileName" />

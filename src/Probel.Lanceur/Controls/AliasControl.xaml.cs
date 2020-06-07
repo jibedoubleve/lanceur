@@ -1,8 +1,10 @@
 ﻿using MahApps.Metro.IconPacks;
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Probel.Lanceur.Controls
 {
@@ -30,6 +32,12 @@ namespace Probel.Lanceur.Controls
                 typeof(long),
                 typeof(AliasControl),
                 new PropertyMetadata(0L, OnExecutionCountChanged));
+
+        public static DependencyProperty ImageProperty =
+            DependencyProperty.Register("Image",
+                typeof(ImageSource),
+                typeof(AliasControl),
+                new PropertyMetadata(null, OnImageChanged));
 
         public static DependencyProperty KindProperty =
             DependencyProperty.Register("Kind",
@@ -66,6 +74,12 @@ namespace Probel.Lanceur.Controls
         {
             get => (string)GetValue(ExecutionCountProperty);
             set => SetValue(ExecutionCountProperty, value);
+        }
+
+        public ImageSource Image
+        {
+            get => (ImageSource)GetValue(ImageProperty);
+            set => SetValue(ImageProperty, value);
         }
 
         public string Kind
@@ -111,15 +125,53 @@ namespace Probel.Lanceur.Controls
             }
         }
 
+        private static void OnImageChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is AliasControl ctrl)
+            {
+                if (e.NewValue is ImageSource src && e.NewValue != null)
+                {
+                    ctrl.CtrlImage.Source = src;
+                    ShowImage(ctrl);
+                }
+                else { ShowIcon(ctrl); }
+            }
+        }
+
         private static void OnKindChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
-            if (sender is AliasControl ctrl && e.NewValue is string str)
+            if (sender is AliasControl ctrl)
             {
-                var kind = (from k in Enum.GetValues(typeof(PackIconMaterialKind)).Cast<PackIconMaterialKind>()
-                            where k.ToString().ToLower() == str.ToLower()
-                            select k).ToList();
-                ctrl.CtrlIcon.Kind = kind.Any() ? kind[0] : PackIconMaterialKind.None;
+                if (e.NewValue is string str)
+                {
+
+
+                    if (ctrl.CtrlImage.Source != null)
+                    {
+                        ShowImage(ctrl);
+                    }
+                    else {
+
+                        var kind = (from k in Enum.GetValues(typeof(PackIconMaterialKind)).Cast<PackIconMaterialKind>()
+                                    where k.ToString().ToLower() == str.ToLower()
+                                    select k).ToList();
+
+                        ctrl.CtrlIcon.Kind = kind.Any() ? kind[0] : PackIconMaterialKind.None;
+
+                        ShowIcon(ctrl); }
+                }
             }
+        }
+
+        private static void ShowIcon(AliasControl ctrl)
+        {
+            ctrl.CtrlImage.Visibility = Visibility.Collapsed;
+            ctrl.CtrlIcon.Visibility = Visibility.Visible;
+        }
+        private static void ShowImage(AliasControl ctrl)
+        {
+            ctrl.CtrlImage.Visibility = Visibility.Visible;
+            ctrl.CtrlIcon.Visibility = Visibility.Collapsed;
         }
 
         #endregion Methods

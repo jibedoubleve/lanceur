@@ -9,7 +9,7 @@ namespace Probel.Lanceur.Core.Entities
 
         public long ExecutionCount { get; set; }
         public string FileName { get; set; }
-        public string Kind { get; set; }
+        public virtual string Kind { get; set; }
         public string Name { get; set; }
 
         #endregion Properties

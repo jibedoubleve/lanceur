@@ -10,7 +10,6 @@
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sel="clr-namespace:Probel.Lanceur.DataTemplateSelectors"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     x:Name="_self"
     Title="Lanceur"
     Width="720"
@@ -38,6 +37,7 @@
                 AliasFileName="{Binding FileName}"
                 AliasName="{Binding Name}"
                 ExecutionCount="{Binding ExecutionCount}"
+                Image="{Binding Image}"
                 Kind="{Binding Kind}" />
         </DataTemplate>
         <DataTemplate x:Key="ReadOnlyTemplate">
@@ -55,7 +55,6 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <conv:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" />
         <conv:StringToColourBrushConverter x:Key="StringToColourBrushConverter" />
-        <sys:Double x:Key="DefaultIconSize">30</sys:Double>
 
         <!--  STYLES  -->
         <DropShadowEffect

@@ -45,7 +45,6 @@
         </Style>
         <sys:Double x:Key="SeparatorStep">50</sys:Double>
         <sys:Double x:Key="RotationValue">-20</sys:Double>
-        <sys:Double x:Key="DefaultIconSize">40</sys:Double>
         <conv:UsageToIconConverter x:Key="UsageToIconConverter" />
         <conv:UsageToColorConverter x:Key="UsageToColorConverter" />
         <conv:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" />

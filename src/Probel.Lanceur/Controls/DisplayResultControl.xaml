@@ -9,18 +9,21 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     Background="Transparent"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <sys:Double x:Key="DefaultIconSize">30</sys:Double>
-    </UserControl.Resources>
     <Border BorderBrush="white" BorderThickness="0.1">
         <DockPanel Background="Transparent">
-            <iconPacks:PackIconMaterial
-                x:Name="CtrlIcon"
-                Width="{StaticResource DefaultIconSize}"
-                Height="{StaticResource DefaultIconSize}"
-                Margin="5,10,15,3"
-                DockPanel.Dock="Left"
-                Foreground="#FFB9B9B9" />
+            <Grid>
+                <iconPacks:PackIconMaterial
+                    x:Name="CtrlIcon"
+                    Width="{StaticResource DefaultIconSize}"
+                    Height="{StaticResource DefaultIconSize}"
+                    Margin="5,10,15,3"
+                    DockPanel.Dock="Left"
+                    Foreground="#FFB9B9B9" />
+                <Image
+                    x:Name="CtrlImage"
+                    Width="{StaticResource DefaultIconSize}"
+                    Height="{StaticResource DefaultIconSize}" />
+            </Grid>
 
             <TextBlock
                 x:Name="CtrlCounter"
