@@ -11,18 +11,18 @@ namespace Probel.Lanceur.Actions
         public readonly ILogService _logger;
         private readonly IActionCollection _actions;
         private readonly IActionContext _context;
-        private readonly IReservedKeywordService _reservedKeywordService;
+        private readonly IKeywordService _keywordService;
 
         #endregion Fields
 
         #region Constructors
 
-        public ActionManager(IReservedKeywordService reservedKeywordService, IActionCollection actions, IActionContext context)
+        public ActionManager(IKeywordService keywordService, IActionCollection actions, IActionContext context)
         {
             _context = context;
             _actions = actions;
             _logger = _context.Log;
-            _reservedKeywordService = reservedKeywordService;
+            _keywordService = keywordService;
         }
 
         #endregion Constructors
@@ -38,7 +38,7 @@ namespace Probel.Lanceur.Actions
 
                 var action = (IUiAction)Activator.CreateInstance(a.Type);
 
-                _reservedKeywordService.Bind(actionName, arg => action.With(_context)
+                _keywordService.Bind(actionName, arg => action.With(_context)
                                                                       .Execute(arg));
             }
         }
