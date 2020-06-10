@@ -11,6 +11,8 @@
     - [Create shortcuts (UI)](#create-shortcuts-ui)
   - [Predifined keywords](#predifined-keywords)
   - [Replacement macros](#replacement-macros)
+- [Plugins](/doc/pages/plugins.md)
+- [Data Reconciliation](/doc/pages/data_reconciliation.md)
 - [Print screens](#print-screens)
 - [Acknowledgement](#acknowledgement)
 
