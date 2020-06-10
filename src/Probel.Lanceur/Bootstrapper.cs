@@ -75,6 +75,7 @@ namespace Probel.Lanceur
             //UI
             _container.RegisterType<IUserNotifyer, UserNotifyer>();
             _container.RegisterSingleton<INotificationManager, NotificationManager>();
+            _container.RegisterSingleton<IAppRestarter, AppRestarter>();
 
             //Settings
             _container.RegisterType<IConnectionStringManager, ConnectionStringManager>();
