@@ -1,4 +1,4 @@
-﻿using Probel.Lanceur.Core.Services;
+﻿using Probel.Lanceur.Infrastructure;
 using System;
 using OutputTrace = System.Diagnostics.Trace;
 

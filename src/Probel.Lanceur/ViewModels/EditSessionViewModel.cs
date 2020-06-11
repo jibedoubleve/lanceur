@@ -2,7 +2,7 @@
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Models;
-using Probel.Lanceur.Services;
+using Probel.Lanceur.Plugin;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -86,7 +86,6 @@ namespace Probel.Lanceur.ViewModels
                 var name = (CurrentSession as AliasSessionModel)?.Name ?? throw new NullReferenceException("The current session to be deleted is null");
                 if (await _notifyer.AskAsync($"Do you want to delete the session '{name}'?") == NotificationResult.Affirmative)
                 {
-
                     _databaseService.Delete(CastedCurrentSession.AsEntity());
 
                     var toDel = (from s in Sessions

@@ -3,21 +3,21 @@ using LiveCharts;
 using LiveCharts.Configurations;
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Services;
+using Probel.Lanceur.Infrastructure;
+using Probel.Lanceur.Plugin;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace Probel.Lanceur.ViewModels
 {
     public class StatisticsViewModel : Screen
     {
-        private readonly IUserNotifyer _notifyer;
         #region Fields
 
         private readonly ILogService _log;
+        private readonly IUserNotifyer _notifyer;
         private readonly IDataSourceService _service;
 
         private ObservableCollection<ChartPoint<string, int>> _aliasPerExecutionCount;

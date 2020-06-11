@@ -1,5 +1,6 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Events;
+using Probel.Lanceur.Models;
 using System;
 using System.Collections;
 using System.Windows;
@@ -27,23 +28,23 @@ namespace Probel.Lanceur.Controls
                 typeof(ResultList),
                 new PropertyMetadata(null, OnItemsSourceChanged));
 
+        public static DependencyProperty ItemTemlateSelectorProperty =
+                            DependencyProperty.Register("ItemTemlateSelector",
+                typeof(DataTemplateSelector),
+                typeof(ResultList),
+                new PropertyMetadata(null, OnItemTemplateSelctorChanged));
+
         public static DependencyProperty ItemTemplateProperty =
             DependencyProperty.Register("ItemTemplate",
                 typeof(DataTemplate),
                 typeof(ResultList),
-                new PropertyMetadata(null, OnItemTemplateChenged));
+                new PropertyMetadata(null, OnItemTemplateChanged));
 
         public static DependencyProperty SelectedItemProperty =
-                    DependencyProperty.Register("SelectedItem",
+            DependencyProperty.Register("SelectedItem",
                 typeof(object),
                 typeof(ResultList),
                 new PropertyMetadata(null, OnSelectedItemChanged));
-
-        public static DependencyProperty SessionNameProperty =
-                                            DependencyProperty.Register("SessionName",
-                typeof(string),
-                typeof(ResultList),
-                new PropertyMetadata(null, OnSessionNameChanged));
 
         #endregion Fields
 
@@ -59,7 +60,6 @@ namespace Probel.Lanceur.Controls
         #region Events
 
         public event EventHandler<AliasTextEventArgs> AliasClicked;
-
 
         #endregion Events
 
@@ -77,6 +77,12 @@ namespace Probel.Lanceur.Controls
             set => SetValue(ItemsSourceProperty, value);
         }
 
+        public DataTemplateSelector ItemTemlateSelector
+        {
+            get => (DataTemplateSelector)GetValue(ItemTemlateSelectorProperty);
+            set => SetValue(ItemTemlateSelectorProperty, value);
+        }
+
         public DataTemplate ItemTemplate
         {
             get => (DataTemplate)GetValue(ItemTemplateProperty);
@@ -89,17 +95,77 @@ namespace Probel.Lanceur.Controls
             private set => SetValue(SelectedItemProperty, value);
         }
 
-        public string SelectedText =>   SelectedItem is AliasText at ? at.Name : SelectedItem?.ToString();
-
-        public string SessionName
+        public string SelectedText
         {
-            get => (string)GetValue(SessionNameProperty);
-            set => SetValue(SessionNameProperty, value);
+            get
+            {
+                if (SelectedItem is AliasText at) { return at.Name; }
+                else if (SelectedItem is ResultItem s) { return s.CmdLine; }
+                else { return SelectedItem.ToString(); }
+            }
         }
 
         #endregion Properties
 
         #region Methods
+
+        private static void OnDisplayMemberPathChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is string str && sender is ResultList rl)
+            {
+                rl.Results.DisplayMemberPath = str;
+            }
+        }
+
+        private static void OnItemsSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is IEnumerable items && sender is ResultList rl)
+            {
+                rl.Results.ItemsSource = items;
+            }
+        }
+
+        private static void OnItemTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is DataTemplate dt && sender is ResultList rl)
+            {
+                rl.Results.ItemTemplate = dt;
+            }
+        }
+
+        private static void OnItemTemplateSelctorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is DataTemplateSelector dt && sender is ResultList rl)
+            {
+                rl.Results.ItemTemplateSelector = dt;
+            }
+        }
+
+        private static void OnSelectedItemChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is ResultList rl && e.NewValue != null)
+            {
+                rl.SelectedItem = rl.Results.SelectedItem;
+            }
+        }
+
+        private void OnAliasClicked()
+        {
+            AliasText alias = null;
+            var si = Results.SelectedItem;
+
+            if (si is SwitchSessionResult s) { alias = (AliasText)s; }
+            else if (si is AliasText at) { alias = at; }
+            else
+            {
+                if (si != null) { AliasClicked?.Invoke(this, new AliasTextEventArgs(alias)); }
+                //else { throw new NotSupportedException($"The selected item of the result of type '{si?.GetType().ToString() ?? "NULL"}' is not supported."); }
+            }
+        }
+
+        private void OnResultsMouseClick(object sender, MouseButtonEventArgs e) => OnAliasClicked();
+
+        private void OnResultsSelectionChanged(object sender, SelectionChangedEventArgs e) => SelectedItem = Results.SelectedItem;
 
         public void MoveSelection(int offset)
         {
@@ -129,56 +195,6 @@ namespace Probel.Lanceur.Controls
         public void SelectNextItem() => MoveSelection(-1);
 
         public void SelectPreviousItem() => MoveSelection(1);
-
-        private static void OnDisplayMemberPathChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue is string str && sender is ResultList rl)
-            {
-                rl.Results.DisplayMemberPath = str;
-            }
-        }
-
-        private static void OnItemsSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue is IEnumerable items && sender is ResultList rl)
-            {
-                rl.Results.ItemsSource = items;
-            }
-        }
-
-        private static void OnItemTemplateChenged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue is DataTemplate dt && sender is ResultList rl)
-            {
-                rl.Results.ItemTemplate = dt;
-            }
-        }
-
-        private static void OnSelectedItemChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (sender is ResultList rl && e.NewValue != null)
-            {
-                rl.SelectedItem = rl.Results.SelectedItem;
-            }
-        }
-
-        private static void OnSessionNameChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (sender is ResultList rl && e.NewValue != null)
-            {
-                rl.Session.Text = e.NewValue.ToString();
-            }
-        }
-
-        private void OnAliasClicked()
-        {
-            var alias = Results.SelectedItem as AliasText ?? new AliasText();
-            AliasClicked?.Invoke(this, new AliasTextEventArgs(alias));
-        }
-
-        private void OnResultsMouseClick(object sender, MouseButtonEventArgs e) => OnAliasClicked();
-
-        private void OnResultsSelectionChanged(object sender, SelectionChangedEventArgs e) => SelectedItem = Results.SelectedItem;
 
         #endregion Methods
     }

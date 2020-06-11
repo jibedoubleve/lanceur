@@ -1,10 +1,4 @@
 ﻿using Probel.Lanceur.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Probel.Lanceur
@@ -14,10 +8,14 @@ namespace Probel.Lanceur
     /// </summary>
     public partial class App : Application
     {
+        #region Methods
+
         protected override void OnExit(ExitEventArgs e)
         {
             base.OnExit(e);
             SingleInstance.ReleaseMutex();
         }
+
+        #endregion Methods
     }
 }

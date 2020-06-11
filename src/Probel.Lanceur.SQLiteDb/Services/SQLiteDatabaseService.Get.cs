@@ -116,7 +116,11 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 if (result != null)
                 {
                     result.AddRange(_reservedKeywordService.GetKeywords());
-                    result.AddRange(_pluginManager.GetKeywords());
+
+                    var items = (from i in _pluginManager.GetKeywords()
+                                 select (AliasText)i);
+
+                    result.AddRange(items);
                 }
                 else { result = new List<AliasText>(); }
 

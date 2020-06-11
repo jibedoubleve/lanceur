@@ -1,11 +1,13 @@
 ﻿using Caliburn.Micro;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
+using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Models;
 using Probel.Lanceur.Models.Settings;
+using Probel.Lanceur.Plugin;
 using Probel.Lanceur.Services;
 using System.Collections.ObjectModel;
-using System.IO;
+using System.Threading.Tasks;
 
 namespace Probel.Lanceur.ViewModels
 {
@@ -14,6 +16,7 @@ namespace Probel.Lanceur.ViewModels
         #region Fields
 
         private readonly IDataSourceService _databaseService;
+        private readonly IAppRestarter _restarter;
         private readonly ISettingsService _settingsService;
         private readonly IUserNotifyer _userNotifyer;
         private AppSettingsModel _appSettings;
@@ -28,8 +31,12 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public SettingsViewModel(ISettingsService settingsService, IDataSourceService databaseService, IUserNotifyer userNotifyer)
+        public SettingsViewModel(ISettingsService settingsService,
+            IDataSourceService databaseService,
+            IUserNotifyer userNotifyer,
+            IAppRestarter restarter)
         {
+            _restarter = restarter;
             _userNotifyer = userNotifyer;
             _databaseService = databaseService;
             _settingsService = settingsService;
@@ -114,16 +121,20 @@ namespace Probel.Lanceur.ViewModels
             AppSettings.SessionId = CurrentSession?.Id ?? 1;
         }
 
-        public void SaveSettings()
+        public async Task SaveSettings()
         {
             AppSettings.SessionId = CurrentSession?.Id ?? 1;
-
-            if (_settingsService.Get().DatabasePath != AppSettings.DatabasePath) { IsRebootNeeded = true; }
 
             var e = AppSettings.AsEntity();
             _settingsService.Save(e);
 
             _userNotifyer.NotifyInfo("Settings has been saved.");
+
+            if (_settingsService.Get().DatabasePath != AppSettings.DatabasePath)
+            {
+                IsRebootNeeded = true;
+                if (await _restarter.DoRestartAsync()) { _restarter.Restart(); }
+            }
         }
 
         #endregion Methods

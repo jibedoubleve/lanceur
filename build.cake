@@ -9,6 +9,7 @@
 
 #addin Cake.Figlet
 #addin Cake.Powershell
+#addin "Cake.FileHelpers"
 
 ///////////////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -24,6 +25,17 @@ var verbosity = Argument("verbosity", Verbosity.Minimal);
  * the task "Release-GitHub".
  */
 var assets = new List<string>(); 
+
+/* These arguments are used to build the nuget packages
+ */
+var latestInstallationPath = VSWhereLatest(new VSWhereLatestSettings { IncludePrerelease = true });
+var msBuildPath = latestInstallationPath.Combine("./MSBuild/Current/Bin");
+var msBuildPathExe = msBuildPath.CombineWithFilePath("./MSBuild.exe");
+
+/* These arguments are used for Evernote Plugin. It contains the
+ * information to build the json file with API key and host
+ */
+ var evernote_cfg_dest = @"%userprofile%\Documents\Secrets\evenrote.plugin.config.json";
 
 ///////////////////////////////////////////////////////////////////////////////
 // PREPARATION
@@ -119,7 +131,7 @@ Task("Zip")
             var dest = publishDir + "/" + d.Name.Replace("Probel.Lanceur.Plugin.","plugin-") + "-" + gitVersion.SemVer + ".bin.zip";
             assets.Add(dest);
 
-            Information("Zipping plugin:  {0}", dest);
+            Information("Zipping plugin: {0}", dest);
             Information("  pluginBin   : {0}", pluginBin);
             Information("  dest        : {0}", dest);
 
@@ -128,14 +140,29 @@ Task("Zip")
     
 });  
 
+Task("Evernote-file")
+    .Does(()=>{
+        var host = EnvironmentVariable("EVERNOTE_API_HOST");
+        var key = EnvironmentVariable("EVERNOTE_API_KEY");
+        var json = $"{{\"host\":\"{host}\",\"key\":\"{key}\"}}";     
+
+        
+        var dir = new DirectoryInfo(binDirectory + @"/../../../plugins/Probel.Lanceur.Plugin.Evernote\");
+        var dest = dir.FullName + @"\bin\Release\api.json";
+
+        Information("Configuration file built at: {0}", dest);
+
+        FileWriteText(dest, json);
+});
+
 Task("Inno-Setup")
     .Does(() => {
-        var path      = MakeAbsolute(Directory(binDirectory)).FullPath + "\\";
-        var pluginDir = MakeAbsolute(Directory(binPluginDir)).FullPath + "\\";
-        var plugins   = new string[] { "spotify", "calculator" }; 
+        var path          = MakeAbsolute(Directory(binDirectory)).FullPath + "\\";
+        var pluginDir     = MakeAbsolute(Directory(binPluginDir)).FullPath + "\\";
+        var plugins       = new string[] { "spotify", "calculator", "clipboard", "evernote" };         
         
         Information("Bin path   : {0}: ", path);
-        Information("Plugin path: {0}: ", pluginDir);
+        // Information("Plugin path: {0}: ", pluginDir);
 
         InnoSetup(inno_setup, new InnoSetupSettings { 
             OutputDirectory = publishDir,
@@ -144,6 +171,8 @@ Task("Inno-Setup")
                 { "BinDirectory", path },
                 { "SpotifyPluginDir", String.Format(pluginDir, plugins[0]) },
                 { "CalculatorPluginDir", String.Format(pluginDir, plugins[1]) },
+                { "ClipboardPluginDir", String.Format(pluginDir, plugins[2]) },
+                { "EvernotePluginDir", String.Format(pluginDir, plugins[3]) }
             }
         });
 });
@@ -162,21 +191,53 @@ Task("Release-GitHub")
             Assets            = publishDir + "/lanceur." + gitVersion.SemVer + ".bin.zip," 
                               + publishDir + "/lanceur." + gitVersion.SemVer + ".setup.exe,"
                               + publishDir + "/plugin-calculator-" + gitVersion.SemVer + ".bin.zip," 
-                              + publishDir + "/plugin-spotify-" + gitVersion.SemVer + ".bin.zip" 
+                              + publishDir + "/plugin-spotify-" + gitVersion.SemVer + ".bin.zip," 
+                              + publishDir + "/plugin-clipboard-" + gitVersion.SemVer + ".bin.zip," 
+                              + publishDir + "/plugin-evernote-" + gitVersion.SemVer + ".bin.zip" 
         };
 
         GitReleaseManagerCreate(token, owner, "Lanceur", stg);  
-    });
+});
+
+Task("Pack")
+    .ContinueOnError()
+    .Does(() =>
+{
+    EnsureDirectoryExists(Directory(publishDir));
+
+    var msBuildSettings = new MSBuildSettings {
+        Verbosity = verbosity
+        , ToolPath = msBuildPathExe
+        , Configuration = configuration
+    };
+
+    var project = "./src/Probel.Lanceur.Plugin/Probel.Lanceur.Plugin.csproj";
+    MSBuild(project, msBuildSettings
+      .WithTarget("pack")
+      .WithProperty("NoBuild", "true")
+      .WithProperty("IncludeBuildOutput", "true")
+      .WithProperty("PackageOutputPath", "../../" + publishDir)
+      .WithProperty("RepositoryBranch", branchName)
+      .WithProperty("RepositoryCommit", gitVersion.Sha)
+      .WithProperty("Description", "This is the library to use to create plugins for Lanceur")
+      .WithProperty("Version", gitVersion.MajorMinorPatch)
+      .WithProperty("AssemblyVersion", gitVersion.AssemblySemVer)
+      .WithProperty("FileVersion", gitVersion.AssemblySemFileVer)
+      .WithProperty("InformationalVersion", gitVersion.InformationalVersion)
+    );
+});
 
 Task("Default")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
+    .IsDependentOn("Pack")
     .IsDependentOn("Unit-Test")
+    .IsDependentOn("Evernote-file")
     .IsDependentOn("Zip")
     .IsDependentOn("Inno-Setup");
 
-Task("Release")    
+Task("Github")    
     .IsDependentOn("Default")
     .IsDependentOn("Release-GitHub");
 

@@ -1,6 +1,7 @@
 ﻿using Probel.Lanceur.Core.Entities;
-using Probel.Lanceur.Core.Plugins;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Infrastructure;
+using Probel.Lanceur.Plugin;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,9 +13,10 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         private readonly ICommandRunner _cmdRunner;
         private readonly IDataSourceService _databaseService;
-        private readonly IMacroService _macroService;
+        private readonly IMacroRunner _macroRunner;
         private readonly IPluginManager _pluginManager;
         private readonly IParameterResolver _resolver;
+        private readonly ILogService _log;
 
         #endregion Fields
 
@@ -24,25 +26,20 @@ namespace Probel.Lanceur.Core.ServicesImpl
             IParameterResolver argumentHandler,
             ICommandRunner runner,
             ILogService log,
-            IMacroService macroService,
+            IMacroRunner macroService,
             IPluginManager pluginManager
             )
         {
             _pluginManager = pluginManager;
-            _macroService = macroService;
+            _macroRunner = macroService;
+            _cmdRunner = runner;
+
             _log = log;
             _databaseService = databaseService;
             _resolver = argumentHandler;
-            _cmdRunner = runner;
         }
 
         #endregion Constructors
-
-        #region Properties
-
-        public ILogService _log { get; }
-
-        #endregion Properties
 
         #region Methods
 
@@ -52,28 +49,24 @@ namespace Probel.Lanceur.Core.ServicesImpl
         /// <param name="cmdline">The command line to execute. That's the alias and the arguments (which are not mandatory)</param>
         public ExecutionResult Execute(string cmdline, long sessionId)
         {
-            var splited = _resolver.Split(cmdline, sessionId);
-            var cmd = _databaseService.GetAlias(splited.Command, sessionId);
+            var cmd = _resolver.Split(cmdline, sessionId);
 
-            cmd = _resolver.Resolve(cmd, splited.Parameters);
+            var alias = _databaseService.GetAlias(cmd.Command, sessionId);
+            alias = _resolver.Resolve(alias, cmd.Parameters);
 
-            if (_pluginManager.Exists(cmd.Name))
+            if (_pluginManager.Exists(alias.Name))
             {
-                _pluginManager.Build(cmd.Name)
-                              .Execute(splited);
+                _pluginManager.Execute(cmd);
                 return ExecutionResult.SuccesShow; ;
             }
-            else if (_macroService.Has(cmd.FileName))
+            else if (_macroRunner.Exists(alias.FileName))
             {
-                _macroService.With(_cmdRunner, this)
-                             .Handle(cmd);
+                _macroRunner.Execute(alias);
                 return ExecutionResult.SuccessHide;
             }
             else
             {
-                return _cmdRunner.Run(cmd)
-                 ? ExecutionResult.SuccessHide
-                 : ExecutionResult.Failure;
+                return _cmdRunner.Execute(alias);
             }
         }
 

@@ -85,6 +85,10 @@
       <Project>{76716E34-6464-45E0-BCC6-21203AB79FD1}</Project>
       <Name>Probel.Lanceur.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Probel.Lanceur.Plugin\Probel.Lanceur.Plugin.csproj">
+      <Project>{f4db7268-da54-4141-9567-afbd6c5fe1ac}</Project>
+      <Name>Probel.Lanceur.Plugin</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,5 @@
 ﻿using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Infrastructure;
 
 namespace Probel.Lanceur.Core.Services.MacroManagement
 {
@@ -8,7 +9,7 @@ namespace Probel.Lanceur.Core.Services.MacroManagement
 
         void Execute(Alias alias);
 
-        IMacroAction With(ICommandRunner cmdrunner, ILogService log, IAliasService aliasService);
+        IMacroAction With(ILogService log, ICommandRunner runner);
 
         #endregion Methods
     }

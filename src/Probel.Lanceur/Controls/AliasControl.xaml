@@ -9,40 +9,53 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     Background="Transparent"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <sys:Double x:Key="DefaultIconSize">30</sys:Double>
-    </UserControl.Resources>
-    <DockPanel Background="Transparent">
-        <iconPacks:PackIconMaterial
-            x:Name="CtrlIcon"
-            Width="{StaticResource DefaultIconSize}"
-            Height="{StaticResource DefaultIconSize}"
-            Margin="5,10,15,5"
-            DockPanel.Dock="Left"
-            Foreground="#FFB9B9B9" />
-        <TextBlock
-            x:Name="CtrlCounter"
-            VerticalAlignment="Bottom"
-            DockPanel.Dock="Right"
-            FontSize="8"
-            Foreground="#FFB9B9B9"
-            Visibility="Collapsed">
-            <Run Text="Count:" />
-            <Run x:Name="CtrlCount" />
-        </TextBlock>
+    <Border
+        Margin="0"
+        Padding="3"
+        Background="Transparent"
+        BorderBrush="white"
+        CornerRadius="3">
+        <DockPanel Background="Transparent">
+            <iconPacks:PackIconMaterial
+                x:Name="CtrlIcon"
+                Width="{StaticResource DefaultIconSize}"
+                Height="{StaticResource DefaultIconSize}"
+                Margin="5,0,15,0"
+                VerticalAlignment="Center"
+                DockPanel.Dock="Left"
+                Foreground="{StaticResource TextColourBrush}" />
 
-        <TextBlock
-            x:Name="CtrlName"
-            DockPanel.Dock="Top"
-            FontSize="22"
-            FontWeight="DemiBold"
-            Foreground="#FFE6E6E6" />
-        <TextBlock
-            x:Name="CtrlFileName"
-            Margin="0,3,0,0"
-            DockPanel.Dock="Bottom"
-            FontFamily="Consolas"
-            FontSize="10"
-            Foreground="#FFB9B9B9" />
-    </DockPanel>
+            <Image
+                x:Name="CtrlImage"
+                Width="{StaticResource DefaultIconSize}"
+                Height="{StaticResource DefaultIconSize}"
+                Margin="5,10,15,3"
+                VerticalAlignment="Center"
+                DockPanel.Dock="Left" />
+
+            <TextBlock
+                x:Name="CtrlCounter"
+                VerticalAlignment="Bottom"
+                DockPanel.Dock="Right"
+                Style="{StaticResource FooterStyle}"
+                Visibility="Collapsed">
+                <Run Text="Count:" />
+                <Run x:Name="CtrlCount" />
+            </TextBlock>
+
+            <TextBlock
+                x:Name="CtrlName"
+                DockPanel.Dock="Top"
+                FontSize="24"
+                FontWeight="SemiBold"
+                Foreground="{StaticResource TextColourBrush}" />
+
+            <TextBlock
+                x:Name="CtrlFileName"
+                Margin="0,3,0,3"
+                DockPanel.Dock="Bottom"
+                Foreground="{StaticResource TextColourBrush}"
+                Opacity=".7" />
+        </DockPanel>
+    </Border>
 </UserControl>

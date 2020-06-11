@@ -1,0 +1,56 @@
+﻿<UserControl
+    x:Class="Probel.Lanceur.Controls.DisplayResultControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:local="clr-namespace:Probel.Lanceur.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    Background="Transparent"
+    mc:Ignorable="d">
+    <Border BorderBrush="white" BorderThickness="0.1">
+        <DockPanel Background="Transparent">
+            <Grid>
+                <iconPacks:PackIconMaterial
+                    x:Name="CtrlIcon"
+                    Width="{StaticResource DefaultIconSize}"
+                    Height="{StaticResource DefaultIconSize}"
+                    Margin="5,10,15,3"
+                    DockPanel.Dock="Left"
+                    Foreground="#FFB9B9B9" />
+                <Image
+                    x:Name="CtrlImage"
+                    Width="{StaticResource DefaultIconSize}"
+                    Height="{StaticResource DefaultIconSize}" />
+            </Grid>
+
+            <TextBlock
+                x:Name="CtrlCounter"
+                Margin="0,0,5,3"
+                VerticalAlignment="Bottom"
+                DockPanel.Dock="Right"
+                FontSize="8"
+                Foreground="#FFB9B9B9"
+                Visibility="Collapsed">
+                <Run Text="Count:" />
+                <Run x:Name="CtrlCount" />
+            </TextBlock>
+
+            <TextBlock
+                x:Name="CtrlTitle"
+                DockPanel.Dock="Top"
+                FontSize="22"
+                FontWeight="DemiBold"
+                Foreground="#FFE6E6E6" />
+
+            <TextBlock
+                x:Name="CtrlSubtitle"
+                Margin="0,3,0,3"
+                DockPanel.Dock="Bottom"
+                FontFamily="{StaticResource TextFontFamily}"
+                FontSize="10"
+                Foreground="#FFB9B9B9" />
+        </DockPanel>
+    </Border>
+</UserControl>

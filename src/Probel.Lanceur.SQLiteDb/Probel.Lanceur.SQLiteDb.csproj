@@ -81,6 +81,14 @@
       <Project>{76716e34-6464-45e0-bcc6-21203ab79fd1}</Project>
       <Name>Probel.Lanceur.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Probel.Lanceur.Infrastructure\Probel.Lanceur.Infrastructure.csproj">
+      <Project>{63FCDE3F-3D03-4075-90A4-4BF92996A32A}</Project>
+      <Name>Probel.Lanceur.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Probel.Lanceur.Plugin\Probel.Lanceur.Plugin.csproj">
+      <Project>{f4db7268-da54-4141-9567-afbd6c5fe1ac}</Project>
+      <Name>Probel.Lanceur.Plugin</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\Scripts\update-0.1.sql" />

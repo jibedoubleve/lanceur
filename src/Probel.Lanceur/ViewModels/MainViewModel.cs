@@ -3,13 +3,16 @@ using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Entities.Settings;
 using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Services;
+using Probel.Lanceur.Images;
+using Probel.Lanceur.Infrastructure;
+using Probel.Lanceur.Plugin;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Probel.Lanceur.ViewModels
 {
-    public class MainViewModel : Screen, IHandle<string>
+    public class MainViewModel : Screen, IHandle<string>, IMainViewModel
     {
         #region Fields
 
@@ -18,9 +21,10 @@ namespace Probel.Lanceur.ViewModels
         private readonly IScreenRuler _screenRuler;
         private readonly ISettingsService _settingsService;
         private AliasText _aliasName;
-        private ObservableCollection<AliasText> _aliasNameList;
+        private ObservableCollection<object> _aliasNameList;
         private AppSettings _appSettings;
         private string _colour;
+        private string _errorMessage;
         private bool _isOnError;
         private double _left;
         private double _opacity;
@@ -62,12 +66,6 @@ namespace Probel.Lanceur.ViewModels
             set => Set(ref _aliasName, value, nameof(AliasName));
         }
 
-        public ObservableCollection<AliasText> AliasNameList
-        {
-            get => _aliasNameList;
-            set => Set(ref _aliasNameList, value, nameof(AliasNameList));
-        }
-
         public AppSettings AppSettings
         {
             get
@@ -84,16 +82,10 @@ namespace Probel.Lanceur.ViewModels
             set => Set(ref _colour, value, nameof(Colour));
         }
 
-        public bool IsDebug
+        public string ErrorMessage
         {
-            get
-            {
-#if DEBUG
-                return true;
-#else
-                return false;
-#endif
-            }
+            get => _errorMessage;
+            set => Set(ref _errorMessage, value);
         }
 
         public bool IsOnError
@@ -118,6 +110,14 @@ namespace Probel.Lanceur.ViewModels
             set => Set(ref _opacity, value);
         }
 
+        public ObservableCollection<object> Results
+        {
+            get => _aliasNameList;
+            set => Set(ref _aliasNameList, value, nameof(Results));
+        }
+
+        IEnumerable<object> IMainViewModel.Results => Results;
+
         public string Session
         {
             get => _session;
@@ -134,6 +134,14 @@ namespace Probel.Lanceur.ViewModels
 
         #region Methods
 
+        private void RefreshAliases()
+        {
+            Session = _aliasService.GetSession(AppSettings.SessionId);
+            var aliases = _aliasService.GetAliasNames(AppSettings.SessionId);
+            var r = aliases.Refresh();
+            Results = new ObservableCollection<object>(r);
+        }
+
         /// <summary>
         /// Executes the alias and returns <c>True</c> if execution was a success.
         /// Otherwise returns <c>False</c>
@@ -145,15 +153,20 @@ namespace Probel.Lanceur.ViewModels
             try
             {
                 var sid = _settingsService.Get().SessionId;
-                return _aliasService.Execute(cmdLine, sid);
+                var r = _aliasService.Execute(cmdLine, sid);
+
+                if (r.IsError) { ErrorMessage = r.Error; }
+
+                return r;
             }
             catch (Exception ex)
             {
                 /* I swallow the error as this crash shouldn't crash the application
                  * I log and continue without any other warning.
                  */
-                LogService.Error($"An error occured while trying to execute the alias '{cmdLine}'", ex);
-                return ExecutionResult.Failure;
+                var msg = $"An error occured while trying to execute the alias '{cmdLine}'";
+                LogService.Error(msg, ex);
+                return ExecutionResult.Failure(msg);
             }
         }
 
@@ -210,7 +223,7 @@ namespace Probel.Lanceur.ViewModels
         {
             Session = _aliasService.GetSession(AppSettings.SessionId);
             var l = _aliasService.GetAliasNames(AppSettings.SessionId, criterion);
-            AliasNameList = new ObservableCollection<AliasText>(l);
+            Results = new ObservableCollection<object>(l.Refresh());
         }
 
         public void SaveSettings()
@@ -222,11 +235,9 @@ namespace Probel.Lanceur.ViewModels
             AppSettings = _settingsService.Get();
         }
 
-        private void RefreshAliases()
+        public void SetResult(IEnumerable<object> source, bool keepalive = false)
         {
-            Session = _aliasService.GetSession(AppSettings.SessionId);
-            var l = _aliasService.GetAliasNames(AppSettings.SessionId);
-            AliasNameList = new ObservableCollection<AliasText>(l);
+            Results = new ObservableCollection<object>(source);
         }
 
         #endregion Methods

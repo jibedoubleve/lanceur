@@ -1,6 +1,8 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using Notifications.Wpf;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Infrastructure;
+using Probel.Lanceur.Plugin;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,17 +14,19 @@ namespace Probel.Lanceur.Services
     {
         #region Fields
 
+        private static object _dialogSource;
         private readonly IDialogCoordinator _dialog;
         private readonly ILogService _log;
         private readonly INotificationManager _notifyer;
-        private static object _dialogSource;
+        private readonly ISettingsService _settingsService;
 
         #endregion Fields
 
         #region Constructors
 
-        public UserNotifyer(INotificationManager notifyer, IDialogCoordinator dialog, ILogService log)
+        public UserNotifyer(INotificationManager notifyer, IDialogCoordinator dialog, ILogService log, ISettingsService settingsService)
         {
+            _settingsService = settingsService;
             _log = log;
             _notifyer = notifyer;
             _dialog = dialog;
@@ -31,21 +35,6 @@ namespace Probel.Lanceur.Services
         #endregion Constructors
 
         #region Methods
-        public void SetDialogSource(object src) => _dialogSource = src;
-
-        private NotificationResult Ask(string message, string title = null)
-        {
-            var result = MessageBox.Show(message, title ?? "QUESTION", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            switch (result)
-            {
-                case MessageBoxResult.None: return NotificationResult.Canceled;
-                case MessageBoxResult.OK:
-                case MessageBoxResult.Yes: return NotificationResult.Affirmative;
-                case MessageBoxResult.Cancel:
-                case MessageBoxResult.No: return NotificationResult.Negative;
-                default: throw new NotSupportedException($"The answer '{result}' is not supported.");
-            }
-        }
 
         public async Task<NotificationResult> AskAsync(string message, string title = null)
         {
@@ -89,15 +78,33 @@ namespace Probel.Lanceur.Services
 
         public void NotifyWarning(string message, string title = null) => Notify(message, title, NotificationType.Warning);
 
+        public void SetDialogSource(object src) => _dialogSource = src;
+
+        private NotificationResult Ask(string message, string title = null)
+        {
+            var result = MessageBox.Show(message, title ?? "QUESTION", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            switch (result)
+            {
+                case MessageBoxResult.None: return NotificationResult.Canceled;
+                case MessageBoxResult.OK:
+                case MessageBoxResult.Yes: return NotificationResult.Affirmative;
+                case MessageBoxResult.Cancel:
+                case MessageBoxResult.No: return NotificationResult.Negative;
+                default: throw new NotSupportedException($"The answer '{result}' is not supported.");
+            }
+        }
+
         private void Notify(string message, string title, NotificationType type)
         {
             var m = new NotificationContent
             {
                 Title = title ?? type.ToString().ToUpper(),
                 Message = message,
-                Type = type
+                Type = type,
             };
-            _notifyer.Show(m);
+
+            var expTime = TimeSpan.FromSeconds(_settingsService.Get().WindowSection.ExpirationTimeMessage);
+            _notifyer.Show(m, "", expTime);
         }
 
         #endregion Methods

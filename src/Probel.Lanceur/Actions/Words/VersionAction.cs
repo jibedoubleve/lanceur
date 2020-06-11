@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Probel.Lanceur.Core.Services;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
@@ -11,7 +12,7 @@ namespace Probel.Lanceur.Actions.Words
     {
         #region Methods
 
-        protected override void DoExecute(string arg)
+        protected override ExecutionResult DoExecute(string arg)
         {
             var asm = Assembly.GetExecutingAssembly();
             var version = asm.GetName().Version.ToString();
@@ -24,6 +25,8 @@ namespace Probel.Lanceur.Actions.Words
             var nl = Environment.NewLine;
             var msg = $"Version: {version}{nl}File Version: {fileVersion}{nl}SemVer: {semver}{nl}Author: JB Wautier";
             MessageBox.Show(msg, "Probel Lanceur", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            return ExecutionResult.SuccessHide;
         }
 
         #endregion Methods

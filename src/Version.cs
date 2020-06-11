@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-[assembly: AssemblyVersion("0.6.0.53")]
-[assembly: AssemblyFileVersion("0.6.0.0")]
-[assembly: AssemblyInformationalVersion("0.6.0-beta.53+Branch.develop.Sha.19144eeb0827a2eca78015916920d212e0206f9e")]
+[assembly: AssemblyVersion("0.7.0.5")]
+[assembly: AssemblyFileVersion("0.7.0.0")]
+[assembly: AssemblyInformationalVersion("0.7.0-alpha.5+Branch.feature-ui-icons.Sha.cb9a2490375b844969aa559fd36b03bc09db4a23")]
 

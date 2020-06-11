@@ -66,13 +66,15 @@
                     <StackPanel>
                         <Controls:MetroHeader Margin="{StaticResource DefaultBorder}" Header="Background Colour">
                             <xctk:ColorPicker
-                                Grid.Column="1"
                                 Margin="0,5,0,0"
                                 AvailableColorsSortingMode="HueSaturationBrightness"
                                 Background="Transparent"
                                 DisplayColorAndName="True"
                                 DropDownBackground="{DynamicResource MenuItemBackgroundBrush}"
                                 SelectedColor="{Binding AppSettings.WindowSection.Colour, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ColourToHexaConverter}}" />
+                        </Controls:MetroHeader>
+                        <Controls:MetroHeader Margin="{StaticResource DefaultBorder}" Header="Notification expiration time">
+                            <Controls:NumericUpDown Value="{Binding AppSettings.WindowSection.ExpirationTimeMessage, UpdateSourceTrigger=PropertyChanged}" />
                         </Controls:MetroHeader>
                     </StackPanel>
                 </StackPanel>

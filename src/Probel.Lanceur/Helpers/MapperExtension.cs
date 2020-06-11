@@ -17,10 +17,6 @@ namespace Probel.Lanceur.Helpers
 
         #region Methods
 
-        private static IEnumerable<TEntity> AsEntity<TModel, TEntity>(this IEnumerable<TModel> src) => Mapper.Map<IEnumerable<TModel>, IEnumerable<TEntity>>(src);
-
-        private static IEnumerable<TModel> AsModel<TEntity, TModel>(this IEnumerable<TEntity> src) => Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(src);
-
         public static IEnumerable<AliasName> AsEntity(this IEnumerable<AliasNameModel> src) => AsEntity<AliasNameModel, AliasName>(src);
 
         public static Alias AsEntity(this AliasModel src) => Mapper.Map<AliasModel, Alias>(src);
@@ -48,6 +44,12 @@ namespace Probel.Lanceur.Helpers
         public static IEnumerable<AliasModel> AsModel(this IEnumerable<Alias> src) => AsModel<Alias, AliasModel>(src);
 
         public static IEnumerable<AppSettingsModel> AsModel(this IEnumerable<AppSettings> src) => AsModel<AppSettings, AppSettingsModel>(src);
+
+        public static IEnumerable<SwitchSessionResult> AsSwitchSessionResult(this IEnumerable<AliasSession> src) => Mapper.Map<IEnumerable<AliasSession>, IEnumerable<SwitchSessionResult>>(src);
+
+        private static IEnumerable<TEntity> AsEntity<TModel, TEntity>(this IEnumerable<TModel> src) => Mapper.Map<IEnumerable<TModel>, IEnumerable<TEntity>>(src);
+
+        private static IEnumerable<TModel> AsModel<TEntity, TModel>(this IEnumerable<TEntity> src) => Mapper.Map<IEnumerable<TEntity>, IEnumerable<TModel>>(src);
 
         #endregion Methods
     }

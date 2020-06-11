@@ -1,6 +1,7 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.Services.MacroManagement;
+using Probel.Lanceur.Infrastructure;
 using System.Text.RegularExpressions;
 using System.Threading;
 
@@ -11,9 +12,8 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
     {
         #region Fields
 
-        private IAliasService _aliasService;
-        private ICommandRunner _cmdrunner;
         private ILogService _log;
+        private ICommandRunner _runner;
 
         #endregion Fields
 
@@ -31,21 +31,20 @@ namespace Probel.Lanceur.Core.ServicesImpl.MacroManagement
                 else if (item == "@")
                 {
                     _log.Trace("Sleep for one second");
-                    Thread.Sleep(1 * 1000);
+                    Thread.Sleep(1_000);
                 }
                 else
                 {
                     _log.Trace($"Multiple alias. Executing '{item}'.");
-                    _aliasService.Execute(item, alias.IdSession);
+                    _runner.Execute(item, alias.IdSession);
                 }
             }
         }
 
-        public IMacroAction With(ICommandRunner cmdrunner, ILogService log, IAliasService aliasService)
+        public IMacroAction With(ILogService log, ICommandRunner runner)
         {
-            _aliasService = aliasService;
+            _runner = runner;
             _log = log;
-            _cmdrunner = cmdrunner;
             return this;
         }
 

@@ -7,6 +7,7 @@ namespace Probel.Lanceur.Models.Settings
         #region Fields
 
         private string _colour;
+        private int _expirationTimeMessage;
         private double _opacity;
         private PositionSettingsModel _position;
 
@@ -29,6 +30,12 @@ namespace Probel.Lanceur.Models.Settings
         {
             get => _colour;
             set => Set(ref _colour, value, nameof(Colour));
+        }
+
+        public int ExpirationTimeMessage
+        {
+            get => _expirationTimeMessage;
+            set => Set(ref _expirationTimeMessage, value, nameof(ExpirationTimeMessage));
         }
 
         public double Opacity

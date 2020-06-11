@@ -1,8 +1,9 @@
 ﻿using Caliburn.Micro;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
+using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Models;
-using Probel.Lanceur.Services;
+using Probel.Lanceur.Plugin;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -61,6 +62,8 @@ namespace Probel.Lanceur.ViewModels
             set => Set(ref _names, value, nameof(Names));
         }
 
+        public System.Action OnRefresh { get; set; }
+
         public IUserNotifyer UserNotifyer
         {
             get => _userNotifyer;
@@ -101,10 +104,7 @@ namespace Probel.Lanceur.ViewModels
                 var names = _databaseService.GetNamesOf(Alias.AsEntity());
                 Names = new ObservableCollection<AliasNameModel>(names.AsModel());
             }
-
         }
-
-        public System.Action OnRefresh { get; set; }
 
         public void UpdateAlias()
         {

@@ -87,6 +87,9 @@
     <Reference Include="MahApps.Metro.IconPacks, Version=2.3.0.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.IconPacks.2.3.0\lib\net46\MahApps.Metro.IconPacks.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NHotkey, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NHotkey.1.2.1\lib\net20\NHotkey.dll</HintPath>
     </Reference>
@@ -97,10 +100,12 @@
       <HintPath>..\packages\Notifications.Wpf.0.1.1\lib\net461\Notifications.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite, Version=1.0.112.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.112.0\lib\net46\System.Data.SQLite.dll</HintPath>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
@@ -150,6 +155,7 @@
       <Link>Properties\Version.cs</Link>
     </Compile>
     <Compile Include="Actions\ActionCollection.cs" />
+    <Compile Include="Actions\ActionContext.cs" />
     <Compile Include="Actions\ActionManager.cs" />
     <Compile Include="Actions\Words\AddAction.cs" />
     <Compile Include="Actions\BaseUiAction.cs" />
@@ -161,7 +167,8 @@
     <Compile Include="Actions\Words\ImportAction.cs" />
     <Compile Include="Actions\IUiAction.cs" />
     <Compile Include="Actions\Words\QuitAction.cs" />
-    <Compile Include="Actions\Words\SessionAction.cs" />
+    <Compile Include="Actions\Words\SessionList.cs" />
+    <Compile Include="Actions\Words\SessionSwitchAction.cs" />
     <Compile Include="Actions\Words\SetupAction.cs" />
     <Compile Include="Actions\UiActionAttribute.cs" />
     <Compile Include="Actions\Words\StatisticsAction.cs" />
@@ -172,6 +179,9 @@
     </Compile>
     <Compile Include="Controls\AliasControl.xaml.cs">
       <DependentUpon>AliasControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DisplayResultControl.xaml.cs">
+      <DependentUpon>DisplayResultControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PluginConfigControl.xaml.cs">
       <DependentUpon>PluginConfigControl.xaml</DependentUpon>
@@ -191,11 +201,18 @@
     <Compile Include="Converters\MahAppsHotKeyToSettingsHotKey.cs" />
     <Compile Include="Converters\OpacityToSliderConverter.cs" />
     <Compile Include="Converters\UsageToIconConverter.cs" />
+    <Compile Include="DataTemplateSelectors\ResultTemplateSelector.cs" />
     <Compile Include="Events\AliasTextEventArgs.cs" />
     <Compile Include="Helpers\DeactivateHotKey.cs" />
     <Compile Include="Helpers\MahappsHelper.cs" />
     <Compile Include="Helpers\SingleAppInstance.cs" />
+    <Compile Include="Images\Constant.cs" />
+    <Compile Include="Images\ResultItemHelper.cs" />
+    <Compile Include="Images\ImageCache.cs" />
+    <Compile Include="Images\ThumbnailReader.cs" />
+    <Compile Include="Models\AliasTextModel.cs" />
     <Compile Include="Models\NewAliasSessionModel.cs" />
+    <Compile Include="Models\ResultItem.cs" />
     <Compile Include="Models\Settings\AppSettingsModel.cs" />
     <Compile Include="Models\Settings\PositionSettingsModel.cs" />
     <Compile Include="Models\Settings\HotKeySettingsModel.cs" />
@@ -216,9 +233,9 @@
     <Compile Include="Helpers\MapperExtension.cs" />
     <Compile Include="Models\AliasModel.cs" />
     <Compile Include="Models\AliasSessionModel.cs" />
-    <Compile Include="Services\ApplicationManager.cs" />
+    <Compile Include="Services\AppRestarter.cs" />
+    <Compile Include="Services\MainViewFinder.cs" />
     <Compile Include="Services\ClipboardService.cs" />
-    <Compile Include="Services\IUserNotifyer.cs" />
     <Compile Include="Actions\KeywordLoader.cs" />
     <Compile Include="Services\UiEvent.cs" />
     <Compile Include="Services\SessionQueries.cs" />
@@ -304,6 +321,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\DisplayResultControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\HeaderComboBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -328,15 +349,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\Fonts.xaml">
+    <Page Include="Styles\Caliburn.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\NotMahApps.xaml">
+    <Page Include="Styles\MahAppsFonts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Styles\Merged.xaml">
+    <Page Include="Styles\MahApps.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Themes\DarkTheme.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Themes\LightTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -390,6 +423,14 @@
       <Project>{76716e34-6464-45e0-bcc6-21203ab79fd1}</Project>
       <Name>Probel.Lanceur.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Probel.Lanceur.Infrastructure\Probel.Lanceur.Infrastructure.csproj">
+      <Project>{63FCDE3F-3D03-4075-90A4-4BF92996A32A}</Project>
+      <Name>Probel.Lanceur.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Probel.Lanceur.Plugin\Probel.Lanceur.Plugin.csproj">
+      <Project>{f4db7268-da54-4141-9567-afbd6c5fe1ac}</Project>
+      <Name>Probel.Lanceur.Plugin</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Probel.Lanceur.SQLiteDb\Probel.Lanceur.SQLiteDb.csproj">
       <Project>{f19b7525-245c-464d-bed2-7675c5bf9462}</Project>
       <Name>Probel.Lanceur.SQLiteDb</Name>
@@ -397,7 +438,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\appIcon.ico">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
@@ -411,6 +452,11 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\app_error.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.112.0\build\net46\System.Data.SQLite.Core.targets')" />

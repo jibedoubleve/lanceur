@@ -2,7 +2,6 @@
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.ViewModels;
 using System.ComponentModel;
-using Unity;
 
 namespace Probel.Lanceur.Actions.Words
 {
@@ -11,13 +10,15 @@ namespace Probel.Lanceur.Actions.Words
     {
         #region Methods
 
-        protected override void DoExecute(string arg)
+        protected override ExecutionResult DoExecute(string arg)
         {
             using (DeactivateHotKey.During())
             {
-                WindowManager.ShowDialog(Container.Resolve<SetupViewModel>());
+                WindowManager.ShowDialog(GetViewModel<SetupViewModel>());
             }
-            Container.Resolve<ILogService>().Trace("Closed settings");
+            Log.Trace("Closed settings");
+
+            return ExecutionResult.SuccessHide;
         }
 
         #endregion Methods

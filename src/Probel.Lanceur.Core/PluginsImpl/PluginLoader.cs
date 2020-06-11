@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Probel.Lanceur.Core.Plugins;
-using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Infrastructure;
+using Probel.Lanceur.Plugin;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -69,14 +69,20 @@ namespace Probel.Lanceur.Core.PluginsImpl
                                    && t.GetInterfaces().Contains(typeof(IPlugin))
                                 select t).FirstOrDefault();
 
-                    if (type != null) { pluginTypes.Add(dll, type); }
+                    if (type != null)
+                    {
+                        _logger.Trace($"Loading plugin '{type}' from dll '{dll}'");
+                        pluginTypes.Add(dll, type);
+                    }
                     else { _logger.Warning($"Didn't find any plugins."); }
                 }
                 catch (ReflectionTypeLoadException ex)
                 {
                     var msg = string.Empty;
-                    foreach (var item in ex?.LoaderExceptions) {
-                        _logger.Error(item.Message, ex); }
+                    foreach (var item in ex?.LoaderExceptions)
+                    {
+                        _logger.Error(item.Message, ex);
+                    }
                     throw new InvalidOperationException($"One or more plugins cannot be loaded. This is probably a version mismatch.", ex);
                 }
                 catch (InvalidOperationException ex) { throw new InvalidOperationException($"An error occured when searching 'Plugin' class for dll '{dll}'", ex); }

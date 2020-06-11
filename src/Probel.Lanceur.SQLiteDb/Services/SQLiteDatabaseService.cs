@@ -1,7 +1,8 @@
 ﻿using Dapper;
 using Probel.Lanceur.Core.Entities;
-using Probel.Lanceur.Core.Plugins;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Infrastructure;
+using Probel.Lanceur.Plugin;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -15,18 +16,18 @@ namespace Probel.Lanceur.SQLiteDb.Services
         #region Fields
 
         private readonly string _connectionString;
-        private readonly IReservedKeywordService _keywordService;
+        private readonly IKeywordService _keywordService;
         private readonly ILogService _log;
         private readonly IPluginManager _pluginManager;
-        private readonly IReservedKeywordService _reservedKeywordService;
+        private readonly IKeywordService _reservedKeywordService;
 
         #endregion Fields
 
         #region Constructors
 
-        public SQLiteDatabaseService(IReservedKeywordService keywordService,
+        public SQLiteDatabaseService(IKeywordService keywordService,
             ILogService log,
-            IReservedKeywordService reservedKeywordService,
+            IKeywordService reservedKeywordService,
             IPluginManager pluginManager,
             IConnectionStringManager csm
             )

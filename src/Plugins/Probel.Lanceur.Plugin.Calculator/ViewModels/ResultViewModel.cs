@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using Humanizer;
 using NCalc;
-using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin.Calculator.Models;
 using System;
 using System.Collections.Generic;
