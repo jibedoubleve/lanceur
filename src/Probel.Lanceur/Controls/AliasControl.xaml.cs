@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.IconPacks;
+﻿using Humanizer;
+using MahApps.Metro.IconPacks;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -96,7 +97,7 @@ namespace Probel.Lanceur.Controls
         {
             if (sender is AliasControl ctrl && e.NewValue is string str)
             {
-                ctrl.CtrlFileName.Text = str;
+                ctrl.CtrlFileName.Text = str.Truncate(80, "(...)", Truncator.FixedLength);
             }
         }
 
@@ -150,7 +151,8 @@ namespace Probel.Lanceur.Controls
                     {
                         ShowImage(ctrl);
                     }
-                    else {
+                    else
+                    {
 
                         var kind = (from k in Enum.GetValues(typeof(PackIconMaterialKind)).Cast<PackIconMaterialKind>()
                                     where k.ToString().ToLower() == str.ToLower()
@@ -158,7 +160,8 @@ namespace Probel.Lanceur.Controls
 
                         ctrl.CtrlIcon.Kind = kind.Any() ? kind[0] : PackIconMaterialKind.None;
 
-                        ShowIcon(ctrl); }
+                        ShowIcon(ctrl);
+                    }
                 }
             }
         }

@@ -10,6 +10,7 @@ using Probel.Lanceur.Core.ServicesImpl.MacroManagement;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin;
+using Probel.Lanceur.Repositories;
 using Probel.Lanceur.Services;
 using Probel.Lanceur.SQLiteDb;
 using Probel.Lanceur.SQLiteDb.Services;
@@ -91,6 +92,9 @@ namespace Probel.Lanceur
             _container.RegisterType<IPluginViewFinder, MainViewFinder>();
             _container.RegisterType<IActionCollection, ActionCollection>();
             _container.RegisterType<IPluginContext, PluginContext>();
+
+            //Repositories
+            _container.RegisterType<IAliasRepositoryBuilder, AliasRepositoryBuilder>();
 
             //Views
             _container.RegisterSingleton<MainViewModel>();

@@ -1,5 +1,5 @@
 assembly-versioning-scheme: MajorMinorPatchTag
-next-version: 0.7.0
+next-version: 0.8.0
 branches:
   master:
     mode: ContinuousDeployment
@@ -15,9 +15,9 @@ branches:
     prevent-increment-of-merged-branch-version: true
     track-merge-target: true
   feature:
-    regex: ^featu*
-    mode: ContinuousDeployment
+    regex: ^feature/*
     tag: alpha
+    mode: ContinuousDeployment
     increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: true

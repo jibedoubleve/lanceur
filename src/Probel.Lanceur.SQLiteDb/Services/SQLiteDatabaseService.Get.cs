@@ -10,6 +10,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
     public partial class SQLiteDatabaseService : IDataSourceService
     {
         #region Methods
+
         public bool AliasExists(string name, long sessionId)
         {
             if (_keywordService.IsReserved(name)) { return true; }
@@ -38,6 +39,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 return result;
             }
         }
+
         public Alias GetAlias(string name, long sessionId)
         {
             if (_keywordService.IsReserved(name)) { return Alias.Reserved(name); }
@@ -113,19 +115,11 @@ namespace Probel.Lanceur.SQLiteDb.Services
             {
                 var result = c.Query<AliasText>(sql, new { sessionId }).ToList();
 
-                if (result != null)
-                {
-                    result.AddRange(_reservedKeywordService.GetKeywords());
-
-                    var items = (from i in _pluginManager.GetKeywords()
-                                 select (AliasText)i);
-
-                    result.AddRange(items);
-                }
-                else { result = new List<AliasText>(); }
-
-                return result.OrderByDescending(e => e.ExecutionCount)
-                             .ThenBy(e => e.Name);
+                return (result != null)
+                    ? result.OrderByDescending(e => e.ExecutionCount)
+                            .ThenBy(e => e.Name)
+                            .ToList()
+                    : new List<AliasText>();
             }
         }
 

@@ -37,7 +37,7 @@
                 AliasFileName="{Binding FileName}"
                 AliasName="{Binding Name}"
                 ExecutionCount="{Binding ExecutionCount}"
-                Image="{Binding Image}"
+                Image="{Binding Image, UpdateSourceTrigger=PropertyChanged}"
                 Kind="{Binding Kind}" />
         </DataTemplate>
         <DataTemplate x:Key="ReadOnlyTemplate">
@@ -148,7 +148,8 @@
                     MaxHeight="350"
                     AliasClicked="OnResultsClicked"
                     ItemTemlateSelector="{StaticResource ResultTemplateSelector}"
-                    ItemsSource="{Binding Results, UpdateSourceTrigger=PropertyChanged}" />
+                    ItemsSource="{Binding Results, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding SelectedResult, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                 <ContentControl x:Name="PluginArea" MaxHeight="350" />
 
             </StackPanel>

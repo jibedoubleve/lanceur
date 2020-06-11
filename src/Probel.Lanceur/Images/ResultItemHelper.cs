@@ -1,8 +1,8 @@
 ﻿using Probel.Lanceur.Core.Entities;
+using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -44,13 +44,51 @@ namespace Probel.Lanceur.Images
 
         #endregion Enums
 
+        #region Properties
+
+        public static ILogService Logger { get; set; }
+
+        #endregion Properties
+
         #region Methods
+
+        public static void Initialize()
+        {
+            Task.Run(() =>
+            {
+                Cache.GetKeys().AsParallel().ForAll(x =>
+                {
+                    GetImage(x);
+                });
+            });
+        }
+
+        public static IEnumerable<AliasTextModel> GetRefreshed(this IEnumerable<AliasText> src)
+        {
+            var dst = new List<AliasTextModel>();
+            foreach (var item in src)
+            {
+                var c = new AliasTextModel(item);
+                Task.Run(async () =>
+                {
+                    await Task.Delay(10);
+                    c.Image = GetImage(item.FileName);
+                });
+                dst.Add(c);
+            }
+
+            return dst;
+        }
 
         private static ImageSource GetImage(string path)
         {
-            var img = LoadImage(path);
-            Cache[path] = img;
-            return img;
+            if (Cache.ContainsKey(path)) { return Cache[path]; }
+            else
+            {
+                var img = LoadImage(path);
+                Cache[path] = img;
+                return img;
+            }
         }
 
         private static ImageSource LoadImage(string path)
@@ -124,9 +162,11 @@ namespace Probel.Lanceur.Images
                     image.Freeze();
                 }
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
-                Trace.WriteLine($"|ImageLoader.Load|Failed to get thumbnail for {path} - {e}");
+                var msg = $"|ImageLoader.Load|Failed to get thumbnail for {path} - {e}";
+                Logger?.Warning(msg);
+
                 type = ImageType.Error;
                 //image = ImageCache[Constant.ErrorIcon];
                 //ImageCache[path] = image;
@@ -134,29 +174,6 @@ namespace Probel.Lanceur.Images
             return image;
         }
 
-        public static IEnumerable<AliasTextModel> Refresh(this IEnumerable<AliasText> src)
-        {
-            var dst = new List<AliasTextModel>();
-            foreach (var item in src)
-            {
-                var c = new AliasTextModel(item);
-                c.Image = GetImage(item.FileName);
-                dst.Add(c);
-            }
-            return dst;
-        }
-
-        public static void Initialize()
-        {
-            Task.Run(() =>
-            {
-                Cache.GetKeys().AsParallel().ForAll(x =>
-                {
-                    GetImage(x);
-                });
-            });
-        }
-
-        #endregion Methods
+        #endregion Methods 
     }
 }

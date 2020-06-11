@@ -28,6 +28,7 @@ namespace Probel.Lanceur.ViewModels
         private bool _isOnError;
         private double _left;
         private double _opacity;
+        private object _selectedResult;
         private string _session;
         private double _top;
 
@@ -46,6 +47,7 @@ namespace Probel.Lanceur.ViewModels
             )
         {
             Notifyer = notifyer;
+            ResultItemHelper.Logger = logService;
 
             LogService = logService;
             ea.Subscribe(this);
@@ -118,6 +120,12 @@ namespace Probel.Lanceur.ViewModels
 
         IEnumerable<object> IMainViewModel.Results => Results;
 
+        public object SelectedResult
+        {
+            get => _selectedResult;
+            set => Set(ref _selectedResult, value, nameof(SelectedResult));
+        }
+
         public string Session
         {
             get => _session;
@@ -134,48 +142,15 @@ namespace Probel.Lanceur.ViewModels
 
         #region Methods
 
-        private void RefreshAliases()
-        {
-            Session = _aliasService.GetSession(AppSettings.SessionId);
-            var aliases = _aliasService.GetAliasNames(AppSettings.SessionId);
-            var r = aliases.Refresh();
-            Results = new ObservableCollection<object>(r);
-        }
-
-        /// <summary>
-        /// Executes the alias and returns <c>True</c> if execution was a success.
-        /// Otherwise returns <c>False</c>
-        /// </summary>
-        /// <param name="cmdLine">The command line (the alias & the arguments) to be executed.</param>
-        /// <returns><c>True</c> on success; otherwise <c>False</c></returns>
-        public ExecutionResult ExecuteText(string cmdLine)
-        {
-            try
-            {
-                var sid = _settingsService.Get().SessionId;
-                var r = _aliasService.Execute(cmdLine, sid);
-
-                if (r.IsError) { ErrorMessage = r.Error; }
-
-                return r;
-            }
-            catch (Exception ex)
-            {
-                /* I swallow the error as this crash shouldn't crash the application
-                 * I log and continue without any other warning.
-                 */
-                var msg = $"An error occured while trying to execute the alias '{cmdLine}'";
-                LogService.Error(msg, ex);
-                return ExecutionResult.Failure(msg);
-            }
-        }
-
-        public ExecutionResult ExecuteText(string cmdline1, string cmdline2)
+        public ExecutionResult ExecuteText(AliasText alias, string cmdline)
         {
             var sid = _settingsService.Get().SessionId;
-            var cmd = _resolver.Merge(cmdline1, cmdline2, sid);
+            var cmd = _resolver.Split(cmdline, sid);
 
-            return ExecuteText(cmd.ToString());
+            if (alias.IsExecutable) { _aliasService.Execute(alias); }
+            else { return ExecuteText(alias.AsCommandLine(cmd.Parameters)); }
+
+            return ExecutionResult.SuccesShow;
         }
 
         public void Handle(string message)
@@ -223,7 +198,7 @@ namespace Probel.Lanceur.ViewModels
         {
             Session = _aliasService.GetSession(AppSettings.SessionId);
             var l = _aliasService.GetAliasNames(AppSettings.SessionId, criterion);
-            Results = new ObservableCollection<object>(l.Refresh());
+            Results = new ObservableCollection<object>(l.GetRefreshed());
         }
 
         public void SaveSettings()
@@ -238,6 +213,42 @@ namespace Probel.Lanceur.ViewModels
         public void SetResult(IEnumerable<object> source, bool keepalive = false)
         {
             Results = new ObservableCollection<object>(source);
+        }
+
+        /// <summary>
+        /// Executes the alias and returns <c>True</c> if execution was a success.
+        /// Otherwise returns <c>False</c>
+        /// </summary>
+        /// <param name="cmdLine">The command line (the alias & the arguments) to be executed.</param>
+        /// <returns><c>True</c> on success; otherwise <c>False</c></returns>
+        private ExecutionResult ExecuteText(string cmdLine)
+        {
+            try
+            {
+                var sid = _settingsService.Get().SessionId;
+                var r = _aliasService.Execute(cmdLine, sid);
+
+                if (r.IsError) { ErrorMessage = r.Error; }
+
+                return r;
+            }
+            catch (Exception ex)
+            {
+                /* I swallow the error as this crash shouldn't crash the application
+                 * I log and continue without any other warning.
+                 */
+                var msg = $"An error occured while trying to execute the alias '{cmdLine}'";
+                LogService.Error(msg, ex);
+                return ExecutionResult.Failure(msg);
+            }
+        }
+
+        private void RefreshAliases()
+        {
+            Session = _aliasService.GetSession(AppSettings.SessionId);
+            var aliases = _aliasService.GetAliasNames(AppSettings.SessionId, null);
+            var r = aliases.GetRefreshed();
+            Results = new ObservableCollection<object>(r);
         }
 
         #endregion Methods

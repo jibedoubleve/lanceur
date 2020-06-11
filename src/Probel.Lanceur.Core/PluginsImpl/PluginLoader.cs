@@ -74,7 +74,7 @@ namespace Probel.Lanceur.Core.PluginsImpl
                         _logger.Trace($"Loading plugin '{type}' from dll '{dll}'");
                         pluginTypes.Add(dll, type);
                     }
-                    else { _logger.Warning($"Didn't find any plugins."); }
+                    else { _logger.Warning($"Didn't find any plugin."); }
                 }
                 catch (ReflectionTypeLoadException ex)
                 {

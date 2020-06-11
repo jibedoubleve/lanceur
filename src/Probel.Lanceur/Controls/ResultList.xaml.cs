@@ -92,7 +92,7 @@ namespace Probel.Lanceur.Controls
         public object SelectedItem
         {
             get => GetValue(SelectedItemProperty);
-            private set => SetValue(SelectedItemProperty, value);
+            set => SetValue(SelectedItemProperty, value);
         }
 
         public string SelectedText
@@ -145,7 +145,7 @@ namespace Probel.Lanceur.Controls
         {
             if (sender is ResultList rl && e.NewValue != null)
             {
-                rl.SelectedItem = rl.Results.SelectedItem;
+               rl.SelectedItem = rl.Results.SelectedItem;
             }
         }
 
@@ -156,11 +156,9 @@ namespace Probel.Lanceur.Controls
 
             if (si is SwitchSessionResult s) { alias = (AliasText)s; }
             else if (si is AliasText at) { alias = at; }
-            else
-            {
-                if (si != null) { AliasClicked?.Invoke(this, new AliasTextEventArgs(alias)); }
+             
+            if (si != null) { AliasClicked?.Invoke(this, new AliasTextEventArgs(alias)); }
                 //else { throw new NotSupportedException($"The selected item of the result of type '{si?.GetType().ToString() ?? "NULL"}' is not supported."); }
-            }
         }
 
         private void OnResultsMouseClick(object sender, MouseButtonEventArgs e) => OnAliasClicked();

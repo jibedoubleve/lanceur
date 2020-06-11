@@ -2,7 +2,6 @@
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Infrastructure;
-using Probel.Lanceur.Plugin;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -18,22 +17,17 @@ namespace Probel.Lanceur.SQLiteDb.Services
         private readonly string _connectionString;
         private readonly IKeywordService _keywordService;
         private readonly ILogService _log;
-        private readonly IPluginManager _pluginManager;
-        private readonly IKeywordService _reservedKeywordService;
 
         #endregion Fields
 
         #region Constructors
 
-        public SQLiteDatabaseService(IKeywordService keywordService,
+        public SQLiteDatabaseService(
+            IKeywordService keywordService,
             ILogService log,
-            IKeywordService reservedKeywordService,
-            IPluginManager pluginManager,
             IConnectionStringManager csm
             )
         {
-            _pluginManager = pluginManager;
-            _reservedKeywordService = reservedKeywordService;
             _log = log;
             _connectionString = csm.Get();
             _keywordService = keywordService;

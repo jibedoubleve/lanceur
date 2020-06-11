@@ -75,18 +75,13 @@ namespace Probel.Lanceur.Views
 #endif
         }
 
-        private string GetAliasName()
-        {
-            return AliasTextBox.Text.Contains(" ")
-                ? AliasTextBox.Text.Split(' ')[0]
-                : (Results.SelectedItem as AliasText ?? new AliasText()).Name;
-        }
+        private AliasText GetAlias() => Results.SelectedItem as AliasText ?? new AliasText();
 
         private void OnKeyPressed(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                var a = GetAliasName();
+                var a = GetAlias();
                 var b = AliasTextBox.Text;
 
                 var result = ViewModel?.ExecuteText(a, b) ?? ExecutionResult.Failure();
@@ -122,7 +117,7 @@ namespace Probel.Lanceur.Views
 
         private void OnResultsClicked(object sender, AliasTextEventArgs e)
         {
-            var result = ViewModel?.ExecuteText(e.Alias.Name) ?? ExecutionResult.Failure();
+            var result = ViewModel?.ExecuteText(e.Alias, e.Alias?.Name ?? "") ?? ExecutionResult.Failure();
             if (!result.IsError) { HideControl(); }
         }
 

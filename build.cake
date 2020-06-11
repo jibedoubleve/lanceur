@@ -42,10 +42,9 @@ var msBuildPathExe = msBuildPath.CombineWithFilePath("./MSBuild.exe");
 ///////////////////////////////////////////////////////////////////////////////
 
 //Files
-var solution   = "./src/Probel.Lanceur.sln";
-var publishDir = "./Publish/";
-var inno_setup = "./setup.iss";
-var binPluginDir    = $"./src/plugins/Probel.Lanceur.Plugin.{{0}}/bin/{configuration}/";
+var solution     = "./src/Probel.Lanceur.sln";
+var publishDir   = "./Publish/";
+var inno_setup   = "./setup.iss";
 
 GitVersion gitVersion = GitVersion(new GitVersionSettings 
 { 
@@ -128,14 +127,28 @@ Task("Zip")
         foreach(var d in dir.GetDirectories())
         {
             var pluginBin = d.FullName + @"\bin\Release\";
-            var dest = publishDir + "/" + d.Name.Replace("Probel.Lanceur.Plugin.","plugin-") + "-" + gitVersion.SemVer + ".bin.zip";
-            assets.Add(dest);
+            var pluginDest = publishDir + "/" + d.Name.Replace("Probel.Lanceur.Plugin.","plugin-") + "-" + gitVersion.SemVer + ".bin.zip";
+            assets.Add(pluginDest);
 
-            Information("Zipping plugin: {0}", dest);
-            Information("  pluginBin   : {0}", pluginBin);
-            Information("  dest        : {0}", dest);
+            Information("ZIPPING PLUGIN");
+            Information("    bin: {0}", pluginBin);
+            Information("   dest: {0}", pluginDest);
 
-            Zip(pluginBin, dest);
+            Zip(pluginBin, pluginDest);
+        }
+
+        var repo = new DirectoryInfo(binDirectory + @"/../../../repositories/");
+        foreach(var d in repo.GetDirectories())
+        {
+            var repoBin = d.FullName + @"\bin\Release\";
+            var repoDest = publishDir + "/" + d.Name.Replace("Probel.Lanceur.Repository.","repository-") + "-" + gitVersion.SemVer + ".bin.zip";
+            assets.Add(repoDest);
+
+            Information("ZIPPING REPOSITORY");
+            Information("    bin: {0}", repoBin);
+            Information("   dest: {0}", repoDest);
+
+            Zip(repoBin, repoDest);
         }
     
 });  
@@ -148,31 +161,44 @@ Task("Evernote-file")
 
         
         var dir = new DirectoryInfo(binDirectory + @"/../../../plugins/Probel.Lanceur.Plugin.Evernote\");
-        var dest = dir.FullName + @"\bin\Release\api.json";
+        var pluginDest = dir.FullName + @"\bin\Release\api.json";
 
-        Information("Configuration file built at: {0}", dest);
+        Information("Configuration file built at: {0}", pluginDest);
 
-        FileWriteText(dest, json);
+        FileWriteText(pluginDest, json);
 });
 
 Task("Inno-Setup")
     .Does(() => {
-        var path          = MakeAbsolute(Directory(binDirectory)).FullPath + "\\";
-        var pluginDir     = MakeAbsolute(Directory(binPluginDir)).FullPath + "\\";
-        var plugins       = new string[] { "spotify", "calculator", "clipboard", "evernote" };         
+        
+        var binPluginDir = $"./src/plugins/Probel.Lanceur.Plugin.{{0}}/bin/{configuration}/";
+        var binRepoDir   = $"./src/repositories/Probel.Lanceur.Repository.{{0}}/bin/{configuration}/";
+
+        var path      = MakeAbsolute(Directory(binDirectory)).FullPath + "\\";
+        var pluginDir = MakeAbsolute(Directory(binPluginDir)).FullPath + "\\";
+        var repoDir   = MakeAbsolute(Directory(binRepoDir)).FullPath + "\\";
+
+
+        var plugins   = new string[] { "spotify", "calculator", "clipboard", "evernote" };    
+        var repos     = new string[]{ "startmenu" };
         
         Information("Bin path   : {0}: ", path);
         // Information("Plugin path: {0}: ", pluginDir);
+        var p = 0;
+        var r = 0;
 
         InnoSetup(inno_setup, new InnoSetupSettings { 
             OutputDirectory = publishDir,
             Defines = new Dictionary<string, string> {
                 { "MyAppVersion", gitVersion.SemVer },
                 { "BinDirectory", path },
-                { "SpotifyPluginDir", String.Format(pluginDir, plugins[0]) },
-                { "CalculatorPluginDir", String.Format(pluginDir, plugins[1]) },
-                { "ClipboardPluginDir", String.Format(pluginDir, plugins[2]) },
-                { "EvernotePluginDir", String.Format(pluginDir, plugins[3]) }
+                // PLUGINS
+                { "SpotifyPluginDir"   , string.Format(pluginDir, plugins[p++]) },
+                { "CalculatorPluginDir", string.Format(pluginDir, plugins[p++]) },
+                { "ClipboardPluginDir" , string.Format(pluginDir, plugins[p++]) },
+                { "EvernotePluginDir"  , string.Format(pluginDir, plugins[p++]) },
+                // REPOSITORIES
+                { "RepositoryStartMenu", string.Format(repoDir, repos[r++])},
             }
         });
 });
@@ -240,5 +266,9 @@ Task("Default")
 Task("Github")    
     .IsDependentOn("Default")
     .IsDependentOn("Release-GitHub");
+
+/* It does nothing. Just to display versions
+ */
+Task("ver");
 
 RunTarget(target);

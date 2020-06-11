@@ -17,9 +17,11 @@ namespace Probel.Lanceur.Core.Services
         /// <returns><c>True</c> if execution succeeded. Otherwise <c>False</c></returns>
         ExecutionResult Execute(string param, long sessionId);
 
-        IEnumerable<AliasText> GetAliasNames(long sessionId);
+        ExecutionResult Execute(AliasText alias);
 
-        IEnumerable<AliasText> GetAliasNames(long sessionId, string criterion);
+        //IEnumerable<AliasText> GetAliasNames(long sessionId, string keyword = null);
+
+        IEnumerable<AliasText> GetAliasNames(long sessionId, string keyword);
 
         string GetSession(long id);
 

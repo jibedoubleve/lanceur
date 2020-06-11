@@ -75,6 +75,9 @@
     <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
     </Reference>
+    <Reference Include="Humanizer, Version=2.7.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Humanizer.Core.2.7.9\lib\netstandard2.0\Humanizer.dll</HintPath>
+    </Reference>
     <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
     </Reference>
@@ -195,6 +198,7 @@
     <Compile Include="Controls\WindowInfoControl.xaml.cs">
       <DependentUpon>WindowInfoControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\PathToHumanizedPathConverter.cs" />
     <Compile Include="Converters\UsageToColorConverter.cs" />
     <Compile Include="Converters\HexaToColourConverter.cs" />
     <Compile Include="Converters\InvertBooleanToVisibilityConverter.cs" />
@@ -430,6 +434,10 @@
     <ProjectReference Include="..\Probel.Lanceur.Plugin\Probel.Lanceur.Plugin.csproj">
       <Project>{f4db7268-da54-4141-9567-afbd6c5fe1ac}</Project>
       <Name>Probel.Lanceur.Plugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Probel.Lanceur.Repositories\Probel.Lanceur.Repositories.csproj">
+      <Project>{bf9795d4-075e-49f5-8852-ffa7a7a9b7e1}</Project>
+      <Name>Probel.Lanceur.Repositories</Name>
     </ProjectReference>
     <ProjectReference Include="..\Probel.Lanceur.SQLiteDb\Probel.Lanceur.SQLiteDb.csproj">
       <Project>{f19b7525-245c-464d-bed2-7675c5bf9462}</Project>

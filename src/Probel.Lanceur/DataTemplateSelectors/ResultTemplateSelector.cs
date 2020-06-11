@@ -20,6 +20,7 @@ namespace Probel.Lanceur.DataTemplateSelectors
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             if (item is AliasText) { return AliasTemplate; }
+            else if (item is AliasTextModel) { return AliasTemplate; }
             else if (item is ResultItem) { return ReadOnlyTemplate; }
             else { throw new NotSupportedException($"There is no template for {item.GetType()}"); }
         }

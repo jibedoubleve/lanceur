@@ -51,6 +51,10 @@ Source: "{#SpotifyPluginDir}*"; DestDir: "{userappdata}\probel\lanceur\plugins\s
 Source: "{#CalculatorPluginDir}*"; DestDir: "{userappdata}\probel\lanceur\plugins\calculator\"; Flags: ignoreversion
 Source: "{#ClipboardPluginDir}*"; DestDir: "{userappdata}\probel\lanceur\plugins\clipboard\"; Flags: ignoreversion
 Source: "{#EvernotePluginDir}*"; DestDir: "{userappdata}\probel\lanceur\plugins\evernote\"; Flags: ignoreversion
+;----------------------------------------------------------------
+;-- binaries of the repositories
+;----------------------------------------------------------------
+Source: "{#RepositoryStartMenu}*"; DestDir:"{userappdata}\probel\lanceur\repositories\startmenu\"; Flags: ignoreversion
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
