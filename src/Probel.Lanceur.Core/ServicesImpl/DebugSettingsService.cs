@@ -36,6 +36,12 @@ namespace Probel.Lanceur.Core.ServicesImpl
                     WindowSection = new WindowSettings()
                     {
                         Colour = "#DC143C",
+                        Position = new PositionSettings()
+                        {
+                            Left = 600,
+                            Top = 266
+                        },
+                        ShowAtStartup = true,
                     }
                 };
             }

@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Probel.Lanceur.Actions;
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Entities.Settings;
 using Probel.Lanceur.Core.Helpers;
@@ -43,9 +44,11 @@ namespace Probel.Lanceur.ViewModels
             IScreenRuler screenRuler,
             ILogService logService,
             IParameterResolver resolver,
-            IUserNotifyer notifyer
+            IUserNotifyer notifyer,
+            IActionContext ctx
             )
         {
+            ActionContext=ctx;
             Notifyer = notifyer;
             ResultItemHelper.Logger = logService;
 
@@ -137,6 +140,7 @@ namespace Probel.Lanceur.ViewModels
             get => _top;
             set => Set(ref _top, value);
         }
+        public IActionContext ActionContext { get; internal set; }
 
         #endregion Properties
 

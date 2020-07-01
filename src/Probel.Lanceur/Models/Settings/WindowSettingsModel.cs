@@ -11,6 +11,8 @@ namespace Probel.Lanceur.Models.Settings
         private double _opacity;
         private PositionSettingsModel _position;
 
+        private bool _showAtStartup;
+
         #endregion Fields
 
         #region Constructors
@@ -48,6 +50,12 @@ namespace Probel.Lanceur.Models.Settings
         {
             get => _position;
             set => Set(ref _position, value, nameof(Position));
+        }
+
+        public bool ShowAtStartup
+        {
+            get => _showAtStartup;
+            set => Set(ref _showAtStartup, value, nameof(ShowAtStartup));
         }
 
         #endregion Properties

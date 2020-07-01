@@ -76,6 +76,12 @@
                         <Controls:MetroHeader Margin="{StaticResource DefaultBorder}" Header="Notification expiration time">
                             <Controls:NumericUpDown Value="{Binding AppSettings.WindowSection.ExpirationTimeMessage, UpdateSourceTrigger=PropertyChanged}" />
                         </Controls:MetroHeader>
+                        <Controls:MetroHeader Margin="{StaticResource DefaultBorder}" Header="Switches">
+                            <Controls:ToggleSwitch
+                                IsChecked="{Binding AppSettings.WindowSection.ShowAtStartup, UpdateSourceTrigger=PropertyChanged}"
+                                OffLabel="Don't show at startup"
+                                OnLabel="Show at startup" />
+                        </Controls:MetroHeader>
                     </StackPanel>
                 </StackPanel>
                 <Border

@@ -3,6 +3,7 @@ using NHotkey.Wpf;
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Events;
+using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Plugin;
 using Probel.Lanceur.ViewModels;
 using System;
@@ -21,8 +22,8 @@ namespace Probel.Lanceur.Views
         #region Fields
 
         private bool _canSavePosition = false;
-
         private bool _isSearchActive = true;
+        private NotifyIconAdapter _notifyIcon;
 
         #endregion Fields
 
@@ -77,6 +78,25 @@ namespace Probel.Lanceur.Views
 
         private AliasText GetAlias() => Results.SelectedItem as AliasText ?? new AliasText();
 
+        private void LoadWindow(bool isVisible)
+        {
+            {
+                ViewModel.LoadSettings();
+                ViewModel.LoadAliases();
+
+                Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
+                AliasTextBox.Focus();
+
+                //https://stackoverflow.com/questions/3109080/focus-on-textbox-when-usercontrol-change-visibility
+                Dispatcher.BeginInvoke((Action)delegate { Keyboard.Focus(AliasTextBox); });
+
+                Activate();
+                Topmost = true;
+                Topmost = false;
+                Focus();
+            }
+        }
+
         private void OnKeyPressed(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -121,15 +141,7 @@ namespace Probel.Lanceur.Views
             if (!result.IsError) { HideControl(); }
         }
 
-        private void OnShowWindow(object sender, HotkeyEventArgs e)
-        {
-            if (!SetupViewModel.IsBusy)
-            {
-                ViewModel.IsOnError = false;
-                ShowWindow();
-                e.Handled = true;
-            }
-        }
+        private void OnShowWindow(object sender, HotkeyEventArgs e) => ShowWindow(e);
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
@@ -147,6 +159,8 @@ namespace Probel.Lanceur.Views
         {
             try
             {
+                _notifyIcon = new NotifyIconAdapter(ViewModel.ActionContext, ShowWindow);
+
                 var key = ViewModel.AppSettings.HotKey.Key;
                 var mod = ViewModel.AppSettings.HotKey.ModifierKeys;
                 HotkeyManager.Current.AddOrReplace("OnShowWindow", (Key)key, (ModifierKeys)mod, OnShowWindow);
@@ -162,7 +176,7 @@ namespace Probel.Lanceur.Views
                 HotkeyManager.Current.AddOrReplace("OnShowWindow", key, mod, OnShowWindow);
             }
 
-            ShowWindow();
+            LoadWindow(isVisible: ViewModel.AppSettings.WindowSection.ShowAtStartup);
 
             Left = ViewModel.Left;
             Top = ViewModel.Top;
@@ -194,22 +208,17 @@ namespace Probel.Lanceur.Views
             _isSearchActive = true;
         }
 
-        private void ShowWindow()
+        private void ShowWindow(HotkeyEventArgs e = null)
         {
-            ViewModel.LoadSettings();
-            ViewModel.LoadAliases();
-
-            Visibility = Visibility.Visible;
-            AliasTextBox.Focus();
-
-            //https://stackoverflow.com/questions/3109080/focus-on-textbox-when-usercontrol-change-visibility
-            Dispatcher.BeginInvoke((Action)delegate { Keyboard.Focus(AliasTextBox); });
-
-            Activate();
-            Topmost = true;
-            Topmost = false;
-            Focus();
+            if (!SetupViewModel.IsBusy)
+            {
+                ViewModel.IsOnError = false;
+                ShowWindow();
+                if (e != null) { e.Handled = true; }
+            }
         }
+
+        private void ShowWindow() => LoadWindow(isVisible: true);
 
         #endregion Methods
     }

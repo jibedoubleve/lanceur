@@ -39,7 +39,7 @@ namespace Probel.Lanceur.Actions
                 var action = (IUiAction)Activator.CreateInstance(a.Type);
 
                 _keywordService.Bind(actionName, arg => action.With(_context)
-                                                                      .Execute(arg));
+                                                              .Execute(arg));
             }
         }
 

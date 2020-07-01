@@ -59,7 +59,7 @@ namespace Probel.Lanceur.Actions
 
         protected T GetViewModel<T>() where T : Screen
         {
-            var result = _container.Resolve<T>();
+            var result = _container?.Resolve<T>();
             return result;
         }
 
