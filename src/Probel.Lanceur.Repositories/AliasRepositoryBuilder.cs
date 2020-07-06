@@ -14,22 +14,22 @@ namespace Probel.Lanceur.Repositories
         private const string _sourcePath = @"%appdata%\probel\lanceur\repositories\";
         private readonly ILogService _logger;
 
+        private readonly IRepositoryContext _repositoryContext;
         private AliasRepositoryCollection _repositories = null;
 
         #endregion Fields
 
         #region Constructors
 
-        public AliasRepositoryBuilder(ILogService logger)
+        public AliasRepositoryBuilder(ILogService logger, IRepositoryContext repositoryContext)
         {
+            _repositoryContext = repositoryContext;
             _logger = logger;
         }
 
         #endregion Constructors
 
         #region Properties
-
-        public bool IsInitialised => Repositories != null;
 
         private AliasRepositoryCollection Repositories
         {
@@ -40,9 +40,65 @@ namespace Probel.Lanceur.Repositories
             }
         }
 
+        public bool IsInitialised => Repositories != null;
+
         #endregion Properties
 
         #region Methods
+
+        private AliasRepositoryCollection Load(string dll, string keyword)
+        {
+            try
+            {
+                if (File.Exists(dll) == false) { throw new ArgumentException($"The file '{dll}' does not exist."); }
+                else
+                {
+                    var asmPath = AssemblyName.GetAssemblyName(dll);
+                    var asm = Assembly.Load(asmPath);
+                    var repoTypes = (from t in asm.GetTypes()
+                                     where t.IsClass
+                                       && !t.IsAbstract
+                                       && t.GetInterfaces().Contains(typeof(IAliasRepository))
+                                     select t).ToList();
+
+                    if (repoTypes.Count > 0)
+                    {
+                        _logger.Trace($"Loaded {repoTypes.Count} repositories.");
+
+                        var result = new AliasRepositoryCollection();
+
+                        foreach (var repo in repoTypes)
+                        {
+                            var repoInstance = (IAliasRepository)Activator.CreateInstance(repo);
+                            repoInstance.Initialise(_repositoryContext);
+
+                            var visitor = new AliasRepositoryVisitor(repoInstance);
+                            if (visitor.TrySetKeyword(keyword) == false)
+                            {
+                                _logger.Warning($"Cannot set keyword '{keyword}' to repository of type '{repo}'");
+                            }
+                            result.Add(repoInstance);
+                        }
+                        return result;
+                    }
+                    else
+                    {
+                        _logger.Warning($"Didn't find any repository.");
+                        return new AliasRepositoryCollection();
+                    }
+                }
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                var msg = string.Empty;
+                foreach (var item in ex?.LoaderExceptions)
+                {
+                    _logger.Error(item.Message, ex);
+                }
+                throw new InvalidOperationException($"One or more repositories cannot be loaded. This is probably a version mismatch.", ex);
+            }
+            catch (InvalidOperationException ex) { throw new InvalidOperationException($"An error occured when searching 'Repository' class for dll '{dll}'", ex); }
+        }
 
         public IAliasRepository GetSource(char? keyword) => GetSource(keyword?.ToString());
 
@@ -50,8 +106,8 @@ namespace Probel.Lanceur.Repositories
         {
             var result = (from r in Repositories.ToList()
                           where keyword.ToLower().StartsWith(r.Keyword.ToLower())
-                          select r).FirstOrDefault();
-            return result;
+                          select r);
+            return new AggregatedRepository(result);
         }
 
         public bool HasKeyword(char? keyword) => HasKeyword(keyword?.ToString());
@@ -85,58 +141,6 @@ namespace Probel.Lanceur.Repositories
         }
 
         public string NormaliseQuery(string query) => Repositories.NormaliseQuery(query);
-
-        private AliasRepositoryCollection Load(string dll, string keyword)
-        {
-            try
-            {
-                if (File.Exists(dll) == false) { throw new ArgumentException($"The file '{dll}' does not exist."); }
-                else
-                {
-                    var asmPath = AssemblyName.GetAssemblyName(dll);
-                    var asm = Assembly.Load(asmPath);
-                    var repoTypes = (from t in asm.GetTypes()
-                                     where t.IsClass
-                                       && !t.IsAbstract
-                                       && t.GetInterfaces().Contains(typeof(IAliasRepository))
-                                     select t).ToList();
-
-                    if (repoTypes.Count > 0)
-                    {
-                        _logger.Trace($"Loaded {repoTypes.Count} repositories.");
-
-                        var result = new AliasRepositoryCollection();
-
-                        foreach (var repo in repoTypes)
-                        {
-                            var r = (IAliasRepository)Activator.CreateInstance(repo);
-                            var visitor = new AliasRepositoryVisitor(r);
-                            if (visitor.TrySetKeyword(keyword) == false)
-                            {
-                                _logger.Warning($"Cannot set keyword '{keyword}' to repository of type '{repo}'");
-                            }
-                            result.Add(r);
-                        }
-                        return result;
-                    }
-                    else
-                    {
-                        _logger.Warning($"Didn't find any repository.");
-                        return new AliasRepositoryCollection();
-                    }
-                }
-            }
-            catch (ReflectionTypeLoadException ex)
-            {
-                var msg = string.Empty;
-                foreach (var item in ex?.LoaderExceptions)
-                {
-                    _logger.Error(item.Message, ex);
-                }
-                throw new InvalidOperationException($"One or more repositories cannot be loaded. This is probably a version mismatch.", ex);
-            }
-            catch (InvalidOperationException ex) { throw new InvalidOperationException($"An error occured when searching 'Repository' class for dll '{dll}'", ex); }
-        }
 
         #endregion Methods
     }

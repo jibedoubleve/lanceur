@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Probel.Lanceur.Repository.StartMenu
+namespace Probel.Lanceur.Repository.Win32Search
 {
-    public class StartMenuRepository : AliasRepositoryBase
+    public class Win32SearchAPIRepository : AliasRepositoryBase
     {
         #region Fields
 
@@ -14,7 +14,7 @@ namespace Probel.Lanceur.Repository.StartMenu
 
         #region Constructors
 
-        public StartMenuRepository()
+        public Win32SearchAPIRepository()
         {
             _find = new Find();
         }

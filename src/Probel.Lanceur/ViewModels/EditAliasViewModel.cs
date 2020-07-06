@@ -2,10 +2,14 @@
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Infrastructure;
+using Probel.Lanceur.Infrastructure.PackagedApp;
 using Probel.Lanceur.Models;
 using Probel.Lanceur.Plugin;
+using System;
 using System.Collections.ObjectModel;
+using System.Security.Principal;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 
 namespace Probel.Lanceur.ViewModels
 {
@@ -13,8 +17,10 @@ namespace Probel.Lanceur.ViewModels
     {
         #region Fields
 
+        private readonly string _currentUserId = WindowsIdentity.GetCurrent().User.Value;
         private readonly IDataSourceService _databaseService;
 
+        private readonly UwpAppFactory _uwpFactory;
         private AliasModel _alias;
         private bool _isCreation;
         private ObservableCollection<AliasNameModel> _names;
@@ -29,11 +35,14 @@ namespace Probel.Lanceur.ViewModels
             Log = log;
             UserNotifyer = userNotifyer;
             _databaseService = databaseService;
+            _uwpFactory = new UwpAppFactory(Log);
         }
 
         #endregion Constructors
 
         #region Properties
+
+        private ListAliasViewModel ParentVm => Parent as ListAliasViewModel;
 
         public AliasModel Alias
         {
@@ -70,11 +79,14 @@ namespace Probel.Lanceur.ViewModels
             set => Set(ref _userNotifyer, value, nameof(UserNotifyer));
         }
 
-        private ListAliasViewModel ParentVm => Parent as ListAliasViewModel;
-
         #endregion Properties
 
         #region Methods
+
+        private void RefreshParentList()
+        {
+            if (Parent is ListAliasViewModel vm) { vm.RefreshData(); }
+        }
 
         public bool CanDeleteAlias() => _alias != null;
 
@@ -82,9 +94,23 @@ namespace Probel.Lanceur.ViewModels
 
         public void CreateAlias()
         {
+            if (_uwpFactory.IsUwp(_currentUserId, Alias.FileName, out Package package))
+            {
+                RefreshAlias(package);
+            }
+
             _databaseService.Create(Alias.AsEntity(), Names.AsNames());
             RefreshParentList();
             UserNotifyer.NotifyInfo("Alias created!");
+        }
+
+        private void RefreshAlias(Package package)
+        {
+            var pack = _uwpFactory.Create(package);
+            Alias.FileName = $"package:{pack.UniqueIdentifier}";
+            Alias.IsPackage = true;
+            Alias.UniqueIdentifyer = pack.UniqueIdentifier;
+            Alias.Icon = pack.LogoPath;
         }
 
         public async Task DeleteAliasAsync()
@@ -108,17 +134,17 @@ namespace Probel.Lanceur.ViewModels
 
         public void UpdateAlias()
         {
+            if (_uwpFactory.IsUwp(_currentUserId, Alias.FileName, out Package package))
+            {
+                RefreshAlias(package);
+            }
+
             _databaseService.Update(Alias.AsEntity());
 
             foreach (var name in Names) { name.IdAlias = Alias.Id; }
             _databaseService.Update(Names.AsEntity(), Alias.Id);
             UserNotifyer.NotifyInfo("Alias updated!");
             OnRefresh?.Invoke();
-        }
-
-        private void RefreshParentList()
-        {
-            if (Parent is ListAliasViewModel vm) { vm.RefreshData(); }
         }
 
         #endregion Methods

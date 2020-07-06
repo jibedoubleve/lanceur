@@ -54,7 +54,8 @@ Source: "{#EvernotePluginDir}*"; DestDir: "{userappdata}\probel\lanceur\plugins\
 ;----------------------------------------------------------------
 ;-- binaries of the repositories
 ;----------------------------------------------------------------
-Source: "{#RepositoryStartMenu}*"; DestDir:"{userappdata}\probel\lanceur\repositories\startmenu\"; Flags: ignoreversion
+Source: "{#Win32SearchAPI}*"; DestDir:"{userappdata}\probel\lanceur\repositories\win32search\"; Flags: ignoreversion
+Source: "{#UwpSearchAPI}*"; DestDir:"{userappdata}\probel\lanceur\repositories\uwpsearch\"; Flags: ignoreversion
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

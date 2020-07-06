@@ -32,11 +32,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Probel.Lanceur.Plugin.Evern
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Probel.Lanceur.Plugin.Clipboard", "Plugins\Probel.Lanceur.Plugin.Clipboard\Probel.Lanceur.Plugin.Clipboard.csproj", "{4B1B9EBE-6A7F-4CFF-B9FF-0C15A0DFE727}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Probel.Lanceur.Repositories", "Probel.Lanceur.Repositories\Probel.Lanceur.Repositories.csproj", "{BF9795D4-075E-49F5-8852-FFA7A7A9B7E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Probel.Lanceur.Repositories", "Probel.Lanceur.Repositories\Probel.Lanceur.Repositories.csproj", "{BF9795D4-075E-49F5-8852-FFA7A7A9B7E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repositories", "Repositories", "{0281F987-E202-4A76-84A1-7C9E21D4E723}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Probel.Lanceur.Repository.StartMenu", "Repositories\Probel.Lanceur.Repository.StartMenu\Probel.Lanceur.Repository.StartMenu.csproj", "{4EDA23AC-2B1F-482E-8EA1-8E8FFB24258E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Probel.Lanceur.Repository.Win32Search", "Repositories\Probel.Lanceur.Repository.Win32Search\Probel.Lanceur.Repository.Win32Search.csproj", "{4EDA23AC-2B1F-482E-8EA1-8E8FFB24258E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Probel.Lanceur.Repository.UwpSearch", "Repositories\Probel.Lanceur.Repository.UwpSearch\Probel.Lanceur.Repository.UwpSearch.csproj", "{E5B47A46-A72A-4178-9982-D194E8556733}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -292,6 +294,26 @@ Global
 		{4EDA23AC-2B1F-482E-8EA1-8E8FFB24258E}.Release|x64.Build.0 = Release|Any CPU
 		{4EDA23AC-2B1F-482E-8EA1-8E8FFB24258E}.Release|x86.ActiveCfg = Release|Any CPU
 		{4EDA23AC-2B1F-482E-8EA1-8E8FFB24258E}.Release|x86.Build.0 = Release|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Debug|ARM.Build.0 = Debug|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Debug|x64.Build.0 = Debug|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Debug|x86.Build.0 = Debug|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Release|ARM.ActiveCfg = Release|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Release|ARM.Build.0 = Release|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Release|ARM64.Build.0 = Release|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Release|x64.ActiveCfg = Release|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Release|x64.Build.0 = Release|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Release|x86.ActiveCfg = Release|Any CPU
+		{E5B47A46-A72A-4178-9982-D194E8556733}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -303,6 +325,7 @@ Global
 		{7019FCD7-9B23-4AE7-8A67-0EEDCCB47F13} = {06947A32-B6CF-404E-8380-3924263C959F}
 		{4B1B9EBE-6A7F-4CFF-B9FF-0C15A0DFE727} = {06947A32-B6CF-404E-8380-3924263C959F}
 		{4EDA23AC-2B1F-482E-8EA1-8E8FFB24258E} = {0281F987-E202-4A76-84A1-7C9E21D4E723}
+		{E5B47A46-A72A-4178-9982-D194E8556733} = {0281F987-E202-4A76-84A1-7C9E21D4E723}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD2BBCC4-9BBC-4FED-899D-2F48EBE30685}

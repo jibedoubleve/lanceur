@@ -55,7 +55,7 @@ namespace Probel.Lanceur.Repositories
         {
             foreach (var repo in _collection)
             {
-                query = repo.NormaliseQuery(query).Trim();
+                query = repo.NormaliseQuery(query.ToLower()).Trim();
             }
             return query;
         }

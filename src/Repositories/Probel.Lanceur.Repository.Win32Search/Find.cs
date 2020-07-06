@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Security;
 
-namespace Probel.Lanceur.Repository.StartMenu
+namespace Probel.Lanceur.Repository.Win32Search
 {
     public class Find
     {

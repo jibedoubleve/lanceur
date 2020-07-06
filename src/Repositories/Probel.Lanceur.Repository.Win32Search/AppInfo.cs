@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Probel.Lanceur.Repository.StartMenu
+namespace Probel.Lanceur.Repository.Win32Search
 {
     public class AppInfo
     {

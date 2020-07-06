@@ -27,14 +27,15 @@
     ShowInTaskbar="False"
     SizeToContent="Height"
     Top="{Binding Top, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-    WindowStartupLocation="CenterScreen"
+    WindowStartupLocation="Manual"
     WindowStyle="None"
     mc:Ignorable="d">
     <Window.Resources>
+        <conv:AliasToFileNameConverter x:Key="AliasToFileNameConverter"/>
         <!--  DATATEMPLATES  -->
         <DataTemplate x:Key="AliasTemplate">
             <c:AliasControl
-                AliasFileName="{Binding FileName}"
+                AliasFileName="{Binding Converter={StaticResource AliasToFileNameConverter}}"
                 AliasName="{Binding Name}"
                 ExecutionCount="{Binding ExecutionCount}"
                 Image="{Binding Image, UpdateSourceTrigger=PropertyChanged}"

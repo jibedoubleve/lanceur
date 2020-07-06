@@ -131,6 +131,9 @@
     <Reference Include="Unity.Container, Version=5.11.1.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.5.11.1\lib\net47\Unity.Container.dll</HintPath>
     </Reference>
+    <Reference Include="Windows">
+      <HintPath>C:\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.18362.0\Windows.winmd</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -199,6 +202,7 @@
     <Compile Include="Controls\WindowInfoControl.xaml.cs">
       <DependentUpon>WindowInfoControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\AliasToFileNameConverter.cs" />
     <Compile Include="Converters\PathToHumanizedPathConverter.cs" />
     <Compile Include="Converters\UsageToColorConverter.cs" />
     <Compile Include="Converters\HexaToColourConverter.cs" />

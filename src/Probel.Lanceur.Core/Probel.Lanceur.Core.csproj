@@ -57,8 +57,10 @@
       <Link>Properties\Version.cs</Link>
     </Compile>
     <Compile Include="Entities\AliasText.cs" />
+    <Compile Include="Entities\AliasTextCollection.cs" />
     <Compile Include="Entities\ChartPoint.cs" />
     <Compile Include="Entities\Doubloon.cs" />
+    <Compile Include="Helpers\AppxActivationHelper.cs" />
     <Compile Include="PluginsImpl\EmptyPlugin.cs" />
     <Compile Include="PluginsImpl\PluginConfigurator.cs" />
     <Compile Include="PluginsImpl\PluginLoader.cs" />

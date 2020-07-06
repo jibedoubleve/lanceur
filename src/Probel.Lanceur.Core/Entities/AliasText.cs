@@ -10,6 +10,8 @@ namespace Probel.Lanceur.Core.Entities
 
         public long ExecutionCount { get; set; }
         public string FileName { get; set; }
+        public string Icon { get; protected set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Indicates whether the alias can be executed as is or
@@ -17,10 +19,23 @@ namespace Probel.Lanceur.Core.Entities
         /// MagicWords are not executable as you need to retrieve
         /// information into the DB to execute it.
         /// </summary>
-        public bool IsExecutable { get; set; } = false;
+        public bool IsExecutable { get; set; } = true;
+
+        /// <summary>
+        /// Indicates whether the alias is a packaged application (UWP)
+        /// </summary>
+        public bool IsPackaged { get; set; }
 
         public virtual string Kind { get; set; }
+
         public string Name { get; set; }
+
+        /// <summary>
+        /// Represents a unique id of the UWP packaged application. If
+        /// <see cref="IsPackaged"/> is set to <c>False</c> then, this
+        /// property should be <c>NULL</c>
+        /// </summary>
+        public string UniqueIdentifier { get; set; }
 
         #endregion Properties
 
@@ -47,6 +62,9 @@ namespace Probel.Lanceur.Core.Entities
                 Kind = src.Kind,
                 Name = src.Name,
                 IsExecutable = src.IsExecutable,
+                IsPackaged = src.IsPackaged,
+                UniqueIdentifier = src.UniqueIdentifier,
+                Icon = src.Icon,
             };
         }
 
@@ -57,6 +75,7 @@ namespace Probel.Lanceur.Core.Entities
                 Name = word.Name.ToLower(),
                 ExecutionCount = 0,
                 FileName = $"{word.Description}",
+                IsExecutable = false,
                 Kind = "Settings",
             };
         }

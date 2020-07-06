@@ -46,6 +46,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
             var sql = @"
                 select
+                    s.Id          as Id,
                     n.Name        as Name,
                     s.id          as Id,
                     s.id_session  as IdSession,
@@ -70,17 +71,50 @@ namespace Probel.Lanceur.SQLiteDb.Services
             }
         }
 
+        public Alias GetAlias(long id)
+        {
+            if (id == 0) { throw new InvalidOperationException($"Cannot retrieve alias with id '{id}'. The id is invalid."); }
+
+            var sql = @"
+                select
+                    s.Id          as Id,
+                    n.Name        as Name,
+                    s.id          as Id,
+                    s.id_session  as IdSession,
+                    s.arguments   as Arguments,
+                    s.file_name   as FileName,
+                    s.notes       as Notes,
+                    s.run_as      as RunAs,
+                    s.start_mode  as StartMode,
+                    s.working_dir as WorkingDirectory
+                from
+                    alias s
+                    inner join alias_name n on s.id = n.id_alias
+                where
+                    s.id = @id";
+
+            using (var c = BuildConnection())
+            {
+                var result = c.Query<Alias>(sql, new { id })
+                              .FirstOrDefault();
+                return result ?? Alias.Empty();
+            }
+        }
+
         public IEnumerable<Alias> GetAliases(long sessionId)
         {
             var sql = @"
-                select n.Name       as Name
-                     , s.id         as Id
-                     , s.arguments  as Arguments
-                     , s.file_name  as FileName
-                     , s.notes      as Notes
-                     , s.run_as     as RunAs
-                     , s.start_mode as StartMode
-                     , s.working_dir as WorkingDirectory
+                select 
+                    n.Name        as Name,
+                    s.Id          as Id,
+                    s.id          as Id,
+                    s.arguments   as Arguments,
+                    s.file_name   as FileName,
+                    s.notes       as Notes,
+                    s.run_as      as RunAs,
+                    s.start_mode  as StartMode,
+                    s.working_dir as WorkingDirectory,
+                    s.icon        as Icon
                 from alias s
                 left join alias_name n on s.id = n.id_alias
                 where s.id_session = @sessionId
@@ -97,10 +131,12 @@ namespace Probel.Lanceur.SQLiteDb.Services
         {
             var sql = @"
                 select
+                    s.Id         as Id,
                 	sn.Name      as Name,
                 	c.exec_count as ExecutionCount,
                 	s.file_name  as FileName,
-                    'Rocket'     as Kind
+                    'Rocket'     as Kind,
+                    s.icon       as Icon
                 from
                     alias_name sn
                     inner join alias s on s.id = sn.id_alias
@@ -119,6 +155,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     ? result.OrderByDescending(e => e.ExecutionCount)
                             .ThenBy(e => e.Name)
                             .ToList()
+                            .Refresh()
                     : new List<AliasText>();
             }
         }
@@ -148,9 +185,10 @@ namespace Probel.Lanceur.SQLiteDb.Services
             using (var c = BuildConnection())
             {
                 var sql = @"
-                    select id          as Id
-                         , name        as Name
-                         , id_alias as IdAlias
+                    select 
+                        id          as Id,
+                        name        as Name,
+                        id_alias    as IdAlias
                     from alias_name
                     where id_alias = @idAlias";
                 var result = c.Query<AliasName>(sql, new { IdAlias = alias.Id });

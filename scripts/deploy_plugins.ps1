@@ -8,7 +8,7 @@ $dst = "$env:APPDATA\probel\lanceur\plugins\{0}"
 $plugins = "spotify", "calculator", "evernote", "clipboard"
 
 # Repos
-$repos = @("startmenu")
+$repos = @("win32search", "uwpsearch")
 $repoSrc = "$env:GIT_PRJ_SOURCE\lanceur\src\Repositories\Probel.Lanceur.Repository.{0}\bin\$release\*.*"
 $repoDst = "$env:APPDATA\probel\lanceur\repositories\{0}"
 

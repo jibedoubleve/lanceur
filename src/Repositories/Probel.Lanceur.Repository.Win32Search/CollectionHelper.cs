@@ -3,7 +3,7 @@ using Probel.Lanceur.Repositories;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Probel.Lanceur.Repository.StartMenu
+namespace Probel.Lanceur.Repository.Win32Search
 {
     internal static class CollectionHelper
     {

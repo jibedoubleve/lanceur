@@ -180,7 +180,7 @@ Task("Inno-Setup")
 
 
         var plugins   = new string[] { "spotify", "calculator", "clipboard", "evernote" };    
-        var repos     = new string[]{ "startmenu" };
+        var repos     = new string[]{ "Win32Search", "UwpSearch" };
         
         Information("Bin path   : {0}: ", path);
         // Information("Plugin path: {0}: ", pluginDir);
@@ -198,7 +198,8 @@ Task("Inno-Setup")
                 { "ClipboardPluginDir" , string.Format(pluginDir, plugins[p++]) },
                 { "EvernotePluginDir"  , string.Format(pluginDir, plugins[p++]) },
                 // REPOSITORIES
-                { "RepositoryStartMenu", string.Format(repoDir, repos[r++])},
+                { "Win32SearchAPI", string.Format(repoDir, repos[r++])},
+                { "UwpSearchAPI", string.Format(repoDir, repos[r++])},
             }
         });
 });

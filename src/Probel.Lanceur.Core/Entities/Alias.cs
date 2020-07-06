@@ -43,7 +43,7 @@
 
         #region Methods
 
-        public static Alias Empty(string name) => new Alias()
+        public static Alias Empty(string name = "") => new Alias()
         {
             FileName = string.Empty,
             Name = name.ToUpper(),

@@ -71,13 +71,23 @@ namespace Probel.Lanceur.Images
                 var c = new AliasTextModel(item);
                 Task.Run(async () =>
                 {
-                    await Task.Delay(10);
-                    c.Image = GetImage(item.FileName);
+                    //await Task.Delay(10);
+                    c.Image = GetImage(c, item);
                 });
                 dst.Add(c);
             }
 
             return dst;
+        }
+
+        private static ImageSource GetImage(AliasTextModel c, AliasText item)
+        {
+            if (c.IsPackaged)
+            {
+                if (string.IsNullOrEmpty(c.Icon)) { return GetImage(item.FileName); }
+                else { return GetImage(item.Icon); }
+            }
+            else { return GetImage(item.FileName); }
         }
 
         private static ImageSource GetImage(string path)

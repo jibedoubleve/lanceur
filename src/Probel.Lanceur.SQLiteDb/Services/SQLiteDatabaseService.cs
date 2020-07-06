@@ -60,21 +60,32 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     notes,
                     run_as,
                     start_mode,
-                    id_session
+                    id_session,
+                    icon
                 ) values (
                     @arguments,
                     @fileName,
                     @notes,
                     @runAs,
                     @startMode,
-                    @idSession
+                    @idSession,
+                    @icon
                 );
                 select last_insert_rowid() from alias;";
 
             var sql2 = @"insert into alias_name(id_alias, name) values(@idAlias, @name)";
             using (var c = BuildConnection())
             {
-                var lastId = c.Query<long>(sql, new { s.Arguments, s.FileName, s.Notes, s.RunAs, s.StartMode, s.IdSession }).FirstOrDefault();
+                var lastId = c.Query<long>(sql, new
+                {
+                    s.Arguments,
+                    s.FileName,
+                    s.Notes,
+                    s.RunAs,
+                    s.StartMode,
+                    s.IdSession,
+                    s.Icon
+                }).FirstOrDefault();
 
                 if (names == null && string.IsNullOrEmpty(s.Name)) { throw new NotSupportedException($"Cannot create a new alias without name."); }
                 else if (names == null) { c.Execute(sql2, new { s.Name, IdAlias = lastId }); }
@@ -160,7 +171,8 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     notes       = @notes,
                     run_as      = @runAs,
                     start_mode  = @startMode,
-                    working_dir = @WorkingDirectory
+                    working_dir = @WorkingDirectory,
+                    icon        = @Icon
                 where id = @id;";
             var sql2 = @"
                 update alias_name
@@ -169,7 +181,17 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 where id_alias = @id";
             using (var c = BuildConnection())
             {
-                c.Execute(sql, new { alias.Arguments, alias.FileName, alias.Notes, alias.RunAs, alias.StartMode, alias.Id, alias.WorkingDirectory });
+                c.Execute(sql, new
+                {
+                    alias.Arguments,
+                    alias.FileName,
+                    alias.Notes,
+                    alias.RunAs,
+                    alias.StartMode,
+                    alias.Id,
+                    alias.WorkingDirectory,
+                    alias.Icon
+                });
                 c.Execute(sql2, new { alias.Name, alias.Id });
             }
         }

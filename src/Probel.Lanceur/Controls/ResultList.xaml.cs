@@ -158,7 +158,7 @@ namespace Probel.Lanceur.Controls
             else if (si is AliasText at) { alias = at; }
              
             if (si != null) { AliasClicked?.Invoke(this, new AliasTextEventArgs(alias)); }
-                //else { throw new NotSupportedException($"The selected item of the result of type '{si?.GetType().ToString() ?? "NULL"}' is not supported."); }
+            //else { throw new NotSupportedException($"The selected item of the result of type '{si?.GetType().ToString() ?? "NULL"}' is not supported."); }
         }
 
         private void OnResultsMouseClick(object sender, MouseButtonEventArgs e) => OnAliasClicked();

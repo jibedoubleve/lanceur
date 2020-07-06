@@ -33,6 +33,7 @@ namespace Probel.Lanceur.Models
 
         #region Constructors
 
+        //TODO: refactor this as it is error prone. Use StructureMap 
         public AliasTextModel(AliasText src)
         {
             ExecutionCount = src.ExecutionCount;
@@ -41,6 +42,10 @@ namespace Probel.Lanceur.Models
             Kind = src.Kind;
             Name = src.Name;
             IsExecutable = src.IsExecutable;
+            IsPackaged = src.IsPackaged;
+            UniqueIdentifier = src.UniqueIdentifier;
+            Icon = src.Icon;
+            Id = src.Id;
         }
 
         #endregion Constructors
