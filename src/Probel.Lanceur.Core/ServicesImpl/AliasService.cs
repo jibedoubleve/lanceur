@@ -76,7 +76,10 @@ namespace Probel.Lanceur.Core.ServicesImpl
         {
             try
             {
-                var a = _databaseService.GetAlias(alias.Id);
+                var a = (alias.Id == 0)
+                    ? new Alias { FileName = alias.FileName }
+                    : _databaseService.GetAlias(alias.Id);
+
 
                 var psInfo = GetProcessStartInfo(a);
                 using (var ps = new Process { StartInfo = psInfo })

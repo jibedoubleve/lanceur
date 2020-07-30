@@ -33,15 +33,24 @@
                 VerticalAlignment="Center"
                 DockPanel.Dock="Left" />
 
-            <TextBlock
-                x:Name="CtrlCounter"
-                VerticalAlignment="Bottom"
-                DockPanel.Dock="Right"
-                Style="{StaticResource FooterStyle}"
-                Visibility="Collapsed">
-                <Run Text="Count:" />
-                <Run x:Name="CtrlCount" />
-            </TextBlock>
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+                <TextBlock
+                    x:Name="CtrlCounter"
+                    VerticalAlignment="Bottom"
+                    Style="{StaticResource FooterStyle}"
+                    Visibility="Collapsed">
+                    <Run Text="Count:" />
+                    <Run x:Name="CtrlCount" />
+                </TextBlock>
+                <TextBlock
+                    x:Name="CtrlSearchScore"
+                    VerticalAlignment="Bottom"
+                    Style="{StaticResource FooterStyle}"
+                    Visibility="Collapsed">
+                    <Run Text="Score:" />
+                    <Run x:Name="CtrlScore" />
+                </TextBlock>
+            </StackPanel>
 
             <TextBlock
                 x:Name="CtrlName"

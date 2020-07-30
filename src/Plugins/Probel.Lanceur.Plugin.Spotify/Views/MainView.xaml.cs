@@ -33,5 +33,9 @@ namespace Probel.Lanceur.Plugin.Spotify.Views
                 ViewModel.Pause();
             }
         }
+
+        private void OnClickNextSong(object sender, RoutedEventArgs e) => ViewModel.GoNextSong();
+
+        private void OnClickPreviousSong(object sender, RoutedEventArgs e) => ViewModel.GoPreviousSong();
     }
 }

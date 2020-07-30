@@ -1,4 +1,5 @@
-﻿using Probel.Lanceur.Infrastructure.Helpers;
+﻿using DuoVia.FuzzyStrings;
+using Probel.Lanceur.Infrastructure.Helpers;
 using Probel.Lanceur.Repositories;
 using Probel.Lanceur.Repository.UwpSearch.Core;
 using System.Collections.Generic;
@@ -32,7 +33,7 @@ namespace Probel.Lanceur.Repository.UwpSearch
         {
             var results = _find.All();
 
-            var found = (from r in results.AsParallel()
+            var found = (from r in results
                          where string.IsNullOrWhiteSpace(r.UniqueIdentifier) == false //r.Name.ToLower().Contains("uninstall") == false
                          orderby r.DisplayName
                          select new RepositoryAlias
@@ -45,17 +46,25 @@ namespace Probel.Lanceur.Repository.UwpSearch
                              Name = r.DisplayName,
                              Icon = r.LogoPath,
                          });
-            return found;
+            return found.ToList();
         }
-
 
         public override IEnumerable<RepositoryAlias> GetAliases(string criterion)
         {
-            var result = (from r in GetAliases()
-                          where r.Name.ToLower().Contains(criterion.ToLower())
-                          orderby r.Name
-                          select r);
-            return result;
+            criterion = criterion?.ToLower() ?? string.Empty;
+            var aliases = GetAliases();
+
+            if (string.IsNullOrEmpty(criterion)) { return aliases; }
+            else
+            {
+                //https://stackoverflow.com/questions/5859561/getting-the-closest-string-match
+                Parallel.ForEach(aliases, r => r.SearchScore = r.Name.ToLower().FuzzyMatch(criterion));
+                var result = (from r in aliases
+                              where r.SearchScore >= 0.15
+                              orderby r.SearchScore descending, r.Name
+                              select r).ToList();
+                return result;
+            }
         }
 
         #endregion Methods

@@ -38,6 +38,7 @@
                 AliasFileName="{Binding Converter={StaticResource AliasToFileNameConverter}}"
                 AliasName="{Binding Name}"
                 ExecutionCount="{Binding ExecutionCount}"
+                SearchScore="{Binding SearchScore}"
                 Image="{Binding Image, UpdateSourceTrigger=PropertyChanged}"
                 Kind="{Binding Kind}" />
         </DataTemplate>

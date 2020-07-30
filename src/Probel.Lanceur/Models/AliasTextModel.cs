@@ -46,6 +46,7 @@ namespace Probel.Lanceur.Models
             UniqueIdentifier = src.UniqueIdentifier;
             Icon = src.Icon;
             Id = src.Id;
+            SearchScore = src.SearchScore;
         }
 
         #endregion Constructors

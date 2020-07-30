@@ -25,9 +25,9 @@ namespace Probel.Lanceur.Core.Entities
 
         public string Notes { get; set; } = string.Empty;
 
-        public RunAs RunAs { get; set; }
+        public RunAs RunAs { get; set; } = RunAs.CurrentUser;
 
-        public StartMode StartMode { get; set; }
+        public StartMode StartMode { get; set; } = StartMode.Default;
 
         public string WorkingDirectory { get; set; }
 

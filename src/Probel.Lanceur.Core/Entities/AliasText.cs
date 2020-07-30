@@ -30,6 +30,8 @@ namespace Probel.Lanceur.Core.Entities
 
         public string Name { get; set; }
 
+        public double SearchScore { get; protected set; }
+
         /// <summary>
         /// Represents a unique id of the UWP packaged application. If
         /// <see cref="IsPackaged"/> is set to <c>False</c> then, this
@@ -55,7 +57,7 @@ namespace Probel.Lanceur.Core.Entities
 
         public static implicit operator AliasText(RepositoryAlias src)
         {
-            return new AliasText
+            var r = new AliasText
             {
                 ExecutionCount = src.ExecutionCount,
                 FileName = src.FileName,
@@ -65,7 +67,9 @@ namespace Probel.Lanceur.Core.Entities
                 IsPackaged = src.IsPackaged,
                 UniqueIdentifier = src.UniqueIdentifier,
                 Icon = src.Icon,
+                SearchScore = src.SearchScore,
             };
+            return r;
         }
 
         public static AliasText ReservedKeyword(ActionWord word)

@@ -65,6 +65,8 @@ namespace Probel.Lanceur.Plugin.Spotify
                 var c = new Connector(Logger);
                 var spotify = await c.GetClientAsync();
                 if (spotify != null) { _player = new Player(spotify); }
+
+                if (ViewModel.Player == null) { ViewModel.Player = _player; }
             }
         }
 

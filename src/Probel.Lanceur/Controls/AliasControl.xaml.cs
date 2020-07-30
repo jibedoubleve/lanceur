@@ -2,7 +2,6 @@
 using MahApps.Metro.IconPacks;
 using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -46,6 +45,12 @@ namespace Probel.Lanceur.Controls
                 typeof(AliasControl),
                 new PropertyMetadata(null, OnKindChanged));
 
+        public static DependencyProperty SearchScoreProperty =
+            DependencyProperty.Register("SearchScore",
+                typeof(double),
+                typeof(AliasControl),
+                new PropertyMetadata(0D, OnSearchScoreCountChanged));
+
         #endregion Fields
 
         #region Constructors
@@ -87,6 +92,12 @@ namespace Probel.Lanceur.Controls
         {
             get => (string)GetValue(KindProperty);
             set => SetValue(KindProperty, value);
+        }
+
+        public string SearchScore
+        {
+            get => (string)GetValue(SearchScoreProperty);
+            set => SetValue(SearchScoreProperty, value);
         }
 
         #endregion Properties
@@ -145,15 +156,12 @@ namespace Probel.Lanceur.Controls
             {
                 if (e.NewValue is string str)
                 {
-
-
                     if (ctrl.CtrlImage.Source != null)
                     {
                         ShowImage(ctrl);
                     }
                     else
                     {
-
                         var kind = (from k in Enum.GetValues(typeof(PackIconMaterialKind)).Cast<PackIconMaterialKind>()
                                     where k.ToString().ToLower() == str.ToLower()
                                     select k).ToList();
@@ -166,11 +174,29 @@ namespace Probel.Lanceur.Controls
             }
         }
 
+        private static void OnSearchScoreCountChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is AliasControl ctrl)
+            {
+                if (e.NewValue is double ct)
+                {
+                    if (ct == 0) { ctrl.CtrlSearchScore.Visibility = Visibility.Collapsed; }
+                    else
+                    {
+                        ctrl.CtrlScore.Text = ct.ToString("0.##");
+                        ctrl.CtrlSearchScore.Visibility = Visibility.Visible;
+                    }
+                }
+                else { ctrl.CtrlSearchScore.Visibility = Visibility.Collapsed; }
+            }
+        }
+
         private static void ShowIcon(AliasControl ctrl)
         {
             ctrl.CtrlImage.Visibility = Visibility.Collapsed;
             ctrl.CtrlIcon.Visibility = Visibility.Visible;
         }
+
         private static void ShowImage(AliasControl ctrl)
         {
             ctrl.CtrlImage.Visibility = Visibility.Visible;
