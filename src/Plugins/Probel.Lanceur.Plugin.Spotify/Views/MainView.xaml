@@ -63,13 +63,12 @@
     </UserControl.Resources>
     <ScrollViewer>
         <Grid>
-            <!--<ProgressBar
+            <ProgressBar
                 Height="25"
                 Margin="20,0,20,0"
                 IsIndeterminate="True"
-                Visibility="{Binding IsVisible, Converter={StaticResource InvertBooleanToVisibilityConverter}}" />-->
-            <!--<DockPanel Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">-->
-            <DockPanel Visibility="Visible">
+                Visibility="{Binding IsVisible, Converter={StaticResource InvertBooleanToVisibilityConverter}}" />
+            <DockPanel Visibility="{Binding IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Image
                     Width="{Binding Image.Width}"
                     Height="{Binding Image.Height}"
