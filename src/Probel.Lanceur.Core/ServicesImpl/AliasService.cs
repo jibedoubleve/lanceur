@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Probel.Lanceur.Core.ServicesImpl
 {
@@ -62,7 +63,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
                 const ApplicationActivationHelper.ActivateOptions noFlags = ApplicationActivationHelper.ActivateOptions.None;
 
                 var manager = new ApplicationActivationHelper.ApplicationActivationManager();
-                manager.ActivateApplication(alias.UniqueIdentifier, noArgs, noFlags, out var processId);
+                Task.Run(() => manager.ActivateApplication(alias.UniqueIdentifier, noArgs, noFlags, out var processId));
                 return ExecutionResult.SuccessHide;
             }
             catch (Exception ex)
@@ -80,13 +81,15 @@ namespace Probel.Lanceur.Core.ServicesImpl
                     ? new Alias { FileName = alias.FileName }
                     : _databaseService.GetAlias(alias.Id);
 
-
                 var psInfo = GetProcessStartInfo(a);
-                using (var ps = new Process { StartInfo = psInfo })
+                Task.Run(() =>
                 {
-                    ps.Start();
-                    return ExecutionResult.SuccessHide;
-                }
+                    using (var ps = new Process { StartInfo = psInfo })
+                    {
+                        ps.Start();
+                    }
+                });
+                return ExecutionResult.SuccessHide;
             }
             catch (Exception ex)
             {
@@ -165,6 +168,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
                 return _cmdRunner.Execute(alias);
             }
         }
+
         //TODO: Refactoring needed!
         // These two "Execute" methods have the same name but not the same behaviour.
         // Change the name of the method!!!
@@ -184,6 +188,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
             var result = (from a in LoadAliasNames(sessionId, criterion)
                           where a.Name.ToLower().StartsWith(query)
+                          orderby a.SearchScore descending, a.Name ascending
                           select a).ToList();
             return result;
         }

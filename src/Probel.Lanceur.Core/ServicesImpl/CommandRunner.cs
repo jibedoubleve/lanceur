@@ -5,6 +5,7 @@ using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Infrastructure;
 using System.Diagnostics;
 using System.Net.Configuration;
+using System.Threading.Tasks;
 
 namespace Probel.Lanceur.Core.ServicesImpl
 {
@@ -42,7 +43,10 @@ namespace Probel.Lanceur.Core.ServicesImpl
             if (alias.IsExecutable)
             {
                 var pInfo = GetProcessStartInfo(alias);
-                using (var ps = new Process { StartInfo = pInfo }) { ps.Start(); }
+                Task.Run(() =>
+                {
+                    using (var ps = new Process { StartInfo = pInfo }) { ps.Start(); }
+                });
                 _databaseService.SetUsage(alias);
                 return ExecutionResult.SuccessHide;
             }
