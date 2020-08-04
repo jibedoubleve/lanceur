@@ -74,7 +74,9 @@ namespace Probel.Lanceur
             _container.RegisterType<IKeywordLoader, KeywordLoader>();
 
             //UI
-            _container.RegisterType<IUserNotifyer, UserNotifyer>();
+            //_container.RegisterType<IUserNotifyer, UserNotifyer>();
+            _container.RegisterType<IUserNotifyer, Win10UserNotifyer>();
+
             _container.RegisterSingleton<INotificationManager, NotificationManager>();
             _container.RegisterSingleton<IAppRestarter, AppRestarter>();
 
