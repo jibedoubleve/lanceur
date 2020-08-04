@@ -1,7 +1,7 @@
-﻿using Probel.Lanceur.Plugin.Spotify.Spotify;
+﻿using Probel.Lanceur.Plugin.Spotify.Helpers;
+using Probel.Lanceur.Plugin.Spotify.Spotify;
 using Probel.Lanceur.Plugin.Spotify.ViewModels;
 using Probel.Lanceur.Plugin.Spotify.Views;
-using Probel.Lanceur.Plugin;
 using System;
 using System.Threading.Tasks;
 using System.Timers;
@@ -37,14 +37,25 @@ namespace Probel.Lanceur.Plugin.Spotify
 
         #region Methods
 
-        public override async void Execute(Cmdline parameters)
+        private async Task ConfigureSpotifyAsync()
         {
-            ViewModel.Log = Logger;
-            MainView.ShowPlugin();
+            if (_player == null)
+            {
+                var c = new Connector(Logger);
+                var spotify = await c.GetClientAsync();
+                if (spotify != null) { _player = new Player(spotify); }
+            }
+            if (ViewModel.Player == null) { ViewModel.Player = _player; }
+        }
 
-            await ConfigureSpotifyAsync();
-
-            _timer.Start();
+        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            if (_player != null)
+            {
+                var song = _player.GetCurrentSong();
+                ViewModel.Load(song);
+            }
+            else { _timer.Stop(); }
         }
 
         protected override void Initialise()
@@ -58,26 +69,18 @@ namespace Probel.Lanceur.Plugin.Spotify
             MainView.SetPluginArea(View);
         }
 
-        private async Task ConfigureSpotifyAsync()
+        public override async void Execute(Cmdline parameters)
         {
-            if (_player == null)
-            {
-                var c = new Connector(Logger);
-                var spotify = await c.GetClientAsync();
-                if (spotify != null) { _player = new Player(spotify); }
+            ViewModel.Log = Logger;
+            MainView.ShowPlugin();
 
-                if (ViewModel.Player == null) { ViewModel.Player = _player; }
-            }
-        }
+            await ConfigureSpotifyAsync();
 
-        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
-        {
-            if (_player != null)
-            {
-                var song = _player.GetCurrentSong();
-                ViewModel.Load(song);
-            }
-            else { _timer.Stop(); }
+            _timer.Start();
+
+            if (parameters.IsNextSong()) { _player.GotoNextSong(); }
+            else if (parameters.IsPreviousSong()) { _player.GotoPreviousSong(); }
+            else if (parameters.IsRestartSong()) { _player.GotoSameSong(); }
         }
 
         #endregion Methods

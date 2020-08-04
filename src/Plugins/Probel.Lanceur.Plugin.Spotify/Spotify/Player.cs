@@ -74,7 +74,16 @@ namespace Probel.Lanceur.Plugin.Spotify.Spotify
             _spotify.SkipPlaybackToNext();
         }
 
-        public void GotoPreviousSong() => _spotify.SkipPlaybackToPrevious();
+        public void GotoPreviousSong()
+        {
+            _spotify.SkipPlaybackToPrevious();
+            _spotify.SkipPlaybackToPrevious();
+        }
+
+        public void GotoSameSong()
+        {
+            _spotify.SkipPlaybackToPrevious();
+        }
 
         #endregion Methods
     }

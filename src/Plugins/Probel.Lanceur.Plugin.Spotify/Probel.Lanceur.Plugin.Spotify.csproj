@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Converters\IntToTimeSpanStringConverter.cs" />
     <Compile Include="Converters\InvertBooleanToVisibilityConverter.cs" />
+    <Compile Include="Helpers\ParametersExtensions.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Spotify\Player.cs" />
     <Compile Include="Spotify\Connector.cs" />

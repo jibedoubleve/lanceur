@@ -11,13 +11,38 @@
     IsVisibleChanged="OnUserControlIsVisibleChanged"
     mc:Ignorable="d">
     <UserControl.Resources>
+        <!--  https://gist.github.com/PrinceNebulon/1691173  -->
         <Style x:Key="ChromelessButtonStyle" TargetType="{x:Type ButtonBase}">
-            <Setter Property="Background" Value="{DynamicResource TransparentWhiteBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="Padding" Value="0" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="1" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid
+                            x:Name="Chrome"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="true">
+                            <ContentPresenter
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#ADADAD" />
+                                <Setter TargetName="Chrome" Property="Opacity" Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
             <Setter Property="Margin" Value="5" />
         </Style>
         <conv:IntToTimeSpanStringConverter x:Key="IntToTimeSpanStringConverter" />
