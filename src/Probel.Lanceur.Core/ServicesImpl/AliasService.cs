@@ -165,7 +165,9 @@ namespace Probel.Lanceur.Core.ServicesImpl
                 return _cmdRunner.Execute(alias);
             }
         }
-
+        //TODO: Refactoring needed!
+        // These two "Execute" methods have the same name but not the same behaviour.
+        // Change the name of the method!!!
         public ExecutionResult Execute(AliasText alias)
         {
             return (alias.IsPackaged)
