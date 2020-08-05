@@ -228,6 +228,7 @@
     <Compile Include="Models\Settings\PositionSettingsModel.cs" />
     <Compile Include="Models\Settings\HotKeySettingsModel.cs" />
     <Compile Include="Models\AliasNameModel.cs" />
+    <Compile Include="Models\Settings\RepositorySettingsModel.cs" />
     <Compile Include="Models\Settings\WindowSettingsModel.cs" />
     <Compile Include="Helpers\_AutoMapperConfigurator.cs" />
     <Compile Include="Bootstrapper.cs" />
@@ -248,6 +249,7 @@
     <Compile Include="Services\MainViewFinder.cs" />
     <Compile Include="Services\ClipboardService.cs" />
     <Compile Include="Actions\KeywordLoader.cs" />
+    <Compile Include="Services\RepositorySettings.cs" />
     <Compile Include="Services\Win10UserNotifyer.cs" />
     <Compile Include="Services\UiEvent.cs" />
     <Compile Include="Services\SessionQueries.cs" />

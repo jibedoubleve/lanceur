@@ -20,7 +20,7 @@ namespace Probel.Lanceur.Plugin.Clipboard
         {
             var list = new string[] { "list", "l" };
 
-            var parameters = cmd.Parameters.ToLower().Trim();
+            var parameters = cmd.Arguments.ToLower().Trim();
             if (list.Contains(parameters))
             {
                 ShowHistory();

@@ -2,7 +2,7 @@
 
 namespace Probel.Lanceur.Core.Entities
 {
-    public class NamedAlias : BaseAlias
+    public class MultiNameAlias : BaseAlias
     {
         #region Properties
 

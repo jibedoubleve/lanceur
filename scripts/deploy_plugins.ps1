@@ -36,7 +36,7 @@ function Add-Plugins() {
             mkdir $d
         }
     
-        Copy-Item $s $d -Recurse
+        Copy-Item $s $d -Recurse -Force
     }
 }
 function Add-Repositories() {
@@ -54,7 +54,7 @@ function Add-Repositories() {
             mkdir $d
         }
     
-        Copy-Item $s $d -Recurse
+        Copy-Item $s $d -Recurse -Force
     }
 }
 <#############################################################################

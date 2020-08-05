@@ -19,6 +19,8 @@ namespace Probel.Lanceur.Core.Services
 
         Alias Resolve(Alias cmd, string parameters);
 
+        string Resolve(string source, string parameters);
+
         Cmdline Split(string cmdline, long sessionId);
 
         #endregion Methods

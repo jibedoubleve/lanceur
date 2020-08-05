@@ -21,7 +21,7 @@ namespace Probel.Lanceur.Repositories
 
         #region Constructors
 
-        public AliasRepositoryBuilder(ILogService logger, IRepositoryContext repositoryContext)
+        public AliasRepositoryBuilder(ILogService logger, IRepositoryContext repositoryContext, IRepositorySettings settings)
         {
             _repositoryContext = repositoryContext;
             _logger = logger;

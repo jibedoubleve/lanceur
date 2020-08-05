@@ -41,7 +41,7 @@ namespace Probel.Lanceur.UnitTest
         public void Can_split_multiple_parameter_right_parameters()
         {
             GetCmdWithMultipleParameters(out _, out var param, out var cmdline);
-            Assert.Equal(param, cmdline.Parameters);
+            Assert.Equal(param, cmdline.Arguments);
         }
 
         [Fact]
@@ -55,7 +55,7 @@ namespace Probel.Lanceur.UnitTest
         public void Can_split_single_parameter_right_parameters()
         {
             GetCmdWithOneParameter(out _, out var param, out var cmdline);
-            Assert.Equal(param, cmdline.Parameters);
+            Assert.Equal(param, cmdline.Arguments);
         }
 
         private static void GetCmdWithMultipleParameters(out string cmd, out string param, out Cmdline cmdline)

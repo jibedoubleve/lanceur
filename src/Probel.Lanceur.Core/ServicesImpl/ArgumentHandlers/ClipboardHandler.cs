@@ -21,7 +21,7 @@ namespace Probel.Lanceur.Core.ServicesImpl.ArgumentHandlers
 
         protected override string DoHandle(string cmdline, string arguments)
         {
-            var resolved = cmdline.Replace(Wildcard, _clipboard.GetText());
+            var resolved = cmdline.ToLower().Replace(Wildcard, _clipboard.GetText());
             return resolved;
         }
 

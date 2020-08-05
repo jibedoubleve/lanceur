@@ -34,10 +34,29 @@
 
     public class Alias : BaseAlias
     {
+        #region Fields
+
+        private const string PackageTemplate = "package:";
+
+        #endregion Fields
+
         #region Properties
 
         public long IdSession { get; set; }
+
+        public bool IsPackaged => FileName?.StartsWith(PackageTemplate) ?? false;
+
         public string Name { get; set; } = string.Empty;
+
+        public string UniqueIdentifier
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(FileName))
+                    ? string.Empty
+                    : FileName.Replace(PackageTemplate, "");
+            }
+        }
 
         #endregion Properties
 
@@ -50,9 +69,9 @@
             IsExecutable = false
         };
 
-        public static implicit operator Alias(string name) => new Alias() { FileName = name };
+        public static explicit operator Alias(string name) => new Alias() { FileName = name };
 
-        public static implicit operator Alias(long id) => new Alias() { Id = id };
+        public static explicit operator Alias(long id) => new Alias() { Id = id };
 
         public static Alias Reserved(string name) => new Alias
         {

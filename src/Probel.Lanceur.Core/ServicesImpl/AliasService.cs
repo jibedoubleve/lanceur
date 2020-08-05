@@ -5,11 +5,10 @@ using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin;
 using Probel.Lanceur.Repositories;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace Probel.Lanceur.Core.ServicesImpl
 {
@@ -55,64 +54,6 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         #region Methods
 
-        private ExecutionResult ExecuteUwp(AliasText alias)
-        {
-            try
-            {
-                const string noArgs = "";
-                const ApplicationActivationHelper.ActivateOptions noFlags = ApplicationActivationHelper.ActivateOptions.None;
-
-                var manager = new ApplicationActivationHelper.ApplicationActivationManager();
-                Task.Run(() => manager.ActivateApplication(alias.UniqueIdentifier, noArgs, noFlags, out var processId));
-                return ExecutionResult.SuccessHide;
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex.Message, ex);
-                return ExecutionResult.Failure(ex.Message);
-            }
-        }
-
-        private ExecutionResult ExecuteWin32(AliasText alias)
-        {
-            try
-            {
-                var a = (alias.Id == 0)
-                    ? new Alias { FileName = alias.FileName }
-                    : _databaseService.GetAlias(alias.Id);
-
-                var psInfo = GetProcessStartInfo(a);
-                Task.Run(() =>
-                {
-                    using (var ps = new Process { StartInfo = psInfo })
-                    {
-                        ps.Start();
-                    }
-                });
-                return ExecutionResult.SuccessHide;
-            }
-            catch (Exception ex)
-            {
-                _log.Error(ex.Message, ex);
-                return ExecutionResult.Failure(ex.Message);
-            }
-        }
-
-        private ProcessStartInfo GetProcessStartInfo(Alias alias)
-        {
-            _log.Debug($"Executing '{alias.FileName}' with args '{alias.Arguments}'");
-
-            var psInfo = new ProcessStartInfo()
-            {
-                Arguments = alias.Arguments,
-                WindowStyle = alias.StartMode.AsWindowsStyle(),
-                FileName = alias.FileName,
-                WorkingDirectory = alias.WorkingDirectory,
-            };
-            if (alias.RunAs == RunAs.Admin) { psInfo.Verb = "runas"; }
-            return psInfo;
-        }
-
         private IEnumerable<AliasText> LoadAliasNames(long sessionId, string keyword)
         {
             if (_aliasRepositoryBuilder.IsInitialised == false) { _aliasRepositoryBuilder.Initialise(); }
@@ -146,51 +87,57 @@ namespace Probel.Lanceur.Core.ServicesImpl
         /// Executes the command line.
         /// </summary>
         /// <param name="cmdline">The command line to execute. That's the alias and the arguments (which are not mandatory)</param>
-        public ExecutionResult Execute(string cmdline, long sessionId)
+        public ExecutionResult Execute(AliasText alias, string cmdline, long sessionId)
         {
-            var cmd = _resolver.Split(cmdline, sessionId);
-
-            var alias = _databaseService.GetAlias(cmd.Command, sessionId);
-            alias = _resolver.Resolve(alias, cmd.Parameters);
-
             if (_pluginManager.Exists(alias.Name))
             {
+                var cmd = _resolver.Split(cmdline, sessionId);
                 _pluginManager.Execute(cmd);
                 return ExecutionResult.SuccesShow; ;
             }
             else if (_macroRunner.Exists(alias.FileName))
             {
-                _macroRunner.Execute(alias);
+                var a = _databaseService.GetAlias(alias.Name, sessionId);
+                _macroRunner.Execute(a);
                 return ExecutionResult.SuccessHide;
             }
             else
             {
-                return _cmdRunner.Execute(alias);
-            }
-        }
+                var a = _databaseService.GetAlias(alias.Name, sessionId);
 
-        //TODO: Refactoring needed!
-        // These two "Execute" methods have the same name but not the same behaviour.
-        // Change the name of the method!!!
-        public ExecutionResult Execute(AliasText alias)
-        {
-            return (alias.IsPackaged)
-                ? ExecuteUwp(alias)
-                : ExecuteWin32(alias);
+                var cmd = _resolver.Split(cmdline, sessionId);
+                a.FileName = _resolver.Resolve(a.FileName, cmd.Arguments);
+                a.Arguments = _resolver.Resolve(a.Arguments, cmd.Arguments);
+
+                return _cmdRunner.Execute(a);
+            }
         }
 
         public IEnumerable<AliasText> GetAliasNames(long sessionId, string criterion)
         {
             var splited = _resolver.Split(criterion, sessionId);
 
-            //TODO: !! this code is called twice. To be refactored!
             var query = _aliasRepositoryBuilder.NormaliseQuery(splited.Command);
 
-            var result = (from a in LoadAliasNames(sessionId, criterion)
-                          where a.Name.ToLower().StartsWith(query)
-                          orderby a.SearchScore descending, a.Name ascending
+            var aliases = LoadAliasNames(sessionId, criterion);
+            IEnumerable<AliasText> result = null;
+
+            result = (from a in aliases
+                      where a.NameLowercase == query
+                      select a).ToList();
+
+            if (result.Count() == 1) { return result; }
+            else
+            {
+
+                result = (from a in aliases
+                          where a.NameLowercase.StartsWith(query)
+                          orderby a.SearchScore descending,
+                                  a.ExecutionCount descending,
+                                  a.Name ascending
                           select a).ToList();
-            return result;
+                return result;
+            }
         }
 
         public string GetSession(long id) => _databaseService.GetSession(id)?.Name ?? string.Empty;

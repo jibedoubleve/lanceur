@@ -58,7 +58,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
             else { return RunAs.CurrentUser; }
         }
 
-        private NamedAlias BuildEntry(string item)
+        private MultiNameAlias BuildEntry(string item)
         {
             var lines = item.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -66,7 +66,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
             var dico = GetDictionary(lines);
 
-            return new NamedAlias()
+            return new MultiNameAlias()
             {
                 Names = name.Split(','),
                 FileName = dico.ContainsKey("filename") ? dico["filename"] : string.Empty,
@@ -83,11 +83,11 @@ namespace Probel.Lanceur.Core.ServicesImpl
             return txt.Split(separator, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        public IEnumerable<NamedAlias> Extract(string fileName = null)
+        public IEnumerable<MultiNameAlias> Extract(string fileName = null)
         {
             fileName = Environment.ExpandEnvironmentVariables(fileName ?? DefaultFileName);
             var txt = File.ReadAllText(fileName);
-            var result = new List<NamedAlias>();
+            var result = new List<MultiNameAlias>();
 
             foreach (var item in SplitedEntries(txt))
             {

@@ -84,6 +84,7 @@
                         </Controls:MetroHeader>
                     </StackPanel>
                 </StackPanel>
+
                 <Border
                     Margin="{StaticResource ExpanderBorder}"
                     Padding="6"
@@ -104,6 +105,7 @@
                         ItemsSource="{Binding Sessions, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                         SelectedItem="{Binding CurrentSession, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                 </StackPanel>
+
                 <Border
                     Margin="{StaticResource ExpanderBorder}"
                     Padding="6"
@@ -131,6 +133,33 @@
                             Text="{Binding DatabasePath, UpdateSourceTrigger=PropertyChanged}" />
                     </DockPanel>
                 </Controls:MetroHeader>
+
+                <Border
+                    Margin="{StaticResource ExpanderBorder}"
+                    Padding="6"
+                    Background="{DynamicResource AccentColorBrush4}">
+                    <TextBlock
+                        FontSize="14"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Text="Repositories" />
+                </Border>
+                <StackPanel>
+                    <Controls:MetroHeader Margin="{StaticResource DefaultBorder}">
+                        <Controls:MetroHeader.Header>
+                            <TextBlock Text="{Binding AppSettings.RepositorySection.ScoreLimit, UpdateSourceTrigger=PropertyChanged, StringFormat=Score\ Limit: {0}}" />
+                        </Controls:MetroHeader.Header>
+                        <Slider
+                            IsSnapToTickEnabled="True"
+                            Maximum="0.99"
+                            Minimum="0"
+                            SmallChange="0.01"
+                            TickFrequency="0.01"
+                            TickPlacement="TopLeft"
+                            Value="{Binding AppSettings.RepositorySection.ScoreLimit, UpdateSourceTrigger=PropertyChanged}" />
+                    </Controls:MetroHeader>
+                </StackPanel>
+
             </StackPanel>
         </ScrollViewer>
         <StackPanel Grid.Row="2">

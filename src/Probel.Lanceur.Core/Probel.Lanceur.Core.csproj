@@ -60,6 +60,7 @@
     <Compile Include="Entities\AliasTextCollection.cs" />
     <Compile Include="Entities\ChartPoint.cs" />
     <Compile Include="Entities\Doubloon.cs" />
+    <Compile Include="Entities\Settings\RepositorySettings.cs" />
     <Compile Include="Helpers\AppxActivationHelper.cs" />
     <Compile Include="PluginsImpl\EmptyPlugin.cs" />
     <Compile Include="PluginsImpl\PluginConfigurator.cs" />
@@ -86,7 +87,7 @@
     <Compile Include="Helpers\ParameterHelper.cs" />
     <Compile Include="Helpers\ProcessHelper.cs" />
     <Compile Include="Helpers\PsInfo.cs" />
-    <Compile Include="Entities\NamedAlias.cs" />
+    <Compile Include="Entities\MultiNameAlias.cs" />
     <Compile Include="Entities\Settings\AppSettings.cs" />
     <Compile Include="Entities\Settings\PositionSettings.cs" />
     <Compile Include="Entities\Settings\HotKeySettings.cs" />

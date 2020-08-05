@@ -51,7 +51,7 @@ namespace Probel.Lanceur.ViewModels
             var response = await _notifyer.AskAsync("Do you want to delete this doubloon?");
             if (response == NotificationResult.Affirmative)
             {
-                _dataService.Delete(id);
+                _dataService.Delete((Alias)id);
                 RefreshData();
             }
         }

@@ -143,9 +143,14 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         public void SetUsage(Alias alias)
         {
-            using (var c = BuildConnection())
+            if (alias.Id == 0 || alias.IdSession == 0) {
+                _log.Warning($"Try to set usage to unsupported Alias with this name'{(alias?.Name??"N.A.")}'");
+            }
+            else
             {
-                var sql = @"
+                using (var c = BuildConnection())
+                {
+                    var sql = @"
                     insert into alias_usage (
                         id_alias,
                         id_session,
@@ -156,7 +161,8 @@ namespace Probel.Lanceur.SQLiteDb.Services
                         @idSession,
                         @now
                     )";
-                c.Execute(sql, new { idAlias = alias.Id, idSession = alias.IdSession, now = DateTime.Now });
+                    c.Execute(sql, new { idAlias = alias.Id, idSession = alias.IdSession, now = DateTime.Now });
+                }
             }
         }
 

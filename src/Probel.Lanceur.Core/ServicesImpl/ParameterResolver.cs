@@ -47,7 +47,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
                 var cmd1 = Split(cmdline1, sessionId);
                 var cmd2 = Split(cmdline2, sessionId);
 
-                return new Cmdline(cmd1.Command, cmd2.Parameters);
+                return new Cmdline(cmd1.Command, cmd2.Arguments);
             }
         }
 
@@ -94,7 +94,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
             return false;
         }
 
-        private string Resolve(string text, string parameters) => _handler.Handle(text, parameters);
+        public string Resolve(string text, string parameters) => _handler.Handle(text, parameters);
 
         #endregion Methods
     }

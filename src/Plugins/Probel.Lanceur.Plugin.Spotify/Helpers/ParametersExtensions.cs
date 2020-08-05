@@ -14,7 +14,7 @@
 
         private static bool Is(this Cmdline cmd, string[] patterns)
         {
-            var arg = cmd.Parameters.ToLower();
+            var arg = cmd.Arguments.ToLower();
             foreach (var pattern in patterns)
             {
                 if (pattern.ToLower() == arg) { return true; }

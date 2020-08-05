@@ -98,6 +98,7 @@ namespace Probel.Lanceur
             //Repositories
             _container.RegisterType<IAliasRepositoryBuilder, AliasRepositoryBuilder>();
             _container.RegisterType<IRepositoryContext, RepositoryContext>();
+            _container.RegisterType<IRepositorySettings, RepositorySettings>();
 
             //Views
             _container.RegisterSingleton<MainViewModel>();

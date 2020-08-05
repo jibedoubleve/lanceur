@@ -17,7 +17,7 @@ namespace Probel.Lanceur.Core.ServicesImpl.ArgumentHandlers
         protected override string DoHandle(string cmdline, string parameters)
         {
             var p = WebUtility.UrlEncode(parameters);
-            var r = cmdline.Replace(Wildcard, p);
+            var r = cmdline.ToLower().Replace(Wildcard, p);
             return r;
         }
 

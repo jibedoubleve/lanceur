@@ -14,7 +14,7 @@
 
         protected override string DoHandle(string cmdline, string arguments)
         {
-            var resolved = cmdline.Replace(Wildcard, arguments);
+            var resolved = cmdline.ToLower().Replace(Wildcard, arguments);
             return resolved;
         }
 

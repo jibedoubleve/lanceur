@@ -33,8 +33,8 @@ namespace Probel.Lanceur.Plugin.Evernote.Services
 
         public void Execute(Cmdline cmd)
         {
-            if (IsReminder(cmd.Parameters)) { CreateReminder(cmd.Parameters); }
-            else if (IsNote(cmd.Parameters)) { CreateNote(cmd.Parameters); }
+            if (IsReminder(cmd.Arguments)) { CreateReminder(cmd.Arguments); }
+            else if (IsNote(cmd.Arguments)) { CreateNote(cmd.Arguments); }
         }
 
         public bool IsConfiguration(string parameters)

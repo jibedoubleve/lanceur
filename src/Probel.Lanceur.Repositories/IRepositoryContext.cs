@@ -8,6 +8,8 @@ namespace Probel.Lanceur.Repositories
 
         ILogService LogService { get; }
 
+        IRepositorySettings Settings { get; }
+
         #endregion Properties
     }
 }

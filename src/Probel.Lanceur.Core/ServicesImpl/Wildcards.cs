@@ -4,9 +4,9 @@
     {
         #region Fields
 
-        public const string Clipboard = "$C$";
-        public const string Text = "$I$";
-        public const string Url = "$W$";
+        public const string Clipboard = "$c$";
+        public const string Text = "$i$";
+        public const string Url = "$w$";
 
         #endregion Fields
     }

@@ -12,11 +12,11 @@ namespace Probel.Lanceur.Plugin.Evernote
             try
             {
                 var exec = new CmdExecutor();
-                if (exec.IsConfiguration(cmd.Parameters))
+                if (exec.IsConfiguration(cmd.Arguments))
                 {
-                    exec.Configure(cmd.Parameters);
+                    exec.Configure(cmd.Arguments);
                 }
-                if (exec.IsList(cmd.Parameters))
+                if (exec.IsList(cmd.Arguments))
                 {
                     var resul = exec.List();
                 }

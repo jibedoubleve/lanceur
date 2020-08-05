@@ -12,13 +12,13 @@ namespace Probel.Lanceur.Plugin
         public Cmdline(Cmdline src)
         {
             Command = src.Command;
-            Parameters = src.Parameters;
+            Arguments = src.Arguments;
         }
 
         public Cmdline(string cmd, string param)
         {
             Command = cmd;
-            Parameters = param;
+            Arguments = param;
         }
 
         #endregion Constructors
@@ -26,9 +26,9 @@ namespace Probel.Lanceur.Plugin
         #region Properties
 
         public string Command { get; private set; }
-        public string Parameters { get; private set; }
+        public string Arguments { get; private set; }
 
-        public IEnumerable<string> SplitedParameters => Parameters.Split(' ');
+        public IEnumerable<string> SplitedParameters => Arguments.Split(' ');
 
         #endregion Properties
 
@@ -38,7 +38,7 @@ namespace Probel.Lanceur.Plugin
         /// Get a string that represents the commandline as if it was written in the application
         /// </summary>
         /// <returns>A <see cref="string"/> representing the command line</returns>
-        public override string ToString() => $"{Command} {Parameters}";
+        public override string ToString() => $"{Command} {Arguments}";
 
         #endregion Methods
     }

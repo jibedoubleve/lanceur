@@ -7,20 +7,30 @@ namespace Probel.Lanceur.Repositories
     {
         #region Properties
 
+        protected ILogService Log { get; private set; }
+        protected IRepositorySettings Settings { get; private set; }
         public string Keyword { get; protected set; }
-
-        protected ILogService Log
-        {
-            get; private set;
-        }
 
         #endregion Properties
 
         #region Methods
 
+        protected virtual void Initialise()
+        {
+            /* By default it does nothing.
+             */
+        }
+
         public abstract IEnumerable<RepositoryAlias> GetAliases();
 
         public abstract IEnumerable<RepositoryAlias> GetAliases(string criterion);
+
+        public void Initialise(IRepositoryContext context)
+        {
+            Log = context.LogService;
+            Settings = context.Settings;
+            Initialise();
+        }
 
         public string NormaliseQuery(string query)
         {
@@ -31,18 +41,6 @@ namespace Probel.Lanceur.Repositories
                 return result;
             }
             else { return query; }
-        }
-
-        public void Initialise(IRepositoryContext context)
-        {
-            Log = context.LogService;
-            Initialise();
-        }
-
-        protected virtual void Initialise()
-        {
-            /* By default it does nothing.
-             */
         }
 
         #endregion Methods

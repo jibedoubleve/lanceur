@@ -28,7 +28,18 @@ namespace Probel.Lanceur.Core.Entities
 
         public virtual string Kind { get; set; }
 
-        public string Name { get; set; }
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                NameLowercase = value.ToLower();
+            }
+        }
+
+        public string NameLowercase { get; private set; }
 
         public double SearchScore { get; protected set; }
 

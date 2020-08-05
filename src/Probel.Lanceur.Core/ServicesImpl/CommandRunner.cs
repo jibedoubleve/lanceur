@@ -3,8 +3,8 @@ using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Infrastructure;
+using System;
 using System.Diagnostics;
-using System.Net.Configuration;
 using System.Threading.Tasks;
 
 namespace Probel.Lanceur.Core.ServicesImpl
@@ -32,33 +32,21 @@ namespace Probel.Lanceur.Core.ServicesImpl
 
         #region Methods
 
-        public ExecutionResult Execute(string cmd, long idSession)
+        private ExecutionResult ExecuteUwp(Alias alias)
         {
-            var alias = _databaseService.GetAlias(cmd, idSession);
-            return Execute(alias);
-        }
-
-        public ExecutionResult Execute(Alias alias)
-        {
-            if (alias.IsExecutable)
+            try
             {
-                var pInfo = GetProcessStartInfo(alias);
-                Task.Run(() =>
-                {
-                    using (var ps = new Process { StartInfo = pInfo }) { ps.Start(); }
-                });
-                _databaseService.SetUsage(alias);
+                const string noArgs = "";
+                const ApplicationActivationHelper.ActivateOptions noFlags = ApplicationActivationHelper.ActivateOptions.None;
+
+                var manager = new ApplicationActivationHelper.ApplicationActivationManager();
+                Task.Run(() => manager.ActivateApplication(alias.UniqueIdentifier, noArgs, noFlags, out var processId));
                 return ExecutionResult.SuccessHide;
             }
-            else if (_keywordService.IsReserved(alias.Name))
+            catch (Exception ex)
             {
-                return _keywordService.ExecuteActionFor(alias.Name, alias.Arguments);
-            }
-            else
-            {
-                var msg = $"Alias '{alias.Name}' does not exist in the database.";
-                _log.Warning(msg);
-                return ExecutionResult.Failure(msg);
+                _log.Error(ex.Message, ex);
+                return ExecutionResult.Failure(ex.Message);
             }
         }
 
@@ -75,6 +63,40 @@ namespace Probel.Lanceur.Core.ServicesImpl
             };
             if (alias.RunAs == RunAs.Admin) { psInfo.Verb = "runas"; }
             return psInfo;
+        }
+
+        public ExecutionResult Execute(string cmd, long idSession)
+        {
+            var alias = _databaseService.GetAlias(cmd, idSession);
+            return Execute(alias);
+        }
+
+        public ExecutionResult Execute(Alias alias)
+        {
+            ExecutionResult result = ExecutionResult.None;
+            if (alias.IsPackaged) { result = ExecuteUwp(alias); }
+            else if (alias.IsExecutable)
+            {
+                var pInfo = GetProcessStartInfo(alias);
+                Task.Run(() =>
+                {
+                    using (var ps = new Process { StartInfo = pInfo }) { ps.Start(); }
+                });
+                result = ExecutionResult.SuccessHide;
+            }
+            else if (_keywordService.IsReserved(alias.Name))
+            {
+                result = _keywordService.ExecuteActionFor(alias.Name, alias.Arguments);
+            }
+            else
+            {
+                var msg = $"Alias '{alias.Name}' does not exist in the database.";
+                _log.Warning(msg);
+                result = ExecutionResult.Failure(msg);
+            }
+
+            _databaseService.SetUsage(alias);
+            return result;
         }
 
         #endregion Methods

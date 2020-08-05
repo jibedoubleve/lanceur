@@ -25,6 +25,7 @@ namespace Probel.Lanceur.Helpers
             e.CreateMap<AppSettings, AppSettingsModel>();
             e.CreateMap<WindowSettings, WindowSettingsModel>();
             e.CreateMap<PositionSettings, PositionSettingsModel>();
+            e.CreateMap<RepositorySettings, RepositorySettingsModel>();
             e.CreateMap<HotKeySettings, HotKeySettingsModel>();
             e.CreateMap<AliasSession, AliasSessionModel>();
             e.CreateMap<AliasSession, AliasSessionModel>();
@@ -43,6 +44,7 @@ namespace Probel.Lanceur.Helpers
             //Settings
             e.CreateMap<AppSettingsModel, AppSettings>();
             e.CreateMap<WindowSettingsModel, WindowSettings>();
+            e.CreateMap<RepositorySettingsModel, RepositorySettings>();
             e.CreateMap<PositionSettingsModel, PositionSettings>();
             e.CreateMap<HotKeySettingsModel, HotKeySettings>();
             e.CreateMap<AliasSessionModel, AliasSession>();

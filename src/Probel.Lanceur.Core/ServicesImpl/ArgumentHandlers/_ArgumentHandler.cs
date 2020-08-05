@@ -4,7 +4,7 @@
     {
         #region Constructors
 
-        public ArgumentHandler(string wildcard) => Wildcard = wildcard.ToUpper();
+        public ArgumentHandler(string wildcard) => Wildcard = wildcard.ToLower();
 
         #endregion Constructors
 
@@ -19,7 +19,7 @@
 
         protected abstract string DoHandle(string cmdline, string parameters);
 
-        protected bool HasWildCard(string txt) => txt.ToUpper().Contains(Wildcard);
+        protected bool HasWildCard(string txt) => txt.ToLower().Contains(Wildcard);
 
         public string Handle(string text, string parameters)
         {

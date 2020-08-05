@@ -29,7 +29,7 @@ namespace Probel.Lanceur.UnitTest
             var pm = new ParameterResolver(cb, DataSource);
             var result = pm.Resolve("$I$", before);
 
-            Assert.Equal(after, result.FileName);
+            Assert.Equal(after, result);
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace Probel.Lanceur.UnitTest
             var pm = new ParameterResolver(cb, DataSource);
             var result = pm.Resolve("$W$", before);
 
-            Assert.Equal(after, result.FileName);
+            Assert.Equal(after, result);
         }
 
         [Fact]
@@ -57,7 +57,7 @@ namespace Probel.Lanceur.UnitTest
             var pm = new ParameterResolver(cb, DataSource);
             var result = pm.Resolve("$W$", before);
 
-            Assert.Equal(after, result.FileName);
+            Assert.Equal(after, result);
         }
 
         #endregion Methods
