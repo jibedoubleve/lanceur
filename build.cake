@@ -212,9 +212,9 @@ Task("Release-GitHub")
 
         var stg = new GitReleaseManagerCreateSettings 
         {
-            Milestone         = "V" + gitVersion.MajorMinorPatch,            
+            Milestone         = gitVersion.MajorMinorPatch,            
             Name              = gitVersion.SemVer,
-            Prerelease        = gitVersion.SemVer.Contains("alpha"),
+            Prerelease        = gitVersion.SemVer.Contains("alpha") || gitVersion.SemVer.Contains("beta"),
             Assets            = publishDir + "/lanceur." + gitVersion.SemVer + ".bin.zip," 
                               + publishDir + "/lanceur." + gitVersion.SemVer + ".setup.exe,"
                               + publishDir + "/plugin-calculator-" + gitVersion.SemVer + ".bin.zip," 
