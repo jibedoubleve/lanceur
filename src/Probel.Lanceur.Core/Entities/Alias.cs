@@ -29,6 +29,11 @@
             src.FileName = src.FileName?.Trim(t);
         }
 
+        public static string GetUniqueIdentifiyerTemplate(this AliasText src)
+        {
+            return $"{Alias.PackagePrefix}{src.UniqueIdentifier}";
+        }
+
         #endregion Methods
     }
 
@@ -36,7 +41,7 @@
     {
         #region Fields
 
-        private const string PackageTemplate = "package:";
+        internal const string PackagePrefix = "package:";
 
         #endregion Fields
 
@@ -44,7 +49,9 @@
 
         public long IdSession { get; set; }
 
-        public bool IsPackaged => FileName?.StartsWith(PackageTemplate) ?? false;
+        public bool IsEmpty => Id == 0;
+
+        public bool IsPackaged => FileName?.StartsWith(PackagePrefix) ?? false;
 
         public string Name { get; set; } = string.Empty;
 
@@ -54,7 +61,7 @@
             {
                 return (string.IsNullOrEmpty(FileName))
                     ? string.Empty
-                    : FileName.Replace(PackageTemplate, "");
+                    : FileName.Replace(PackagePrefix, "");
             }
         }
 
@@ -64,6 +71,7 @@
 
         public static Alias Empty(string name = "") => new Alias()
         {
+            Id = 0,
             FileName = string.Empty,
             Name = name.ToUpper(),
             IsExecutable = false

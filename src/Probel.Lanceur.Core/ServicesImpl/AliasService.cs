@@ -87,29 +87,37 @@ namespace Probel.Lanceur.Core.ServicesImpl
         /// Executes the command line.
         /// </summary>
         /// <param name="cmdline">The command line to execute. That's the alias and the arguments (which are not mandatory)</param>
-        public ExecutionResult Execute(AliasText alias, string cmdline, long sessionId)
+        public ExecutionResult Execute(AliasText alias, string cmdline, long idSession)
         {
             if (_pluginManager.Exists(alias.Name))
             {
-                var cmd = _resolver.Split(cmdline, sessionId);
+                var cmd = _resolver.Split(cmdline, idSession);
                 _pluginManager.Execute(cmd);
                 return ExecutionResult.SuccesShow; ;
             }
             else if (_macroRunner.Exists(alias.FileName))
             {
-                var a = _databaseService.GetAlias(alias.Name, sessionId);
+                var a = _databaseService.GetAlias(alias.Name, idSession);
                 _macroRunner.Execute(a);
                 return ExecutionResult.SuccessHide;
             }
             else
             {
-                var a = _databaseService.GetAlias(alias.Name, sessionId);
+                var a = _databaseService.GetAlias(alias.Name, idSession);
 
-                var cmd = _resolver.Split(cmdline, sessionId);
-                a.FileName = _resolver.Resolve(a.FileName, cmd.Arguments);
-                a.Arguments = _resolver.Resolve(a.Arguments, cmd.Arguments);
+                if (a.IsEmpty)
+                {
+                    a.FileName = alias.IsPackaged ? alias.GetUniqueIdentifiyerTemplate() : alias.FileName;
+                    return _cmdRunner.Execute(a);
+                }
+                else
+                {
+                    var cmd = _resolver.Split(cmdline, idSession);
+                    a.FileName = _resolver.Resolve(a.FileName, cmd.Arguments);
+                    a.Arguments = _resolver.Resolve(a.Arguments, cmd.Arguments);
 
-                return _cmdRunner.Execute(a);
+                    return _cmdRunner.Execute(a);
+                }
             }
         }
 

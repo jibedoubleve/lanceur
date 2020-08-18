@@ -289,7 +289,6 @@ namespace Probel.Lanceur.Infrastructure.PackagedApp
         public UwpApp Create(Package package)
         {
             var path = Path.Combine(package.InstalledLocation.Path, "AppxManifest.xml");
-            Trace.WriteLine($"==> {path}");
 
             var apps = new List<UwpApp>();
             const uint noAttribute = 0x80;

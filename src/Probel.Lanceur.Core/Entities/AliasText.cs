@@ -6,6 +6,12 @@ namespace Probel.Lanceur.Core.Entities
 {
     public class AliasText
     {
+        #region Fields
+
+        private string _name;
+
+        #endregion Fields
+
         #region Properties
 
         public long ExecutionCount { get; set; }
@@ -28,7 +34,6 @@ namespace Probel.Lanceur.Core.Entities
 
         public virtual string Kind { get; set; }
 
-        private string _name;
         public string Name
         {
             get => _name;
