@@ -104,20 +104,15 @@ namespace Probel.Lanceur.Core.ServicesImpl
             else
             {
                 var a = _databaseService.GetAlias(alias.Name, idSession);
+                var cmd = _resolver.Split(cmdline, idSession);
+                a.FileName = _resolver.Resolve(a.FileName, cmd.Arguments);
+                a.Arguments = _resolver.Resolve(a.Arguments, cmd.Arguments);
 
                 if (a.IsEmpty)
                 {
                     a.FileName = alias.IsPackaged ? alias.GetUniqueIdentifiyerTemplate() : alias.FileName;
-                    return _cmdRunner.Execute(a);
                 }
-                else
-                {
-                    var cmd = _resolver.Split(cmdline, idSession);
-                    a.FileName = _resolver.Resolve(a.FileName, cmd.Arguments);
-                    a.Arguments = _resolver.Resolve(a.Arguments, cmd.Arguments);
-
-                    return _cmdRunner.Execute(a);
-                }
+                return _cmdRunner.Execute(a);
             }
         }
 
