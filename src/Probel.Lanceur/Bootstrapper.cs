@@ -139,7 +139,7 @@ namespace Probel.Lanceur
         protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             var l = _container.Resolve<ILogService>();
-            var n = _container.Resolve<IUserNotifyer>();
+            var n = _container.Resolve<IUserNotifyerFactory>().Get();
 
             n.NotifyError($"Unexpected crash occured: {e.Exception.Message}");
             l.Fatal($"Unexpected crash occured: {e.Exception.Message}", e.Exception);

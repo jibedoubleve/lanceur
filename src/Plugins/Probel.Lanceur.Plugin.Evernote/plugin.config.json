@@ -2,5 +2,6 @@
   "name": "Evernote notes creator",
   "keyword": "en",
   "dll": "Probel.Lanceur.Plugin.Evernote.dll",
-  "explanation": "Create new notes for Evernote"
+  "explanation": "Create new notes for Evernote",
+  "min-ver": "0.7.0"
 }

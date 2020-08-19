@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json;
+using Probel.Lanceur.Infrastructure.Helpers;
 using Probel.Lanceur.Infrastructure;
+using Probel.Lanceur.Plugin;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -16,13 +19,16 @@ namespace Probel.Lanceur.Repositories
 
         private readonly IRepositoryContext _repositoryContext;
         private AliasRepositoryCollection _repositories = null;
+        private readonly IUserNotifyer _notifyer;
 
         #endregion Fields
 
         #region Constructors
 
-        public AliasRepositoryBuilder(ILogService logger, IRepositoryContext repositoryContext, IRepositorySettings settings)
+        public AliasRepositoryBuilder(ILogService logger, IRepositoryContext repositoryContext, IRepositorySettings settings, IUserNotifyerFactory factory)
         {
+            _notifyer = factory.Get();
+            _applicationVersion = Assembly.GetEntryAssembly().GetName().Version;
             _repositoryContext = repositoryContext;
             _logger = logger;
         }
@@ -134,10 +140,37 @@ namespace Probel.Lanceur.Repositories
 
                 var path = Path.Combine(Path.GetDirectoryName(file), metadata.Dll);
 
-                src.Merge(Load(path, metadata.Keyword));
+                if (IsCompatible(metadata))
+                {
+                    src.Merge(Load(path, metadata.Keyword));
+                }
             }
 
             _repositories = src;
+        }
+
+
+        private List<string> _disabledRepositories = new List<string>();
+        private readonly Version _applicationVersion;
+        private bool IsCompatible(RepositoryMetadata metadata)
+        {
+            var repoRef = $"{metadata.Keyword}-{metadata.Dll}-{metadata.Name}";
+            var isDisabled = (from p in _disabledRepositories
+                              where p == repoRef
+                              select p).Count() > 0;
+
+            if (isDisabled) { return false; }
+            else if (_applicationVersion < metadata.MinimumVersion.ToVersion())
+            {
+                _disabledRepositories.Add(repoRef);
+                var msg = $"Plugin '{metadata.Name}' is deactivated. It needs minimum version '{metadata.MinimumVersion}' to run. Application version is '{_applicationVersion}'";
+
+                _logger.Warning(msg);
+                _notifyer.NotifyWarning(msg);
+
+                return false;
+            }
+            else { return true; }
         }
 
         public string NormaliseQuery(string query) => Repositories.NormaliseQuery(query);
