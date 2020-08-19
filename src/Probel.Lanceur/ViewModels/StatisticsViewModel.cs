@@ -34,9 +34,9 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public StatisticsViewModel(ILogService log, IDataSourceService service, IUserNotifyer notifyer)
+        public StatisticsViewModel(ILogService log, IDataSourceService service, IUserNotifyerFactory factory)
         {
-            _notifyer = notifyer;
+            _notifyer = factory.Get();
             _log = log;
             _service = service;
 

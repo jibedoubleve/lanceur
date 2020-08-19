@@ -34,9 +34,9 @@ namespace Probel.Lanceur.ViewModels
             EditAliasViewModel editaliasViewModel,
             ILogService log,
             ISettingsService settingService,
-            IUserNotifyer notifyer)
+            IUserNotifyerFactory factory)
         {
-            _notifyer = notifyer;
+            _notifyer = factory.Get();
             _settingService = settingService;
             _appSettings = settingService.Get();
             _log = log;

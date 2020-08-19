@@ -6,11 +6,11 @@ namespace Probel.Lanceur.Plugin
     {
         #region Constructors
 
-        public PluginContext(ILogService logService, IPluginViewFinder pluginViewAdapter, IUserNotifyer userNotifyer)
+        public PluginContext(ILogService logService, IPluginViewFinder pluginViewAdapter, IUserNotifyerFactory factory)
         {
             LogService = logService;
             PluginViewAdapter = pluginViewAdapter;
-            UserNotifyer = userNotifyer;
+            UserNotifyer = factory.Get();
         }
 
         #endregion Constructors

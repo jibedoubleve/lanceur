@@ -16,9 +16,9 @@ namespace Probel.Lanceur.Services
 
         #region Constructors
 
-        public AppRestarter(IUserNotifyer notifyer)
+        public AppRestarter(IUserNotifyerFactory factory)
         {
-            _notifyer = notifyer;
+            _notifyer = factory.Get();
         }
 
         #endregion Constructors

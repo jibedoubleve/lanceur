@@ -21,12 +21,12 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public EditDoubloonsViewModel(IUserNotifyer notifyer,
+        public EditDoubloonsViewModel(IUserNotifyerFactory factory,
             IDataSourceService dataService,
             ISettingsService settingService)
         {
             _settingService = settingService;
-            _notifyer = notifyer;
+            _notifyer = factory.Get();
             _dataService = dataService;
         }
 

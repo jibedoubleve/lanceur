@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace Probel.Lanceur.Services
 {
-    public abstract class BaseNotifyer:IUserNotifyer
+    public abstract class BaseNotifyer : IUserNotifyer
     {
         #region Fields
 
@@ -83,7 +83,7 @@ namespace Probel.Lanceur.Services
                     case MessageDialogResult.Negative: return NotificationResult.Negative;
                     case MessageDialogResult.Affirmative: return NotificationResult.Affirmative;
                     default: throw new NotSupportedException($"The result '{result}' is not supported as an answer.");
-                }
+                };
             }
         }
 

@@ -8,6 +8,7 @@ namespace Probel.Lanceur.Models.Settings
 
         private string _colour;
         private int _expirationTimeMessage;
+        private string _notificationType;
         private double _opacity;
         private PositionSettingsModel _position;
 
@@ -38,6 +39,12 @@ namespace Probel.Lanceur.Models.Settings
         {
             get => _expirationTimeMessage;
             set => Set(ref _expirationTimeMessage, value, nameof(ExpirationTimeMessage));
+        }
+
+        public string NotificationType
+        {
+            get => _notificationType;
+            set => Set(ref _notificationType, value);
         }
 
         public double Opacity

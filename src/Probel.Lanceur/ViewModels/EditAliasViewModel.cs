@@ -30,10 +30,10 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public EditAliasViewModel(IDataSourceService databaseService, ILogService log, IUserNotifyer userNotifyer)
+        public EditAliasViewModel(IDataSourceService databaseService, ILogService log, IUserNotifyerFactory factory)
         {
             Log = log;
-            UserNotifyer = userNotifyer;
+            UserNotifyer = factory.Get();
             _databaseService = databaseService;
             _uwpFactory = new UwpAppFactory(Log);
         }

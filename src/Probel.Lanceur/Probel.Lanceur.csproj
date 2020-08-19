@@ -31,6 +31,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -203,6 +204,7 @@
       <DependentUpon>WindowInfoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\AliasToFileNameConverter.cs" />
+    <Compile Include="Converters\NotificationEnumToStringConverter.cs" />
     <Compile Include="Converters\PathToHumanizedPathConverter.cs" />
     <Compile Include="Converters\UsageToColorConverter.cs" />
     <Compile Include="Converters\HexaToColourConverter.cs" />
@@ -250,6 +252,7 @@
     <Compile Include="Services\ClipboardService.cs" />
     <Compile Include="Actions\KeywordLoader.cs" />
     <Compile Include="Services\RepositorySettings.cs" />
+    <Compile Include="Services\UserNotifyerFactory.cs" />
     <Compile Include="Services\Win10UserNotifyer.cs" />
     <Compile Include="Services\UiEvent.cs" />
     <Compile Include="Services\SessionQueries.cs" />

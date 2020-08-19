@@ -11,6 +11,12 @@ using System.Threading.Tasks;
 
 namespace Probel.Lanceur.ViewModels
 {
+    public enum NotificationTypes
+    {
+        Classic,
+        Win10,
+    }
+
     public class SettingsViewModel : Screen
     {
         #region Fields
@@ -33,11 +39,11 @@ namespace Probel.Lanceur.ViewModels
 
         public SettingsViewModel(ISettingsService settingsService,
             IDataSourceService databaseService,
-            IUserNotifyer userNotifyer,
+            IUserNotifyerFactory factory,
             IAppRestarter restarter)
         {
             _restarter = restarter;
-            _userNotifyer = userNotifyer;
+            _userNotifyer = factory.Get();
             _databaseService = databaseService;
             _settingsService = settingsService;
         }
@@ -85,7 +91,7 @@ namespace Probel.Lanceur.ViewModels
         public bool IsRebootNeeded
         {
             get => _isRebootNeeded;
-            set => Set(ref _isRebootNeeded, value, nameof(IsRebootNeeded));
+            set => Set(ref _isRebootNeeded, value, nameof(NeedReboot));
         }
 
         public ObservableCollection<AliasSessionModel> Sessions
@@ -97,6 +103,14 @@ namespace Probel.Lanceur.ViewModels
         #endregion Properties
 
         #region Methods
+
+        private bool NeedReboot()
+        {
+            var sr = _settingsService.Get();
+            var res = sr.DatabasePath != AppSettings.DatabasePath;
+            res |= sr.WindowSection.NotificationType != AppSettings.WindowSection.NotificationType;
+            return res;
+        }
 
         public void RefreshData()
         {
@@ -130,7 +144,7 @@ namespace Probel.Lanceur.ViewModels
 
             _userNotifyer.NotifyInfo("Settings has been saved.");
 
-            if (_settingsService.Get().DatabasePath != AppSettings.DatabasePath)
+            if (NeedReboot())
             {
                 IsRebootNeeded = true;
                 if (await _restarter.DoRestartAsync()) { _restarter.Restart(); }

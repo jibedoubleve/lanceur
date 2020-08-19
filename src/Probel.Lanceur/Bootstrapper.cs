@@ -27,7 +27,7 @@ namespace Probel.Lanceur
     {
         #region Fields
 
-        private IUnityContainer _container = new UnityContainer();
+        private readonly IUnityContainer _container = new UnityContainer();
 
         #endregion Fields
 
@@ -74,8 +74,9 @@ namespace Probel.Lanceur
             _container.RegisterType<IKeywordLoader, KeywordLoader>();
 
             //UI
-            //_container.RegisterType<IUserNotifyer, UserNotifyer>();
-            _container.RegisterType<IUserNotifyer, Win10UserNotifyer>();
+            _container.RegisterType<IUserNotifyer, UserNotifyer>("classic");
+            _container.RegisterType<IUserNotifyer, Win10UserNotifyer>("win10");
+            _container.RegisterType<IUserNotifyerFactory, UserNotifyerFactory>();
 
             _container.RegisterSingleton<INotificationManager, NotificationManager>();
             _container.RegisterSingleton<IAppRestarter, AppRestarter>();
