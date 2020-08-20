@@ -133,6 +133,8 @@ namespace Probel.Lanceur.Repositories
             var dir = Environment.ExpandEnvironmentVariables(_sourcePath);
             var src = new AliasRepositoryCollection();
 
+            if (Directory.Exists(dir) == false) { Directory.CreateDirectory(dir); }
+
             foreach (var file in Directory.EnumerateFiles(dir, "repository.config.json", SearchOption.AllDirectories))
             {
                 var json = File.ReadAllText(file);
