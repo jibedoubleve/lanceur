@@ -30,7 +30,7 @@
                     ? DoHandle(text, parameters)
                     : text;
 
-                if (Next != null) { return Next.DoHandle(result, parameters); }
+                if (Next != null) { return Next.Handle(result, parameters); }
                 else { return result; }
             }
         }

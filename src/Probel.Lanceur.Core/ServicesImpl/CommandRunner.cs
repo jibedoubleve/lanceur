@@ -91,6 +91,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
             else
             {
                 Task.Run(() => Process.Start(alias.FileName));
+                result = ExecutionResult.SuccessHide;
                 //var msg = $"Alias '{alias.Name}' does not exist in the database.";
                 //_log.Warning(msg);
                 //result = ExecutionResult.Failure(msg);
