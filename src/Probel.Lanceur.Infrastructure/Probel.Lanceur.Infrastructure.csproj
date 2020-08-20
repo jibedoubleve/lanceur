@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Helpers\Benchmark.cs" />
+    <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="IAppRestarter.cs" />
     <Compile Include="ILogService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

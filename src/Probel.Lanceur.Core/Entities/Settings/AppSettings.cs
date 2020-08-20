@@ -2,6 +2,12 @@
 {
     public class AppSettings
     {
+        #region Fields
+
+        private string _notificationType = "default";
+
+        #endregion Fields
+
         #region Properties
 
         public string DatabasePath { get; set; } = @"%appdata%\probel\Lanceur\data.db";

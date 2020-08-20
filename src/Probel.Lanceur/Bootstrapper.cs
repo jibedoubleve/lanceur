@@ -27,7 +27,7 @@ namespace Probel.Lanceur
     {
         #region Fields
 
-        private IUnityContainer _container = new UnityContainer();
+        private readonly IUnityContainer _container = new UnityContainer();
 
         #endregion Fields
 
@@ -74,8 +74,9 @@ namespace Probel.Lanceur
             _container.RegisterType<IKeywordLoader, KeywordLoader>();
 
             //UI
-            //_container.RegisterType<IUserNotifyer, UserNotifyer>();
-            _container.RegisterType<IUserNotifyer, Win10UserNotifyer>();
+            _container.RegisterType<IUserNotifyer, UserNotifyer>("classic");
+            _container.RegisterType<IUserNotifyer, Win10UserNotifyer>("win10");
+            _container.RegisterType<IUserNotifyerFactory, UserNotifyerFactory>();
 
             _container.RegisterSingleton<INotificationManager, NotificationManager>();
             _container.RegisterSingleton<IAppRestarter, AppRestarter>();
@@ -138,7 +139,7 @@ namespace Probel.Lanceur
         protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             var l = _container.Resolve<ILogService>();
-            var n = _container.Resolve<IUserNotifyer>();
+            var n = _container.Resolve<IUserNotifyerFactory>().Get();
 
             n.NotifyError($"Unexpected crash occured: {e.Exception.Message}");
             l.Fatal($"Unexpected crash occured: {e.Exception.Message}", e.Exception);

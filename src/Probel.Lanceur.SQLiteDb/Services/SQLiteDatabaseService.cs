@@ -37,6 +37,13 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         #region Methods
 
+        private DbConnection BuildConnection()
+        {
+            var conn = new SQLiteConnection(_connectionString);
+            conn.Open();
+            return conn;
+        }
+
         public void Clear()
         {
             using (var c = BuildConnection())
@@ -52,6 +59,8 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         public void Create(Alias s, IEnumerable<string> names = null)
         {
+            if (names == null && string.IsNullOrEmpty(s.Name)) { throw new NotSupportedException($"Cannot create a new alias without name."); }
+
             s.Normalise();
             var sql = @"
                 insert into alias (
@@ -72,29 +81,34 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     @icon
                 );
                 select last_insert_rowid() from alias;";
-
             var sql2 = @"insert into alias_name(id_alias, name) values(@idAlias, @name)";
             using (var c = BuildConnection())
             {
-                var lastId = c.Query<long>(sql, new
-                {
-                    s.Arguments,
-                    s.FileName,
-                    s.Notes,
-                    s.RunAs,
-                    s.StartMode,
-                    s.IdSession,
-                    s.Icon
-                }).FirstOrDefault();
+                long lastId = default;
 
-                if (names == null && string.IsNullOrEmpty(s.Name)) { throw new NotSupportedException($"Cannot create a new alias without name."); }
-                else if (names == null) { c.Execute(sql2, new { s.Name, IdAlias = lastId }); }
-                else
+                using (var t = c.BeginTransaction())
                 {
-                    foreach (var name in names)
+                    lastId = c.Query<long>(sql, new
                     {
-                        c.Execute(sql2, new { name, IdAlias = lastId });
+                        s.Arguments,
+                        s.FileName,
+                        s.Notes,
+                        s.RunAs,
+                        s.StartMode,
+                        s.IdSession,
+                        s.Icon
+                    }).FirstOrDefault();
+                    _log.Trace($"Created new alias '{s.Name}' [Session:{s.IdSession} - File name: {s.FileName}] with id {lastId}");
+
+                    if (names == null) { c.Execute(sql2, new { s.Name, IdAlias = lastId }); }
+                    else
+                    {
+                        foreach (var name in names)
+                        {
+                            c.Execute(sql2, new { name, IdAlias = lastId });
+                        }
                     }
+                    t.Commit();
                 }
             }
         }
@@ -143,8 +157,9 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         public void SetUsage(Alias alias)
         {
-            if (alias.Id == 0 || alias.IdSession == 0) {
-                _log.Warning($"Try to set usage to unsupported Alias with this name'{(alias?.Name??"N.A.")}'");
+            if (alias.Id == 0 || alias.IdSession == 0)
+            {
+                _log.Warning($"Try to set usage to unsupported Alias with this name'{(alias?.Name ?? "N.A.")}'");
             }
             else
             {
@@ -186,6 +201,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     name = @name
                 where id_alias = @id";
             using (var c = BuildConnection())
+            using (var t = c.BeginTransaction())
             {
                 c.Execute(sql, new
                 {
@@ -199,6 +215,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     alias.Icon
                 });
                 c.Execute(sql2, new { alias.Name, alias.Id });
+                t.Commit();
             }
         }
 
@@ -226,8 +243,6 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 c.Execute(sql, new { session.Id, session.Name, session.Notes });
             }
         }
-
-        private DbConnection BuildConnection() => new SQLiteConnection(_connectionString);
 
         #endregion Methods
     }

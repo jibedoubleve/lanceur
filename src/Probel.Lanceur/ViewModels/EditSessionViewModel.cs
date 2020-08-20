@@ -25,9 +25,9 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public EditSessionViewModel(IDataSourceService databaseService, ISettingsService settingsService, IUserNotifyer notifyer)
+        public EditSessionViewModel(IDataSourceService databaseService, ISettingsService settingsService, IUserNotifyerFactory factory)
         {
-            _notifyer = notifyer;
+            _notifyer = factory.Get();
             _settingsService = settingsService;
             _databaseService = databaseService;
         }

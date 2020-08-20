@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Probel.Lanceur.Infrastructure\Probel.Lanceur.Infrastructure.csproj" />
+    <ProjectReference Include="..\Probel.Lanceur.Plugin\Probel.Lanceur.Plugin.csproj" />
   </ItemGroup>
 
 </Project>

@@ -44,12 +44,12 @@ namespace Probel.Lanceur.ViewModels
             IScreenRuler screenRuler,
             ILogService logService,
             IParameterResolver resolver,
-            IUserNotifyer notifyer,
+            IUserNotifyerFactory factory,
             IActionContext ctx
             )
         {
             ActionContext = ctx;
-            Notifyer = notifyer;
+            Notifyer = factory.Get();
             ResultItemHelper.Logger = logService;
 
             LogService = logService;

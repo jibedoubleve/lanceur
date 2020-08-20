@@ -16,6 +16,9 @@ namespace Probel.Lanceur.Core.PluginsImpl
         [JsonProperty("keyword")]
         public string Keyword { get; set; }
 
+        [JsonProperty("min-ver")]
+        public string MinimumVersion { get; set; }
+
         [JsonProperty("name")]
         public string Name { get; set; }
 

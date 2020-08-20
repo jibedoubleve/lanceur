@@ -39,6 +39,7 @@ namespace Probel.Lanceur.Models.Settings
             set => Set(ref _hotKey, value);
         }
 
+
         public RepositorySettingsModel RepositorySection
         {
             get => _repositorySection;

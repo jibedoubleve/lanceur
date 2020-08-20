@@ -42,6 +42,7 @@ namespace Probel.Lanceur.Core.ServicesImpl
                             Top = 266
                         },
                         ShowAtStartup = true,
+                        NotificationType = "win10"
                     }
                 };
             }

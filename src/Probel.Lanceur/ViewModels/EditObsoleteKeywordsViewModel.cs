@@ -26,9 +26,9 @@ namespace Probel.Lanceur.ViewModels
 
         public EditObsoleteKeywordsViewModel(IDataSourceService dataService,
             ISettingsService settingService,
-            IUserNotifyer notifyer)
+            IUserNotifyerFactory factory)
         {
-            _notifyer = notifyer;
+            _notifyer = factory.Get();
             _settingService = settingService;
             _dataService = dataService;
         }

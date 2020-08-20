@@ -65,6 +65,8 @@ namespace Probel.Lanceur.Core.PluginsImpl
 
         public bool Exists(string name)
         {
+            name = name ?? string.Empty;
+
             var exist = GetMetadataList(name.ToLower());
             if (exist.Any())
             {

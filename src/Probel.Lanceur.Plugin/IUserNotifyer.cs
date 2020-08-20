@@ -30,4 +30,9 @@ namespace Probel.Lanceur.Plugin
 
         #endregion Methods
     }
+
+    public interface IUserNotifyerFactory
+    {
+        IUserNotifyer Get();
+    }
 }
