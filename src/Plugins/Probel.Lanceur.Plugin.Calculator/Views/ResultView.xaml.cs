@@ -1,5 +1,4 @@
-﻿using Probel.Lanceur.Infrastructure;
-using Probel.Lanceur.Plugin.Calculator.ViewModels;
+﻿using Probel.Lanceur.Plugin.Calculator.ViewModels;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -21,8 +20,6 @@ namespace Probel.Lanceur.Plugin.Calculator.Views
         #endregion Constructors
 
         #region Properties
-
-        private ILogService Log => ViewModel.Log;
 
         private ResultViewModel ViewModel => DataContext as ResultViewModel;
 

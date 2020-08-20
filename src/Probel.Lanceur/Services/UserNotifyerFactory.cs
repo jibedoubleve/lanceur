@@ -1,7 +1,6 @@
 ﻿using Probel.Lanceur.Core.Entities.Settings;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Plugin;
-using System;
+using Probel.Lanceur.SharedKernel.UserCom;
 using Unity;
 
 namespace Probel.Lanceur.Services

@@ -16,7 +16,7 @@ namespace Probel.Lanceur.Plugin.Clipboard
 
         #region Methods
 
-        public override void Execute(Cmdline cmd)
+        public override void Execute(PluginCmdline cmd)
         {
             var list = new string[] { "list", "l" };
 

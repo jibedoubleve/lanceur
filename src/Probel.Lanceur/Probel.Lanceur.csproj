@@ -100,6 +100,10 @@
     <Reference Include="NHotkey.Wpf, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NHotkey.Wpf.1.2.1\lib\net35\NHotkey.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.7.0\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Notifications.Wpf, Version=0.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Notifications.Wpf.0.1.1\lib\net461\Notifications.Wpf.dll</HintPath>
     </Reference>
@@ -440,21 +444,29 @@
       <Project>{76716e34-6464-45e0-bcc6-21203ab79fd1}</Project>
       <Name>Probel.Lanceur.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Probel.Lanceur.Infrastructure\Probel.Lanceur.Infrastructure.csproj">
+    <ProjectReference Include="..\Infrastructure\Probel.Lanceur.Infrastructure\Probel.Lanceur.Infrastructure.csproj">
       <Project>{63FCDE3F-3D03-4075-90A4-4BF92996A32A}</Project>
       <Name>Probel.Lanceur.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Probel.Lanceur.Plugin\Probel.Lanceur.Plugin.csproj">
+    <ProjectReference Include="..\Infrastructure\Probel.Lanceur.Plugin\Probel.Lanceur.Plugin.csproj">
       <Project>{f4db7268-da54-4141-9567-afbd6c5fe1ac}</Project>
       <Name>Probel.Lanceur.Plugin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Probel.Lanceur.Repositories\Probel.Lanceur.Repositories.csproj">
+    <ProjectReference Include="..\Infrastructure\Probel.Lanceur.Repositories\Probel.Lanceur.Repositories.csproj">
       <Project>{bf9795d4-075e-49f5-8852-ffa7a7a9b7e1}</Project>
       <Name>Probel.Lanceur.Repositories</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Probel.Lanceur.SQLiteDb\Probel.Lanceur.SQLiteDb.csproj">
+    <ProjectReference Include="..\Probel.Lanceur.SharedKernel\Probel.Lanceur.SharedKernel.csproj">
+      <Project>{8e04f8d4-ac4f-43dd-b48b-76581666ba18}</Project>
+      <Name>Probel.Lanceur.SharedKernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\Probel.Lanceur.SQLiteDb\Probel.Lanceur.SQLiteDb.csproj">
       <Project>{f19b7525-245c-464d-bed2-7675c5bf9462}</Project>
       <Name>Probel.Lanceur.SQLiteDb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\Probel.UwpHelpers\Probel.UwpHelpers.csproj">
+      <Project>{38308DBE-2041-48B8-B5B3-F0F491E9B4BD}</Project>
+      <Name>Probel.UwpHelpers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

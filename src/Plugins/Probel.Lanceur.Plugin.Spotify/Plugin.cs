@@ -13,7 +13,7 @@ namespace Probel.Lanceur.Plugin.Spotify
         #region Fields
 
         private static Player _player;
-        private Timer _timer;
+        private readonly Timer _timer;
 
         #endregion Fields
 
@@ -41,7 +41,7 @@ namespace Probel.Lanceur.Plugin.Spotify
         {
             if (_player == null)
             {
-                var c = new Connector(Logger);
+                var c = new Connector();
                 var spotify = await c.GetClientAsync();
                 if (spotify != null) { _player = new Player(spotify); }
             }
@@ -69,7 +69,7 @@ namespace Probel.Lanceur.Plugin.Spotify
             MainView.SetPluginArea(View);
         }
 
-        public override async void Execute(Cmdline parameters)
+        public override async void Execute(PluginCmdline parameters)
         {
             ViewModel.Log = Logger;
             MainView.ShowPlugin();

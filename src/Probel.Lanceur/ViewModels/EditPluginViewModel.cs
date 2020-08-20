@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 using Probel.Lanceur.Plugin;
-using Probel.Lanceur.Services;
+using Probel.Lanceur.SharedKernel.UserCom;
 using System.Collections.ObjectModel;
 
 namespace Probel.Lanceur.ViewModels

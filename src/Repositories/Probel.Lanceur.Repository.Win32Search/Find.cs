@@ -1,5 +1,5 @@
 ﻿using Microsoft.Win32;
-using Probel.Lanceur.Infrastructure;
+using Probel.Lanceur.SharedKernel.Logs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,27 +13,23 @@ namespace Probel.Lanceur.Repository.Win32Search
     {
         #region Fields
 
-        private const string ApplicationReferenceExtension = "appref-ms";
-        private const string ExeExtension = "exe";
+        //private const string ApplicationReferenceExtension = "appref-ms";
+        //private const string ExeExtension = "exe";
 
         #endregion Fields
 
         #region Properties
+
+        private string[] ProgramSuffixes { get; set; } = { "bat", "appref-ms", "exe", "lnk" };
 
         public ILogService Log
         {
             get; set;
         }
 
-        private string[] ProgramSuffixes { get; set; } = { "bat", "appref-ms", "exe", "lnk" };
-
         #endregion Properties
 
         #region Methods
-
-        public IEnumerable<AppInfo> InRegistry() => InRegistry(ProgramSuffixes);
-
-        public IEnumerable<AppInfo> InStartMenuPrograms() => InStartMenuPrograms(ProgramSuffixes);
 
         private string GetProgramPathFromRegistrySubKeys(RegistryKey root, string subkey)
         {
@@ -72,7 +68,7 @@ namespace Probel.Lanceur.Repository.Win32Search
                     .Select(x => AppInfo.FromPath(x));
         }
 
-        private IEnumerable<AppInfo> InRegistry(string[] suffixes)
+        public IEnumerable<AppInfo> InRegistry()
         {
             // https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121
             const string appPaths = @"SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths";
@@ -162,6 +158,9 @@ namespace Probel.Lanceur.Repository.Win32Search
 
             return files;
         }
+
+
+        public IEnumerable<AppInfo> InStartMenuPrograms() => InStartMenuPrograms(ProgramSuffixes);
 
         #endregion Methods
     }

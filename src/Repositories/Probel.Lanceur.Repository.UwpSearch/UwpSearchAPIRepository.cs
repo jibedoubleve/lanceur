@@ -1,7 +1,7 @@
 ﻿using DuoVia.FuzzyStrings;
-using Probel.Lanceur.Infrastructure.Helpers;
 using Probel.Lanceur.Repositories;
-using Probel.Lanceur.Repository.UwpSearch.Core;
+using Probel.Lanceur.SharedKernel.Helpers;
+using Probel.UwpHelpers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,8 +20,6 @@ namespace Probel.Lanceur.Repository.UwpSearch
 
         protected override void Initialise()
         {
-            _find.Log = Log;
-            _find.Log = Log;
 
             Task.Run(() =>
             {

@@ -4,8 +4,8 @@ using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Models;
 using Probel.Lanceur.Models.Settings;
-using Probel.Lanceur.Plugin;
 using Probel.Lanceur.Services;
+using Probel.Lanceur.SharedKernel.UserCom;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 

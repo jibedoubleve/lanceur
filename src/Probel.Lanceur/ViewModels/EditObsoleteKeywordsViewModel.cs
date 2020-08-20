@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.SharedKernel.UserCom;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;

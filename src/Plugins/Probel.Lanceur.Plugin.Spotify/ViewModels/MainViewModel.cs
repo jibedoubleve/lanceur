@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
-using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin.Spotify.Spotify;
+using Probel.Lanceur.SharedKernel.Logs;
 using SpotifyAPI.Web.Models;
 using System;
 using System.Linq;

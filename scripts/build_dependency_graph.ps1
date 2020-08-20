@@ -3,16 +3,19 @@
  # https://blog.dantup.com/2012/05/free-dependency-graph-generation-using-powershell-and-yuml/
  #>
 
-function Get-ProjectReferences {
+ function Get-ProjectReferences {
     param(
         [Parameter(Mandatory)]
         [string]$rootFolder,
         [string[]]$excludeProjectsContaining
     )
     dir $rootFolder -Filter *.csproj -Recurse |
-    # Exclude any files matching our rules
-    where { $excludeProjectsContaining -notlike "*$($_.BaseName)*" } |
     Select-References
+}
+function ExtractName($prj) {
+    $pattern = '.*\\(.*).csproj';
+    $r = $prj -match $pattern
+    return $matches[1]
 }
 function Select-References {
     param(
@@ -21,22 +24,17 @@ function Select-References {
         [string[]]$excludeProjectsContaining
     )
     process {
+        $content = Get-Content $_.FullName
         $projectName = $_.BaseName
-        [xml]$projectXml = Get-Content $_.FullName
-        $ns = @{ defaultNamespace = "http://schemas.microsoft.com/developer/msbuild/2003" }
-        $projectXml |
-        # Find the references xml nodes
-        Select-Xml '//defaultNamespace:ProjectReference/defaultNamespace:Name' -Namespace $ns |
-        # Get the node values
-        foreach { $_.node.InnerText } |
-        # Exclude any references pointing to projects that match our rules
-        where { $excludeProjectsContaining -notlike "*$_*" } |
-        # Output in yuml.me format
-        foreach { "[" + $projectName + "] -> [" + $_ + "]," }
+        $pattern = '\<ProjectReference Include=".*\\(.*).csproj'
+
+        $content | % { 
+            if( $_ -match $pattern) { $matches[1]  }
+        } | foreach { "[" + $projectName + "] -.-> [" + $_ + "]," }
     }
 }
 
-$excludedProjects = ".*UnitTest.*", ".*Plugin\..*", "*.Repository\..*", "Probel.Lanceur"
+$excludedProjects = ".*UnitTest.*", "Probel.Lanceur", "*.SharedKernel*."#, ".*Plugin\..*", "*.Repository\..*"
 $output = Get-ProjectReferences "..\src" -excludeProjectsContaining $excludedProjects 
 
 $filteredOutput = $output | where {
@@ -55,7 +53,7 @@ $filteredOutput = $output | where {
 
 $filteredOutput | Out-File "$env:userprofile\Desktop\dependencies.txt"
 
-Start-Process "https://yuml.me/diagram/boring/class/$filteredOutput"
+Start-Process "https://yuml.me/diagram/boring/class/edit/$filteredOutput"
 
 Write-Host ""
 Write-Host "==> Go to  https://yuml.me to see the graph <==" -ForegroundColor White -BackgroundColor DarkBlue

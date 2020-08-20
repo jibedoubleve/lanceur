@@ -5,8 +5,9 @@ using Probel.Lanceur.Core.Entities.Settings;
 using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Images;
-using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin;
+using Probel.Lanceur.SharedKernel.Logs;
+using Probel.Lanceur.SharedKernel.UserCom;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,7 +19,6 @@ namespace Probel.Lanceur.ViewModels
         #region Fields
 
         private readonly IAliasService _aliasService;
-        private readonly IParameterResolver _resolver;
         private readonly IScreenRuler _screenRuler;
         private readonly ISettingsService _settingsService;
         private AliasText _aliasName;
@@ -43,7 +43,6 @@ namespace Probel.Lanceur.ViewModels
             IEventAggregator ea,
             IScreenRuler screenRuler,
             ILogService logService,
-            IParameterResolver resolver,
             IUserNotifyerFactory factory,
             IActionContext ctx
             )
@@ -55,7 +54,6 @@ namespace Probel.Lanceur.ViewModels
             LogService = logService;
             ea.Subscribe(this);
 
-            _resolver = resolver;
             _screenRuler = screenRuler;
             _settingsService = settings;
             _aliasService = aliasService;
@@ -64,6 +62,8 @@ namespace Probel.Lanceur.ViewModels
         #endregion Constructors
 
         #region Properties
+
+        public IActionContext ActionContext { get; internal set; }
 
         public AliasText AliasName
         {
@@ -140,11 +140,18 @@ namespace Probel.Lanceur.ViewModels
             get => _top;
             set => Set(ref _top, value);
         }
-        public IActionContext ActionContext { get; internal set; }
 
         #endregion Properties
 
         #region Methods
+
+        private void RefreshAliases()
+        {
+            Session = _aliasService.GetSession(AppSettings.SessionId);
+            var aliases = _aliasService.GetAliasNames(AppSettings.SessionId, null);
+            var r = aliases.GetRefreshed();
+            Results = new ObservableCollection<object>(r);
+        }
 
         public ExecutionResult ExecuteText(AliasText alias, string cmdline)
         {
@@ -228,14 +235,6 @@ namespace Probel.Lanceur.ViewModels
         public void SetResult(IEnumerable<object> source, bool keepalive = false)
         {
             Results = new ObservableCollection<object>(source);
-        }
-
-        private void RefreshAliases()
-        {
-            Session = _aliasService.GetSession(AppSettings.SessionId);
-            var aliases = _aliasService.GetAliasNames(AppSettings.SessionId, null);
-            var r = aliases.GetRefreshed();
-            Results = new ObservableCollection<object>(r);
         }
 
         #endregion Methods

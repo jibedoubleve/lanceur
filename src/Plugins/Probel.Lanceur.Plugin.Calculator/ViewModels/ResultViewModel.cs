@@ -1,8 +1,8 @@
 ﻿using Caliburn.Micro;
 using Humanizer;
 using NCalc;
-using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin.Calculator.Models;
+using Probel.Lanceur.SharedKernel.Logs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,26 +33,6 @@ namespace Probel.Lanceur.Plugin.Calculator.ViewModels
 
         #region Methods
 
-        internal void Process(string parameters)
-        {
-            try
-            {
-                var left = GetLastResult();
-                var right = parameters.Transform(To.LowerCase, To.TitleCase);
-
-                var formula = left + right;
-                var expression = new Expression(formula);
-                var result = expression.Evaluate().ToString();
-
-                Log.Debug($"Evaluating {formula} -  Result: {result}");
-
-                ResulsAsReadonly();
-                Items.Add(ValueItem.Result(result));
-                Items.Add(ValueItem.Calculation());
-            }
-            catch (Exception ex) { Log.Warning($"An error occured while executing a calculation. Ex: {ex.Message}", ex); }
-        }
-
         private string GetLastResult()
         {
             var res = (from i in Items
@@ -73,6 +53,26 @@ namespace Probel.Lanceur.Plugin.Calculator.ViewModels
                 list.Add(item);
             }
             Items = new ObservableCollection<ValueItem>(list);
+        }
+
+        internal void Process(string parameters)
+        {
+            try
+            {
+                var left = GetLastResult();
+                var right = parameters.Transform(To.LowerCase, To.TitleCase);
+
+                var formula = left + right;
+                var expression = new Expression(formula);
+                var result = expression.Evaluate().ToString();
+
+                Log.Debug($"Evaluating {formula} -  Result: {result}");
+
+                ResulsAsReadonly();
+                Items.Add(ValueItem.Result(result));
+                Items.Add(ValueItem.Calculation());
+            }
+            catch (Exception ex) { Log.Warning($"An error occured while executing a calculation. Ex: {ex.Message}", ex); }
         }
 
         #endregion Methods

@@ -1,5 +1,5 @@
 ﻿using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Infrastructure;
+using Probel.Lanceur.SharedKernel.Logs;
 using System;
 
 namespace Probel.Lanceur.Actions
@@ -8,10 +8,10 @@ namespace Probel.Lanceur.Actions
     {
         #region Fields
 
-        public readonly ILogService _logger;
         private readonly IActionCollection _actions;
         private readonly IActionContext _context;
         private readonly IKeywordService _keywordService;
+        public readonly ILogService _logger;
 
         #endregion Fields
 
