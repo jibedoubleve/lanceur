@@ -1,5 +1,6 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
+using System.Net;
 
 namespace Probel.Lanceur.Core.ServicesImpl.ArgumentHandlers
 {
@@ -21,7 +22,8 @@ namespace Probel.Lanceur.Core.ServicesImpl.ArgumentHandlers
 
         protected override string DoHandle(string cmdline, string arguments)
         {
-            var resolved = cmdline.ToLower().Replace(Wildcard, _clipboard.GetText());
+            var p = WebUtility.UrlEncode(_clipboard.GetText());
+            var resolved = cmdline.ToLower().Replace(Wildcard, p);
             return resolved;
         }
 
