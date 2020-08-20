@@ -36,13 +36,14 @@ function Select-References {
     }
 }
 
-$excludedProjects = "UnitTest", "Plugin."
+$excludedProjects = ".*UnitTest.*", ".*Plugin\..*", "*.Repository\..*", "Probel.Lanceur"
 $output = Get-ProjectReferences "..\src" -excludeProjectsContaining $excludedProjects 
 
 $filteredOutput = $output | where {
-    # $result = $excludedProjects -notlike "*$_*"
     foreach ($e in $excludedProjects) {
-        if ($_ -like "*$e*") { 
+        $pattern = "\[$e\]"
+
+        if ($_ -match $pattern) { 
             Write-Host "$_ is NOT selected." -ForegroundColor Red 
             return $false
         }
