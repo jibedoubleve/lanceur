@@ -1,6 +1,4 @@
 ﻿using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Plugin;
-using Probel.Lanceur.Repositories;
 
 namespace Probel.Lanceur.Core.Entities
 {
@@ -16,7 +14,7 @@ namespace Probel.Lanceur.Core.Entities
 
         public long ExecutionCount { get; set; }
         public string FileName { get; set; }
-        public string Icon { get; protected set; }
+        public string Icon { get; set; }
         public long Id { get; set; }
 
         /// <summary>
@@ -46,7 +44,7 @@ namespace Probel.Lanceur.Core.Entities
 
         public string NameLowercase { get; private set; }
 
-        public double SearchScore { get; protected set; }
+        public double SearchScore { get; set; }
 
         /// <summary>
         /// Represents a unique id of the UWP packaged application. If
@@ -58,35 +56,6 @@ namespace Probel.Lanceur.Core.Entities
         #endregion Properties
 
         #region Methods
-
-        public static implicit operator AliasText(PluginAlias src)
-        {
-            return new AliasText
-            {
-                ExecutionCount = src.ExecutionCount,
-                FileName = src.FileName,
-                Kind = src.Kind,
-                Name = src.Name,
-                IsExecutable = src.IsExecutable,
-            };
-        }
-
-        public static implicit operator AliasText(RepositoryAlias src)
-        {
-            var r = new AliasText
-            {
-                ExecutionCount = src.ExecutionCount,
-                FileName = src.FileName,
-                Kind = src.Kind,
-                Name = src.Name,
-                IsExecutable = src.IsExecutable,
-                IsPackaged = src.IsPackaged,
-                UniqueIdentifier = src.UniqueIdentifier,
-                Icon = src.Icon,
-                SearchScore = src.SearchScore,
-            };
-            return r;
-        }
 
         public static AliasText ReservedKeyword(ActionWord word)
         {

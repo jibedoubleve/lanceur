@@ -15,7 +15,7 @@ namespace Probel.Lanceur.Plugin.Calculator
 
         #region Methods
 
-        public override void Execute(Cmdline cmd)
+        public override void Execute(PluginCmdline cmd)
         {
             ViewModel.Log = Logger;
 

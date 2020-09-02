@@ -2,7 +2,7 @@
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Models;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.SharedKernel.UserCom;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -36,6 +36,7 @@ namespace Probel.Lanceur.ViewModels
 
         #region Properties
 
+        private AliasSessionModel CastedCurrentSession => (CurrentSession as AliasSessionModel) ?? new AliasSessionModel();
         public ISettingsService _settingsService { get; }
 
         public ObservableCollection<AliasModel> Aliases
@@ -72,8 +73,6 @@ namespace Probel.Lanceur.ViewModels
             get => _sessions;
             set => Set(ref _sessions, value, nameof(Sessions));
         }
-
-        private AliasSessionModel CastedCurrentSession => (CurrentSession as AliasSessionModel) ?? new AliasSessionModel();
 
         #endregion Properties
 

@@ -31,7 +31,7 @@ namespace Probel.Lanceur.Plugin.Evernote.Services
             }
         }
 
-        public void Execute(Cmdline cmd)
+        public void Execute(PluginCmdline cmd)
         {
             if (IsReminder(cmd.Arguments)) { CreateReminder(cmd.Arguments); }
             else if (IsNote(cmd.Arguments)) { CreateNote(cmd.Arguments); }

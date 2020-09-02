@@ -12,7 +12,7 @@
 
         #region Methods
 
-        private static bool Is(this Cmdline cmd, string[] patterns)
+        private static bool Is(this PluginCmdline cmd, string[] patterns)
         {
             var arg = cmd.Arguments.ToLower();
             foreach (var pattern in patterns)
@@ -22,11 +22,11 @@
             return false;
         }
 
-        public static bool IsNextSong(this Cmdline cmd) => Is(cmd, NextPattern);
+        public static bool IsNextSong(this PluginCmdline cmd) => Is(cmd, NextPattern);
 
-        public static bool IsPreviousSong(this Cmdline cmd) => Is(cmd, PreviousPattern);
+        public static bool IsPreviousSong(this PluginCmdline cmd) => Is(cmd, PreviousPattern);
 
-        public static bool IsRestartSong(this Cmdline cmd) => Is(cmd, RestartSong);
+        public static bool IsRestartSong(this PluginCmdline cmd) => Is(cmd, RestartSong);
 
         #endregion Methods
     }

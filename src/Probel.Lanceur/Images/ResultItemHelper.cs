@@ -1,6 +1,6 @@
 ﻿using Probel.Lanceur.Core.Entities;
-using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Models;
+using Probel.Lanceur.SharedKernel.Logs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,7 +26,7 @@ namespace Probel.Lanceur.Images
             ".ico"
         };
 
-        private static ImageCache Cache = new ImageCache();
+        private static readonly ImageCache Cache = new ImageCache();
 
         #endregion Fields
 
@@ -51,34 +51,6 @@ namespace Probel.Lanceur.Images
         #endregion Properties
 
         #region Methods
-
-        public static void Initialize()
-        {
-            Task.Run(() =>
-            {
-                Cache.GetKeys().AsParallel().ForAll(x =>
-                {
-                    GetImage(x);
-                });
-            });
-        }
-
-        public static IEnumerable<AliasTextModel> GetRefreshed(this IEnumerable<AliasText> src)
-        {
-            var dst = new List<AliasTextModel>();
-            foreach (var item in src)
-            {
-                var c = new AliasTextModel(item);
-                Task.Run(async () =>
-                {
-                    //await Task.Delay(10);
-                    c.Image = GetImage(c, item);
-                });
-                dst.Add(c);
-            }
-
-            return dst;
-        }
 
         private static ImageSource GetImage(AliasTextModel c, AliasText item)
         {
@@ -177,13 +149,40 @@ namespace Probel.Lanceur.Images
                 var msg = $"|ImageLoader.Load|Failed to get thumbnail for {path} - {e}";
                 Logger?.Warning(msg);
 
-                type = ImageType.Error;
                 //image = ImageCache[Constant.ErrorIcon];
                 //ImageCache[path] = image;
             }
             return image;
         }
 
-        #endregion Methods 
+        public static IEnumerable<AliasTextModel> GetRefreshed(this IEnumerable<AliasText> src)
+        {
+            var dst = new List<AliasTextModel>();
+            foreach (var item in src)
+            {
+                var c = new AliasTextModel(item);
+                Task.Run(async () =>
+                {
+                    //await Task.Delay(10);
+                    c.Image = GetImage(c, item);
+                });
+                dst.Add(c);
+            }
+
+            return dst;
+        }
+
+        public static void Initialize()
+        {
+            Task.Run(() =>
+            {
+                Cache.GetKeys().AsParallel().ForAll(x =>
+                {
+                    GetImage(x);
+                });
+            });
+        }
+
+        #endregion Methods
     }
 }

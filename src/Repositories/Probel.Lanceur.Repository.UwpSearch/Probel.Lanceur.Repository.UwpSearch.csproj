@@ -60,22 +60,22 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\TraceLog.cs" />
     <Compile Include="UwpSearchAPIRepository.cs" />
-    <Compile Include="Core\AppxActivationHelper.cs" />
-    <Compile Include="Core\AppxLister.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Probel.Lanceur.Infrastructure\Probel.Lanceur.Infrastructure.csproj">
-      <Project>{63FCDE3F-3D03-4075-90A4-4BF92996A32A}</Project>
-      <Name>Probel.Lanceur.Infrastructure</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Probel.Lanceur.Repositories\Probel.Lanceur.Repositories.csproj">
+    <ProjectReference Include="..\..\Infrastructure\Probel.Lanceur.Repositories\Probel.Lanceur.Repositories.csproj">
       <Project>{BF9795D4-075E-49F5-8852-FFA7A7A9B7E1}</Project>
       <Name>Probel.Lanceur.Repositories</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Probel.Lanceur.SharedKernel\Probel.Lanceur.SharedKernel.csproj">
+      <Project>{8e04f8d4-ac4f-43dd-b48b-76581666ba18}</Project>
+      <Name>Probel.Lanceur.SharedKernel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Probel.UwpHelpers\Probel.UwpHelpers.csproj">
+      <Project>{38308dbe-2041-48b8-b5b3-f0f491e9b4bd}</Project>
+      <Name>Probel.UwpHelpers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

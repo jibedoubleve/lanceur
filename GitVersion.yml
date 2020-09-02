@@ -16,7 +16,7 @@ branches:
     track-merge-target: true
   feature:
     regex: ^feature/*
-    tag: alpha
+    tag: alpha.{BranchName}
     mode: ContinuousDeployment
     increment: Patch
     prevent-increment-of-merged-branch-version: true

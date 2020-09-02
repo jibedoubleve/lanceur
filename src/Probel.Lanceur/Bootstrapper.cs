@@ -3,15 +3,17 @@ using MahApps.Metro.Controls.Dialogs;
 using Notifications.Wpf;
 using Probel.Lanceur.Actions;
 using Probel.Lanceur.Core.Helpers;
-using Probel.Lanceur.Core.PluginsImpl;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Core.ServicesImpl;
-using Probel.Lanceur.Core.ServicesImpl.MacroManagement;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Infrastructure;
+using Probel.Lanceur.Infrastructure.PluginsImpl;
+using Probel.Lanceur.Infrastructure.ServicesImpl;
+using Probel.Lanceur.Infrastructure.ServicesImpl.MacroManagement;
 using Probel.Lanceur.Plugin;
 using Probel.Lanceur.Repositories;
 using Probel.Lanceur.Services;
+using Probel.Lanceur.SharedKernel.Logs;
+using Probel.Lanceur.SharedKernel.UserCom;
 using Probel.Lanceur.SQLiteDb;
 using Probel.Lanceur.SQLiteDb.Services;
 using Probel.Lanceur.ViewModels;
@@ -38,6 +40,18 @@ namespace Probel.Lanceur
         #endregion Constructors
 
         #region Methods
+
+        private void ConfigureInternalCommands()
+        {
+            var actionManager = _container.Resolve<IActionManager>();
+
+            actionManager.Bind();
+        }
+
+        private void PreloadConfigure()
+        {
+            LogServiceFactoryConfigurator.Configure(_container.Resolve<ILogService>());
+        }
 
         protected override void BuildUp(object instance) => _container.BuildUp(instance);
 
@@ -110,9 +124,6 @@ namespace Probel.Lanceur
             _container.RegisterType<EditPluginViewModel>();
             _container.RegisterType<EditDoubloonsViewModel>();
             _container.RegisterType<EditObsoleteKeywordsViewModel>();
-
-            /* Default commands */
-            ConfigureInternalCommands();
         }
 
         protected override IEnumerable<object> GetAllInstances(Type service) => _container.ResolveAll(service);
@@ -125,6 +136,10 @@ namespace Probel.Lanceur
 
             if (hasMutex)
             {
+                /* Default commands */
+                ConfigureInternalCommands();
+                PreloadConfigure();
+
                 var u = _container.Resolve<IUpdateService>();
                 u.UpdateDatabase();
                 DisplayRootViewFor<MainViewModel>();
@@ -148,13 +163,6 @@ namespace Probel.Lanceur
             base.OnUnhandledException(sender, e);
 
             SingleInstance.ReleaseMutex();
-        }
-
-        private void ConfigureInternalCommands()
-        {
-            var actionManager = _container.Resolve<IActionManager>();
-
-            actionManager.Bind();
         }
 
         #endregion Methods

@@ -1,5 +1,5 @@
 ﻿using Probel.Lanceur.Infrastructure;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.SharedKernel.UserCom;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;

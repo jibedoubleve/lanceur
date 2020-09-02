@@ -226,7 +226,7 @@ Task("Release-GitHub")
         GitReleaseManagerCreate(token, owner, "Lanceur", stg);  
 });
 
-Task("Pack")
+Task("pack-plugin")
     .ContinueOnError()
     .Does(() =>
 {
@@ -238,7 +238,35 @@ Task("Pack")
         , Configuration = configuration
     };
 
-    var project = "./src/Probel.Lanceur.Plugin/Probel.Lanceur.Plugin.csproj";
+    var project = "./src/Infrastructure/Probel.Lanceur.Plugin/Probel.Lanceur.Plugin.csproj";
+    MSBuild(project, msBuildSettings
+      .WithTarget("pack")
+      .WithProperty("NoBuild", "true")
+      .WithProperty("IncludeBuildOutput", "true")
+      .WithProperty("PackageOutputPath", "../../" + publishDir)
+      .WithProperty("RepositoryBranch", branchName)
+      .WithProperty("RepositoryCommit", gitVersion.Sha)
+      .WithProperty("Description", "This is the library to use to create plugins for Lanceur")
+      .WithProperty("Version", gitVersion.MajorMinorPatch)
+      .WithProperty("AssemblyVersion", gitVersion.AssemblySemVer)
+      .WithProperty("FileVersion", gitVersion.AssemblySemFileVer)
+      .WithProperty("InformationalVersion", gitVersion.InformationalVersion)
+    );
+});
+
+Task("pack-repository")
+    .ContinueOnError()
+    .Does(() =>
+{
+    EnsureDirectoryExists(Directory(publishDir));
+
+    var msBuildSettings = new MSBuildSettings {
+        Verbosity = verbosity
+        , ToolPath = msBuildPathExe
+        , Configuration = configuration
+    };
+
+    var project = "./src/Infrastructure/Probel.Lanceur.Repositories/Probel.Lanceur.Repositories.csproj";
     MSBuild(project, msBuildSettings
       .WithTarget("pack")
       .WithProperty("NoBuild", "true")
@@ -258,7 +286,8 @@ Task("Default")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
     .IsDependentOn("Build")
-    .IsDependentOn("Pack")
+    .IsDependentOn("pack-plugin")
+    .IsDependentOn("pack-repository")
     .IsDependentOn("Unit-Test")
     .IsDependentOn("Evernote-file")
     .IsDependentOn("Zip")

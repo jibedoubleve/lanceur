@@ -7,7 +7,7 @@ namespace Probel.Lanceur.Plugin.Evernote
     {
         #region Methods
 
-        public override void Execute(Cmdline cmd)
+        public override void Execute(PluginCmdline cmd)
         {
             try
             {

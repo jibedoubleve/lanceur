@@ -1,11 +1,10 @@
 ﻿using Caliburn.Micro;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
-using Probel.Lanceur.Infrastructure;
-using Probel.Lanceur.Infrastructure.PackagedApp;
 using Probel.Lanceur.Models;
-using Probel.Lanceur.Plugin;
-using System;
+using Probel.Lanceur.SharedKernel.Logs;
+using Probel.Lanceur.SharedKernel.UserCom;
+using Probel.UwpHelpers;
 using System.Collections.ObjectModel;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -35,7 +34,7 @@ namespace Probel.Lanceur.ViewModels
             Log = log;
             UserNotifyer = factory.Get();
             _databaseService = databaseService;
-            _uwpFactory = new UwpAppFactory(Log);
+            _uwpFactory = new UwpAppFactory();
         }
 
         #endregion Constructors
@@ -83,6 +82,15 @@ namespace Probel.Lanceur.ViewModels
 
         #region Methods
 
+        private void RefreshAlias(Package package)
+        {
+            var pack = _uwpFactory.Create(package);
+            Alias.FileName = $"package:{pack.UniqueIdentifier}";
+            Alias.IsPackage = true;
+            Alias.UniqueIdentifyer = pack.UniqueIdentifier;
+            Alias.Icon = pack.LogoPath;
+        }
+
         private void RefreshParentList()
         {
             if (Parent is ListAliasViewModel vm) { vm.RefreshData(); }
@@ -102,15 +110,6 @@ namespace Probel.Lanceur.ViewModels
             _databaseService.Create(Alias.AsEntity(), Names.AsNames());
             RefreshParentList();
             UserNotifyer.NotifyInfo("Alias created!");
-        }
-
-        private void RefreshAlias(Package package)
-        {
-            var pack = _uwpFactory.Create(package);
-            Alias.FileName = $"package:{pack.UniqueIdentifier}";
-            Alias.IsPackage = true;
-            Alias.UniqueIdentifyer = pack.UniqueIdentifier;
-            Alias.Icon = pack.LogoPath;
         }
 
         public async Task DeleteAliasAsync()

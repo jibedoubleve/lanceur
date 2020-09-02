@@ -1,4 +1,4 @@
-﻿using Probel.Lanceur.Infrastructure.Extensions;
+﻿using Probel.Lanceur.SharedKernel.Extensions;
 using Probel.Lanceur.Repositories;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +8,14 @@ namespace Probel.Lanceur.Repository.Win32Search
     internal static class CollectionHelper
     {
         #region Methods
+
+        private static bool IsValid(AppInfo item)
+        {
+            if (item == null) { return false; }
+            else if (item.Name.IsNullOrWhiteSpace()) { return false; }
+            else if (File.Exists(item?.Path ?? "")) { return true; }
+            else { return true; }
+        }
 
         public static IEnumerable<RepositoryAlias> Cast(this IEnumerable<AppInfo> src)
         {
@@ -28,14 +36,6 @@ namespace Probel.Lanceur.Repository.Win32Search
             }
 
             return result;
-        }
-
-        private static bool IsValid(AppInfo item)
-        {
-            if (item == null) { return false; }
-            else if (item.Name.IsNullOrWhiteSpace()) { return false; }
-            else if (File.Exists(item?.Path ?? "")) { return true; }
-            else { return true; }
         }
 
         #endregion Methods

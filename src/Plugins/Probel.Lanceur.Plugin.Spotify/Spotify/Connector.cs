@@ -1,4 +1,4 @@
-﻿using Probel.Lanceur.Infrastructure;
+﻿using Probel.Lanceur.SharedKernel.Logs;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Enums;
@@ -13,8 +13,6 @@ namespace Probel.Lanceur.Plugin.Spotify.Spotify
     {
         #region Fields
 
-        public static Timer _timer = new Timer { Interval = (int)TimeSpan.FromMinutes(30).TotalMilliseconds };
-
         private static readonly TokenSwapAuth _auth = new TokenSwapAuth(
             "https://songify.rocks/auth/_index.php",
             "http://localhost:4002/auth",
@@ -24,12 +22,13 @@ namespace Probel.Lanceur.Plugin.Spotify.Spotify
         private static Token _lastToken;
         private static SpotifyWebAPI _spotify;
         private readonly int _timeoutSeconds;
+        public static Timer _timer = new Timer { Interval = (int)TimeSpan.FromMinutes(30).TotalMilliseconds };
 
         #endregion Fields
 
         #region Constructors
 
-        public Connector(ILogService service, int timeoutSeconds = 5)
+        public Connector( int timeoutSeconds = 5)
         {
             _timeoutSeconds = timeoutSeconds;
         }
@@ -37,6 +36,17 @@ namespace Probel.Lanceur.Plugin.Spotify.Spotify
         #endregion Constructors
 
         #region Methods
+
+        private async void OnAutoRefresh(object sender, ElapsedEventArgs e)
+        {
+            var cfg = JsonConfig.Load();
+
+            // When the timer elapses the tokens will get refreshed
+            _spotify.AccessToken = (await _auth.RefreshAuthAsync(cfg.RefreshToken)).AccessToken;
+            cfg.AccessToken = _spotify.AccessToken;
+
+            JsonConfig.Save(cfg);
+        }
 
         public async Task<SpotifyWebAPI> GetClientAsync()
         {
@@ -102,17 +112,6 @@ namespace Probel.Lanceur.Plugin.Spotify.Spotify
 
             // We've reached the time out for the creatoion of the client
             throw new TimeoutException("The creation of an spotify client has timed out.");
-        }
-
-        private async void OnAutoRefresh(object sender, ElapsedEventArgs e)
-        {
-            var cfg = JsonConfig.Load();
-
-            // When the timer elapses the tokens will get refreshed
-            _spotify.AccessToken = (await _auth.RefreshAuthAsync(cfg.RefreshToken)).AccessToken;
-            cfg.AccessToken = _spotify.AccessToken;
-
-            JsonConfig.Save(cfg);
         }
 
         #endregion Methods

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Wautier JB</Authors>
+    <Product>Lanceur</Product>
+    <Description>Create repository for Lanceur</Description>
+    <PackageProjectUrl>https://github.com/jibedoubleve/lanceur</PackageProjectUrl>
+    <PackageTags>Wox slickrun plugin</PackageTags>
+    <PackageLicenseExpression>LGPL-3.0-only</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Probel.Lanceur.Core\Probel.Lanceur.Core.csproj" />
+    <ProjectReference Include="..\..\Probel.Lanceur.SharedKernel\Probel.Lanceur.SharedKernel.csproj" />
+  </ItemGroup>
+
+</Project>

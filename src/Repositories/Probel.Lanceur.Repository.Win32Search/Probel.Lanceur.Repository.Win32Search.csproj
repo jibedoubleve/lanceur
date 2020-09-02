@@ -57,15 +57,14 @@
     <Compile Include="WinSearchAPIRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Probel.Lanceur.Infrastructure\Probel.Lanceur.Infrastructure.csproj">
-      <Project>{63fcde3f-3d03-4075-90a4-4bf92996a32a}</Project>
-      <Name>Probel.Lanceur.Infrastructure</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Probel.Lanceur.Repositories\Probel.Lanceur.Repositories.csproj">
+    <ProjectReference Include="..\..\Infrastructure\Probel.Lanceur.Repositories\Probel.Lanceur.Repositories.csproj">
       <Project>{bf9795d4-075e-49f5-8852-ffa7a7a9b7e1}</Project>
       <Name>Probel.Lanceur.Repositories</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Probel.Lanceur.SharedKernel\Probel.Lanceur.SharedKernel.csproj">
+      <Project>{8e04f8d4-ac4f-43dd-b48b-76581666ba18}</Project>
+      <Name>Probel.Lanceur.SharedKernel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
