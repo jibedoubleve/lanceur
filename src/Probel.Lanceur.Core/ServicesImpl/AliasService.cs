@@ -123,24 +123,29 @@ namespace Probel.Lanceur.Core.ServicesImpl
             var query = _aliasRepositoryBuilder.NormaliseQuery(splited.Command);
 
             var aliases = LoadAliasNames(sessionId, criterion);
-            IEnumerable<AliasText> result = null;
 
-            result = (from a in aliases
-                      where a.NameLowercase == query
-                      select a).ToList();
-
-            if (result.Count() == 1) { return result; }
-            else
-            {
-
-                result = (from a in aliases
+            var result = (from a in aliases
                           where a.NameLowercase.StartsWith(query)
                           orderby a.SearchScore descending,
                                   a.ExecutionCount descending,
                                   a.Name ascending
                           select a).ToList();
-                return result;
+
+            /* When the query is the same as a keyword, the exact match is
+             * bubbled up to the first index and the rest of the result is
+             * ordred normally. The goal is when the query entered is an exact
+             * match and the user press <ENTER>, this alias should be executed
+             */
+            var tmp = (from a in aliases
+                       where a.NameLowercase == query
+                       select a).FirstOrDefault();
+            if (tmp != null)
+            {
+                result.Remove(tmp);
+                result.Insert(0, tmp);
             }
+
+            return result;
         }
 
         public string GetSession(long id) => _databaseService.GetSession(id)?.Name ?? string.Empty;
