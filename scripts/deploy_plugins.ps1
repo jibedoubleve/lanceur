@@ -33,7 +33,7 @@ function Add-Plugins() {
         $file_exists = Test-Path $d
         if ($file_exists -eq $false) {
             Write-Info "Creating directory '$d'"
-            mkdir $d
+            $null = mkdir $d
         }
     
         Copy-Item $s $d -Recurse -Force
@@ -51,7 +51,7 @@ function Add-Repositories() {
         $file_exists = Test-Path $d
         if ($file_exists -eq $false) {
             Write-Info "Creating directory '$d'"
-            mkdir $d
+            $null = mkdir $d
         }
     
         Copy-Item $s $d -Recurse -Force
