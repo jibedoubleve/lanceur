@@ -19,9 +19,9 @@ namespace Probel.Lanceur.Core.Services
 
         void SetUsage(Alias alias);
 
-        void Update(Alias alias);
+        void Update(Alias alias, IEnumerable<string> names = null);
 
-        void Update(IEnumerable<AliasName> names, long idAlias);
+        //void UpdateNames(IEnumerable<string> names, long idAlias);
 
         void Update(AliasSession session);
 

@@ -6,6 +6,7 @@ using Probel.Lanceur.SharedKernel.Logs;
 using Probel.Lanceur.SharedKernel.UserCom;
 using Probel.UwpHelpers;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
@@ -138,10 +139,8 @@ namespace Probel.Lanceur.ViewModels
                 RefreshAlias(package);
             }
 
-            _databaseService.Update(Alias.AsEntity());
+            _databaseService.Update(Alias.AsEntity(), Names.Select(e => e.Name));
 
-            foreach (var name in Names) { name.IdAlias = Alias.Id; }
-            _databaseService.Update(Names.AsEntity(), Alias.Id);
             UserNotifyer.NotifyInfo("Alias updated!");
             OnRefresh?.Invoke();
         }

@@ -4,6 +4,7 @@ using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.SharedKernel.Logs;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Data.SQLite;
 using System.Linq;
@@ -42,6 +43,15 @@ namespace Probel.Lanceur.SQLiteDb.Services
             var conn = new SQLiteConnection(_connectionString);
             conn.Open();
             return conn;
+        }
+
+        private void UpdateNames(IDbConnection c, long idAlias, IEnumerable<string> names)
+        {
+            var sqlDelete = "delete from alias_name where id_alias = @idAlias";
+            var sqlInsert = "insert into alias_name(id_alias, name) values(@idAlias, @name)";
+
+            c.Execute(sqlDelete, new { idAlias });
+            foreach (var name in names) { c.Execute(sqlInsert, new { idAlias, name }); }
         }
 
         public void Clear()
@@ -136,9 +146,19 @@ namespace Probel.Lanceur.SQLiteDb.Services
             var sql = @"delete from alias_name where id_alias = @id";
             var sql2 = @"delete from alias where id = @id";
             using (var c = BuildConnection())
+            using (var t = c.BeginTransaction())
             {
-                c.Execute(sql, new { alias.Id });
-                c.Execute(sql2, new { alias.Id });
+                try
+                {
+                    c.Execute(sql, new { alias.Id });
+                    c.Execute(sql2, new { alias.Id });
+                    t.Commit();
+                }
+                catch (Exception ex)
+                {
+                    t.Rollback();
+                    throw new Exception($"An error occured while deleteing an alias {(alias.Name ?? "NULL")}", ex);
+                }
             }
         }
 
@@ -159,7 +179,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
         {
             if (alias.Id == 0 || alias.IdSession == 0)
             {
-                _log.Warning($"Try to set usage to unsupported Alias with this name'{(alias?.Name ?? "N.A.")}'");
+                _log.Trace($"Try to set usage to unsupported Alias with this name'{(alias?.Name ?? "N.A.")}'");
             }
             else
             {
@@ -181,9 +201,10 @@ namespace Probel.Lanceur.SQLiteDb.Services
             }
         }
 
-        public void Update(Alias alias)
+        public void Update(Alias alias, IEnumerable<string> names = null)
         {
             alias.Normalise();
+
             var sql = @"
                 update alias
                 set
@@ -195,38 +216,38 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     working_dir = @WorkingDirectory,
                     icon        = @Icon
                 where id = @id;";
-            var sql2 = @"
-                update alias_name
-                set
-                    name = @name
-                where id_alias = @id";
+
             using (var c = BuildConnection())
             using (var t = c.BeginTransaction())
             {
-                c.Execute(sql, new
+                try
                 {
-                    alias.Arguments,
-                    alias.FileName,
-                    alias.Notes,
-                    alias.RunAs,
-                    alias.StartMode,
-                    alias.Id,
-                    alias.WorkingDirectory,
-                    alias.Icon
-                });
-                c.Execute(sql2, new { alias.Name, alias.Id });
-                t.Commit();
-            }
-        }
+                    c.Execute(sql, new
+                    {
+                        alias.Arguments,
+                        alias.FileName,
+                        alias.Notes,
+                        alias.RunAs,
+                        alias.StartMode,
+                        alias.Id,
+                        alias.WorkingDirectory,
+                        alias.Icon
+                    });
 
-        public void Update(IEnumerable<AliasName> names, long idAlias)
-        {
-            var sqlDelete = "delete from alias_name where id_alias = @idAlias";
-            var sqlInsert = "insert into alias_name(id_alias, name) values(@idAlias, @name)";
-            using (var c = BuildConnection())
-            {
-                c.Execute(sqlDelete, new { idAlias });
-                foreach (var name in names) { c.Execute(sqlInsert, new { idAlias, name.Name }); }
+                    if (names == null || names.Count() == 0) { names = new List<string> { alias.Name }; };
+
+                    UpdateNames(c, alias.Id, names);
+
+                    t.Commit();
+                }
+                catch (Exception ex)
+                {
+                    t.Rollback();
+                    throw new Exception(
+                        $"An error occured while updating alias and alias name. See inner for further information",
+                        ex
+                    );
+                }
             }
         }
 
