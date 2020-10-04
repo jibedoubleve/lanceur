@@ -9,7 +9,7 @@ namespace Probel.Lanceur.Core.Entities
             var template = "package:";
             foreach (var item in collection)
             {
-                if (item.FileName.ToLower().StartsWith(template))
+                if (item?.FileName?.ToLower()?.StartsWith(template) ?? false)
                 {
                     item.IsPackaged = true;
 

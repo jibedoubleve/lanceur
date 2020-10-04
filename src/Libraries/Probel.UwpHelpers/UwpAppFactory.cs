@@ -17,7 +17,7 @@ namespace Probel.UwpHelpers
         #region Fields
 
         private readonly AppxPackageHelper _helper = new AppxPackageHelper();
-        private readonly ILogService _log= LogServiceFactory.Get();
+        private readonly ILogService _log = LogServiceFactory.Get();
 
         #endregion Fields
 
@@ -331,7 +331,7 @@ namespace Probel.UwpHelpers
 
         public bool IsUwp(string userId, string alias, out Package package)
         {
-            if (alias == null)
+            if (string.IsNullOrWhiteSpace(alias))
             {
                 package = null;
                 return false;

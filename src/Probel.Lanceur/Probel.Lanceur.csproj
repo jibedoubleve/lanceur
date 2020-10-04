@@ -210,6 +210,7 @@
     <Compile Include="Converters\AliasToFileNameConverter.cs" />
     <Compile Include="Converters\NotificationEnumToStringConverter.cs" />
     <Compile Include="Converters\PathToHumanizedPathConverter.cs" />
+    <Compile Include="Converters\StringToBooleanConverter.cs" />
     <Compile Include="Converters\UsageToColorConverter.cs" />
     <Compile Include="Converters\HexaToColourConverter.cs" />
     <Compile Include="Converters\InvertBooleanToVisibilityConverter.cs" />
