@@ -24,21 +24,21 @@ create table alias (
     start_mode  text,
     working_dir text,
     id_session  integer,
-    foreign key(id_session) references alias_session
+    foreign key(id_session) references alias_session(id)
 );
   
 create table alias_name (
     id          integer primary key,
     id_alias integer,
     name        text,
-    foreign key(id_alias) references alias
+    foreign key(id_alias) references alias(id)
 );
 
 create table alias_usage (
     id           integer primary key,
     id_alias integer,
     time_stamp   timestamp default current_timestamp  ,
-    foreign key(id_alias) references alias
+    foreign key(id_alias) references alias(id)
 );
 
 /******************************************************************************

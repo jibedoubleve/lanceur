@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.SharedKernel.Helpers;
 using Probel.Lanceur.SharedKernel.Logs;
 using System;
 using System.Collections.Generic;
@@ -49,9 +50,13 @@ namespace Probel.Lanceur.SQLiteDb.Services
         {
             var sqlDelete = "delete from alias_name where id_alias = @idAlias";
             var sqlInsert = "insert into alias_name(id_alias, name) values(@idAlias, @name)";
-
+            _log.Trace($"Removing names for alias {idAlias}");
             c.Execute(sqlDelete, new { idAlias });
-            foreach (var name in names) { c.Execute(sqlInsert, new { idAlias, name }); }
+            foreach (var name in names)
+            {
+                _log.Trace($"Adding name '{name}' to alias {idAlias}");
+                c.Execute(sqlInsert, new { idAlias, name });
+            }
         }
 
         public void Clear()
@@ -92,34 +97,32 @@ namespace Probel.Lanceur.SQLiteDb.Services
                 );
                 select last_insert_rowid() from alias;";
             var sql2 = @"insert into alias_name(id_alias, name) values(@idAlias, @name)";
+
             using (var c = BuildConnection())
+            using (var t = c.BeginTransaction())
             {
                 long lastId = default;
 
-                using (var t = c.BeginTransaction())
+                lastId = c.Query<long>(sql, new
                 {
-                    lastId = c.Query<long>(sql, new
-                    {
-                        s.Arguments,
-                        s.FileName,
-                        s.Notes,
-                        s.RunAs,
-                        s.StartMode,
-                        s.IdSession,
-                        s.Icon
-                    }).FirstOrDefault();
-                    _log.Trace($"Created new alias '{s.Name}' [Session:{s.IdSession} - File name: {s.FileName}] with id {lastId}");
+                    s.Arguments,
+                    s.FileName,
+                    s.Notes,
+                    s.RunAs,
+                    s.StartMode,
+                    s.IdSession,
+                    s.Icon
+                }).First();
 
-                    if (names == null) { c.Execute(sql2, new { s.Name, IdAlias = lastId }); }
-                    else
-                    {
-                        foreach (var name in names)
-                        {
-                            c.Execute(sql2, new { name, IdAlias = lastId });
-                        }
-                    }
-                    t.Commit();
+                var nameList = new List<string>(names);
+
+                if (!string.IsNullOrEmpty(s.Name)) { nameList.Add(s.Name); }
+                foreach (var name in nameList)
+                {
+                    _log.Trace($"Insert alias name '{name}' with idAdlias '{lastId}'");
+                    c.Execute(sql2, new { name, IdAlias = lastId });
                 }
+                t.Commit();
             }
         }
 
@@ -236,6 +239,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
                     if (names == null || names.Count() == 0) { names = new List<string> { alias.Name }; };
 
+                    _log.Debug($"Updating alias {alias.Id}");
                     UpdateNames(c, alias.Id, names);
 
                     t.Commit();

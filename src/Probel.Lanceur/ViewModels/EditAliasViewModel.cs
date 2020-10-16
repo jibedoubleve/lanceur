@@ -2,6 +2,7 @@
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Models;
+using Probel.Lanceur.SharedKernel.Extensions;
 using Probel.Lanceur.SharedKernel.Logs;
 using Probel.Lanceur.SharedKernel.UserCom;
 using Probel.UwpHelpers;
@@ -108,7 +109,12 @@ namespace Probel.Lanceur.ViewModels
                 RefreshAlias(package);
             }
 
-            _databaseService.Create(Alias.AsEntity(), Names.AsNames());
+            var names = Names.AsNames();
+            var alias = Alias.AsEntity();
+
+            Log.Trace($"Updating alias '{Alias.Name}' [id: {Alias.Id}] with names '{names.ToCsv()}'");
+
+            _databaseService.Create(alias, names);
             RefreshParentList();
             UserNotifyer.NotifyInfo("Alias created!");
         }

@@ -18,7 +18,7 @@ namespace Probel.Lanceur.Actions
 
         #region Properties
 
-        public IActionCollection _actions { get; }
+        private IActionCollection _actions { get; }
 
         public IEnumerable<ActionWord> DefinedKeywords => _actions.ToList();
 
