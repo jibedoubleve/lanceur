@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-[assembly: AssemblyVersion("0.8.0.11")]
+[assembly: AssemblyVersion("0.8.0.1")]
 [assembly: AssemblyFileVersion("0.8.0.0")]
-[assembly: AssemblyInformationalVersion("0.8.0-alpha.dependencies-refactoring.11+Branch.feature-dependencies-refactoring.Sha.f3485b6f53eabcc17726e10ed21f5faab0da8b2e")]
+[assembly: AssemblyInformationalVersion("0.8.0-bugfix-issue-137.1+2.Branch.bugfix-issue-137.Sha.c1aae7a5dadc9c6b49ef892fb2aa08596b11b233")]
 
