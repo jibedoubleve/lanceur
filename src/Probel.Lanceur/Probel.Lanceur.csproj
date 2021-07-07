@@ -208,6 +208,8 @@
       <DependentUpon>WindowInfoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\AliasToFileNameConverter.cs" />
+    <Compile Include="Converters\CollectionCountToBooleanConverter.cs" />
+    <Compile Include="Converters\LogicalAndConverter.cs" />
     <Compile Include="Converters\NotificationEnumToStringConverter.cs" />
     <Compile Include="Converters\PathToHumanizedPathConverter.cs" />
     <Compile Include="Converters\StringToBooleanConverter.cs" />

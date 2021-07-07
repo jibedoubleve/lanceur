@@ -109,14 +109,20 @@ namespace Probel.Lanceur.ViewModels
                 RefreshAlias(package);
             }
 
-            var names = Names.AsNames();
+            var names = (from n in Names
+                         where string.IsNullOrWhiteSpace(n.Name) == false
+                         select n).AsNames();
             var alias = Alias.AsEntity();
 
-            Log.Trace($"Updating alias '{Alias.Name ?? "..."}' [id: {Alias.Id}] with names '{names.ToCsv()}'");
+            if (names.Count() > 0)
+            {
+                Log.Trace($"Creatting alias '{Alias.Name ?? "..."}' [id: {Alias.Id}] with names '{names.ToCsv()}'");
 
-            _databaseService.Create(alias, names);
-            RefreshParentList();
-            UserNotifyer.NotifyInfo("Alias created!");
+                _databaseService.Create(alias, names);
+                RefreshParentList();
+                UserNotifyer.NotifyInfo("Alias created!");
+            }
+            else { UserNotifyer.NotifyWarning("Cannot create new alias with no name"); }
         }
 
         public async Task DeleteAliasAsync()
