@@ -329,31 +329,30 @@ namespace Probel.UwpHelpers
             return apps.Count == 0 ? new UwpApp() : apps[0];
         }
 
-        public bool IsUwp(string userId, string alias, out Package package)
+        public bool TrySetUwp(string userId, string alias, out Package package)
         {
-            if (string.IsNullOrWhiteSpace(alias))
-            {
-                package = null;
-                return false;
-            }
+            //Default value of the package.
+            package = null;
+
+            if (string.IsNullOrWhiteSpace(alias)) { return false; }
             else
             {
-                var srcDir = Path.GetDirectoryName(alias);
-                var rr = (from p in new PackageManager().FindPackagesForUser(userId)
-                          where srcDir.StartsWith(p.InstalledLocation.Path)
-                          select p).ToList();
-                var r = rr.FirstOrDefault();
+                try
+                {
+                    var srcDir = Path.GetDirectoryName(alias);
+                    var rr = (from p in new PackageManager().FindPackagesForUser(userId)
+                              where srcDir.StartsWith(p.InstalledLocation.Path)
+                              select p).ToList();
+                    var r = rr.FirstOrDefault();
 
-                if (r != null)
-                {
-                    package = r;
-                    return true;
+                    if (r != null)
+                    {
+                        package = r;
+                        return true;
+                    }
+                    else { return false; }
                 }
-                else
-                {
-                    package = null;
-                    return false;
-                }
+                catch (FileNotFoundException) { return false; }
             }
         }
 

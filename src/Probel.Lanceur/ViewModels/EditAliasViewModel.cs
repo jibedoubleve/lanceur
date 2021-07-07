@@ -104,7 +104,7 @@ namespace Probel.Lanceur.ViewModels
 
         public void CreateAlias()
         {
-            if (_uwpFactory.IsUwp(_currentUserId, Alias.FileName, out Package package))
+            if (_uwpFactory.TrySetUwp(_currentUserId, Alias.FileName, out Package package))
             {
                 RefreshAlias(package);
             }
@@ -112,7 +112,7 @@ namespace Probel.Lanceur.ViewModels
             var names = Names.AsNames();
             var alias = Alias.AsEntity();
 
-            Log.Trace($"Updating alias '{Alias.Name}' [id: {Alias.Id}] with names '{names.ToCsv()}'");
+            Log.Trace($"Updating alias '{Alias.Name ?? "..."}' [id: {Alias.Id}] with names '{names.ToCsv()}'");
 
             _databaseService.Create(alias, names);
             RefreshParentList();
@@ -140,7 +140,7 @@ namespace Probel.Lanceur.ViewModels
 
         public void UpdateAlias()
         {
-            if (_uwpFactory.IsUwp(_currentUserId, Alias.FileName, out Package package))
+            if (_uwpFactory.TrySetUwp(_currentUserId, Alias.FileName, out Package package))
             {
                 RefreshAlias(package);
             }
