@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd">
+  <metadata>
+    <id>lanceur</id>
+    <title>Lanceur (Install)</title>
+    <version>0.0.0</version>
+    <authors>Jean-Baptiste Wautier</authors>
+    <owners>Jean-Baptiste Wautier</owners> <!-- also known as package mantainers -->
+    <description>Yet another launcher based on WOX.</description>
+    <summary>Yet another launcher based on WOX.</summary>
+    <licenseUrl>https://github.com/jibedoubleve/lanceur/blob/master/LICENSE</licenseUrl>
+    <docsUrl>https://github.com/jibedoubleve/lanceur/</docsUrl>
+    <bugTrackerUrl>https://github.com/jibedoubleve/lanceur/issues</bugTrackerUrl>
+    <projectSourceUrl>https://github.com/jibedoubleve/lanceur</projectSourceUrl>
+    <packageSourceUrl>https://github.com/jibedoubleve/lanceur</packageSourceUrl>
+    <tags>lanceur</tags>
+    <projectUrl>https://github.com/jibedoubleve/lanceur</projectUrl>
+ </metadata>
+</package>
