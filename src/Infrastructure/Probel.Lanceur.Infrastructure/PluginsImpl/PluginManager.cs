@@ -34,9 +34,9 @@ namespace Probel.Lanceur.Infrastructure.PluginsImpl
 
         private IEnumerable<IPluginMetadata> GetMetadataList(string name)
         {
-            var metadata = (from m in GetPluginsInfo()
-                            where m.Keyword == name
-                            select m);
+            var metadata = from m in GetPluginsInfo()
+                           where m.Keyword == name
+                           select m;
             return metadata;
         }
 
