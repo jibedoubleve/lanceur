@@ -340,8 +340,9 @@ namespace Probel.UwpHelpers
                 try
                 {
                     var srcDir = Path.GetDirectoryName(alias);
+
                     var rr = (from p in new PackageManager().FindPackagesForUser(userId)
-                              where srcDir.StartsWith(p.InstalledLocation.Path)
+                              where srcDir.StartsWith(p.InstalledPath)
                               select p).ToList();
                     var r = rr.FirstOrDefault();
 
