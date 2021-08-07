@@ -7,9 +7,16 @@
 #tool xunit.runner.console
 #tool gitreleasemanager
 
+#addin "Cake.Powershell"
 #addin Cake.Figlet
 #addin Cake.Powershell
 #addin "Cake.FileHelpers"
+
+///////////////////////////////////////////////////////////////////////////////
+// ARGUMENTS
+///////////////////////////////////////////////////////////////////////////////
+
+using IoPath = System.IO.Path;
 
 ///////////////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -207,23 +214,33 @@ Task("Inno-Setup")
 Task("Release-GitHub")
     .Does(()=>{
         //https://stackoverflow.com/questions/42761777/hide-services-passwords-in-cake-build
-        var token = EnvironmentVariable("CAKE_PUBLIC_GITHUB_TOKEN");
-        var owner = EnvironmentVariable("CAKE_PUBLIC_GITHUB_USERNAME");
+        var token     = EnvironmentVariable("CAKE_PUBLIC_GITHUB_TOKEN");
+        var owner     = EnvironmentVariable("CAKE_PUBLIC_GITHUB_USERNAME");
+        var milestone = gitVersion.MajorMinorPatch;
+        var name      = gitVersion.SemVer;
+        var pre       = gitVersion.SemVer.Contains("alpha") || gitVersion.SemVer.Contains("beta");
 
-        var stg = new GitReleaseManagerCreateSettings 
-        {
-            Milestone         = gitVersion.MajorMinorPatch,            
-            Name              = gitVersion.SemVer,
-            Prerelease        = gitVersion.SemVer.Contains("alpha") || gitVersion.SemVer.Contains("beta"),
-            Assets            = publishDir + "/lanceur." + gitVersion.SemVer + ".bin.zip," 
-                              + publishDir + "/lanceur." + gitVersion.SemVer + ".setup.exe,"
-                              + publishDir + "/plugin-calculator-" + gitVersion.SemVer + ".bin.zip," 
-                              + publishDir + "/plugin-spotify-" + gitVersion.SemVer + ".bin.zip," 
-                              + publishDir + "/plugin-clipboard-" + gitVersion.SemVer + ".bin.zip," 
-                              + publishDir + "/plugin-evernote-" + gitVersion.SemVer + ".bin.zip" 
-        };
+        var pDir = IoPath.GetFullPath(publishDir);
 
-        GitReleaseManagerCreate(token, owner, "Lanceur", stg);  
+
+        var assets    = IoPath.Combine(pDir, "lanceur." + gitVersion.SemVer + ".bin.zip"          ) + "," 
+                      + IoPath.Combine(pDir, "lanceur." + gitVersion.SemVer + ".setup.exe"        ) + "," 
+                      + IoPath.Combine(pDir, "plugin-calculator-" + gitVersion.SemVer + ".bin.zip") + "," 
+                      + IoPath.Combine(pDir, "plugin-spotify-" + gitVersion.SemVer + ".bin.zip"   ) + "," 
+                      + IoPath.Combine(pDir, "plugin-clipboard-" + gitVersion.SemVer + ".bin.zip" ) + "," 
+                      + IoPath.Combine(pDir, "plugin-evernote-" + gitVersion.SemVer + ".bin.zip"  );
+
+        Information("Assets: {0}", assets);
+
+        StartPowershellFile(@".\Scripts\GitReleaseManager.ps1", args => {
+            args.Append("token", token)
+                .Append("owner", owner)
+                .Append("milestone", milestone)
+                .Append("name", name)
+                .Append("assets", assets)
+                .Append("repo", "lanceur")
+                .Append("isPrerelease", pre.ToString());
+        });
 });
 
 Task("pack-plugin")
