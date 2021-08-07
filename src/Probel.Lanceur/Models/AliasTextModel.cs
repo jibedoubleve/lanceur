@@ -1,5 +1,7 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Media;
 
 namespace Probel.Lanceur.Models
@@ -21,10 +23,17 @@ namespace Probel.Lanceur.Models
         #endregion Methods
     }
 
-    public class AliasTextModel : AliasText
+    public class AliasTextModel : AliasText, INotifyPropertyChanged
     {
+        #region Fields
+
+        private ImageSource _image;
+
+        #endregion Fields
+
         #region Constructors
 
+        //TODO: refactor this as it is error prone. Use StructureMap 
         public AliasTextModel(AliasText src)
         {
             ExecutionCount = src.ExecutionCount;
@@ -32,14 +41,43 @@ namespace Probel.Lanceur.Models
             Image = null;
             Kind = src.Kind;
             Name = src.Name;
+            IsExecutable = src.IsExecutable;
+            IsPackaged = src.IsPackaged;
+            UniqueIdentifier = src.UniqueIdentifier;
+            Icon = src.Icon;
+            Id = src.Id;
+            SearchScore = src.SearchScore;
         }
 
         #endregion Constructors
 
+        #region Events
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion Events
+
         #region Properties
 
-        public ImageSource Image { get; set; }
+        public ImageSource Image
+        {
+            get => _image;
+            set
+            {
+                _image = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion Properties
+
+        #region Methods
+
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion Methods
     }
 }

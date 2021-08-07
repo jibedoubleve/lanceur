@@ -1,5 +1,5 @@
 ﻿using Caliburn.Micro;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.SharedKernel.UserCom;
 using System.Reflection;
 
 namespace Probel.Lanceur.ViewModels
@@ -28,7 +28,7 @@ namespace Probel.Lanceur.ViewModels
             EditDoubloonsViewModel editDoubloonsViewModel,
             EditObsoleteKeywordsViewModel editEmptyKeywordsViewModel,
             EditPluginViewModel editPluginViewModel,
-            IUserNotifyer notifyer)
+            IUserNotifyerFactory factory)
         {
             EditObsoleteKeywordsViewModel = editEmptyKeywordsViewModel;
             EditDoubloonsViewModel = editDoubloonsViewModel;
@@ -40,7 +40,7 @@ namespace Probel.Lanceur.ViewModels
             var v = Assembly.GetExecutingAssembly().GetName().Version;
             AppVersion = $"v.{v.Major}.{v.Minor}.{v.Build}";
 
-            notifyer.SetDialogSource(this);
+            factory.Get().SetDialogSource(this);
         }
 
         #endregion Constructors

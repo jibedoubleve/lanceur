@@ -1,8 +1,8 @@
 ﻿using MahApps.Metro.Controls.Dialogs;
 using Notifications.Wpf;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Infrastructure;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.SharedKernel.Logs;
+using Probel.Lanceur.SharedKernel.UserCom;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,31 +10,50 @@ using System.Windows.Input;
 
 namespace Probel.Lanceur.Services
 {
-    public class UserNotifyer : IUserNotifyer
+    public abstract class BaseNotifyer : IUserNotifyer
     {
         #region Fields
 
         private static object _dialogSource;
         private readonly IDialogCoordinator _dialog;
-        private readonly ILogService _log;
-        private readonly INotificationManager _notifyer;
-        private readonly ISettingsService _settingsService;
 
         #endregion Fields
 
         #region Constructors
 
-        public UserNotifyer(INotificationManager notifyer, IDialogCoordinator dialog, ILogService log, ISettingsService settingsService)
+        protected BaseNotifyer(IDialogCoordinator dialog, ILogService log, ISettingsService settingsService)
         {
-            _settingsService = settingsService;
-            _log = log;
-            _notifyer = notifyer;
+            SettingsService = settingsService;
+            Log = log;
             _dialog = dialog;
         }
 
         #endregion Constructors
 
+        #region Properties
+
+        protected ILogService Log { get; private set; }
+        protected ISettingsService SettingsService { get; private set; }
+
+        #endregion Properties
+
         #region Methods
+
+        private NotificationResult Ask(string message, string title = null)
+        {
+            var result = MessageBox.Show(message, title ?? "QUESTION", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            switch (result)
+            {
+                case MessageBoxResult.None: return NotificationResult.Canceled;
+                case MessageBoxResult.OK:
+                case MessageBoxResult.Yes: return NotificationResult.Affirmative;
+                case MessageBoxResult.Cancel:
+                case MessageBoxResult.No: return NotificationResult.Negative;
+                default: throw new NotSupportedException($"The answer '{result}' is not supported.");
+            }
+        }
+
+        protected abstract void Notify(string message, string title, NotificationType type);
 
         public async Task<NotificationResult> AskAsync(string message, string title = null)
         {
@@ -56,7 +75,7 @@ namespace Probel.Lanceur.Services
                 {
                     result = await _dialog.ShowMessageAsync(_dialogSource, title ?? "QUESTION", message, MessageDialogStyle.AffirmativeAndNegative, opt);
                 }
-                catch (Exception ex) { _log.Warning(ex); }
+                catch (Exception ex) { Log.Warning(ex); }
 
                 switch (result)
                 {
@@ -64,7 +83,7 @@ namespace Probel.Lanceur.Services
                     case MessageDialogResult.Negative: return NotificationResult.Negative;
                     case MessageDialogResult.Affirmative: return NotificationResult.Affirmative;
                     default: throw new NotSupportedException($"The result '{result}' is not supported as an answer.");
-                }
+                };
             }
         }
 
@@ -79,33 +98,6 @@ namespace Probel.Lanceur.Services
         public void NotifyWarning(string message, string title = null) => Notify(message, title, NotificationType.Warning);
 
         public void SetDialogSource(object src) => _dialogSource = src;
-
-        private NotificationResult Ask(string message, string title = null)
-        {
-            var result = MessageBox.Show(message, title ?? "QUESTION", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            switch (result)
-            {
-                case MessageBoxResult.None: return NotificationResult.Canceled;
-                case MessageBoxResult.OK:
-                case MessageBoxResult.Yes: return NotificationResult.Affirmative;
-                case MessageBoxResult.Cancel:
-                case MessageBoxResult.No: return NotificationResult.Negative;
-                default: throw new NotSupportedException($"The answer '{result}' is not supported.");
-            }
-        }
-
-        private void Notify(string message, string title, NotificationType type)
-        {
-            var m = new NotificationContent
-            {
-                Title = title ?? type.ToString().ToUpper(),
-                Message = message,
-                Type = type,
-            };
-
-            var expTime = TimeSpan.FromSeconds(_settingsService.Get().WindowSection.ExpirationTimeMessage);
-            _notifyer.Show(m, "", expTime);
-        }
 
         #endregion Methods
     }

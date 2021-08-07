@@ -1,0 +1,7 @@
+{
+  "name": "Packaged applications search API",
+  "keyword": ":",
+  "dll": "Probel.Lanceur.Repository.UwpSearch.dll",
+  "explanation": "(UWP) Retrieve shortcuts & executables",
+  "min-ver": "0.8.0"
+}

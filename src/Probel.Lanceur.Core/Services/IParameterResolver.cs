@@ -1,5 +1,4 @@
 ﻿using Probel.Lanceur.Core.Entities;
-using Probel.Lanceur.Plugin;
 
 namespace Probel.Lanceur.Core.Services
 {
@@ -18,6 +17,8 @@ namespace Probel.Lanceur.Core.Services
         Cmdline Merge(string cmdline1, string cmdline2, long sessionId);
 
         Alias Resolve(Alias cmd, string parameters);
+
+        string Resolve(string source, string parameters);
 
         Cmdline Split(string cmdline, long sessionId);
 

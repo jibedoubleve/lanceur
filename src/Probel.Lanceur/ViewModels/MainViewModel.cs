@@ -1,11 +1,13 @@
 ﻿using Caliburn.Micro;
+using Probel.Lanceur.Actions;
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Entities.Settings;
 using Probel.Lanceur.Core.Helpers;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Images;
-using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin;
+using Probel.Lanceur.SharedKernel.Logs;
+using Probel.Lanceur.SharedKernel.UserCom;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,7 +19,6 @@ namespace Probel.Lanceur.ViewModels
         #region Fields
 
         private readonly IAliasService _aliasService;
-        private readonly IParameterResolver _resolver;
         private readonly IScreenRuler _screenRuler;
         private readonly ISettingsService _settingsService;
         private AliasText _aliasName;
@@ -28,6 +29,7 @@ namespace Probel.Lanceur.ViewModels
         private bool _isOnError;
         private double _left;
         private double _opacity;
+        private object _selectedResult;
         private string _session;
         private double _top;
 
@@ -41,16 +43,17 @@ namespace Probel.Lanceur.ViewModels
             IEventAggregator ea,
             IScreenRuler screenRuler,
             ILogService logService,
-            IParameterResolver resolver,
-            IUserNotifyer notifyer
+            IUserNotifyerFactory factory,
+            IActionContext ctx
             )
         {
-            Notifyer = notifyer;
+            ActionContext = ctx;
+            Notifyer = factory.Get();
+            ResultItemHelper.Logger = logService;
 
             LogService = logService;
             ea.Subscribe(this);
 
-            _resolver = resolver;
             _screenRuler = screenRuler;
             _settingsService = settings;
             _aliasService = aliasService;
@@ -59,6 +62,8 @@ namespace Probel.Lanceur.ViewModels
         #endregion Constructors
 
         #region Properties
+
+        public IActionContext ActionContext { get; internal set; }
 
         public AliasText AliasName
         {
@@ -118,6 +123,12 @@ namespace Probel.Lanceur.ViewModels
 
         IEnumerable<object> IMainViewModel.Results => Results;
 
+        public object SelectedResult
+        {
+            get => _selectedResult;
+            set => Set(ref _selectedResult, value, nameof(SelectedResult));
+        }
+
         public string Session
         {
             get => _session;
@@ -137,23 +148,17 @@ namespace Probel.Lanceur.ViewModels
         private void RefreshAliases()
         {
             Session = _aliasService.GetSession(AppSettings.SessionId);
-            var aliases = _aliasService.GetAliasNames(AppSettings.SessionId);
-            var r = aliases.Refresh();
+            var aliases = _aliasService.GetAliasNames(AppSettings.SessionId, null);
+            var r = aliases.GetRefreshed();
             Results = new ObservableCollection<object>(r);
         }
 
-        /// <summary>
-        /// Executes the alias and returns <c>True</c> if execution was a success.
-        /// Otherwise returns <c>False</c>
-        /// </summary>
-        /// <param name="cmdLine">The command line (the alias & the arguments) to be executed.</param>
-        /// <returns><c>True</c> on success; otherwise <c>False</c></returns>
-        public ExecutionResult ExecuteText(string cmdLine)
+        public ExecutionResult ExecuteText(AliasText alias, string cmdline)
         {
             try
             {
                 var sid = _settingsService.Get().SessionId;
-                var r = _aliasService.Execute(cmdLine, sid);
+                var r = _aliasService.Execute(alias, cmdline, sid);
 
                 if (r.IsError) { ErrorMessage = r.Error; }
 
@@ -164,18 +169,10 @@ namespace Probel.Lanceur.ViewModels
                 /* I swallow the error as this crash shouldn't crash the application
                  * I log and continue without any other warning.
                  */
-                var msg = $"An error occured while trying to execute the alias '{cmdLine}'";
+                var msg = $"An error occured while trying to execute the alias '{cmdline}'";
                 LogService.Error(msg, ex);
                 return ExecutionResult.Failure(msg);
             }
-        }
-
-        public ExecutionResult ExecuteText(string cmdline1, string cmdline2)
-        {
-            var sid = _settingsService.Get().SessionId;
-            var cmd = _resolver.Merge(cmdline1, cmdline2, sid);
-
-            return ExecuteText(cmd.ToString());
         }
 
         public void Handle(string message)
@@ -223,7 +220,7 @@ namespace Probel.Lanceur.ViewModels
         {
             Session = _aliasService.GetSession(AppSettings.SessionId);
             var l = _aliasService.GetAliasNames(AppSettings.SessionId, criterion);
-            Results = new ObservableCollection<object>(l.Refresh());
+            Results = new ObservableCollection<object>(l.GetRefreshed());
         }
 
         public void SaveSettings()

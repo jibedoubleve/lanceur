@@ -2,9 +2,8 @@
 using Probel.Lanceur.Core.Entities.Settings;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Helpers;
-using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Models;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.SharedKernel.UserCom;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,15 +15,13 @@ namespace Probel.Lanceur.ViewModels
     {
         #region Fields
 
-        public AppSettings _appSettings;
         private readonly IDataSourceService _databaseService;
-        private readonly ILogService _log;
         private readonly IUserNotifyer _notifyer;
         private readonly ISettingsService _settingService;
-
         private IEnumerable<AliasModel> _bufferAlias;
         private AliasModel _selectedAlias;
         private ObservableCollection<AliasModel> aliases;
+        public AppSettings _appSettings;
 
         #endregion Fields
 
@@ -32,14 +29,12 @@ namespace Probel.Lanceur.ViewModels
 
         public ListAliasViewModel(IDataSourceService databaseService,
             EditAliasViewModel editaliasViewModel,
-            ILogService log,
             ISettingsService settingService,
-            IUserNotifyer notifyer)
+            IUserNotifyerFactory factory)
         {
-            _notifyer = notifyer;
+            _notifyer = factory.Get();
             _settingService = settingService;
             _appSettings = settingService.Get();
-            _log = log;
             _databaseService = databaseService;
             EditAliasViewModel = editaliasViewModel;
             EditAliasViewModel.OnRefresh = () => RefreshData();

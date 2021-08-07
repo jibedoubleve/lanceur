@@ -1,7 +1,8 @@
 ﻿using Caliburn.Micro;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin;
+using Probel.Lanceur.SharedKernel.Logs;
+using Probel.Lanceur.SharedKernel.UserCom;
 using Unity;
 
 namespace Probel.Lanceur.Actions
@@ -31,7 +32,7 @@ namespace Probel.Lanceur.Actions
         public ActionContext(
             IDataSourceService dataService,
             ILogService log,
-            IUserNotifyer notifyer,
+            IUserNotifyerFactory factory,
             IWindowManager windowManager,
             IMainViewFinder viewFinder,
             ISettingsService settingsService,
@@ -48,7 +49,7 @@ namespace Probel.Lanceur.Actions
             ViewFinder = viewFinder;
             DataService = dataService;
             Log = log;
-            Notifyer = notifyer;
+            Notifyer = factory.Get();
             WindowManager = windowManager;
         }
 

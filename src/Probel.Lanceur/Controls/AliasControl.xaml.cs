@@ -1,7 +1,7 @@
-﻿using MahApps.Metro.IconPacks;
+﻿using Humanizer;
+using MahApps.Metro.IconPacks;
 using System;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -44,6 +44,12 @@ namespace Probel.Lanceur.Controls
                 typeof(string),
                 typeof(AliasControl),
                 new PropertyMetadata(null, OnKindChanged));
+
+        public static DependencyProperty SearchScoreProperty =
+            DependencyProperty.Register("SearchScore",
+                typeof(double),
+                typeof(AliasControl),
+                new PropertyMetadata(0D, OnSearchScoreCountChanged));
 
         #endregion Fields
 
@@ -88,6 +94,12 @@ namespace Probel.Lanceur.Controls
             set => SetValue(KindProperty, value);
         }
 
+        public string SearchScore
+        {
+            get => (string)GetValue(SearchScoreProperty);
+            set => SetValue(SearchScoreProperty, value);
+        }
+
         #endregion Properties
 
         #region Methods
@@ -96,7 +108,7 @@ namespace Probel.Lanceur.Controls
         {
             if (sender is AliasControl ctrl && e.NewValue is string str)
             {
-                ctrl.CtrlFileName.Text = str;
+                ctrl.CtrlFileName.Text = str.Truncate(80, "(...)", Truncator.FixedLength);
             }
         }
 
@@ -144,22 +156,38 @@ namespace Probel.Lanceur.Controls
             {
                 if (e.NewValue is string str)
                 {
-
-
                     if (ctrl.CtrlImage.Source != null)
                     {
                         ShowImage(ctrl);
                     }
-                    else {
-
+                    else
+                    {
                         var kind = (from k in Enum.GetValues(typeof(PackIconMaterialKind)).Cast<PackIconMaterialKind>()
                                     where k.ToString().ToLower() == str.ToLower()
                                     select k).ToList();
 
                         ctrl.CtrlIcon.Kind = kind.Any() ? kind[0] : PackIconMaterialKind.None;
 
-                        ShowIcon(ctrl); }
+                        ShowIcon(ctrl);
+                    }
                 }
+            }
+        }
+
+        private static void OnSearchScoreCountChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is AliasControl ctrl)
+            {
+                if (e.NewValue is double ct)
+                {
+                    if (ct == 0) { ctrl.CtrlSearchScore.Visibility = Visibility.Collapsed; }
+                    else
+                    {
+                        ctrl.CtrlScore.Text = ct.ToString("0.##");
+                        ctrl.CtrlSearchScore.Visibility = Visibility.Visible;
+                    }
+                }
+                else { ctrl.CtrlSearchScore.Visibility = Visibility.Collapsed; }
             }
         }
 
@@ -168,6 +196,7 @@ namespace Probel.Lanceur.Controls
             ctrl.CtrlImage.Visibility = Visibility.Collapsed;
             ctrl.CtrlIcon.Visibility = Visibility.Visible;
         }
+
         private static void ShowImage(AliasControl ctrl)
         {
             ctrl.CtrlImage.Visibility = Visibility.Visible;

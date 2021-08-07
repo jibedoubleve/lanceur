@@ -15,11 +15,11 @@ namespace Probel.Lanceur.Plugin.Calculator
 
         #region Methods
 
-        public override void Execute(Cmdline cmd)
+        public override void Execute(PluginCmdline cmd)
         {
             ViewModel.Log = Logger;
 
-            var exp = string.IsNullOrEmpty(cmd?.Parameters) ? cmd?.Command ?? string.Empty : cmd.Parameters;
+            var exp = string.IsNullOrEmpty(cmd?.Arguments) ? cmd?.Command ?? string.Empty : cmd.Arguments;
 
             ViewModel.Process(exp);
 

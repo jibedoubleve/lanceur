@@ -20,6 +20,7 @@
         <Thickness x:Key="DefaultBorder">5 5 5 5</Thickness>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <conv:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" />
+        <conv:StringToBooleanConverter x:Key="StringToBooleanConverter" />
         <ObjectDataProvider
             x:Key="RunAsDataProvider"
             MethodName="GetValues"
@@ -99,6 +100,7 @@
                 Width="120"
                 Margin="5,5,0,5"
                 Content="Create"
+                IsEnabled="{Binding Alias.FileName, Converter={StaticResource StringToBooleanConverter}, UpdateSourceTrigger=PropertyChanged}"
                 Style="{DynamicResource AccentedSquareButtonStyle}"
                 Visibility="{Binding IsCreation, Converter={StaticResource InvertBooleanToVisibilityConverter}}" />
             <Button
@@ -106,6 +108,7 @@
                 Width="120"
                 Margin="5,5,0,5"
                 Content="Save"
+                IsEnabled="{Binding Alias.FileName, Converter={StaticResource StringToBooleanConverter}, UpdateSourceTrigger=PropertyChanged}"
                 Style="{DynamicResource AccentedSquareButtonStyle}"
                 Visibility="{Binding IsCreation, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <Button

@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.SharedKernel.UserCom;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -21,12 +21,12 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public EditDoubloonsViewModel(IUserNotifyer notifyer,
+        public EditDoubloonsViewModel(IUserNotifyerFactory factory,
             IDataSourceService dataService,
             ISettingsService settingService)
         {
             _settingService = settingService;
-            _notifyer = notifyer;
+            _notifyer = factory.Get();
             _dataService = dataService;
         }
 
@@ -51,7 +51,7 @@ namespace Probel.Lanceur.ViewModels
             var response = await _notifyer.AskAsync("Do you want to delete this doubloon?");
             if (response == NotificationResult.Affirmative)
             {
-                _dataService.Delete(id);
+                _dataService.Delete((Alias)id);
                 RefreshData();
             }
         }

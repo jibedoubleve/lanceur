@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.7.0\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -57,26 +54,18 @@
       <Link>Properties\Version.cs</Link>
     </Compile>
     <Compile Include="Entities\AliasText.cs" />
+    <Compile Include="Entities\AliasTextCollection.cs" />
     <Compile Include="Entities\ChartPoint.cs" />
+    <Compile Include="Entities\Cmdline.cs" />
+    <Compile Include="Helpers\CmdLineHelper.cs" />
     <Compile Include="Entities\Doubloon.cs" />
-    <Compile Include="PluginsImpl\EmptyPlugin.cs" />
-    <Compile Include="PluginsImpl\PluginConfigurator.cs" />
-    <Compile Include="PluginsImpl\PluginLoader.cs" />
-    <Compile Include="PluginsImpl\PluginManager.cs" />
-    <Compile Include="PluginsImpl\PluginMetadata.cs" />
-    <Compile Include="ServicesImpl\AliasService.cs" />
-    <Compile Include="ServicesImpl\ArgumentHandlers\UriHandler.cs" />
-    <Compile Include="ServicesImpl\DebugSettingsService.cs" />
-    <Compile Include="ServicesImpl\JsonSettingsService.cs" />
+    <Compile Include="Entities\Settings\RepositorySettings.cs" />
+    <Compile Include="Helpers\AppxActivationHelper.cs" />
     <Compile Include="Services\IMacroAction.cs" />
-    <Compile Include="ServicesImpl\NLogLogger.cs" />
-    <Compile Include="ServicesImpl\KeywordService.cs" />
     <Compile Include="Services\IActionCollection.cs" />
     <Compile Include="Services\IDataSourceService.Statistics.cs" />
     <Compile Include="Services\IKeywordLoader.cs" />
     <Compile Include="Services\IMacroRunner.cs" />
-    <Compile Include="ServicesImpl\MacroManagement\MacroAttribute.cs" />
-    <Compile Include="ServicesImpl\MacroManagement\MacroRunner.cs" />
     <Compile Include="Constants\Wildcards.cs" />
     <Compile Include="Helpers\ConverterHelper.cs" />
     <Compile Include="Helpers\IScreenRuler.cs" />
@@ -84,7 +73,7 @@
     <Compile Include="Helpers\ParameterHelper.cs" />
     <Compile Include="Helpers\ProcessHelper.cs" />
     <Compile Include="Helpers\PsInfo.cs" />
-    <Compile Include="Entities\NamedAlias.cs" />
+    <Compile Include="Entities\MultiNameAlias.cs" />
     <Compile Include="Entities\Settings\AppSettings.cs" />
     <Compile Include="Entities\Settings\PositionSettings.cs" />
     <Compile Include="Entities\Settings\HotKeySettings.cs" />
@@ -92,18 +81,8 @@
     <Compile Include="Entities\BaseAlias.cs" />
     <Compile Include="Entities\AliasName.cs" />
     <Compile Include="Entities\AliasSession.cs" />
-    <Compile Include="ServicesImpl\CommandRunner.cs" />
-    <Compile Include="ServicesImpl\ArgumentHandlers\_ArgumentHandler.cs" />
-    <Compile Include="ServicesImpl\ArgumentHandlers\ClipboardHandler.cs" />
-    <Compile Include="ServicesImpl\ArgumentHandlers\TextHandler.cs" />
-    <Compile Include="ServicesImpl\MacroManagement\Macros.cs" />
-    <Compile Include="ServicesImpl\MacroManagement\MultiMacro.cs" />
-    <Compile Include="ServicesImpl\ParameterResolver.cs" />
-    <Compile Include="ServicesImpl\TraceLogger.cs" />
-    <Compile Include="ServicesImpl\Wildcards.cs" />
     <Compile Include="Services\ISettingsService.cs" />
     <Compile Include="Services\ISlickRunExtractor.cs" />
-    <Compile Include="ServicesImpl\SlickRunExtractor.cs" />
     <Compile Include="Constants\Enums.cs" />
     <Compile Include="Entities\Alias.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -122,13 +101,9 @@
     <None Include="_Classes\Plugins.cd" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Probel.Lanceur.Infrastructure\Probel.Lanceur.Infrastructure.csproj">
-      <Project>{63FCDE3F-3D03-4075-90A4-4BF92996A32A}</Project>
-      <Name>Probel.Lanceur.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Probel.Lanceur.Plugin\Probel.Lanceur.Plugin.csproj">
-      <Project>{f4db7268-da54-4141-9567-afbd6c5fe1ac}</Project>
-      <Name>Probel.Lanceur.Plugin</Name>
+    <ProjectReference Include="..\Probel.Lanceur.SharedKernel\Probel.Lanceur.SharedKernel.csproj">
+      <Project>{8e04f8d4-ac4f-43dd-b48b-76581666ba18}</Project>
+      <Name>Probel.Lanceur.SharedKernel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

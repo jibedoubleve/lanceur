@@ -46,10 +46,3 @@ Type `EN` to create a new note into the default notebook
 | en text_of_the_tile                      | It creates a note     |
 | en -r dd-mm-yyyy text_of_the_title       | It creates a reminder |
 | en reminder dd-mm-yyyy text_of_the_title | It creates a reminder |
-
-## Configure
-
-Just type 
-`en -c key session_consumer_key host session_consumer_secret`
-
->So far you have to have an API key you can ask to [Evernote](https://dev.evernote.com/) I'm working on automating the process and use my API key.

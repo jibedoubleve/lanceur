@@ -3,14 +3,17 @@ using MahApps.Metro.Controls.Dialogs;
 using Notifications.Wpf;
 using Probel.Lanceur.Actions;
 using Probel.Lanceur.Core.Helpers;
-using Probel.Lanceur.Core.PluginsImpl;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Core.ServicesImpl;
-using Probel.Lanceur.Core.ServicesImpl.MacroManagement;
 using Probel.Lanceur.Helpers;
 using Probel.Lanceur.Infrastructure;
+using Probel.Lanceur.Infrastructure.PluginsImpl;
+using Probel.Lanceur.Infrastructure.ServicesImpl;
+using Probel.Lanceur.Infrastructure.ServicesImpl.MacroManagement;
 using Probel.Lanceur.Plugin;
+using Probel.Lanceur.Repositories;
 using Probel.Lanceur.Services;
+using Probel.Lanceur.SharedKernel.Logs;
+using Probel.Lanceur.SharedKernel.UserCom;
 using Probel.Lanceur.SQLiteDb;
 using Probel.Lanceur.SQLiteDb.Services;
 using Probel.Lanceur.ViewModels;
@@ -26,7 +29,7 @@ namespace Probel.Lanceur
     {
         #region Fields
 
-        private IUnityContainer _container = new UnityContainer();
+        private readonly IUnityContainer _container = new UnityContainer();
 
         #endregion Fields
 
@@ -37,6 +40,18 @@ namespace Probel.Lanceur
         #endregion Constructors
 
         #region Methods
+
+        private void ConfigureInternalCommands()
+        {
+            var actionManager = _container.Resolve<IActionManager>();
+
+            actionManager.Bind();
+        }
+
+        private void PreloadConfigure()
+        {
+            LogServiceFactoryConfigurator.Configure(_container.Resolve<ILogService>());
+        }
 
         protected override void BuildUp(object instance) => _container.BuildUp(instance);
 
@@ -73,7 +88,10 @@ namespace Probel.Lanceur
             _container.RegisterType<IKeywordLoader, KeywordLoader>();
 
             //UI
-            _container.RegisterType<IUserNotifyer, UserNotifyer>();
+            _container.RegisterType<IUserNotifyer, UserNotifyer>("classic");
+            _container.RegisterType<IUserNotifyer, Win10UserNotifyer>("win10");
+            _container.RegisterType<IUserNotifyerFactory, UserNotifyerFactory>();
+
             _container.RegisterSingleton<INotificationManager, NotificationManager>();
             _container.RegisterSingleton<IAppRestarter, AppRestarter>();
 
@@ -92,6 +110,11 @@ namespace Probel.Lanceur
             _container.RegisterType<IActionCollection, ActionCollection>();
             _container.RegisterType<IPluginContext, PluginContext>();
 
+            //Repositories
+            _container.RegisterType<IAliasRepositoryBuilder, AliasRepositoryBuilder>();
+            _container.RegisterType<IRepositoryContext, RepositoryContext>();
+            _container.RegisterType<IRepositorySettings, RepositorySettings>();
+
             //Views
             _container.RegisterSingleton<MainViewModel>();
 
@@ -101,9 +124,6 @@ namespace Probel.Lanceur
             _container.RegisterType<EditPluginViewModel>();
             _container.RegisterType<EditDoubloonsViewModel>();
             _container.RegisterType<EditObsoleteKeywordsViewModel>();
-
-            /* Default commands */
-            ConfigureInternalCommands();
         }
 
         protected override IEnumerable<object> GetAllInstances(Type service) => _container.ResolveAll(service);
@@ -116,6 +136,10 @@ namespace Probel.Lanceur
 
             if (hasMutex)
             {
+                /* Default commands */
+                ConfigureInternalCommands();
+                PreloadConfigure();
+
                 var u = _container.Resolve<IUpdateService>();
                 u.UpdateDatabase();
                 DisplayRootViewFor<MainViewModel>();
@@ -130,7 +154,7 @@ namespace Probel.Lanceur
         protected override void OnUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             var l = _container.Resolve<ILogService>();
-            var n = _container.Resolve<IUserNotifyer>();
+            var n = _container.Resolve<IUserNotifyerFactory>().Get();
 
             n.NotifyError($"Unexpected crash occured: {e.Exception.Message}");
             l.Fatal($"Unexpected crash occured: {e.Exception.Message}", e.Exception);
@@ -139,13 +163,6 @@ namespace Probel.Lanceur
             base.OnUnhandledException(sender, e);
 
             SingleInstance.ReleaseMutex();
-        }
-
-        private void ConfigureInternalCommands()
-        {
-            var actionManager = _container.Resolve<IActionManager>();
-
-            actionManager.Bind();
         }
 
         #endregion Methods

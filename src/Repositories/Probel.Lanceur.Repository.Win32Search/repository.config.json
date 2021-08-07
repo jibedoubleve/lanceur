@@ -1,0 +1,7 @@
+{
+  "name":  "Win32 search API",
+  "keyword": ":",
+  "dll": "Probel.Lanceur.Repository.Win32Search.dll",
+  "explanation": "Retrieve shortcuts & executables",
+  "min-ver": "0.8.0"
+}

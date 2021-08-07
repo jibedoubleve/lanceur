@@ -1,7 +1,7 @@
 ﻿using Caliburn.Micro;
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.SharedKernel.UserCom;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -26,9 +26,9 @@ namespace Probel.Lanceur.ViewModels
 
         public EditObsoleteKeywordsViewModel(IDataSourceService dataService,
             ISettingsService settingService,
-            IUserNotifyer notifyer)
+            IUserNotifyerFactory factory)
         {
-            _notifyer = notifyer;
+            _notifyer = factory.Get();
             _settingService = settingService;
             _dataService = dataService;
         }
@@ -52,7 +52,7 @@ namespace Probel.Lanceur.ViewModels
             var response = await _notifyer.AskAsync("Do you want to delete this doubloon?");
             if (response == NotificationResult.Affirmative)
             {
-                _dataService.Delete(id);
+                _dataService.Delete((Alias)id);
                 RefreshData();
             }
         }

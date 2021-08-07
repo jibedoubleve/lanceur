@@ -1,5 +1,6 @@
 ﻿using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin;
+using Probel.Lanceur.SharedKernel.UserCom;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,9 +17,9 @@ namespace Probel.Lanceur.Services
 
         #region Constructors
 
-        public AppRestarter(IUserNotifyer notifyer)
+        public AppRestarter(IUserNotifyerFactory factory)
         {
-            _notifyer = notifyer;
+            _notifyer = factory.Get();
         }
 
         #endregion Constructors

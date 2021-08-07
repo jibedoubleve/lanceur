@@ -51,6 +51,11 @@ Source: "{#SpotifyPluginDir}*"; DestDir: "{userappdata}\probel\lanceur\plugins\s
 Source: "{#CalculatorPluginDir}*"; DestDir: "{userappdata}\probel\lanceur\plugins\calculator\"; Flags: ignoreversion
 Source: "{#ClipboardPluginDir}*"; DestDir: "{userappdata}\probel\lanceur\plugins\clipboard\"; Flags: ignoreversion
 Source: "{#EvernotePluginDir}*"; DestDir: "{userappdata}\probel\lanceur\plugins\evernote\"; Flags: ignoreversion
+;----------------------------------------------------------------
+;-- binaries of the repositories
+;----------------------------------------------------------------
+Source: "{#Win32SearchAPI}*"; DestDir:"{userappdata}\probel\lanceur\repositories\win32search\"; Flags: ignoreversion
+Source: "{#UwpSearchAPI}*"; DestDir:"{userappdata}\probel\lanceur\repositories\uwpsearch\"; Flags: ignoreversion
 
 [Icons]
 Name: "{commonprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

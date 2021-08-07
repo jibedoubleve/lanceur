@@ -46,7 +46,13 @@ namespace Probel.Lanceur.Images
                 var i = _cache[path];
                 return i;
             }
-            set => _cache[path] = value;
+            set
+            {
+                if (value != null)
+                {
+                    _cache[path] = value;
+                }
+            }
         }
 
         #endregion Indexers

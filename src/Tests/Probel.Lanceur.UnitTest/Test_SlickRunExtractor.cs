@@ -1,6 +1,4 @@
-﻿using Probel.Lanceur.Core.Helpers;
-using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Core.ServicesImpl;
+﻿using Probel.Lanceur.Infrastructure.ServicesImpl;
 using System.Linq;
 using Xunit;
 

@@ -2,5 +2,6 @@
   "name": "Calculator",
   "keyword": "=",
   "dll": "Probel.Lanceur.Plugin.Calculator.dll",
-  "explanation": "Allow to make fast calculation"
+  "explanation": "Allow to make fast calculation",
+  "min-ver": "0.8.0"
 }

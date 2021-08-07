@@ -36,6 +36,13 @@
       <HintPath>..\..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net462\ControlzEx.dll</HintPath>
+    </Reference>
+    <Reference Include="MahApps.Metro.IconPacks, Version=2.3.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MahApps.Metro.IconPacks.2.3.0\lib\net46\MahApps.Metro.IconPacks.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
@@ -48,6 +55,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ControlzEx.3.0.2.4\lib\net462\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -70,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Converters\IntToTimeSpanStringConverter.cs" />
     <Compile Include="Converters\InvertBooleanToVisibilityConverter.cs" />
+    <Compile Include="Helpers\ParametersExtensions.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Spotify\Player.cs" />
     <Compile Include="Spotify\Connector.cs" />
@@ -115,15 +126,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Probel.Lanceur.Infrastructure\Probel.Lanceur.Infrastructure.csproj">
-      <Project>{63FCDE3F-3D03-4075-90A4-4BF92996A32A}</Project>
-      <Name>Probel.Lanceur.Infrastructure</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Probel.Lanceur.Plugin\Probel.Lanceur.Plugin.csproj">
+    <ProjectReference Include="..\..\Infrastructure\Probel.Lanceur.Plugin\Probel.Lanceur.Plugin.csproj">
       <Project>{f4db7268-da54-4141-9567-afbd6c5fe1ac}</Project>
       <Name>Probel.Lanceur.Plugin</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Probel.Lanceur.SharedKernel\Probel.Lanceur.SharedKernel.csproj">
+      <Project>{8e04f8d4-ac4f-43dd-b48b-76581666ba18}</Project>
+      <Name>Probel.Lanceur.SharedKernel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

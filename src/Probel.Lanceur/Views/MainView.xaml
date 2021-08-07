@@ -27,17 +27,19 @@
     ShowInTaskbar="False"
     SizeToContent="Height"
     Top="{Binding Top, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-    WindowStartupLocation="CenterScreen"
+    WindowStartupLocation="Manual"
     WindowStyle="None"
     mc:Ignorable="d">
     <Window.Resources>
+        <conv:AliasToFileNameConverter x:Key="AliasToFileNameConverter"/>
         <!--  DATATEMPLATES  -->
         <DataTemplate x:Key="AliasTemplate">
             <c:AliasControl
-                AliasFileName="{Binding FileName}"
+                AliasFileName="{Binding Converter={StaticResource AliasToFileNameConverter}}"
                 AliasName="{Binding Name}"
                 ExecutionCount="{Binding ExecutionCount}"
-                Image="{Binding Image}"
+                SearchScore="{Binding SearchScore}"
+                Image="{Binding Image, UpdateSourceTrigger=PropertyChanged}"
                 Kind="{Binding Kind}" />
         </DataTemplate>
         <DataTemplate x:Key="ReadOnlyTemplate">
@@ -148,7 +150,8 @@
                     MaxHeight="350"
                     AliasClicked="OnResultsClicked"
                     ItemTemlateSelector="{StaticResource ResultTemplateSelector}"
-                    ItemsSource="{Binding Results, UpdateSourceTrigger=PropertyChanged}" />
+                    ItemsSource="{Binding Results, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding SelectedResult, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
                 <ContentControl x:Name="PluginArea" MaxHeight="350" />
 
             </StackPanel>

@@ -1,6 +1,6 @@
 ﻿using NSubstitute;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Core.ServicesImpl;
+using Probel.Lanceur.Infrastructure.ServicesImpl;
 using System.Net;
 using Xunit;
 
@@ -8,7 +8,8 @@ namespace Probel.Lanceur.UnitTest
 {
     public class Test_ArgumentsResolving
     {
-        #region Methods
+        #region Properties
+
         public static IDataSourceService DataSource
         {
             get
@@ -18,6 +19,11 @@ namespace Probel.Lanceur.UnitTest
                 return ds;
             }
         }
+
+        #endregion Properties
+
+        #region Methods
+
         [Fact]
         public void Can_resolve_raw_text()
         {
@@ -29,7 +35,7 @@ namespace Probel.Lanceur.UnitTest
             var pm = new ParameterResolver(cb, DataSource);
             var result = pm.Resolve("$I$", before);
 
-            Assert.Equal(after, result.FileName);
+            Assert.Equal(after, result);
         }
 
         [Fact]
@@ -43,7 +49,7 @@ namespace Probel.Lanceur.UnitTest
             var pm = new ParameterResolver(cb, DataSource);
             var result = pm.Resolve("$W$", before);
 
-            Assert.Equal(after, result.FileName);
+            Assert.Equal(after, result);
         }
 
         [Fact]
@@ -57,7 +63,7 @@ namespace Probel.Lanceur.UnitTest
             var pm = new ParameterResolver(cb, DataSource);
             var result = pm.Resolve("$W$", before);
 
-            Assert.Equal(after, result.FileName);
+            Assert.Equal(after, result);
         }
 
         #endregion Methods

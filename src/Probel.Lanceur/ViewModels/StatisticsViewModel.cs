@@ -3,8 +3,8 @@ using LiveCharts;
 using LiveCharts.Configurations;
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.Infrastructure;
-using Probel.Lanceur.Plugin;
+using Probel.Lanceur.SharedKernel.Logs;
+using Probel.Lanceur.SharedKernel.UserCom;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -34,9 +34,9 @@ namespace Probel.Lanceur.ViewModels
 
         #region Constructors
 
-        public StatisticsViewModel(ILogService log, IDataSourceService service, IUserNotifyer notifyer)
+        public StatisticsViewModel(ILogService log, IDataSourceService service, IUserNotifyerFactory factory)
         {
-            _notifyer = notifyer;
+            _notifyer = factory.Get();
             _log = log;
             _service = service;
 
@@ -119,18 +119,6 @@ namespace Probel.Lanceur.ViewModels
 
         #region Methods
 
-        public void ChangeSession() => LoadStatistics(CurrentSession.Id);
-
-        protected override void OnActivate()
-        {
-            var t6 = Task.Run(() => _service.GetSessions());
-            Sessions = new ObservableCollection<AliasSession>(t6.Result);
-
-            Task.WaitAll(t6);
-            CurrentSession = Sessions[0];
-            LoadStatistics(Sessions[0].Id);
-        }
-
         private void LoadStatistics(long idSession)
         {
             _notifyer.NotifyWait();
@@ -159,6 +147,18 @@ namespace Probel.Lanceur.ViewModels
 
             _notifyer.NotifyEndWait();
         }
+
+        protected override void OnActivate()
+        {
+            var t6 = Task.Run(() => _service.GetSessions());
+            Sessions = new ObservableCollection<AliasSession>(t6.Result);
+
+            Task.WaitAll(t6);
+            CurrentSession = Sessions[0];
+            LoadStatistics(Sessions[0].Id);
+        }
+
+        public void ChangeSession() => LoadStatistics(CurrentSession.Id);
 
         #endregion Methods
     }

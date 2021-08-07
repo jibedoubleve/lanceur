@@ -1,8 +1,8 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Models;
+using Probel.Lanceur.SharedKernel.Logs;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,7 +26,7 @@ namespace Probel.Lanceur.Images
             ".ico"
         };
 
-        private static ImageCache Cache = new ImageCache();
+        private static readonly ImageCache Cache = new ImageCache();
 
         #endregion Fields
 
@@ -44,13 +44,33 @@ namespace Probel.Lanceur.Images
 
         #endregion Enums
 
+        #region Properties
+
+        public static ILogService Logger { get; set; }
+
+        #endregion Properties
+
         #region Methods
+
+        private static ImageSource GetImage(AliasTextModel c, AliasText item)
+        {
+            if (c.IsPackaged)
+            {
+                if (string.IsNullOrEmpty(c.Icon)) { return GetImage(item.FileName); }
+                else { return GetImage(item.Icon); }
+            }
+            else { return GetImage(item.FileName); }
+        }
 
         private static ImageSource GetImage(string path)
         {
-            var img = LoadImage(path);
-            Cache[path] = img;
-            return img;
+            if (Cache.ContainsKey(path)) { return Cache[path]; }
+            else
+            {
+                var img = LoadImage(path);
+                Cache[path] = img;
+                return img;
+            }
         }
 
         private static ImageSource LoadImage(string path)
@@ -124,25 +144,31 @@ namespace Probel.Lanceur.Images
                     image.Freeze();
                 }
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
-                Trace.WriteLine($"|ImageLoader.Load|Failed to get thumbnail for {path} - {e}");
-                type = ImageType.Error;
+                var msg = $"|ImageLoader.Load|Failed to get thumbnail for {path} - {e}";
+                Logger?.Warning(msg);
+
                 //image = ImageCache[Constant.ErrorIcon];
                 //ImageCache[path] = image;
             }
             return image;
         }
 
-        public static IEnumerable<AliasTextModel> Refresh(this IEnumerable<AliasText> src)
+        public static IEnumerable<AliasTextModel> GetRefreshed(this IEnumerable<AliasText> src)
         {
             var dst = new List<AliasTextModel>();
             foreach (var item in src)
             {
                 var c = new AliasTextModel(item);
-                c.Image = GetImage(item.FileName);
+                Task.Run(async () =>
+                {
+                    //await Task.Delay(10);
+                    c.Image = GetImage(c, item);
+                });
                 dst.Add(c);
             }
+
             return dst;
         }
 

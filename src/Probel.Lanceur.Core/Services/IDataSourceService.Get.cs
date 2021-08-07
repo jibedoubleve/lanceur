@@ -9,6 +9,8 @@ namespace Probel.Lanceur.Core.Services
 
         bool AliasExists(string name, long sessionId);
 
+        Alias GetAlias(long id);
+
         Alias GetAlias(string name, long sessionId);
 
         IEnumerable<Alias> GetAliases(long sessionId);

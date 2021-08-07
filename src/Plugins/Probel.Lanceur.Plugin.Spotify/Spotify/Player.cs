@@ -2,9 +2,6 @@
 using SpotifyAPI.Web.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Probel.Lanceur.Plugin.Spotify.Spotify
 {
@@ -27,6 +24,12 @@ namespace Probel.Lanceur.Plugin.Spotify.Spotify
 
         #region Methods
 
+        private void Throws(BasicModel model)
+        {
+            var msg = $"Spotify error: [{model.Error.Status}] {model.Error.Message}";
+            throw new NotSupportedException(msg);
+        }
+
         public TrackInfo GetCurrentSong()
         {
             var context = _spotify.GetPlayingTrack();
@@ -34,7 +37,6 @@ namespace Probel.Lanceur.Plugin.Spotify.Spotify
 
             if (context.Item != null)
             {
-
                 for (var i = 0; i < context.Item.Artists.Count; i++)
                 {
                     if (i != context.Item.Artists.Count - 1) { artists += context.Item.Artists[i].Name + ", "; }
@@ -67,10 +69,20 @@ namespace Probel.Lanceur.Plugin.Spotify.Spotify
             return result;
         }
 
-        private void Throws(BasicModel model)
+        public void GotoNextSong()
         {
-            var msg = $"Spotify error: [{model.Error.Status}] {model.Error.Message}";
-            throw new NotSupportedException(msg);
+            _spotify.SkipPlaybackToNext();
+        }
+
+        public void GotoPreviousSong()
+        {
+            _spotify.SkipPlaybackToPrevious();
+            _spotify.SkipPlaybackToPrevious();
+        }
+
+        public void GotoSameSong()
+        {
+            _spotify.SkipPlaybackToPrevious();
         }
 
         #endregion Methods

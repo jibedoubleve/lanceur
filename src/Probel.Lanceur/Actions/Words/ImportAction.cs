@@ -15,24 +15,33 @@ namespace Probel.Lanceur.Actions.Words
         {
             var vm = GetViewModel<ImportViewModel>();
             WindowManager.ShowWindow(vm);
-
             EventHandler<ImportUpdatedEventArg> update = (sender, e) =>
             {
                 Application.Current.Dispatcher.Invoke(() => vm.Update(e.Progress, e.Output));
             };
 
-            SlickRunImporterService.ImportUpdated += update;
+            try
+            {
 
-            var sessionId = SlickRunImporterService.Import();
+                SlickRunImporterService.ImportUpdated += update;
 
-            //Now update the settings
-            var s = SettingsService.Get();
-            s.SessionId = sessionId;
-            SettingsService.Save(s);
+                var sessionId = SlickRunImporterService.Import();
 
-            SlickRunImporterService.ImportUpdated -= update;
-            vm.TryClose();
-            return ExecutionResult.SuccessHide;
+                //Now update the settings
+                var s = SettingsService.Get();
+                s.SessionId = sessionId;
+                SettingsService.Save(s);
+                return ExecutionResult.SuccessHide;
+            }
+            catch (Exception ex)
+            {
+                return ExecutionResult.Failure(ex.Message);
+            }
+            finally
+            {
+                SlickRunImporterService.ImportUpdated -= update;
+                vm.TryClose();
+            }
         }
 
         #endregion Methods

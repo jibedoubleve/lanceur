@@ -8,6 +8,7 @@ namespace Probel.Lanceur.Models.Settings
 
         private string _databasePath;
         private HotKeySettingsModel _hotKey;
+        private RepositorySettingsModel _repositorySection;
         private long _sessionId;
         private WindowSettingsModel _windowSection;
 
@@ -19,6 +20,7 @@ namespace Probel.Lanceur.Models.Settings
         {
             WindowSection = new WindowSettingsModel();
             HotKey = new HotKeySettingsModel();
+            RepositorySection = new RepositorySettingsModel();
         }
 
         #endregion Constructors
@@ -28,25 +30,32 @@ namespace Probel.Lanceur.Models.Settings
         public string DatabasePath
         {
             get => _databasePath;
-            set => Set(ref _databasePath, value, nameof(DatabasePath));
+            set => Set(ref _databasePath, value);
         }
 
         public HotKeySettingsModel HotKey
         {
             get => _hotKey;
-            set => Set(ref _hotKey, value, nameof(HotKey));
+            set => Set(ref _hotKey, value);
+        }
+
+
+        public RepositorySettingsModel RepositorySection
+        {
+            get => _repositorySection;
+            set => Set(ref _repositorySection, value);
         }
 
         public long SessionId
         {
             get => _sessionId;
-            set => Set(ref _sessionId, value, nameof(SessionId));
+            set => Set(ref _sessionId, value);
         }
 
         public WindowSettingsModel WindowSection
         {
             get => _windowSection;
-            set => Set(ref _windowSection, value, nameof(WindowSection));
+            set => Set(ref _windowSection, value);
         }
 
         #endregion Properties

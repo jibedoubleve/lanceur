@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
-using Probel.Lanceur.Infrastructure;
 using Probel.Lanceur.Plugin.Spotify.Spotify;
+using Probel.Lanceur.SharedKernel.Logs;
 using SpotifyAPI.Web.Models;
 using System;
 using System.Linq;
@@ -22,6 +22,10 @@ namespace Probel.Lanceur.Plugin.Spotify.ViewModels
         #endregion Fields
 
         #region Properties
+
+        internal Action Pause { get; set; }
+
+        internal Action Resume { get; set; }
 
         public string Artists
         {
@@ -49,6 +53,8 @@ namespace Probel.Lanceur.Plugin.Spotify.ViewModels
 
         public ILogService Log { get; internal set; }
 
+        public Player Player { get; internal set; }
+
         public int Progress
         {
             get => _progress;
@@ -61,12 +67,13 @@ namespace Probel.Lanceur.Plugin.Spotify.ViewModels
             set => Set(ref _title, value, nameof(Title));
         }
 
-        internal Action Pause { get; set; }
-        internal Action Resume { get; set; }
-
         #endregion Properties
 
         #region Methods
+
+        internal void GoPreviousSong() => Player.GotoPreviousSong();
+
+        public void GoNextSong() => Player.GotoNextSong();
 
         public void Load(TrackInfo t)
         {

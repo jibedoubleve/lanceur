@@ -29,30 +29,57 @@
             src.FileName = src.FileName?.Trim(t);
         }
 
+        public static string GetUniqueIdentifiyerTemplate(this AliasText src)
+        {
+            return $"{Alias.PackagePrefix}{src.UniqueIdentifier}";
+        }
+
         #endregion Methods
     }
 
     public class Alias : BaseAlias
     {
+        #region Fields
+
+        internal const string PackagePrefix = "package:";
+
+        #endregion Fields
+
         #region Properties
 
         public long IdSession { get; set; }
+
+        public bool IsEmpty => Id == 0;
+
+        public bool IsPackaged => FileName?.StartsWith(PackagePrefix) ?? false;
+
         public string Name { get; set; } = string.Empty;
+
+        public string UniqueIdentifier
+        {
+            get
+            {
+                return (string.IsNullOrEmpty(FileName))
+                    ? string.Empty
+                    : FileName.Replace(PackagePrefix, "");
+            }
+        }
 
         #endregion Properties
 
         #region Methods
 
-        public static Alias Empty(string name) => new Alias()
+        public static Alias Empty(string name = "") => new Alias()
         {
+            Id = 0,
             FileName = string.Empty,
             Name = name.ToUpper(),
             IsExecutable = false
         };
 
-        public static implicit operator Alias(string name) => new Alias() { FileName = name };
+        public static explicit operator Alias(string name) => new Alias() { FileName = name };
 
-        public static implicit operator Alias(long id) => new Alias() { Id = id };
+        public static explicit operator Alias(long id) => new Alias() { Id = id };
 
         public static Alias Reserved(string name) => new Alias
         {
