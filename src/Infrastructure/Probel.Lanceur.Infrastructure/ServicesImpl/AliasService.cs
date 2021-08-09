@@ -4,6 +4,7 @@ using Probel.Lanceur.Plugin;
 using Probel.Lanceur.Repositories;
 using Probel.Lanceur.SharedKernel.Logs;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Probel.Lanceur.Infrastructure.ServicesImpl
@@ -82,6 +83,10 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl
         /// <param name="cmdline">The command line to execute. That's the alias and the arguments (which are not mandatory)</param>
         public ExecutionResult Execute(AliasText alias, string cmdline, long idSession)
         {
+            if (File.Exists(cmdline.Trim('"')))
+            {
+                return _cmdRunner.Execute(Alias.FromPath(cmdline.Trim('"')));
+            }
             if (_pluginManager.Exists(alias.Name))
             {
                 var cmd = _resolver.Split(cmdline, idSession);
