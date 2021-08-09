@@ -57,6 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServicesImpl\AliasService.cs" />
     <Compile Include="ServicesImpl\ArgumentHandlers\ClipboardHandler.cs" />
+    <Compile Include="ServicesImpl\ArgumentHandlers\ClipboardRawHandler.cs" />
     <Compile Include="ServicesImpl\ArgumentHandlers\TextHandler.cs" />
     <Compile Include="ServicesImpl\ArgumentHandlers\UriHandler.cs" />
     <Compile Include="ServicesImpl\ArgumentHandlers\_ArgumentHandler.cs" />

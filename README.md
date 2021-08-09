@@ -11,8 +11,6 @@
     - [Create shortcuts (UI)](#create-shortcuts-ui)
   - [Predifined keywords](#predifined-keywords)
   - [Replacement macros](#replacement-macros)
-- [Plugins](/doc/pages/plugins.md)
-- [Data Reconciliation](/doc/pages/data_reconciliation.md)
 - [Print screens](#print-screens)
 - [Acknowledgement](#acknowledgement)
 
@@ -44,8 +42,8 @@ When you've used the shortcut, a window appears.
 For instance, I've configured a google search as follow `? my_search`. In other words, if I want to search 'aeroplane' in google, I write `? aeroplane`.
 
 Here's how the command is configured
-| keyword | file name                                 |
-| ------- | ----------------------------------------- |
+| keyword | file name                                   |
+| ------- | ------------------------------------------- |
 | ?       | https://www.google.com/search?hl=en&q=\$W\$ |
 
 > the use of \$W$\ is defined [HERE](#replacement-macros)
@@ -117,11 +115,12 @@ Some keyword are reserved and have some specific behaviour:
 
 Any occurence of these macro in the `File Name` text box will be replace as follow.
 
-| macro | explanation                                                                      |
-| ----- | -------------------------------------------------------------------------------- |
-| \$C\$ | is replaced with contents of the Clipboard.                                      |
-| \$I\$ | will replace the \$I\$ with typed parameters                                     |
-| \$W\$ | will replace the \$I\$ with typed parameters in the format  most web URLs expect |
+| macro | explanation                                                           |
+| ----- | --------------------------------------------------------------------- |
+| \$C\$ | will replace with the Clipboard in the format most web URLs expect    |
+| \$R\$ | will replace with the Clipboard                                       |
+| \$I\$ | will replace with typed parameters                                    |
+| \$W\$ | will replace with typed parameters in the format most web URLs expect |
 
 
 # Print screens
