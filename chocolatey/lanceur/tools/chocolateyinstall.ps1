@@ -11,7 +11,7 @@ $packageArgs = @{
 
   softwareName  = 'lanceur' 
 
-  checksum      = 'A37424CAA8AC6309B3DCDBDFEED96D985D89475FD7A27D8C0E595BDD4E9DB5B6'
+  checksum      = 'E9D049645C7A3BCA0EB6337DC44E35E837AC2308E6F6EB1EFEF0EBDD5B8197EA'
   checksumType  = 'sha256' 
 
   validExitCodes= @(0, 3010, 1641)
