@@ -73,6 +73,7 @@
     <Compile Include="ServicesImpl\SlickRunExtractor.cs" />
     <Compile Include="ServicesImpl\TraceLogger.cs" />
     <Compile Include="ServicesImpl\Wildcards.cs" />
+    <Compile Include="Utils\ExplorerProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Probel.Lanceur.Core\Probel.Lanceur.Core.csproj">
