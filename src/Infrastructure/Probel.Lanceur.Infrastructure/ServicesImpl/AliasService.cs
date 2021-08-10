@@ -86,7 +86,7 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl
         {
             var proxy = new ExplorerProxy(cmdline, _cmdRunner);
 
-            if (proxy.CanOpenInExplorer()) { return proxy.OpenInExplorer(); }
+            if (proxy.CanOpen()) { return proxy.Open(); }
             if (_pluginManager.Exists(alias.Name))
             {
                 var cmd = _resolver.Split(cmdline, idSession);

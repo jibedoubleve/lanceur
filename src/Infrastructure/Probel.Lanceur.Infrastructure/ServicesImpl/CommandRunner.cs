@@ -90,7 +90,13 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl
             }
             else
             {
-                Task.Run(() => Process.Start(alias.FileName));
+                var psi = new ProcessStartInfo
+                {
+                    FileName = alias.FileName,
+                    Verb = "open",
+                    UseShellExecute = true,
+                };
+                Process.Start(psi);
                 result = ExecutionResult.SuccessHide;
                 //var msg = $"Alias '{alias.Name}' does not exist in the database.";
                 //_log.Warning(msg);

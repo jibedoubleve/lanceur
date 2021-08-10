@@ -1,5 +1,6 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
+using System;
 using System.IO;
 
 namespace Probel.Lanceur.Infrastructure.Utils
@@ -26,13 +27,15 @@ namespace Probel.Lanceur.Infrastructure.Utils
 
         #region Methods
 
-        public bool CanOpenInExplorer() => IsDirectory() || IsFile();
+        public bool CanOpen() => IsDirectory() || IsFile() || IsUrl();
 
         public bool IsDirectory() => Directory.Exists(_path);
 
         public bool IsFile() => File.Exists(_path);
 
-        public ExecutionResult OpenInExplorer() => _cmdRunner.Execute(Alias.FromPath(_path));
+        public bool IsUrl() => Uri.TryCreate(_path, UriKind.Absolute, out var urlOut);
+
+        public ExecutionResult Open() => _cmdRunner.Execute(Alias.FromPath(_path));
 
         #endregion Methods
     }
