@@ -1,4 +1,5 @@
 ﻿using Probel.Lanceur.SharedKernel.Logs;
+using Probel.UwpHelpers.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -342,7 +343,8 @@ namespace Probel.UwpHelpers
                     var srcDir = Path.GetDirectoryName(alias);
 
                     var rr = (from p in new PackageManager().FindPackagesForUser(userId)
-                              where srcDir.StartsWith(p.InstalledPath)
+                              where p.HasInstallationPath(_log)
+                                 && srcDir.StartsWith(p.GetInstallationPath(_log))
                               select p).ToList();
                     var r = rr.FirstOrDefault();
 
