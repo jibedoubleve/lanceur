@@ -153,12 +153,12 @@ namespace Probel.Lanceur.ViewModels
             Results = new ObservableCollection<object>(r);
         }
 
-        public ExecutionResult ExecuteText(AliasText alias, string cmdline)
+        public ExecutionResult ExecuteText(AliasText alias)
         {
             try
             {
                 var sid = _settingsService.Get().SessionId;
-                var r = _aliasService.Execute(alias, cmdline, sid);
+                var r = _aliasService.Execute(alias, sid);
 
                 if (r.IsError) { ErrorMessage = r.Error; }
 
@@ -169,7 +169,7 @@ namespace Probel.Lanceur.ViewModels
                 /* I swallow the error as this crash shouldn't crash the application
                  * I log and continue without any other warning.
                  */
-                var msg = $"An error occured while trying to execute the alias '{cmdline}'";
+                var msg = $"An error occured while trying to execute the alias '{(alias?.Name ?? "...")}' with params '{(alias?.Parameters ?? "...")}'";
                 LogService.Error(msg, ex);
                 return ExecutionResult.Failure(msg);
             }

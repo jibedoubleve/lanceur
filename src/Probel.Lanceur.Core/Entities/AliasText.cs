@@ -45,6 +45,7 @@ namespace Probel.Lanceur.Core.Entities
 
         public string NameLowercase { get; private set; }
 
+        public string Parameters { get; private set; }
         public double SearchScore { get; set; }
 
         /// <summary>
@@ -58,6 +59,38 @@ namespace Probel.Lanceur.Core.Entities
 
         #region Methods
 
+        private static (string, string) Split(string cmdline)
+        {
+            if (string.IsNullOrEmpty(cmdline)) { throw new ArgumentException($"The command line should NOT be empty or null", nameof(cmdline)); }
+
+            var index = cmdline.IndexOf(' ');
+
+            var @params = string.Empty;
+            var cmd = cmdline;
+
+            if (index > 0)
+            {
+                cmd = cmdline.Substring(0, index);
+                @params = cmdline.Substring(index, cmdline.Length - index)?.Trim();
+            }
+
+            return (cmd, @params);
+        }
+
+        public static AliasText FromText(string cmdline)
+        {
+            var (cmd, @params) = Split(cmdline);
+
+            return new AliasText
+            {
+                FileName = cmd,
+                Name = cmd,
+                Parameters = @params,
+            };
+        }
+
+        public static implicit operator string(AliasText alias) => alias?.ToString() ?? string.Empty;
+
         public static AliasText ReservedKeyword(ActionWord word)
         {
             return new AliasText
@@ -70,22 +103,16 @@ namespace Probel.Lanceur.Core.Entities
             };
         }
 
-        public static AliasText FromText(string cmdline)
+        public void SetParameters(string cmdline)
         {
             if (string.IsNullOrEmpty(cmdline)) { throw new ArgumentException($"The command line should NOT be empty or null", nameof(cmdline)); }
 
-            var index = cmdline.IndexOf(' ');
-            var cmd = cmdline.Substring(0, index)?.Trim();
-            var @params = cmdline.Substring(index, cmdline.Length - index)?.Trim();
+            var (_, @params) = Split(cmdline);
 
-            return new AliasText
-            {
-                FileName = cmd,
-                Name = cmd,
-            };
+            Parameters = @params;
         }
 
-        public string AsCommandLine(string parameters = null) => $"{Name} {parameters}".Trim();
+        public override string ToString() => $"{(Name ?? string.Empty)} {Parameters}";
 
         #endregion Methods
     }

@@ -82,14 +82,14 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl
         /// Executes the command line.
         /// </summary>
         /// <param name="cmdline">The command line to execute. That's the alias and the arguments (which are not mandatory)</param>
-        public ExecutionResult Execute(AliasText alias, string cmdline, long idSession)
+        public ExecutionResult Execute(AliasText alias, long idSession)
         {
-            var proxy = new ExplorerProxy(cmdline, _cmdRunner);
+            var proxy = new ExplorerProxy(alias, _cmdRunner);
 
             if (proxy.CanOpen()) { return proxy.Open(); }
             if (_pluginManager.Exists(alias.Name))
             {
-                var cmd = _resolver.Split(cmdline, idSession);
+                var cmd = _resolver.Split(alias, idSession);
                 _pluginManager.Execute(cmd);
                 return ExecutionResult.SuccesShow; ;
             }
@@ -102,7 +102,7 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl
             else
             {
                 var a = _databaseService.GetAlias(alias.Name, idSession);
-                var cmd = _resolver.Split(cmdline, idSession);
+                var cmd = _resolver.Split(alias, idSession);
                 a.FileName = _resolver.Resolve(a.FileName, cmd.Arguments);
                 a.Arguments = _resolver.Resolve(a.Arguments, cmd.Arguments);
 

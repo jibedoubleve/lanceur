@@ -76,7 +76,15 @@ namespace Probel.Lanceur.Views
 #endif
         }
 
-        private AliasText GetAlias(string cmdline) => Results.SelectedItem as AliasText ?? AliasText.FromText(cmdline);
+        private AliasText GetAlias(string cmdline)
+        {
+            if (Results.SelectedItem is AliasText alias)
+            {
+                alias.SetParameters(cmdline);
+                return alias;
+            }
+            else { return AliasText.FromText(cmdline); }
+        }
 
         private void LoadWindow(bool isVisible)
         {
@@ -101,10 +109,9 @@ namespace Probel.Lanceur.Views
         {
             if (e.Key == Key.Enter)
             {
-                var b = AliasTextBox.Text;
-                var a = GetAlias(AliasTextBox.Text);
+                var alias = GetAlias(AliasTextBox.Text);
 
-                var result = ViewModel?.ExecuteText(a, b) ?? ExecutionResult.Failure();
+                var result = ViewModel?.ExecuteText(alias) ?? ExecutionResult.Failure();
 
                 if (!result.KeepShowing) { HideControl(); }
                 if (result.IsError) { ViewModel.IsOnError = true; }
@@ -137,7 +144,7 @@ namespace Probel.Lanceur.Views
 
         private void OnResultsClicked(object sender, AliasTextEventArgs e)
         {
-            var result = ViewModel?.ExecuteText(e.Alias, e.Alias?.Name ?? "") ?? ExecutionResult.Failure();
+            var result = ViewModel?.ExecuteText(e.Alias) ?? ExecutionResult.Failure();
             if (!result.IsError) { HideControl(); }
         }
 

@@ -92,7 +92,7 @@ namespace Probel.Lanceur.Core.Entities
 
         public static Alias FromPath(string path) => new Alias
         {
-            FileName = path,
+            FileName = path?.Trim(),
         };
 
         #endregion Methods
