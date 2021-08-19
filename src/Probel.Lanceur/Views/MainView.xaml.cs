@@ -76,7 +76,7 @@ namespace Probel.Lanceur.Views
 #endif
         }
 
-        private AliasText GetAlias() => Results.SelectedItem as AliasText ?? new AliasText();
+        private AliasText GetAlias(string cmdline) => Results.SelectedItem as AliasText ?? AliasText.FromText(cmdline);
 
         private void LoadWindow(bool isVisible)
         {
@@ -101,8 +101,8 @@ namespace Probel.Lanceur.Views
         {
             if (e.Key == Key.Enter)
             {
-                var a = GetAlias();
                 var b = AliasTextBox.Text;
+                var a = GetAlias(AliasTextBox.Text);
 
                 var result = ViewModel?.ExecuteText(a, b) ?? ExecutionResult.Failure();
 

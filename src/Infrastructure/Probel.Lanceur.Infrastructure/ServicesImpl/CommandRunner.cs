@@ -98,9 +98,6 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl
                 };
                 Process.Start(psi);
                 result = ExecutionResult.SuccessHide;
-                //var msg = $"Alias '{alias.Name}' does not exist in the database.";
-                //_log.Warning(msg);
-                //result = ExecutionResult.Failure(msg);
             }
 
             _databaseService.SetUsage(alias);

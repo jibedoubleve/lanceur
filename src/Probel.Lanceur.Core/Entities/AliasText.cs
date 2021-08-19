@@ -1,4 +1,5 @@
 ﻿using Probel.Lanceur.Core.Services;
+using System;
 
 namespace Probel.Lanceur.Core.Entities
 {
@@ -66,6 +67,21 @@ namespace Probel.Lanceur.Core.Entities
                 FileName = $"{word.Description}",
                 IsExecutable = false,
                 Kind = "Settings",
+            };
+        }
+
+        public static AliasText FromText(string cmdline)
+        {
+            if (string.IsNullOrEmpty(cmdline)) { throw new ArgumentException($"The command line should NOT be empty or null", nameof(cmdline)); }
+
+            var index = cmdline.IndexOf(' ');
+            var cmd = cmdline.Substring(0, index)?.Trim();
+            var @params = cmdline.Substring(index, cmdline.Length - index)?.Trim();
+
+            return new AliasText
+            {
+                FileName = cmd,
+                Name = cmd,
             };
         }
 
