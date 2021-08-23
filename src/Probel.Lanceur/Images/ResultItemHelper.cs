@@ -82,6 +82,7 @@ namespace Probel.Lanceur.Images
                 if (string.IsNullOrEmpty(path))
                 {
                     //    return new ImageResult(ImageCache[Constant.ErrorIcon], ImageType.Error);
+                    return null;
                 }
                 if (Cache.ContainsKey(path))
                 {

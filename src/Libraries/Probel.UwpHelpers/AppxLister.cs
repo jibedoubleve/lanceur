@@ -1,4 +1,5 @@
-﻿using Probel.Lanceur.SharedKernel.Logs;
+﻿using Probel.Lanceur.SharedKernel.Helpers;
+using Probel.Lanceur.SharedKernel.Logs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,15 +14,10 @@ namespace Probel.UwpHelpers
     {
         #region Fields
 
+        private readonly ILogService _log = LogServiceFactory.Get();
         private IEnumerable<UwpApp> _cache;
 
         #endregion Fields
-
-        #region Properties
-
-        public ILogService Log { get; internal set; }
-
-        #endregion Properties
 
         #region Methods
 
@@ -55,9 +51,12 @@ namespace Probel.UwpHelpers
                 var factory = new UwpAppFactory();
                 if (_cache == null)
                 {
-                    _cache = (from s in ps.Select(e => factory.Create(e))
-                              where s.IsEmpty == false
-                              select s).ToList();
+                    using (new Benchmark(t => _log.Trace($"Loaded cache in {t.TotalMilliseconds / 1_000} second(s)")))
+                    {
+                        _cache = (from s in ps.AsParallel().Select(e => factory.Create(e))
+                                  where s.IsEmpty == false
+                                  select s).ToList();
+                    }
                 }
                 return _cache;
             }
