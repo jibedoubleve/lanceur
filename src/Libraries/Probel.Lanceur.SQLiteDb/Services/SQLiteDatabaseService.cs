@@ -1,12 +1,10 @@
 ﻿using Dapper;
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.SharedKernel.Helpers;
 using Probel.Lanceur.SharedKernel.Logs;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Data.SQLite;
 using System.Linq;
 

@@ -33,7 +33,7 @@
                 VerticalAlignment="Center"
                 DockPanel.Dock="Left" />
 
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right">
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                 <TextBlock
                     x:Name="CtrlCounter"
                     VerticalAlignment="Bottom"

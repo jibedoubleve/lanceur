@@ -21,7 +21,7 @@ namespace Probel.Lanceur.ViewModels
         private readonly IAliasService _aliasService;
         private readonly IScreenRuler _screenRuler;
         private readonly ISettingsService _settingsService;
-        private AliasText _aliasName;
+        private Query _query;
         private ObservableCollection<object> _aliasNameList;
         private AppSettings _appSettings;
         private string _colour;
@@ -65,10 +65,10 @@ namespace Probel.Lanceur.ViewModels
 
         public IActionContext ActionContext { get; internal set; }
 
-        public AliasText AliasName
+        public Query Query
         {
-            get => _aliasName;
-            set => Set(ref _aliasName, value, nameof(AliasName));
+            get => _query;
+            set => Set(ref _query, value, nameof(Query));
         }
 
         public AppSettings AppSettings
@@ -153,12 +153,24 @@ namespace Probel.Lanceur.ViewModels
             Results = new ObservableCollection<object>(r);
         }
 
-        public ExecutionResult ExecuteText(AliasText alias)
+        public ExecutionResult Execute(string cmdline)
+        {
+            Query result;
+            if (SelectedResult is Query query)
+            {
+                query.SetParameters(cmdline);
+                result = query;
+            }
+            else { result = Query.FromText(cmdline); }
+
+            return Execute(result);
+        }
+        public ExecutionResult Execute(Query query)
         {
             try
             {
                 var sid = _settingsService.Get().SessionId;
-                var r = _aliasService.Execute(alias, sid);
+                var r = _aliasService.Execute(query, sid);
 
                 if (r.IsError) { ErrorMessage = r.Error; }
 
@@ -169,7 +181,7 @@ namespace Probel.Lanceur.ViewModels
                 /* I swallow the error as this crash shouldn't crash the application
                  * I log and continue without any other warning.
                  */
-                var msg = $"An error occured while trying to execute the alias '{(alias?.Name ?? "...")}' with params '{(alias?.Parameters ?? "...")}'";
+                var msg = $"An error occured while trying to execute the alias '{query?.Name ?? "..."}' with params '{query?.Parameters ?? "..."}'";
                 LogService.Error(msg, ex);
                 return ExecutionResult.Failure(msg);
             }

@@ -90,7 +90,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBox
-                    x:Name="AliasTextBox"
+                    x:Name="QueryTextBox"
                     Padding="10"
                     cal:Message.Attach="[GotFocus]=[OnShow]"
                     Background="Transparent"
@@ -151,7 +151,7 @@
                     AliasClicked="OnResultsClicked"
                     ItemTemlateSelector="{StaticResource ResultTemplateSelector}"
                     ItemsSource="{Binding Results, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{Binding SelectedResult, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+                    SelectedItem="{Binding SelectedResult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <ContentControl x:Name="PluginArea" MaxHeight="350" />
 
             </StackPanel>

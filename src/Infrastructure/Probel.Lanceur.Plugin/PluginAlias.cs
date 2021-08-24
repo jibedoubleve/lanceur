@@ -14,9 +14,9 @@ namespace Probel.Lanceur.Plugin
         public string Name { get; set; }
 
 
-        public static implicit operator AliasText(PluginAlias src)
+        public static implicit operator Query(PluginAlias src)
         {
-            return new AliasText
+            return new Query
             {
                 ExecutionCount = src.ExecutionCount,
                 FileName = src.FileName,

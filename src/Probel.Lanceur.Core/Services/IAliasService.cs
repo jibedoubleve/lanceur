@@ -15,9 +15,9 @@ namespace Probel.Lanceur.Core.Services
         /// mandatory)</param>
         /// <param name="sessionId">ID of the current session</param>
         /// <returns><c>True</c> if execution succeeded. Otherwise <c>False</c></returns>
-        ExecutionResult Execute(AliasText alias, long sessionId);
+        ExecutionResult Execute(Query alias, long sessionId);
 
-        IEnumerable<AliasText> GetAliasNames(long sessionId, string keyword);
+        IEnumerable<Query> GetAliasNames(long sessionId, string keyword);
 
         string GetSession(long id);
 

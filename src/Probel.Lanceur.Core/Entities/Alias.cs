@@ -31,7 +31,7 @@ namespace Probel.Lanceur.Core.Entities
             src.FileName = src.FileName?.Trim(t);
         }
 
-        public static string GetUniqueIdentifiyerTemplate(this AliasText src)
+        public static string GetUniqueIdentifiyerTemplate(this Query src)
         {
             return $"{Alias.PackagePrefix}{src.UniqueIdentifier}";
         }

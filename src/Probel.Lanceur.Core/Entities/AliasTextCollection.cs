@@ -4,7 +4,7 @@ namespace Probel.Lanceur.Core.Entities
 {
     public static class AliasTextCollection
     {
-        public static IEnumerable<AliasText> Refresh(this IEnumerable<AliasText> collection)
+        public static IEnumerable<Query> Refresh(this IEnumerable<Query> collection)
         {
             var template = "package:";
             foreach (var item in collection)

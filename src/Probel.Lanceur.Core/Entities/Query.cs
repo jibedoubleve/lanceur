@@ -3,7 +3,7 @@ using System;
 
 namespace Probel.Lanceur.Core.Entities
 {
-    public class AliasText
+    public class Query
     {
         #region Fields
 
@@ -77,11 +77,11 @@ namespace Probel.Lanceur.Core.Entities
             return (cmd, @params);
         }
 
-        public static AliasText FromText(string cmdline)
+        public static Query FromText(string cmdline)
         {
             var (cmd, @params) = Split(cmdline);
 
-            return new AliasText
+            return new Query
             {
                 FileName = cmd,
                 Name = cmd,
@@ -89,11 +89,11 @@ namespace Probel.Lanceur.Core.Entities
             };
         }
 
-        public static implicit operator string(AliasText alias) => alias?.ToString() ?? string.Empty;
+        public static implicit operator string(Query alias) => alias?.ToString() ?? string.Empty;
 
-        public static AliasText ReservedKeyword(ActionWord word)
+        public static Query ReservedKeyword(ActionWord word)
         {
-            return new AliasText
+            return new Query
             {
                 Name = word.Name.ToLower(),
                 ExecutionCount = 0,

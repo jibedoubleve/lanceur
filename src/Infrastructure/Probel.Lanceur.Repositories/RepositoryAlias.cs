@@ -20,9 +20,9 @@ namespace Probel.Lanceur.Repositories
 
         #region Methods
 
-        public static implicit operator AliasText(RepositoryAlias src)
+        public static implicit operator Query(RepositoryAlias src)
         {
-            var r = new AliasText
+            var r = new Query
             {
                 ExecutionCount = src.ExecutionCount,
                 FileName = src.FileName,

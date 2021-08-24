@@ -13,7 +13,7 @@ namespace Probel.Lanceur.Core.Services
 
         ExecutionResult ExecuteActionFor(string name, string arg);
 
-        IEnumerable<AliasText> GetKeywords();
+        IEnumerable<Query> GetKeywords();
 
         bool IsReserved(string cmd);
 

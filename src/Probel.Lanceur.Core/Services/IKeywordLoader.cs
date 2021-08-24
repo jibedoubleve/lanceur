@@ -11,7 +11,7 @@ namespace Probel.Lanceur.Core.Services
 
         IEnumerable<ActionWord> DefinedKeywords { get; }
 
-        IEnumerable<AliasText> GetKeywordsAsAlias();
+        IEnumerable<Query> GetKeywordsAsAlias();
 
         #endregion Methods
     }

@@ -64,9 +64,9 @@ namespace Probel.Lanceur.Models
 
         #region Methods
 
-        public static explicit operator AliasText(SwitchSessionResult src)
+        public static explicit operator Query(SwitchSessionResult src)
         {
-            return new AliasText
+            return new Query
             {
                 Name = src.CmdLine,
             };

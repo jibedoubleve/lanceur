@@ -56,10 +56,10 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl
             else { return ExecutionResult.None; }
         }
 
-        public IEnumerable<AliasText> GetKeywords()
+        public IEnumerable<Query> GetKeywords()
         {
             var r = from k in _keywordLoader.DefinedKeywords
-                    select AliasText.ReservedKeyword(k);
+                    select Query.ReservedKeyword(k);
             return r;
         }
 

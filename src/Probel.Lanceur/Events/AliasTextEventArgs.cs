@@ -7,16 +7,16 @@ namespace Probel.Lanceur.Events
     {
         #region Constructors
 
-        public AliasTextEventArgs(AliasText alias)
+        public AliasTextEventArgs(Query alias)
         {
-            Alias = alias;
+            Query = alias;
         }
 
         #endregion Constructors
 
         #region Properties
 
-        public AliasText Alias { get; }
+        public Query Query { get; }
 
         #endregion Properties
     }

@@ -99,7 +99,7 @@ namespace Probel.Lanceur.Controls
         {
             get
             {
-                if (SelectedItem is AliasText at) { return at.Name; }
+                if (SelectedItem is Query at) { return at.Name; }
                 else if (SelectedItem is ResultItem s) { return s.CmdLine; }
                 else { return SelectedItem.ToString(); }
             }
@@ -151,11 +151,11 @@ namespace Probel.Lanceur.Controls
 
         private void OnAliasClicked()
         {
-            AliasText alias = null;
+            Query alias = null;
             var si = Results.SelectedItem;
 
-            if (si is SwitchSessionResult s) { alias = (AliasText)s; }
-            else if (si is AliasText at) { alias = at; }
+            if (si is SwitchSessionResult s) { alias = (Query)s; }
+            else if (si is Query at) { alias = at; }
              
             if (si != null) { AliasClicked?.Invoke(this, new AliasTextEventArgs(alias)); }
             //else { throw new NotSupportedException($"The selected item of the result of type '{si?.GetType().ToString() ?? "NULL"}' is not supported."); }
