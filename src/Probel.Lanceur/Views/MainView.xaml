@@ -31,16 +31,16 @@
     WindowStyle="None"
     mc:Ignorable="d">
     <Window.Resources>
-        <conv:AliasToFileNameConverter x:Key="AliasToFileNameConverter"/>
+        <conv:AliasToFileNameConverter x:Key="AliasToFileNameConverter" />
         <!--  DATATEMPLATES  -->
         <DataTemplate x:Key="AliasTemplate">
             <c:AliasControl
                 AliasFileName="{Binding Converter={StaticResource AliasToFileNameConverter}}"
                 AliasName="{Binding Name}"
                 ExecutionCount="{Binding ExecutionCount}"
-                SearchScore="{Binding SearchScore}"
                 Image="{Binding Image, UpdateSourceTrigger=PropertyChanged}"
-                Kind="{Binding Kind}" />
+                Kind="{Binding Kind}"
+                SearchScore="{Binding SearchScore}" />
         </DataTemplate>
         <DataTemplate x:Key="ReadOnlyTemplate">
             <c:DisplayResultControl
@@ -80,6 +80,33 @@
         </Style>
     </Window.Resources>
     <StackPanel>
+
+        <!--  ======================================================  -->
+        <!--  ERROR BOX  -->
+        <!--  ======================================================  -->
+        <Border Style="{StaticResource ControlBorderStyle}">
+            <Grid Background="Transparent" Visibility="{Binding IsOnError, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <iconPacks:PackIconModern
+                    Width="30"
+                    Height="30"
+                    Margin="15,10,5,10"
+                    VerticalAlignment="Center"
+                    Foreground="Orange"
+                    Kind="Warning" />
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="5,0,15,0"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    FontSize="15"
+                    Foreground="{DynamicResource TextColourBrush}"
+                    Text="{Binding ErrorMessage}" />
+            </Grid>
+        </Border>
         <!--  ======================================================  -->
         <!--  SEARCH BOX  -->
         <!--  ======================================================  -->

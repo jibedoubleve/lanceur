@@ -183,6 +183,7 @@ namespace Probel.Lanceur.ViewModels
                  */
                 var msg = $"An error occured while trying to execute the alias '{query?.Name ?? "..."}' with params '{query?.Parameters ?? "..."}'";
                 LogService.Error(msg, ex);
+                ErrorMessage = $"Error: {ex.Message}";
                 return ExecutionResult.Failure(msg);
             }
         }
