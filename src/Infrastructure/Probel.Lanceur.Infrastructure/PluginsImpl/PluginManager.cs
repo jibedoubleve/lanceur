@@ -74,7 +74,7 @@ namespace Probel.Lanceur.Infrastructure.PluginsImpl
         public bool Exists(string name)
         {
             name = name ?? string.Empty;
-
+            
             var exist = GetMetadataList(name.ToLower());
             if (exist.Any())
             {
@@ -87,14 +87,14 @@ namespace Probel.Lanceur.Infrastructure.PluginsImpl
 
         public IEnumerable<PluginAlias> GetKeywords()
         {
-            var keywords = (from k in GetPluginsInfo()
+            var keywords = from k in GetPluginsInfo()
                             select new PluginAlias
                             {
                                 ExecutionCount = 0,
                                 FileName = $"[{k.Name}] {k.Description}",
                                 Kind = "Puzzle",
                                 Name = string.IsNullOrWhiteSpace(k.Keyword) ? k.Name : k.Keyword
-                            });
+                            };
 
             return keywords;
         }
