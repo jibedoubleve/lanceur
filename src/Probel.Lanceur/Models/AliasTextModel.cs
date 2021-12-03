@@ -10,7 +10,7 @@ namespace Probel.Lanceur.Models
     {
         #region Methods
 
-        public static IEnumerable<AliasTextModel> Cast(this IEnumerable<AliasText> src)
+        public static IEnumerable<AliasTextModel> Cast(this IEnumerable<Query> src)
         {
             var dst = new List<AliasTextModel>();
             foreach (var item in src)
@@ -23,7 +23,7 @@ namespace Probel.Lanceur.Models
         #endregion Methods
     }
 
-    public class AliasTextModel : AliasText, INotifyPropertyChanged
+    public class AliasTextModel : Query, INotifyPropertyChanged
     {
         #region Fields
 
@@ -34,7 +34,7 @@ namespace Probel.Lanceur.Models
         #region Constructors
 
         //TODO: refactor this as it is error prone. Use StructureMap 
-        public AliasTextModel(AliasText src)
+        public AliasTextModel(Query src)
         {
             ExecutionCount = src.ExecutionCount;
             FileName = src.FileName;

@@ -34,10 +34,10 @@ namespace Probel.Lanceur.Actions
             return exists;
         }
 
-        public IEnumerable<AliasText> GetKeywordsAsAlias()
+        public IEnumerable<Query> GetKeywordsAsAlias()
         {
             var result = (from k in _actions.Keywords
-                          select new AliasText
+                          select new Query
                           {
                               Name = k,
                               ExecutionCount = 0

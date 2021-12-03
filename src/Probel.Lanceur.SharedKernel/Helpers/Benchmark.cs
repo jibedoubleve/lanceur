@@ -7,6 +7,7 @@ namespace Probel.Lanceur.SharedKernel.Helpers
     {
         #region Fields
 
+        private readonly Action<TimeSpan> _onStop;
         private readonly Stopwatch _stopwatch;
         private readonly string _tag;
 
@@ -14,11 +15,16 @@ namespace Probel.Lanceur.SharedKernel.Helpers
 
         #region Constructors
 
-        public Benchmark(string tag = null)
+        public Benchmark(string tag = null, Action<TimeSpan> onStop = null)
         {
+            _onStop = onStop;
             _tag = tag;
             _stopwatch = new Stopwatch();
             _stopwatch.Start();
+        }
+
+        public Benchmark(Action<TimeSpan> onStop) : this(null, onStop)
+        {
         }
 
         #endregion Constructors
@@ -31,6 +37,7 @@ namespace Probel.Lanceur.SharedKernel.Helpers
         {
             _stopwatch.Stop();
             Debug.WriteLine($"{_tag,-20} - Elapsed time: {(float)_stopwatch.ElapsedMilliseconds / 1000} sec.");
+            _onStop?.Invoke(_stopwatch.Elapsed);
             _stopwatch.Start();
         }
 

@@ -1,4 +1,6 @@
-﻿namespace Probel.Lanceur.Core.Entities
+﻿using System;
+
+namespace Probel.Lanceur.Core.Entities
 {
     public static class AliasExtension
     {
@@ -29,7 +31,7 @@
             src.FileName = src.FileName?.Trim(t);
         }
 
-        public static string GetUniqueIdentifiyerTemplate(this AliasText src)
+        public static string GetUniqueIdentifiyerTemplate(this Query src)
         {
             return $"{Alias.PackagePrefix}{src.UniqueIdentifier}";
         }
@@ -86,6 +88,11 @@
             FileName = "__RESERVED_KEYWORD__",
             Name = name.ToUpper(),
             IsExecutable = false
+        };
+
+        public static Alias FromPath(string path) => new Alias
+        {
+            FileName = path?.Trim(),
         };
 
         #endregion Methods

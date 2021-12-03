@@ -127,7 +127,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
             }
         }
 
-        public IEnumerable<AliasText> GetAliasNames(long sessionId)
+        public IEnumerable<Query> GetAliasNames(long sessionId)
         {
             var sql = @"
                 select
@@ -149,14 +149,14 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
             using (var c = BuildConnection())
             {
-                var result = c.Query<AliasText>(sql, new { sessionId }).ToList();
+                var result = c.Query<Query>(sql, new { sessionId }).ToList();
 
                 return (result != null)
                     ? result.OrderByDescending(e => e.ExecutionCount)
                             .ThenBy(e => e.Name)
                             .ToList()
                             .Refresh()
-                    : new List<AliasText>();
+                    : new List<Query>();
             }
         }
 

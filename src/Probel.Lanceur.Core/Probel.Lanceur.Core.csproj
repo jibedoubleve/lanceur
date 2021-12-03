@@ -53,7 +53,7 @@
     <Compile Include="..\Version.cs">
       <Link>Properties\Version.cs</Link>
     </Compile>
-    <Compile Include="Entities\AliasText.cs" />
+    <Compile Include="Entities\Query.cs" />
     <Compile Include="Entities\AliasTextCollection.cs" />
     <Compile Include="Entities\ChartPoint.cs" />
     <Compile Include="Entities\Cmdline.cs" />

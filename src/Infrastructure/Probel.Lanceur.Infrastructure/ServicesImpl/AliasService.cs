@@ -1,9 +1,11 @@
 ﻿using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
+using Probel.Lanceur.Infrastructure.Utils;
 using Probel.Lanceur.Plugin;
 using Probel.Lanceur.Repositories;
 using Probel.Lanceur.SharedKernel.Logs;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Probel.Lanceur.Infrastructure.ServicesImpl
@@ -47,18 +49,18 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl
 
         #region Methods
 
-        private IEnumerable<AliasText> LoadAliasNames(long sessionId, string keyword)
+        private IEnumerable<Query> LoadAliasNames(long sessionId, string keyword)
         {
             if (_aliasRepositoryBuilder.IsInitialised == false) { _aliasRepositoryBuilder.Initialise(); }
 
-            var result = new List<AliasText>();
+            var result = new List<Query>();
             var keyChar = keyword?.Length > 0 ? (char?)keyword[0] : null;
 
             if (_aliasRepositoryBuilder.HasKeyword(keyChar) == false)
             {
                 var aliases = _databaseService.GetAliasNames(sessionId);
                 var reserved = _keywordService.GetKeywords();
-                var plugins = _pluginManager.GetKeywords().Select(e => (AliasText)e);
+                var plugins = _pluginManager.GetKeywords().Select(e => (Query)e);
 
                 result.AddRange(aliases);
                 result.AddRange(plugins);
@@ -69,7 +71,7 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl
                 var src = _aliasRepositoryBuilder.GetSource(keyword);
                 var criterion = _aliasRepositoryBuilder.NormaliseQuery(keyword) ?? string.Empty;
 
-                var repo = src?.GetAliases(criterion)?.Select(e => (AliasText)e) ?? new List<AliasText>();
+                var repo = src?.GetAliases(criterion)?.Select(e => (Query)e) ?? new List<Query>();
                 result.AddRange(repo);
             }
 
@@ -80,36 +82,39 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl
         /// Executes the command line.
         /// </summary>
         /// <param name="cmdline">The command line to execute. That's the alias and the arguments (which are not mandatory)</param>
-        public ExecutionResult Execute(AliasText alias, string cmdline, long idSession)
+        public ExecutionResult Execute(Query query, long idSession)
         {
-            if (_pluginManager.Exists(alias.Name))
+            var proxy = new ExplorerProxy(query, _cmdRunner);
+
+            if (proxy.CanOpen()) { return proxy.Open(); }
+            if (_pluginManager.Exists(query.Name))
             {
-                var cmd = _resolver.Split(cmdline, idSession);
+                var cmd = _resolver.Split(query, idSession);
                 _pluginManager.Execute(cmd);
                 return ExecutionResult.SuccesShow; ;
             }
-            else if (_macroRunner.Exists(alias.FileName))
+            else if (_macroRunner.Exists(query.FileName))
             {
-                var a = _databaseService.GetAlias(alias.Name, idSession);
+                var a = _databaseService.GetAlias(query.Name, idSession);
                 _macroRunner.Execute(a);
                 return ExecutionResult.SuccessHide;
             }
             else
             {
-                var a = _databaseService.GetAlias(alias.Name, idSession);
-                var cmd = _resolver.Split(cmdline, idSession);
+                var a = _databaseService.GetAlias(query.Name, idSession);
+                var cmd = _resolver.Split(query, idSession);
                 a.FileName = _resolver.Resolve(a.FileName, cmd.Arguments);
                 a.Arguments = _resolver.Resolve(a.Arguments, cmd.Arguments);
 
                 if (a.IsEmpty)
                 {
-                    a.FileName = alias.IsPackaged ? alias.GetUniqueIdentifiyerTemplate() : alias.FileName;
+                    a.FileName = query.IsPackaged ? query.GetUniqueIdentifiyerTemplate() : query.FileName;
                 }
                 return _cmdRunner.Execute(a);
             }
         }
 
-        public IEnumerable<AliasText> GetAliasNames(long sessionId, string criterion)
+        public IEnumerable<Query> GetAliasNames(long sessionId, string criterion)
         {
             var splited = _resolver.Split(criterion, sessionId);
 
@@ -123,6 +128,14 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl
                                   a.ExecutionCount descending,
                                   a.Name ascending
                           select a).ToList();
+
+            if (result.Count == 0)
+            {
+                /* If I'm here, it means no reslut was found. At last resort, let's try
+                 * this criterion to the command line (cmd.exe)
+                 */
+                result.Add(Query.FromTextToCommandLine(criterion));
+            }
 
             /* When the query is the same as a keyword, the exact match is
              * bubbled up to the first index and the rest of the result is

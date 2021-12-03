@@ -211,6 +211,18 @@ Task("Inno-Setup")
         });
 });
 
+Task("Chocolatey")
+    .Does(()=>{
+        //https://github.com/SharpeRAD/Cake.Powershell#usage
+        StartPowershellScript("./build-package.ps1", new PowershellSettings()
+            .UseWorkingDirectory("./chocolatey")
+            .WithArguments(args => { 
+                args.Append("configuration", configuration);
+                args.Append("version", gitVersion.MajorMinorPatch);
+        })
+      );  
+});
+
 Task("Release-GitHub")
     .Does(()=>{
         //https://stackoverflow.com/questions/42761777/hide-services-passwords-in-cake-build
@@ -308,7 +320,19 @@ Task("Default")
     .IsDependentOn("Unit-Test")
     .IsDependentOn("Evernote-file")
     .IsDependentOn("Zip")
-    .IsDependentOn("Inno-Setup");
+    .IsDependentOn("Inno-Setup")
+    .IsDependentOn("Chocolatey");
+
+Task("Choco")    
+    .IsDependentOn("Clean")
+    .IsDependentOn("Restore")
+    .IsDependentOn("Build")
+    .IsDependentOn("pack-plugin")
+    .IsDependentOn("pack-repository")
+    .IsDependentOn("Unit-Test")
+    .IsDependentOn("Evernote-file")
+    .IsDependentOn("Zip")
+    .IsDependentOn("Chocolatey");
 
 Task("Github")    
     .IsDependentOn("Default")

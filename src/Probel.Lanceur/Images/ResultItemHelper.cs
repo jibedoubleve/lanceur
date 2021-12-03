@@ -52,7 +52,7 @@ namespace Probel.Lanceur.Images
 
         #region Methods
 
-        private static ImageSource GetImage(AliasTextModel c, AliasText item)
+        private static ImageSource GetImage(AliasTextModel c, Query item)
         {
             if (c.IsPackaged)
             {
@@ -82,6 +82,7 @@ namespace Probel.Lanceur.Images
                 if (string.IsNullOrEmpty(path))
                 {
                     //    return new ImageResult(ImageCache[Constant.ErrorIcon], ImageType.Error);
+                    return null;
                 }
                 if (Cache.ContainsKey(path))
                 {
@@ -155,7 +156,7 @@ namespace Probel.Lanceur.Images
             return image;
         }
 
-        public static IEnumerable<AliasTextModel> GetRefreshed(this IEnumerable<AliasText> src)
+        public static IEnumerable<AliasTextModel> GetRefreshed(this IEnumerable<Query> src)
         {
             var dst = new List<AliasTextModel>();
             foreach (var item in src)

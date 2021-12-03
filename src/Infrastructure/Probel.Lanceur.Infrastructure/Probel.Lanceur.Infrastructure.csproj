@@ -57,6 +57,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServicesImpl\AliasService.cs" />
     <Compile Include="ServicesImpl\ArgumentHandlers\ClipboardHandler.cs" />
+    <Compile Include="ServicesImpl\ArgumentHandlers\ClipboardRawHandler.cs" />
     <Compile Include="ServicesImpl\ArgumentHandlers\TextHandler.cs" />
     <Compile Include="ServicesImpl\ArgumentHandlers\UriHandler.cs" />
     <Compile Include="ServicesImpl\ArgumentHandlers\_ArgumentHandler.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="ServicesImpl\SlickRunExtractor.cs" />
     <Compile Include="ServicesImpl\TraceLogger.cs" />
     <Compile Include="ServicesImpl\Wildcards.cs" />
+    <Compile Include="Utils\ExplorerProxy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Probel.Lanceur.Core\Probel.Lanceur.Core.csproj">

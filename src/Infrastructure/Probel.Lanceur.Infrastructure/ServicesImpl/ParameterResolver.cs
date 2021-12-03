@@ -23,7 +23,8 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl
             _dataService = dataService;
             _handler = new TextHandler()
                             .SetNext(new UriHandler())
-                            .SetNext(new ClipboardHandler(clipboardService));
+                            .SetNext(new ClipboardHandler(clipboardService))
+                            .SetNext(new ClipboardRawHandler(clipboardService));
         }
 
         #endregion Constructors

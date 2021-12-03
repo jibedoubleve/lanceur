@@ -1,12 +1,10 @@
 ﻿using Dapper;
 using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
-using Probel.Lanceur.SharedKernel.Helpers;
 using Probel.Lanceur.SharedKernel.Logs;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Data.SQLite;
 using System.Linq;
 
@@ -39,7 +37,7 @@ namespace Probel.Lanceur.SQLiteDb.Services
 
         #region Methods
 
-        private DbConnection BuildConnection()
+        private SQLiteConnection BuildConnection()
         {
             var conn = new SQLiteConnection(_connectionString);
             conn.Open();
@@ -94,35 +92,44 @@ namespace Probel.Lanceur.SQLiteDb.Services
                     @startMode,
                     @idSession,
                     @icon
-                );
-                select last_insert_rowid() from alias;";
+                );";
             var sql2 = @"insert into alias_name(id_alias, name) values(@idAlias, @name)";
 
             using (var c = BuildConnection())
             using (var t = c.BeginTransaction())
             {
-                long lastId = default;
-
-                lastId = c.Query<long>(sql, new
+                try
                 {
-                    s.Arguments,
-                    s.FileName,
-                    s.Notes,
-                    s.RunAs,
-                    s.StartMode,
-                    s.IdSession,
-                    s.Icon
-                }).First();
+                    c.Execute(sql, new
+                    {
+                        s.Arguments,
+                        s.FileName,
+                        s.Notes,
+                        s.RunAs,
+                        s.StartMode,
+                        s.IdSession,
+                        s.Icon
+                    });
 
-                var nameList = new List<string>(names);
+                    var lastId = c.LastInsertRowId;
+                    var nameList = new List<string>(names);
 
-                if (!string.IsNullOrEmpty(s.Name)) { nameList.Add(s.Name); }
-                foreach (var name in nameList)
-                {
-                    _log.Trace($"Insert alias name '{name}' with idAdlias '{lastId}'");
-                    c.Execute(sql2, new { name, IdAlias = lastId });
+                    if (!string.IsNullOrEmpty(s.Name)) { nameList.Add(s.Name); }
+                    foreach (var name in nameList)
+                    {
+                        _log.Trace($"Insert alias name '{name}' with idAdlias '{lastId}'");
+                        c.Execute(sql2, new { name, IdAlias = lastId });
+                    }
+                    t.Commit();
                 }
-                t.Commit();
+                catch (Exception ex)
+                {
+                    t.Rollback();
+                    throw new Exception(
+                        $"An error occured while creating alias and alias name. See inner for further information",
+                        ex
+                    );
+                }
             }
         }
 

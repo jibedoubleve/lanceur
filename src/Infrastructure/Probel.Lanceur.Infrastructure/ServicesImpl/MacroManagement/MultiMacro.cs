@@ -3,7 +3,7 @@ using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Core.Services.MacroManagement;
 using Probel.Lanceur.SharedKernel.Logs;
 using System.Text.RegularExpressions;
-using System.Threading;
+using System.Threading.Tasks;
 
 namespace Probel.Lanceur.Infrastructure.ServicesImpl.MacroManagement
 {
@@ -19,7 +19,7 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl.MacroManagement
 
         #region Methods
 
-        public void Execute(Alias alias)
+        public async void Execute(Alias alias)
         {
             _log.Trace($"Managing a '{alias.FileName}' with multiple aliases: {alias.Arguments}");
 
@@ -31,7 +31,7 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl.MacroManagement
                 else if (item == "@")
                 {
                     _log.Trace("Sleep for one second");
-                    Thread.Sleep(1_000);
+                    await Task.Delay(1_000);
                 }
                 else
                 {

@@ -1,6 +1,5 @@
 ﻿using NHotkey;
 using NHotkey.Wpf;
-using Probel.Lanceur.Core.Entities;
 using Probel.Lanceur.Core.Services;
 using Probel.Lanceur.Events;
 using Probel.Lanceur.Helpers;
@@ -44,40 +43,6 @@ namespace Probel.Lanceur.Views
 
         #region Methods
 
-        public void HideControl()
-        {
-            HidePluginArea();
-            AliasTextBox.Text = string.Empty;
-            _self.Visibility = Visibility.Collapsed;
-            ViewModel.SaveSettings();
-        }
-
-        public void HidePluginArea()
-        {
-            Results.Visibility = Visibility.Visible;
-            PluginArea.Visibility = Visibility.Collapsed;
-        }
-
-        public void SetPluginArea(object area)
-        {
-            PluginArea.Content = area; ;
-        }
-
-        public void ShowPlugin()
-        {
-            Results.Visibility = Visibility.Collapsed;
-            PluginArea.Visibility = Visibility.Visible;
-        }
-
-        protected override void OnDeactivated(EventArgs e)
-        {
-#if !DEBUG
-            HideControl();
-#endif
-        }
-
-        private AliasText GetAlias() => Results.SelectedItem as AliasText ?? new AliasText();
-
         private void LoadWindow(bool isVisible)
         {
             {
@@ -85,10 +50,10 @@ namespace Probel.Lanceur.Views
                 ViewModel.LoadAliases();
 
                 Visibility = isVisible ? Visibility.Visible : Visibility.Collapsed;
-                AliasTextBox.Focus();
+                QueryTextBox.Focus();
 
                 //https://stackoverflow.com/questions/3109080/focus-on-textbox-when-usercontrol-change-visibility
-                Dispatcher.BeginInvoke((Action)delegate { Keyboard.Focus(AliasTextBox); });
+                Dispatcher.BeginInvoke((Action)delegate { Keyboard.Focus(QueryTextBox); });
 
                 Activate();
                 Topmost = true;
@@ -101,10 +66,7 @@ namespace Probel.Lanceur.Views
         {
             if (e.Key == Key.Enter)
             {
-                var a = GetAlias();
-                var b = AliasTextBox.Text;
-
-                var result = ViewModel?.ExecuteText(a, b) ?? ExecutionResult.Failure();
+                var result = ViewModel?.Execute(QueryTextBox.Text) ?? ExecutionResult.Failure();
 
                 if (!result.KeepShowing) { HideControl(); }
                 if (result.IsError) { ViewModel.IsOnError = true; }
@@ -137,7 +99,7 @@ namespace Probel.Lanceur.Views
 
         private void OnResultsClicked(object sender, AliasTextEventArgs e)
         {
-            var result = ViewModel?.ExecuteText(e.Alias, e.Alias?.Name ?? "") ?? ExecutionResult.Failure();
+            var result = ViewModel?.Execute(e.Query) ?? ExecutionResult.Failure();
             if (!result.IsError) { HideControl(); }
         }
 
@@ -148,7 +110,7 @@ namespace Probel.Lanceur.Views
             if (_isSearchActive)
             {
                 ViewModel.IsOnError = false;
-                ViewModel.RefreshAliases(AliasTextBox.Text);
+                ViewModel.RefreshAliases(QueryTextBox.Text);
                 Results.SelectFirst();
             }
         }
@@ -203,8 +165,8 @@ namespace Probel.Lanceur.Views
         private void SetSelectedResultInTextBox()
         {
             _isSearchActive = false;
-            AliasTextBox.Text = Results.SelectedText + " ";
-            AliasTextBox.CaretIndex = AliasTextBox.Text.Length;
+            QueryTextBox.Text = Results.SelectedText + " ";
+            QueryTextBox.CaretIndex = QueryTextBox.Text.Length;
             _isSearchActive = true;
         }
 
@@ -219,6 +181,38 @@ namespace Probel.Lanceur.Views
         }
 
         private void ShowWindow() => LoadWindow(isVisible: true);
+
+        protected override void OnDeactivated(EventArgs e)
+        {
+#if !DEBUG
+            HideControl();
+#endif
+        }
+
+        public void HideControl()
+        {
+            HidePluginArea();
+            QueryTextBox.Text = string.Empty;
+            _self.Visibility = Visibility.Collapsed;
+            ViewModel.SaveSettings();
+        }
+
+        public void HidePluginArea()
+        {
+            Results.Visibility = Visibility.Visible;
+            PluginArea.Visibility = Visibility.Collapsed;
+        }
+
+        public void SetPluginArea(object area)
+        {
+            PluginArea.Content = area; ;
+        }
+
+        public void ShowPlugin()
+        {
+            Results.Visibility = Visibility.Collapsed;
+            PluginArea.Visibility = Visibility.Visible;
+        }
 
         #endregion Methods
     }

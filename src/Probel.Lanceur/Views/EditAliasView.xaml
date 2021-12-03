@@ -21,6 +21,8 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <conv:InvertBooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" />
         <conv:StringToBooleanConverter x:Key="StringToBooleanConverter" />
+        <conv:CollectionCountToBooleanConverter x:Key="CollectionCountToBooleanConverter" />
+        <conv:LogicalAndConverter x:Key="LogicalAndConverter" />
         <ObjectDataProvider
             x:Key="RunAsDataProvider"
             MethodName="GetValues"
@@ -100,17 +102,41 @@
                 Width="120"
                 Margin="5,5,0,5"
                 Content="Create"
-                IsEnabled="{Binding Alias.FileName, Converter={StaticResource StringToBooleanConverter}, UpdateSourceTrigger=PropertyChanged}"
                 Style="{DynamicResource AccentedSquareButtonStyle}"
-                Visibility="{Binding IsCreation, Converter={StaticResource InvertBooleanToVisibilityConverter}}" />
+                Visibility="{Binding IsCreation, Converter={StaticResource InvertBooleanToVisibilityConverter}}">
+                <Button.IsEnabled>
+                    <MultiBinding Converter="{StaticResource LogicalAndConverter}">
+                        <Binding
+                            Converter="{StaticResource CollectionCountToBooleanConverter}"
+                            Path="Names.Count"
+                            UpdateSourceTrigger="PropertyChanged" />
+                        <Binding
+                            Converter="{StaticResource StringToBooleanConverter}"
+                            Path="Alias.FileName"
+                            UpdateSourceTrigger="PropertyChanged" />
+                    </MultiBinding>
+                </Button.IsEnabled>
+            </Button>
             <Button
                 x:Name="UpdateAlias"
                 Width="120"
                 Margin="5,5,0,5"
                 Content="Save"
-                IsEnabled="{Binding Alias.FileName, Converter={StaticResource StringToBooleanConverter}, UpdateSourceTrigger=PropertyChanged}"
                 Style="{DynamicResource AccentedSquareButtonStyle}"
-                Visibility="{Binding IsCreation, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                Visibility="{Binding IsCreation, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Button.IsEnabled>
+                    <MultiBinding Converter="{StaticResource LogicalAndConverter}">
+                        <Binding
+                            Converter="{StaticResource CollectionCountToBooleanConverter}"
+                            Path="Names.Count"
+                            UpdateSourceTrigger="PropertyChanged" />
+                        <Binding
+                            Converter="{StaticResource StringToBooleanConverter}"
+                            Path="Alias.FileName"
+                            UpdateSourceTrigger="PropertyChanged" />
+                    </MultiBinding>
+                </Button.IsEnabled>
+            </Button>
             <Button
                 x:Name="DeleteAlias"
                 Width="120"
