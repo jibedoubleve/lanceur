@@ -122,7 +122,9 @@ namespace Probel.Lanceur.Core.Entities
 
             var (_, @params) = Split(cmdline);
 
-            Parameters = @params;
+            Parameters = string.IsNullOrEmpty(@params)
+                ? cmdline.Replace(Name.Trim(), "")
+                : @params;
         }
 
         public override string ToString() => $"{(Name ?? string.Empty)} {Parameters}";
