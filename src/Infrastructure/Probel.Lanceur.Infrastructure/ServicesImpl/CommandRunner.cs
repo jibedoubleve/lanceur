@@ -89,7 +89,7 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl
                 result = _keywordService.ExecuteActionFor(alias.Name, alias.Arguments);
             }
             else
-            {
+             {
                 var psi = new ProcessStartInfo
                 {
                     FileName = alias.FileName,

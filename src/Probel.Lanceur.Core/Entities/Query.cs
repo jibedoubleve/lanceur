@@ -77,6 +77,19 @@ namespace Probel.Lanceur.Core.Entities
             return (cmd, @params);
         }
 
+        public static Query FromTextToCommandLine(string cmdline)
+        {
+            var (cmd, @params) = Split(cmdline);
+
+            return new Query
+            {
+                FileName = cmd,
+                Name = $@"Executing '{cmd}'",
+                Parameters = @params,
+                IsExecutable = true,
+                Kind = "Console"
+            };
+        }
         public static Query FromText(string cmdline)
         {
             var (cmd, @params) = Split(cmdline);

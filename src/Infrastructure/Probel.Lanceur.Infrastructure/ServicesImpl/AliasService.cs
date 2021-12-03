@@ -129,6 +129,14 @@ namespace Probel.Lanceur.Infrastructure.ServicesImpl
                                   a.Name ascending
                           select a).ToList();
 
+            if (result.Count == 0)
+            {
+                /* If I'm here, it means no reslut was found. At last resort, let's try
+                 * this criterion to the command line (cmd.exe)
+                 */
+                result.Add(Query.FromTextToCommandLine(criterion));
+            }
+
             /* When the query is the same as a keyword, the exact match is
              * bubbled up to the first index and the rest of the result is
              * ordred normally. The goal is when the query entered is an exact
