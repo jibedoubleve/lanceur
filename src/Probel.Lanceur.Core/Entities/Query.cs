@@ -1,5 +1,6 @@
 ﻿using Probel.Lanceur.Core.Services;
 using System;
+using System.Text.RegularExpressions;
 
 namespace Probel.Lanceur.Core.Entities
 {
@@ -121,12 +122,12 @@ namespace Probel.Lanceur.Core.Entities
             if (string.IsNullOrEmpty(cmdline)) { throw new ArgumentException($"The command line should NOT be empty or null", nameof(cmdline)); }
 
             var (_, @params) = Split(cmdline);
+            var regex = new Regex("^[a-zA-Z0-9]{1,}");
 
-            Parameters = string.IsNullOrEmpty(@params)
+            Parameters = string.IsNullOrEmpty(@params) && !regex.IsMatch(Name.Trim())
                 ? cmdline.Replace(Name.Trim(), "")
                 : @params;
-        }
-
+        }        
         public override string ToString() => $"{(Name ?? string.Empty)} {Parameters}";
 
         #endregion Methods
