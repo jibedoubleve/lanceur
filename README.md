@@ -11,6 +11,8 @@
     - [Create shortcuts (UI)](#create-shortcuts-ui)
   - [Predifined keywords](#predifined-keywords)
   - [Replacement macros](#replacement-macros)
+  - [Plugins](#plugins)
+  - [Data Reconciliation](#data-reconciliation)
 - [Print screens](#print-screens)
 - [Acknowledgement](#acknowledgement)
 
@@ -122,6 +124,13 @@ Any occurence of these macro in the `File Name` text box will be replace as foll
 | \$I\$ | will replace with typed parameters                                    |
 | \$W\$ | will replace with typed parameters in the format most web URLs expect |
 
+## Plugins
+
+[Read more here](./doc/pages/plugins.md)
+
+## Data Reconciliation
+
+[Read more here](./doc/pages/data_reconciliation.md)
 
 # Print screens
 

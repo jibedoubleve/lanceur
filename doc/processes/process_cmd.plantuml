@@ -1,0 +1,27 @@
+@startuml
+start
+:Enter command line;
+if(Command exists?) then (yes)
+    :Search Query;
+else (no)
+    :Build Query;
+endif
+if(Is path) then (yes)
+    :ExplorerProxy.Open();
+elseif(Is Plugin) then (yes)
+    :_pluginManager.Execute(cmd);
+elseif(Is Macro) then (yes)
+    :_macroRunner.Execute(a);
+else
+        if (is path) then (yes)
+            :Run command in Explorer.exe;
+        elseif (is executable) then (yes)
+            :Run executable;
+        elseif (is keyword) then (yes)
+            :Run keyword;
+        else
+            :Run command from cmd.exe;
+    endif
+endif    
+end;
+@enduml
