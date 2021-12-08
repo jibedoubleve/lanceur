@@ -11,7 +11,10 @@
     - [Create shortcuts (UI)](#create-shortcuts-ui)
   - [Predifined keywords](#predifined-keywords)
   - [Replacement macros](#replacement-macros)
+  - [Plugins](#plugins)
+  - [Data Reconciliation](#data-reconciliation)
 - [Print screens](#print-screens)
+- [Architecture](#architecture)
 - [Acknowledgement](#acknowledgement)
 
 # Lanceur
@@ -74,7 +77,7 @@ Type `Add <the_keyword_you_want>`, a window appear:
 ![img](/doc/assets/Lanceur-UI_add_keyword.png)
 
 1. Type the name of the _shortcut_ you want to configure. 
-    > You can set as much keywords as you want
+    > You can set as many keywords as you want
 2. Set the _path_ of the shortcut. 
     > The path can be:
     >  * the path of an executable
@@ -122,11 +125,21 @@ Any occurence of these macro in the `File Name` text box will be replace as foll
 | \$I\$ | will replace with typed parameters                                    |
 | \$W\$ | will replace with typed parameters in the format most web URLs expect |
 
+## Plugins
+
+[Read more here](./doc/pages/plugins.md)
+
+## Data Reconciliation
+
+[Read more here](./doc/pages/data_reconciliation.md)
 
 # Print screens
 
 ![img](/doc/assets/Lanceur.png)
 
+# Architecture
+
+[Read more here](./doc/pages/architecture.md)
 
 # Acknowledgement
 * [Application icon](https://fr.seaicons.com/le-lanceur-icone-2)
