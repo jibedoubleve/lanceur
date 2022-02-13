@@ -162,11 +162,7 @@ namespace Probel.Lanceur.Images
             foreach (var item in src)
             {
                 var c = new AliasTextModel(item);
-                Task.Run(async () =>
-                {
-                    //await Task.Delay(10);
-                    c.Image = GetImage(c, item);
-                });
+                Task.Run(() => c.Image = GetImage(c, item));
                 dst.Add(c);
             }
 

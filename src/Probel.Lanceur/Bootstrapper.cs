@@ -128,8 +128,11 @@ namespace Probel.Lanceur
 
         protected override IEnumerable<object> GetAllInstances(Type service) => _container.ResolveAll(service);
 
-        protected override object GetInstance(Type service, string key) => _container.Resolve(service, key);
-
+        protected override object GetInstance(Type service, string key)
+        {
+            var result = _container.Resolve(service, key);
+            return result;
+        }
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
             var hasMutex = SingleInstance.WaitOne();
