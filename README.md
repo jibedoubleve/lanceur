@@ -1,3 +1,11 @@
+<div align="center">
+<font size="12">
+  <b>
+  This repository is not maintained anymore because I've started a rewrite of this tool at this address: https://github.com/jibedoubleve/lanceur-bis
+  </b>
+  </font>
+</div>
+
 # Table of content
 
 - [Table of content](#table-of-content)
